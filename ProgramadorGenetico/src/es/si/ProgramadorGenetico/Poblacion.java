@@ -14,6 +14,10 @@ public class Poblacion {
 
 	private ArrayList<Individuo> miembros;
 	
+	public Poblacion() {
+		miembros = new ArrayList<Individuo>();
+	}
+	
 	public List<Individuo> getMiembros() {
 		return miembros;
 	}
@@ -28,6 +32,10 @@ public class Poblacion {
 	
 	public void quitarMiembro(Individuo miembro) {
 		miembros.remove(miembro);
+	}
+	
+	public int getCantidad(){
+		return miembros.size();
 	}
 	
 	public Iterator<Individuo> getIterator() {

@@ -32,7 +32,7 @@ public class Parametros {
 		Properties valores = new Properties();
 		FileInputStream fis;
 		try {
-			fis = new FileInputStream("c:\\valores.txt");
+			fis = new FileInputStream("./valores.txt");
 			valores.load(fis);
 		} catch (FileNotFoundException e) {
 			System.out.print("No se encontro el fichero valores.txt");

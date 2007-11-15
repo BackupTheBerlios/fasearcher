@@ -3,6 +3,7 @@ package es.si.ProgramadorGenetico.ProblemaAFP;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 import es.si.ProgramadorGenetico.Individuo;
 import es.si.ProgramadorGenetico.Poblacion;
@@ -61,10 +62,21 @@ public class SelectorAutomatas implements Selector {
 			aceptadas = Parametros.getInstance().getAceptadas();
 			rechazadas = Parametros.getInstance().getRechazadas();
 			Iterator<Individuo> afps = poblacion.getIterator();
+			CountDownLatch cdl = new CountDownLatch(poblacion.getCantidad());
 			while (afps.hasNext()) {
 				CalculadorBondad calculador = CalculadorBondad.newCalculadorBondad((AFP) afps.next(),aceptadas, rechazadas);
 				calculadores.add(calculador);
-				calculador.run();
+				calculador.setCountDownLatch(cdl);
+				Thread thread = new Thread(calculador);
+				thread.start();
+				//calculador.run();
+			}
+			
+			try {
+				cdl.await();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 

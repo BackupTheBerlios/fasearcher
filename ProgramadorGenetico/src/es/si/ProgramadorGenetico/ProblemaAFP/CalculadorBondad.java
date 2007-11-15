@@ -3,6 +3,7 @@ package es.si.ProgramadorGenetico.ProblemaAFP;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 public abstract class CalculadorBondad implements Runnable {
 	protected double bondad;
@@ -19,6 +20,7 @@ public abstract class CalculadorBondad implements Runnable {
 	
 	public final static int SIMPLE = 0;
 	
+	CountDownLatch cdl = null;
 	
 	static int tipo = SIMPLE;
 	
@@ -44,6 +46,10 @@ public abstract class CalculadorBondad implements Runnable {
 		tipo = nuevotipo;
 	}
 	
+	public void setCountDownLatch(CountDownLatch cdl){
+		this.cdl = cdl;
+	}
+	
 	@Override
 	public void run() {
 		if (this.termino) return;
@@ -62,6 +68,8 @@ public abstract class CalculadorBondad implements Runnable {
 		}
 		this.procesando = false;
 		this.termino = true;
+		if (cdl != null)
+			cdl.countDown();
 	}
 	
 	public boolean getProcesando() {
