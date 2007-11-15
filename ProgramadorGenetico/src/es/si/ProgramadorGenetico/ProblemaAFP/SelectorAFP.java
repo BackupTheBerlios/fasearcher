@@ -9,7 +9,7 @@ import es.si.ProgramadorGenetico.Individuo;
 import es.si.ProgramadorGenetico.Poblacion;
 import es.si.ProgramadorGenetico.Selector;
 
-public class SelectorAutomatas implements Selector {
+public class SelectorAFP implements Selector {
 
 	static ArrayList<CalculadorBondad> calculadores;
 	
@@ -38,7 +38,40 @@ public class SelectorAutomatas implements Selector {
 	@Override
 	public Poblacion seleccionar(int cantidad, Poblacion poblacionParam) {
 		calcularBondades(poblacionParam);
-		return null;
+		double[] bondades = new double[cantidad];
+		for (int i = 0; i < cantidad; i++) bondades[i] = 0;
+		AFP[] afps = new AFP[cantidad];
+		
+		Iterator<CalculadorBondad> it = calculadores.iterator();
+		while (it.hasNext()) {
+			CalculadorBondad temp = it.next();
+			for (int i = 0; i < cantidad; i++){
+				if (bondades[i] < temp.getBondad()) {
+					if (i == cantidad - 1) {
+						for (int j = 0; j < cantidad -1; j++) {
+							bondades[j] = bondades[j+1];
+							afps[j] = afps[j+1];
+						}
+						bondades[i] = temp.getBondad();
+						afps[i] = temp.getAFP();
+					}
+				}
+				else if (i > 0) {
+					bondades[i - 1] = temp.getBondad();
+					afps[i-1] = temp.getAFP();
+					break;
+				}
+				else
+					break;
+			}
+		}
+		Poblacion pob = new Poblacion();
+		for (int i = 0; i < cantidad; i++) {
+			if (afps[i] != null)
+				pob.agregarMiembro(afps[i]);
+		}
+		
+		return pob;
 	}
 	
 	/**
@@ -55,12 +88,12 @@ public class SelectorAutomatas implements Selector {
 	 */
 	private void calcularBondades(Poblacion poblacionParam) {
 		if (calculadores == null || poblacionParam != poblacion
-				|| aceptadas != Parametros.getInstance().getAceptadas()
-				|| rechazadas != Parametros.getInstance().getAceptadas()) {
+				|| aceptadas != ParametrosAFP.getInstance().getAceptadas()
+				|| rechazadas != ParametrosAFP.getInstance().getAceptadas()) {
 			poblacion = poblacionParam;
 			calculadores = new ArrayList<CalculadorBondad>();
-			aceptadas = Parametros.getInstance().getAceptadas();
-			rechazadas = Parametros.getInstance().getRechazadas();
+			aceptadas = ParametrosAFP.getInstance().getAceptadas();
+			rechazadas = ParametrosAFP.getInstance().getRechazadas();
 			Iterator<Individuo> afps = poblacion.getIterator();
 			CountDownLatch cdl = new CountDownLatch(poblacion.getCantidad());
 			while (afps.hasNext()) {

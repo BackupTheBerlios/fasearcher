@@ -21,7 +21,9 @@ public class Algoritmo {
 	
 	private Individuo mejor;
 	
-	private static int MANTENER = 100;
+	public static int MANTENER = 10;
+	
+	public static int POB_MAX = 1000;
 	
 	public Individuo run(int maxit) {
 		
@@ -38,7 +40,7 @@ public class Algoritmo {
 			
 			poblacion = selector.seleccionar(MANTENER, poblacion);
 			
-			poblacion = reproductor.entrecruzar(poblacion);
+			poblacion = reproductor.entrecruzar(POB_MAX, poblacion);
 			
 			poblacion = reproductor.mutar(poblacion);
 			

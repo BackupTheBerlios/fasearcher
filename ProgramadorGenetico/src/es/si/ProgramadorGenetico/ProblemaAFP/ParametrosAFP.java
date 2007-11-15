@@ -17,15 +17,17 @@ import java.util.StringTokenizer;
  * @author Eugenio Jorge Marchiori
  *
  */
-public class Parametros {
+public class ParametrosAFP {
 	
-	private static Parametros parametros;
+	private static ParametrosAFP parametros;
 	
 	private List<String> aceptadas;
 	
 	private List<String> rechazadas;
 	
-	private Parametros() {
+	private int estados = 5;
+	
+	private ParametrosAFP() {
 		aceptadas = new ArrayList<String>();
 		rechazadas = new ArrayList<String>();
 		
@@ -40,6 +42,10 @@ public class Parametros {
 			System.out.print("Problemas leyendo el fichero de entrada");
 		}
 		
+		if (valores.getProperty("estados") != null) {
+			estados = Integer.getInteger(valores.getProperty("estados")).intValue();
+		}
+		
 		StringTokenizer st = new StringTokenizer(valores.getProperty("aceptadas", ""), ",");
 		while(st.hasMoreTokens()) {
 			aceptadas.add(st.nextToken());
@@ -51,9 +57,9 @@ public class Parametros {
 		} 
 	}
 	
-	public static Parametros getInstance() {
+	public static ParametrosAFP getInstance() {
 		if (parametros == null) {
-			parametros = new Parametros();
+			parametros = new ParametrosAFP();
 		}
 		return parametros;
 	}
@@ -74,5 +80,12 @@ public class Parametros {
 		this.rechazadas = rechazadas;
 	}
 	
+	public int getEstados() {
+		return estados;
+	}
+	
+	public void setEstados(int estados) {
+		this.estados = estados;
+	}
 	
 }

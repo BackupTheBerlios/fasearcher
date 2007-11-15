@@ -38,6 +38,10 @@ public class Poblacion {
 		return miembros.size();
 	}
 	
+	public Individuo getMiembro(int index) {
+		return miembros.get(index);
+	}
+	
 	public Iterator<Individuo> getIterator() {
 		return miembros.iterator();
 	}

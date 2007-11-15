@@ -1,8 +1,7 @@
-package es.si.ProgramadorGenetico.ProblemaAFP.Pruebas;
+package es.si.ProgramadorGenetico.ProblemaAFP;
 
 import java.util.Random;
 
-import es.si.ProgramadorGenetico.ProblemaAFP.AFP;
 
 public class GeneradorAleatorioAFP {
 
@@ -13,6 +12,7 @@ public class GeneradorAleatorioAFP {
 		int[] valores0 = new int[estados + 1];
 		int[] valores1 = new int[estados + 1];
 		for (int i = 0; i < estados; i++) {
+			rand.setSeed(System.currentTimeMillis());
 			int total0 = 0;
 			int total1 = 0;
 			for (int j = 0; j < estados + 1; j++) {

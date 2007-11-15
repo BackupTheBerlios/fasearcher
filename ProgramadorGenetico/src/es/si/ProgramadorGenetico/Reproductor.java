@@ -13,7 +13,7 @@ package es.si.ProgramadorGenetico;
  */
 public interface Reproductor {
 	
-	public Poblacion entrecruzar(Poblacion mejores);
+	public Poblacion entrecruzar(int cant_obtener, Poblacion mejores);
 	
 	public Poblacion mutar(Poblacion poblacion);
 

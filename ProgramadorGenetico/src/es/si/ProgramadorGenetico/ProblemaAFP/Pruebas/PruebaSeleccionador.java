@@ -1,8 +1,9 @@
 package es.si.ProgramadorGenetico.ProblemaAFP.Pruebas;
 
 import es.si.ProgramadorGenetico.Poblacion;
-import es.si.ProgramadorGenetico.ProblemaAFP.CalculadorBondadSimple;
-import es.si.ProgramadorGenetico.ProblemaAFP.SelectorAutomatas;
+import es.si.ProgramadorGenetico.ProblemaAFP.GeneradorAleatorioAFP;
+import es.si.ProgramadorGenetico.ProblemaAFP.ParametrosAFP;
+import es.si.ProgramadorGenetico.ProblemaAFP.SelectorAFP;
 
 public class PruebaSeleccionador {
 
@@ -12,13 +13,12 @@ public class PruebaSeleccionador {
 	public static void main(String[] args) {
 		Poblacion pob = new Poblacion();
 		for (int i = 0; i < 10000; i++) {
-			pob.agregarMiembro(GeneradorAleatorioAFP.nuevo(5));
+			pob.agregarMiembro(GeneradorAleatorioAFP.nuevo(ParametrosAFP.getInstance().getEstados()));
 		}
-		SelectorAutomatas selector = new SelectorAutomatas();
+		SelectorAFP selector = new SelectorAFP();
 		long tiempo = System.currentTimeMillis();
 		selector.mejor(pob);
 		System.out.println("tiempo: " + (System.currentTimeMillis() - tiempo));
-		
 	}
 
 }

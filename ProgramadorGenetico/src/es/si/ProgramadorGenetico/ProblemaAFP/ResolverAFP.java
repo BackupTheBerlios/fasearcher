@@ -17,7 +17,7 @@ import java.util.ArrayList;
  * @author Eugenio Jorge Marchiori
  *
  */
-public class Resolver implements Runnable {
+public class ResolverAFP implements Runnable {
 
 	private AFP af;
 	
@@ -33,7 +33,7 @@ public class Resolver implements Runnable {
 	
 	private boolean termino;
 	
-	public Resolver(AFP af, String cadena) {
+	public ResolverAFP(AFP af, String cadena) {
 		this.af = af;
 		this.cadenaInicial = new String(cadena);
 		this.reconoce = false;

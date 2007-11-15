@@ -1,7 +1,7 @@
 package es.si.ProgramadorGenetico.ProblemaAFP.Pruebas;
 
 import es.si.ProgramadorGenetico.ProblemaAFP.AFP;
-import es.si.ProgramadorGenetico.ProblemaAFP.Resolver;
+import es.si.ProgramadorGenetico.ProblemaAFP.ResolverAFP;
 
 public class PruebaResolver {
 
@@ -76,7 +76,7 @@ public class PruebaResolver {
 		
 		afp.setProbabilidadFinal(probfinal);
 		
-		Resolver resolver = new Resolver(afp, "101100010");
+		ResolverAFP resolver = new ResolverAFP(afp, "101100010");
 		
 		resolver.run();
 		
