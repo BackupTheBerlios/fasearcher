@@ -37,9 +37,9 @@ public class AFP implements Individuo {
 		}
 		for (int i = 0; i < estados; i++) {
 			for (int j = 0; j <= estados; j++) {
-				if (Math.abs(otroafp.transiciones[i][0][j] != transiciones[i][0][j]) > 0.0001)
+				if (Math.abs(otroafp.transiciones[i][0][j] - transiciones[i][0][j]) > 0.0001)
 					return false;
-				if (Math.abs(otroafp.transiciones[i][1][j] != transiciones[i][1][j]) > 0.0001)
+				if (Math.abs(otroafp.transiciones[i][1][j] - transiciones[i][1][j]) > 0.0001)
 					return false;
 			}
 		}
