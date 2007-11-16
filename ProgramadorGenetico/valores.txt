@@ -1,0 +1,11 @@
+# cantidad de estados que tendrán los AFPS (opcional, defecto = 5)
+estados=5
+
+# cadenas aceptadas por el AFP que se pretende encontrar, separadas por coma
+aceptadas=100101,101110,111000
+
+# cadenas rechazadas por el AFP que se pretende encontrar, separadas por coma
+rechazadas=111011,110001,100010
+
+# cantidad de particiones al generar las probabilidades de transicion de un AFP (opcional, defecto = 200)
+particiones=5

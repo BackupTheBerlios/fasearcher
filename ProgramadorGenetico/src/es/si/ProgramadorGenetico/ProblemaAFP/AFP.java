@@ -32,14 +32,14 @@ public class AFP implements Individuo {
 		if (otro == this) return true;
 		if (otroafp.estados != estados) return false;
 		for (int i = 0; i < estados; i++) {
-			if (otroafp.probabilidadFinal[i] != probabilidadFinal[i])
+			if (Math.abs(otroafp.probabilidadFinal[i] - probabilidadFinal[i]) > 0.001)
 				return false;
 		}
 		for (int i = 0; i < estados; i++) {
 			for (int j = 0; j <= estados; j++) {
-				if (otroafp.transiciones[i][0][j] != transiciones[i][0][j])
+				if (Math.abs(otroafp.transiciones[i][0][j] != transiciones[i][0][j]) > 0.0001)
 					return false;
-				if (otroafp.transiciones[i][1][j] != transiciones[i][1][j])
+				if (Math.abs(otroafp.transiciones[i][1][j] != transiciones[i][1][j]) > 0.0001)
 					return false;
 			}
 		}
@@ -48,6 +48,10 @@ public class AFP implements Individuo {
 
 	public double getProbabilidad(int origen, int entrada, int destino) {
 		return transiciones[origen - 1][entrada][destino];
+	}
+	
+	public double[][][] getTransiciones() {
+		return transiciones;
 	}
 	
 	public void setTransiciones(double[][][] transiciones){

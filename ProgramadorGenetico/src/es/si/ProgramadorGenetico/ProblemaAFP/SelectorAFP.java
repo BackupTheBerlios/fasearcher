@@ -32,6 +32,7 @@ public class SelectorAFP implements Selector {
 				mejor = (Individuo) temp.getAFP();
 			}
 		}
+		System.out.println("Maxima bondad: " + maxbondad);
 		return mejor;
 	}
 

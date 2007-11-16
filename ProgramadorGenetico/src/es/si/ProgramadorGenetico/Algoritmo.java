@@ -45,6 +45,7 @@ public class Algoritmo {
 			poblacion = reproductor.mutar(poblacion);
 			
 			mejor = selector.mejor(poblacion);
+			
 			cont++;
 		} while (cont < maxit && !mejor.equals(ultimomejor));
 		
