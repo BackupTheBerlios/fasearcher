@@ -54,6 +54,10 @@ public class AFP implements Individuo {
 		return transiciones;
 	}
 	
+	public double[] getProbabilidadesFinal() {
+		return probabilidadFinal;
+	}
+	
 	public void setTransiciones(double[][][] transiciones){
 		this.transiciones = transiciones;
 	}

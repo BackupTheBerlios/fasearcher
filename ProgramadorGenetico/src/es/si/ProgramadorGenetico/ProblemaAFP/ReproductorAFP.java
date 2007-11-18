@@ -65,14 +65,14 @@ public class ReproductorAFP implements Reproductor {
 				int total = 0;
 				for (int j = 0; j < estados + 1; j++) {
 					suma += transiciones[i][valor][j];
-					if (transiciones[i][valor][j] > 0)
+					if (transiciones[i][valor][j] > 0.001)
 						total++;
-					if (transiciones[i][valor][j] > 0 && transiciones[i][valor][j] < minval)
+					if (transiciones[i][valor][j] > 0.001 && transiciones[i][valor][j] < minval)
 						minval = transiciones[i][valor][j];
 				}
 				double div = 1 / (suma - minval*total);
 				for (int j = 0; j < estados + 1; j++) {
-					if (transiciones[i][valor][j] != 0) {
+					if (transiciones[i][valor][j] > 0.001) {
 						transiciones[i][valor][j] = (transiciones[i][valor][j] - minval) * div;
 					}
 				}
