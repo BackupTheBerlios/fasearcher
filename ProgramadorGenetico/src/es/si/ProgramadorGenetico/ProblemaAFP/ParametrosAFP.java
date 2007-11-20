@@ -25,6 +25,10 @@ public class ParametrosAFP {
 	
 	private List<String> rechazadas;
 	
+	private List<Integer> muestras;
+	
+	private List<Integer> pobmax;
+	
 	private int estados = 5;
 	
 	private int particiones = 200;
@@ -32,6 +36,8 @@ public class ParametrosAFP {
 	private ParametrosAFP() {
 		aceptadas = new ArrayList<String>();
 		rechazadas = new ArrayList<String>();
+		muestras = new ArrayList<Integer>();
+		pobmax = new ArrayList<Integer>();
 		
 		Properties valores = new Properties();
 		FileInputStream fis;
@@ -58,7 +64,22 @@ public class ParametrosAFP {
 		st = new StringTokenizer(valores.getProperty("rechazadas", ""), ",");
 		while(st.hasMoreTokens()) {
 			rechazadas.add(st.nextToken());
-		} 
+		}
+		
+		if (valores.getProperty("muestras") != null) {
+			st = new StringTokenizer(valores.getProperty("muestras", ""), ",");
+			while(st.hasMoreTokens()) {
+				muestras.add(Integer.parseInt(st.nextToken()));
+			}			
+		}
+
+		if (valores.getProperty("pobmax") != null) {
+			st = new StringTokenizer(valores.getProperty("pobmax", ""), ",");
+			while(st.hasMoreTokens()) {
+				pobmax.add(Integer.parseInt(st.nextToken()));
+			}			
+		}
+
 	}
 	
 	public static ParametrosAFP getInstance() {
@@ -79,7 +100,15 @@ public class ParametrosAFP {
 	public List<String> getRechazadas() {
 		return rechazadas;
 	}
+	
+	public List<Integer> getMuestras() {
+		return muestras;
+	}
 
+	public List<Integer> getPobmax() {
+		return pobmax;
+	}
+	
 	public void setRechazadas(List<String> rechazadas) {
 		this.rechazadas = rechazadas;
 	}

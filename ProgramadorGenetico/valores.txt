@@ -1,11 +1,17 @@
+# cantidad de muestras a mantener de una it a otra (se pueden separar varias por ,)
+muestras=10
+
+# cantidad de ejemplares maximos que puede haber en un momento (se pueden separar varias por ,)
+pobmax=1000
+
 # cantidad de estados que tendrán los AFPS (opcional, defecto = 5)
 estados=5
 
 # cadenas aceptadas por el AFP que se pretende encontrar, separadas por coma
-aceptadas=100101,101110,111000
+aceptadas=01,11,01011,01001
 
 # cadenas rechazadas por el AFP que se pretende encontrar, separadas por coma
-rechazadas=111011,110001,100010
+rechazadas=010,111,1111
 
 # cantidad de particiones al generar las probabilidades de transicion de un AFP (opcional, defecto = 200)
 particiones=5
