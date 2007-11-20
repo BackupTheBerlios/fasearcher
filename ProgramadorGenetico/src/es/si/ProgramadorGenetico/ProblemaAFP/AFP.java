@@ -1,6 +1,9 @@
 package es.si.ProgramadorGenetico.ProblemaAFP;
 
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 import es.si.ProgramadorGenetico.Individuo;
 
 public class AFP implements Individuo {
@@ -37,13 +40,13 @@ public class AFP implements Individuo {
 		}
 		for (int i = 0; i < estados; i++) {
 			for (int j = 0; j <= estados; j++) {
-				if (Math.abs(otroafp.transiciones[i][0][j] - transiciones[i][0][j]) > 0.0001)
+				if (Math.abs(otroafp.transiciones[i][0][j] - transiciones[i][0][j]) > 0.001)
 					return false;
-				if (Math.abs(otroafp.transiciones[i][1][j] - transiciones[i][1][j]) > 0.0001)
+				if (Math.abs(otroafp.transiciones[i][1][j] - transiciones[i][1][j]) > 0.001)
 					return false;
 			}
 		}
-		return false;
+		return true;
 	}
 
 	public double getProbabilidad(int origen, int entrada, int destino) {
@@ -72,5 +75,21 @@ public class AFP implements Individuo {
 	
 	public int getEstados() {
 		return estados;
+	}
+	
+	public String toString() {
+		String afp = new String();
+		NumberFormat form = new DecimalFormat("0.0000");
+		
+		for (int i = 0; i < estados;i++) {
+			for (int j = 0; j < estados+1; j++) {
+				afp += ""+i +":0:" + j +" >> " + form.format(transiciones[i][0][j]);
+				afp += " || "+i +":1:" + j +" >> " + form.format(transiciones[i][1][j]) + "\n";
+			}
+		}
+		for (int i = 0; i < estados; i++) {
+			afp += "" + i + " >> " + this.probabilidadFinal[i] + " || ";
+		}
+		return afp;
 	}
 }

@@ -10,15 +10,14 @@ import es.si.ProgramadorGenetico.Reproductor;
 public class ReproductorAFP implements Reproductor {
 
 	private static Random rand = new Random();
+	
 	@Override
 	public Poblacion entrecruzar(int cant, Poblacion mejores) {
 		int tam = mejores.getCantidad();
 		Poblacion nueva = new Poblacion();
-		
 		for (int i = 0; i < cant; i++) {
 			nueva.agregarMiembro(cruzar((AFP)mejores.getMiembro(rand.nextInt(tam)), (AFP)mejores.getMiembro(rand.nextInt(tam))));
 		}
-		
 		return nueva;
 	}
 
@@ -69,7 +68,7 @@ public class ReproductorAFP implements Reproductor {
 						total++;
 					if (transiciones[i][valor][j] > 0.001 && transiciones[i][valor][j] < minval)
 						minval = transiciones[i][valor][j];
-				}
+				}	
 				double div = 1 / (suma - minval*total);
 				for (int j = 0; j < estados + 1; j++) {
 					if (transiciones[i][valor][j] > 0.001) {
@@ -78,7 +77,6 @@ public class ReproductorAFP implements Reproductor {
 				}
 			}
 		}
-		afp.setTransiciones(transiciones);
-		
+		afp.setTransiciones(transiciones);	
 	}
 }

@@ -27,7 +27,11 @@ public class Algoritmo {
 	
 	public Individuo run(int maxit) {
 		
+		long tiempo = System.currentTimeMillis();
+		
 		poblacion = poblacioninicial.generar();
+
+		Writer.write("mejores=");
 	
 		mejor = selector.mejor(poblacion);
 		
@@ -35,7 +39,10 @@ public class Algoritmo {
 		
 		Individuo ultimomejor;
 		
+		
 		do {
+			Writer.write(",");
+
 			ultimomejor = mejor;
 			
 			poblacion = selector.seleccionar(MANTENER, poblacion);
@@ -47,8 +54,14 @@ public class Algoritmo {
 			mejor = selector.mejor(poblacion);
 			
 			cont++;
+			
+			
 		} while (cont < maxit && !mejor.equals(ultimomejor));
 		
+		Writer.write("\nTiempo: "+ (System.currentTimeMillis() - tiempo)/1000 + "s\n");
+		Writer.write("--------------------\n");
+		Writer.write(mejor.toString() + "\n");
+		Writer.write("--------------------\n");
 		return null;
 	}
 

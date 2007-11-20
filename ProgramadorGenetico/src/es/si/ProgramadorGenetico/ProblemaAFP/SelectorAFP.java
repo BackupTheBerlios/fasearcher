@@ -8,6 +8,7 @@ import java.util.concurrent.CountDownLatch;
 import es.si.ProgramadorGenetico.Individuo;
 import es.si.ProgramadorGenetico.Poblacion;
 import es.si.ProgramadorGenetico.Selector;
+import es.si.ProgramadorGenetico.Writer;
 
 public class SelectorAFP implements Selector {
 
@@ -32,7 +33,8 @@ public class SelectorAFP implements Selector {
 				mejor = (Individuo) temp.getAFP();
 			}
 		}
-		System.out.println("Maxima bondad: " + maxbondad);
+		//System.out.println("Maxima bondad: " + maxbondad);
+		Writer.write(""+maxbondad);
 		return mejor;
 	}
 
