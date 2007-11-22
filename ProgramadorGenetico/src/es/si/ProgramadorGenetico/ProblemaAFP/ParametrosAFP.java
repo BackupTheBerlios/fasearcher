@@ -32,7 +32,9 @@ public class ParametrosAFP {
 	private int estados = 5;
 	
 	private int particiones = 200;
-		
+	
+	private int numeroMuestras = 0;
+	
 	private ParametrosAFP() {
 		aceptadas = new ArrayList<String>();
 		rechazadas = new ArrayList<String>();
@@ -59,11 +61,13 @@ public class ParametrosAFP {
 		StringTokenizer st = new StringTokenizer(valores.getProperty("aceptadas", ""), ",");
 		while(st.hasMoreTokens()) {
 			aceptadas.add(st.nextToken());
+			numeroMuestras++;
 		}
 		
 		st = new StringTokenizer(valores.getProperty("rechazadas", ""), ",");
 		while(st.hasMoreTokens()) {
 			rechazadas.add(st.nextToken());
+			numeroMuestras++;
 		}
 		
 		if (valores.getProperty("muestras") != null) {
@@ -99,6 +103,10 @@ public class ParametrosAFP {
 
 	public List<String> getRechazadas() {
 		return rechazadas;
+	}
+	
+	public int getNumeroMuestras() {
+		return this.numeroMuestras;
 	}
 	
 	public List<Integer> getMuestras() {

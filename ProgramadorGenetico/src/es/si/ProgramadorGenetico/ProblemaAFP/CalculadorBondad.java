@@ -69,6 +69,7 @@ public abstract class CalculadorBondad implements Runnable {
 			resolver.run();
 			actualizarBondad(1 - resolver.getProbabilidadAceptar());
 		}
+		bondad = bondad / ParametrosAFP.getInstance().getNumeroMuestras();
 		this.procesando = false;
 		this.termino = true;
 		//System.out.println("Bondad: " + this.bondad);
