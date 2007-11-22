@@ -56,13 +56,13 @@ public abstract class CalculadorBondad implements Runnable {
 		this.procesando = true;
 		Iterator<String> aceptadas = cadenasAceptadas.iterator();
 		while(aceptadas.hasNext()) {
-			ResolverAFP resolver = new ResolverAFP(afp, aceptadas.next());
+			ResolverAFP_fast resolver = new ResolverAFP_fast(afp, aceptadas.next());
 			resolver.run();
 			actualizarBondad(resolver.getProbabilidadAceptar());		
 		}
 		Iterator<String> rechazadas = cadenasRechazadas.iterator();
 		while(rechazadas.hasNext()) {
-			ResolverAFP resolver = new ResolverAFP(afp, rechazadas.next());
+			ResolverAFP_fast resolver = new ResolverAFP_fast(afp, rechazadas.next());
 			resolver.run();
 			actualizarBondad(1 - resolver.getProbabilidadAceptar());
 		}

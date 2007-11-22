@@ -76,7 +76,7 @@ public class PruebaResolver {
 		
 		afp.setProbabilidadFinal(probfinal);
 		
-		ResolverAFP resolver = new ResolverAFP(afp, "0000");
+		ResolverAFP resolver = new ResolverAFP(afp, "1111");
 		
 		resolver.run();
 		

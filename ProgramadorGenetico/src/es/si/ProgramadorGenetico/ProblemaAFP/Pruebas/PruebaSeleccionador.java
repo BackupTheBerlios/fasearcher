@@ -12,7 +12,7 @@ public class PruebaSeleccionador {
 	 */
 	public static void main(String[] args) {
 		Poblacion pob = new Poblacion();
-		for (int i = 0; i < 10000; i++) {
+		for (int i = 0; i < 1000; i++) {
 			pob.agregarMiembro(GeneradorAleatorioAFP.nuevo(ParametrosAFP.getInstance().getEstados()));
 		}
 		SelectorAFP selector = new SelectorAFP();
