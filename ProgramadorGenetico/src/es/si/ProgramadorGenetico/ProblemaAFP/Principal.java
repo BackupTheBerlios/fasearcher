@@ -12,7 +12,7 @@ public class Principal {
 		Writer.write("Utilizando version 0.1 del CalculadorBondadSimple\n");
 		CalculadorBondad.setTipo(CalculadorBondad.SIMPLE);
 		Writer.write("Utilizando version 0.11 del Generador Aleatorio\n");
-		Writer.write("Utilizando version 0.12 del Reproductor");
+		Writer.write("Utilizando version 0.13 del Reproductor");
 		Writer.write("Problema a solucionar:\n");
 		Writer.write("  aceptadas=");
 		Iterator<String> it = ParametrosAFP.getInstance().getAceptadas().iterator();

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import es.si.ProgramadorGenetico.ProblemaAFP.AFP;
 import es.si.ProgramadorGenetico.ProblemaAFP.CalculadorBondad;
-import es.si.ProgramadorGenetico.ProblemaAFP.CalculadorBondadSimple;
 
 public class PruebaBondad {
 
@@ -88,15 +87,9 @@ public class PruebaBondad {
 		rechazadas.add("1100010");
 		rechazadas.add("0011011");
 		
-		CalculadorBondad calculador = new CalculadorBondadSimple(afp, aceptadas, rechazadas);
-		
-		calculador.run();
-		
-		System.out.println("Bondad: " + calculador.getBondad());
-		
 		CalculadorBondad.setTipo(CalculadorBondad.SIMPLE);
 		
-		calculador = CalculadorBondad.newCalculadorBondad(afp, aceptadas, rechazadas);
+		CalculadorBondad calculador = CalculadorBondad.newCalculadorBondad(afp, aceptadas, rechazadas);
 
 		calculador.run();
 		

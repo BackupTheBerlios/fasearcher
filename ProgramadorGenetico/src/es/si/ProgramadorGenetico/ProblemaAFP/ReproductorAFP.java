@@ -35,18 +35,16 @@ public class ReproductorAFP implements Reproductor {
 		AFP nuevo = new AFP(estados);
 		double[][][] transiciones = new double[estados][2][estados +1];
 		double[] finales = new double[estados];
-		double menospeso;
 		double peso1, peso2;
 		for (int i = 0; i < estados; i++) {
 			peso1 = rand.nextDouble();
 			peso2 = rand.nextDouble();
 			for (int j = 0; j < estados + 1; j++) {
-				transiciones[i][0][j] = a.getProbabilidad(i+1, 0, j)*peso1 + b.getProbabilidad(i+1, 0, j)*(1-peso1);
-				transiciones[i][1][j] = a.getProbabilidad(i+1, 1, j)*peso2 + b.getProbabilidad(i+1, 1, j)*(1-peso2);
+				transiciones[i][0][j] = a.getProbabilidad(i+1, 0, j)*peso1
+										+ b.getProbabilidad(i+1, 0, j)*(1-peso1);
+				transiciones[i][1][j] = a.getProbabilidad(i+1, 1, j)*peso2
+										+ b.getProbabilidad(i+1, 1, j)*(1-peso2);
 			}
-			//peso1 = rand.nextDouble();
-			//menospeso = 1 - peso1;
-			//finales[i]= a.getProbabilidadFinal(i+1)*peso1 + b.getProbabilidadFinal(i+1)*menospeso;
 			if (rand.nextBoolean())
 				finales[i] = a.getProbabilidadFinal(i+1);
 			else
@@ -61,29 +59,28 @@ public class ReproductorAFP implements Reproductor {
 		int estados = ParametrosAFP.getInstance().getEstados();
 		double[][][] transiciones = afp.getTransiciones();
 		for (int i = 0; i < estados; i ++) {
-			if (rand.nextInt(estados) == 0) {
+			if (rand.nextInt(estados/2) == 0) {
 				int valor = rand.nextInt(2);
-				double minval = 1;
 				double suma = 0;
 				for (int j = 0; j < estados + 1; j++) {
-					if (transiciones[i][valor][j] > 0.0001 && transiciones[i][valor][j] < minval)
-						minval = transiciones[i][valor][j];
-				}	
-				for (int j = 0; j < estados + 1; j++) {
-					if (transiciones[i][valor][j] >= minval) {
-						transiciones[i][valor][j] = (transiciones[i][valor][j] - minval);
-					}
+					transiciones[i][valor][j] = transiciones[i][valor][j]*transiciones[i][valor][j];
 					suma += transiciones[i][valor][j];
-				}
+				}	
 				if (suma < 0.0001) {
 					transiciones[i][valor][rand.nextInt(estados+1)] = 1;
 				}
 				else {
-					double div = 1 / suma;
+					double div = 1.0f / suma;
 					for (int j = 0; j < estados + 1; j++) {
 						transiciones[i][valor][j] = transiciones[i][valor][j] * div;
 					}
 				}
+			} else if (rand.nextInt(estados*2) == 0) {
+				int valor = rand.nextInt(2);
+				for (int j = 0; j< estados + 1;j++) {
+					transiciones[i][valor][j] = 0;
+				}
+				transiciones[i][valor][rand.nextInt(estados+1)] = 1;
 			}
 		}
 		afp.setTransiciones(transiciones);	

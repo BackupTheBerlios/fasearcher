@@ -1,7 +1,5 @@
 package es.si.ProgramadorGenetico.ProblemaAFP;
 
-import java.util.ArrayList;
-
 /**
  * Clase que dado un automata y una cadena determina la probabilidad de que
  * esta sea reconocida.<p>
@@ -63,8 +61,10 @@ public class ResolverAFP_fast implements Runnable {
 			probabilidades[i] = 0;
 		}
 		
+		int simbolo;
+		
 		while(cadena!=null && !cadena.equals("")) {
-			int simbolo = obtenerSimbolo(cadena);
+			simbolo = obtenerSimbolo(cadena);
 			cadena = actualizarCadena(cadena);
 			for (int i = 0; i < estados; i++) {
 				for (int j = 0; j < estados; j++) {
@@ -72,6 +72,8 @@ public class ResolverAFP_fast implements Runnable {
 					probstemp[j] += probabilidades[i]*trans[i][simbolo][j+1];
 				}
 			}
+			// posiblemente se puede usar System.arrayCopy() pero no es bueno para
+			// arrays pequeños
 			for (int i = 0; i < estados; i++)
 				probabilidades[i] = probstemp[i];
 		}
@@ -88,9 +90,9 @@ public class ResolverAFP_fast implements Runnable {
 	private int obtenerSimbolo(String cadena) {
 		if (cadena == null) return -1;
 		int valor = (int) (cadena.charAt(0) - '0');
-		if (valor == 0 || valor == 1)
+		//if (valor == 0 || valor == 1)
 			return valor;
-		return -1;
+		//return -1;
 	}
 	
 	private String actualizarCadena(String cadena) {
