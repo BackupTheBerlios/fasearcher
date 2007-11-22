@@ -26,10 +26,20 @@ public class GeneradorAleatorioAFP {
 				total1 += valores1[j];
 			}
 			for (int j = 0; j < estados + 1; j++) {
-				transiciones[i][0][j] = ((double) valores0[j]) / total0;
-				transiciones[i][1][j] = ((double) valores1[j]) / total1;
+				if (total0 == 0)
+					transiciones[i][0][j] = 1.0f/estados;
+				else
+					transiciones[i][0][j] = ((double) valores0[j]) / total0;
+				if (total1 == 0)
+					transiciones[i][1][j] = 1.0f/estados;
+				else
+					transiciones[i][1][j] = ((double) valores1[j]) / total1;
 			}
-			probfinal[i] = (double)(i + rand.nextInt(PARTICIONES)) / (estados + PARTICIONES);
+			//probfinal[i] = (double)(i + rand.nextInt(PARTICIONES)) / (estados + PARTICIONES);
+			if (rand.nextBoolean())
+				probfinal[i] = 1;
+			else
+				probfinal[i] = 0;
 		}
 		AFP automata = new AFP(estados);
 		automata.setProbabilidadFinal(probfinal);

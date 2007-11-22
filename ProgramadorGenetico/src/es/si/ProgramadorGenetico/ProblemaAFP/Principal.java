@@ -10,7 +10,9 @@ public class Principal {
 	public static void main(String[] args) {
 		Writer.write("\n\nUtilizando version 0.1 del Selector\n");
 		Writer.write("Utilizando version 0.1 del CalculadorBondadSimple\n");
-		Writer.write("Utilizando version 0.1 del Generador Aleatorio\n");
+		CalculadorBondad.setTipo(CalculadorBondad.SIMPLE);
+		Writer.write("Utilizando version 0.11 del Generador Aleatorio\n");
+		Writer.write("Utilizando version 0.12 del Reproductor");
 		Writer.write("Problema a solucionar:\n");
 		Writer.write("  aceptadas=");
 		Iterator<String> it = ParametrosAFP.getInstance().getAceptadas().iterator();
@@ -29,7 +31,7 @@ public class Principal {
 			Iterator<Integer> itpobmax = ParametrosAFP.getInstance().getPobmax().iterator();
 			while(itpobmax.hasNext()) {
 				int j = itpobmax.next().intValue();
-				Writer.write("***************************************\n");
+				Writer.write("*******************************************\n");
 				Writer.write("Mantener="+i+";Poblacion Max="+j+"\n");
 				Algoritmo.MANTENER = i;
 				Algoritmo.POB_MAX = 1000;

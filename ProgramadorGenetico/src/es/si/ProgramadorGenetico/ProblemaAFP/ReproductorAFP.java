@@ -44,9 +44,13 @@ public class ReproductorAFP implements Reproductor {
 				transiciones[i][0][j] = a.getProbabilidad(i+1, 0, j)*peso1 + b.getProbabilidad(i+1, 0, j)*(1-peso1);
 				transiciones[i][1][j] = a.getProbabilidad(i+1, 1, j)*peso2 + b.getProbabilidad(i+1, 1, j)*(1-peso2);
 			}
-			peso1 = rand.nextDouble();
-			menospeso = 1 - peso1;
-			finales[i]= a.getProbabilidadFinal(i+1)*peso1 + b.getProbabilidadFinal(i+1)*menospeso;
+			//peso1 = rand.nextDouble();
+			//menospeso = 1 - peso1;
+			//finales[i]= a.getProbabilidadFinal(i+1)*peso1 + b.getProbabilidadFinal(i+1)*menospeso;
+			if (rand.nextBoolean())
+				finales[i] = a.getProbabilidadFinal(i+1);
+			else
+				finales[i] = b.getProbabilidadFinal(i+1);
 		}
 		nuevo.setTransiciones(transiciones);
 		nuevo.setProbabilidadFinal(finales);
@@ -61,18 +65,23 @@ public class ReproductorAFP implements Reproductor {
 				int valor = rand.nextInt(2);
 				double minval = 1;
 				double suma = 0;
-				int total = 0;
 				for (int j = 0; j < estados + 1; j++) {
-					suma += transiciones[i][valor][j];
-					if (transiciones[i][valor][j] > 0.001)
-						total++;
-					if (transiciones[i][valor][j] > 0.001 && transiciones[i][valor][j] < minval)
+					if (transiciones[i][valor][j] > 0.0001 && transiciones[i][valor][j] < minval)
 						minval = transiciones[i][valor][j];
 				}	
-				double div = 1 / (suma - minval*total);
 				for (int j = 0; j < estados + 1; j++) {
-					if (transiciones[i][valor][j] > 0.001) {
-						transiciones[i][valor][j] = (transiciones[i][valor][j] - minval) * div;
+					if (transiciones[i][valor][j] >= minval) {
+						transiciones[i][valor][j] = (transiciones[i][valor][j] - minval);
+					}
+					suma += transiciones[i][valor][j];
+				}
+				if (suma < 0.0001) {
+					transiciones[i][valor][rand.nextInt(estados+1)] = 1;
+				}
+				else {
+					double div = 1 / suma;
+					for (int j = 0; j < estados + 1; j++) {
+						transiciones[i][valor][j] = transiciones[i][valor][j] * div;
 					}
 				}
 			}

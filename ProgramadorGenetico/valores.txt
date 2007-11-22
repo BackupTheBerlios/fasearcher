@@ -1,11 +1,11 @@
 # cantidad de muestras a mantener de una it a otra (se pueden separar varias por ,)
-muestras=10
+muestras=5,10,20
 
 # cantidad de ejemplares maximos que puede haber en un momento (se pueden separar varias por ,)
-pobmax=1000
+pobmax=500,1000
 
 # cantidad de estados que tendrán los AFPS (opcional, defecto = 5)
-estados=5
+estados=4
 
 # cadenas aceptadas por el AFP que se pretende encontrar, separadas por coma
 aceptadas=01,11,01011,01001

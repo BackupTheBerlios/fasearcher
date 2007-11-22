@@ -20,6 +20,8 @@ public abstract class CalculadorBondad implements Runnable {
 	
 	public final static int SIMPLE = 0;
 	
+	public final static int CUADRATICO = 1;
+	
 	CountDownLatch cdl = null;
 	
 	static int tipo = SIMPLE;
@@ -36,8 +38,9 @@ public abstract class CalculadorBondad implements Runnable {
 	public static CalculadorBondad newCalculadorBondad(AFP afp, List<String> cadenasAceptadas, List<String> cadenasRechazadas) {
 		if (tipo == SIMPLE) {
 			return new CalculadorBondadSimple(afp, cadenasAceptadas, cadenasRechazadas);
+		} else if (tipo == CUADRATICO) {
+			return new CalculadorBondadCuadratico(afp, cadenasAceptadas, cadenasRechazadas);
 		}
-		
 		return new CalculadorBondadSimple(afp, cadenasAceptadas, cadenasRechazadas);
 			
 	}
