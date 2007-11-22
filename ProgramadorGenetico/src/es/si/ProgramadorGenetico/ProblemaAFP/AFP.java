@@ -86,8 +86,8 @@ public class AFP implements Individuo {
 			afp += " || "+i +":1:- >> " + form.format(transiciones[i][1][0]) + "\n";
 
 			for (int j = 1; j < estados+1; j++) {
-				afp += ""+i +":0:" + j +" >> " + form.format(transiciones[i][0][j-1]);
-				afp += " || "+i +":1:" + j +" >> " + form.format(transiciones[i][1][j-1]) + "\n";
+				afp += ""+i +":0:" + j +" >> " + form.format(transiciones[i][0][j]);
+				afp += " || "+i +":1:" + j +" >> " + form.format(transiciones[i][1][j]) + "\n";
 			}
 		}
 		for (int i = 0; i < estados; i++) {
