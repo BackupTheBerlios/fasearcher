@@ -1,6 +1,8 @@
 package es.si.ProgramadorGenetico.ProblemaAFP;
 
 import es.si.ProgramadorGenetico.Algoritmo;
+import es.si.ProgramadorGenetico.ProblemaAFP.Factorias.CruzadorAFPFactory;
+import es.si.ProgramadorGenetico.ProblemaAFP.Factorias.MutadorAFPFactory;
 
 public class AplicarAlgortimoAFP {
 
@@ -8,7 +10,8 @@ public class AplicarAlgortimoAFP {
 		Algoritmo alg = new Algoritmo();
 		GeneradorAleatorioAFP.PARTICIONES = particiones;
 		alg.setPoblacioninicial(new AFPIniciales());
-		alg.setReproductor(new ReproductorAFP());
+		alg.setCruzador(CruzadorAFPFactory.getCruzadorAFP());
+		alg.setMutador(MutadorAFPFactory.getMutadorAFP());
 		alg.setSelector(new SelectorAFP());
 		alg.run(iteraciones);
 	}

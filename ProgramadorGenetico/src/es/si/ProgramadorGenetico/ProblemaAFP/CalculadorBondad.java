@@ -5,6 +5,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
+import es.si.ProgramadorGenetico.ProblemaAFP.CalculadoresBondad.CalculadorBondadCuadratico;
+import es.si.ProgramadorGenetico.ProblemaAFP.CalculadoresBondad.CalculadorBondadSimple;
+import es.si.ProgramadorGenetico.ProblemaAFP.Factorias.ResolverAFPFactory;
+
 public abstract class CalculadorBondad implements Runnable {
 	protected double bondad;
 	
@@ -59,13 +63,17 @@ public abstract class CalculadorBondad implements Runnable {
 		this.procesando = true;
 		Iterator<String> aceptadas = cadenasAceptadas.iterator();
 		while(aceptadas.hasNext()) {
-			ResolverAFP_fast resolver = new ResolverAFP_fast(afp, aceptadas.next());
+			ResolverAFP resolver = ResolverAFPFactory.getResolverAFP();
+			resolver.setAFP(afp);
+			resolver.setCadena(aceptadas.next());
 			resolver.run();
 			actualizarBondad(resolver.getProbabilidadAceptar());		
 		}
 		Iterator<String> rechazadas = cadenasRechazadas.iterator();
 		while(rechazadas.hasNext()) {
-			ResolverAFP_fast resolver = new ResolverAFP_fast(afp, rechazadas.next());
+			ResolverAFP resolver = ResolverAFPFactory.getResolverAFP();
+			resolver.setAFP(afp);
+			resolver.setCadena(rechazadas.next());
 			resolver.run();
 			actualizarBondad(1 - resolver.getProbabilidadAceptar());
 		}

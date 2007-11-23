@@ -1,4 +1,7 @@
-package es.si.ProgramadorGenetico.ProblemaAFP;
+package es.si.ProgramadorGenetico.ProblemaAFP.Resolutores;
+
+import es.si.ProgramadorGenetico.ProblemaAFP.AFP;
+import es.si.ProgramadorGenetico.ProblemaAFP.ResolverAFP;
 
 /**
  * Clase que dado un automata y una cadena determina la probabilidad de que
@@ -15,7 +18,7 @@ package es.si.ProgramadorGenetico.ProblemaAFP;
  * @author Eugenio Jorge Marchiori
  *
  */
-public class ResolverAFP_fast implements Runnable {
+public class ResolverAFPVectores implements ResolverAFP {
 
 	private AFP af;
 	
@@ -37,21 +40,17 @@ public class ResolverAFP_fast implements Runnable {
 	
 	private int estados;
 	
-	public ResolverAFP_fast(AFP af, String cadena) {
-		this.af = af;
-		this.cadenaInicial = new String(cadena);
+	public ResolverAFPVectores() {
 		this.reconoce = false;
-		this.probabilidades = new double[af.getEstados()];
-		this.trans = af.getTransiciones();
-		this.estados = af.getEstados();
-		this.probstemp = new double[estados];
 		procesando = false;
 		termino = false;
 	}
 	
+	
 	@Override
 	public void run() {
 		if (this.termino) return;
+		if (af == null) return;
 		this.procesando = true;
 
 		String cadena = cadenaInicial;
@@ -114,6 +113,20 @@ public class ResolverAFP_fast implements Runnable {
 	
 	public boolean getTermino() {
 		return termino;
+	}
+
+
+	public void setAFP(AFP afp) {
+		this.af = afp;
+		this.probabilidades = new double[af.getEstados()];
+		this.trans = af.getTransiciones();
+		this.estados = af.getEstados();
+		this.probstemp = new double[estados];
+	}
+
+
+	public void setCadena(String cadena) {
+		this.cadenaInicial = new String(cadena);
 	}
 
 }

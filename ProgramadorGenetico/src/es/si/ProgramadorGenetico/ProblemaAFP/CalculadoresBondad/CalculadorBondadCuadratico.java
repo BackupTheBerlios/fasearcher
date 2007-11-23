@@ -1,6 +1,9 @@
-package es.si.ProgramadorGenetico.ProblemaAFP;
+package es.si.ProgramadorGenetico.ProblemaAFP.CalculadoresBondad;
 
 import java.util.List;
+
+import es.si.ProgramadorGenetico.ProblemaAFP.AFP;
+import es.si.ProgramadorGenetico.ProblemaAFP.CalculadorBondad;
 
 public class CalculadorBondadCuadratico extends CalculadorBondad {
 

@@ -4,10 +4,15 @@ import java.util.Iterator;
 
 import es.si.ProgramadorGenetico.Algoritmo;
 import es.si.ProgramadorGenetico.Writer;
+import es.si.ProgramadorGenetico.ProblemaAFP.Factorias.*;
 
 public class Principal {
 
 	public static void main(String[] args) {
+		CruzadorAFPFactory.setTipo(CruzadorAFPFactory.TIPO_1);
+		MutadorAFPFactory.setTipo(MutadorAFPFactory.TIPO_1);
+		ResolverAFPFactory.setTipo(ResolverAFPFactory.VECTORES);
+		
 		Writer.write("\n\nUtilizando version 0.1 del Selector\n");
 		Writer.write("Utilizando version 0.1 del CalculadorBondadSimple\n");
 		CalculadorBondad.setTipo(CalculadorBondad.SIMPLE);

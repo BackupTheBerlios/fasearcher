@@ -13,7 +13,9 @@ public class Algoritmo {
 	
 	private Selector selector;
 	
-	private Reproductor reproductor;
+	private Cruzador cruzador;
+	
+	private Mutador mutador;
 	
 	private Poblacion poblacion;
 	
@@ -47,9 +49,9 @@ public class Algoritmo {
 			
 			poblacion = selector.seleccionar(MANTENER, poblacion);
 			
-			poblacion = reproductor.entrecruzar(POB_MAX, poblacion);
+			poblacion = cruzador.entrecruzar(POB_MAX, poblacion);
 			
-			poblacion = reproductor.mutar(poblacion);
+			poblacion = mutador.mutar(poblacion);
 			
 			mejor = selector.mejor(poblacion);
 			
@@ -78,18 +80,21 @@ public class Algoritmo {
 	}
 
 
-
-	public Reproductor getReproductor() {
-		return reproductor;
+	public Mutador getMutador() {
+		return mutador;
 	}
 
-
-
-	public void setReproductor(Reproductor reproductor) {
-		this.reproductor = reproductor;
+	public Cruzador getCruzador() {
+		return cruzador;
 	}
 
-
+	public void setMutador(Mutador mutador) {
+		this.mutador = mutador;
+	}
+	
+	public void setCruzador(Cruzador cruzador) {
+		this.cruzador = cruzador;
+	}
 
 	public Poblacion getPoblacion() {
 		return poblacion;

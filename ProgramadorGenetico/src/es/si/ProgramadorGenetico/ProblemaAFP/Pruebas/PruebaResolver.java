@@ -2,7 +2,7 @@ package es.si.ProgramadorGenetico.ProblemaAFP.Pruebas;
 
 import es.si.ProgramadorGenetico.ProblemaAFP.AFP;
 import es.si.ProgramadorGenetico.ProblemaAFP.ResolverAFP;
-import es.si.ProgramadorGenetico.ProblemaAFP.ResolverAFP_fast;
+import es.si.ProgramadorGenetico.ProblemaAFP.Factorias.ResolverAFPFactory;
 
 public class PruebaResolver {
 
@@ -79,7 +79,10 @@ public class PruebaResolver {
 		
 		afp.setProbabilidadFinal(probfinal);
 		
-		ResolverAFP resolver = new ResolverAFP(afp, cadena);
+		ResolverAFPFactory.setTipo(ResolverAFPFactory.PILA);
+		ResolverAFP resolver = ResolverAFPFactory.getResolverAFP();
+		resolver.setAFP(afp);
+		resolver.setCadena(cadena);
 		
 		Long tiempo = System.currentTimeMillis();
 		
@@ -87,13 +90,16 @@ public class PruebaResolver {
 		
 		System.out.println("Probabilidad normal: " + resolver.getProbabilidadAceptar() + " tiempo: " + (System.currentTimeMillis() - tiempo));
 		
-		ResolverAFP_fast resolver_fast = new ResolverAFP_fast(afp, cadena);
+		ResolverAFPFactory.setTipo(ResolverAFPFactory.VECTORES);
+		resolver = ResolverAFPFactory.getResolverAFP();
+		resolver.setAFP(afp);
+		resolver.setCadena(cadena);
 		
 		tiempo = System.currentTimeMillis();
 		
-		resolver_fast.run();
+		resolver.run();
 		
-		System.out.println("Probabilidad fast: " + resolver_fast.getProbabilidadAceptar() + " tiempo: " + (System.currentTimeMillis() - tiempo));
+		System.out.println("Probabilidad fast: " + resolver.getProbabilidadAceptar() + " tiempo: " + (System.currentTimeMillis() - tiempo));
 		
 	}
 
