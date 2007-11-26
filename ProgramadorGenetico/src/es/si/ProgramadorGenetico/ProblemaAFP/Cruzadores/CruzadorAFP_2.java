@@ -28,8 +28,8 @@ public class CruzadorAFP_2 implements Cruzador {
 		double[] finales = new double[estados];
 		int aut;
 		for (int i = 0; i < estados; i++) {
-			aut = rand.nextInt();
-			for (int j = 0; j < estados + 1; j++) {				
+			aut = rand.nextInt(2);
+			for (int j = 0; j < estados + 1; j++) {						
 				if (aut==0) {
 					transiciones[i][0][j] = a.getProbabilidad(i+1, 0, j);
 					transiciones[i][1][j] = a.getProbabilidad(i+1, 1, j);
