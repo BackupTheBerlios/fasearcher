@@ -14,8 +14,8 @@ public class Principal {
 		ResolverAFPFactory.setTipo(ResolverAFPFactory.VECTORES);
 		
 		Writer.write("\n\nUtilizando version 0.1 del Selector\n");
-		Writer.write("Utilizando version 0.1 del CalculadorBondadSimple\n");
-		CalculadorBondad.setTipo(CalculadorBondad.SIMPLE);
+		Writer.write("Utilizando version 0.1 del CalculadorBondadBalanceado\n");
+		CalculadorBondad.setTipo(CalculadorBondad.BALANACEADO);
 		Writer.write("Utilizando version 0.11 del Generador Aleatorio\n");
 		Writer.write("Utilizando version 0.13 del Reproductor");
 		Writer.write("Problema a solucionar:\n");

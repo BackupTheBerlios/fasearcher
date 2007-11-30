@@ -7,15 +7,28 @@ import es.si.ProgramadorGenetico.ProblemaAFP.CalculadorBondad;
 
 public class CalculadorBondadSimple extends CalculadorBondad {
 
+	private int cont;
+	private double bondadTemp;
 	public CalculadorBondadSimple(AFP afp,
 			List<String> cadenasAceptadas,
 			List<String> cadenasRechazadas) {
 		super(afp, cadenasAceptadas, cadenasRechazadas);
+		cont++;
+		bondadTemp=0;
+	}
+	
+	@Override
+	public void actualizarBondadAceptada(double probabilidad) {
+		bondadTemp += probabilidad;
+		cont ++;
+		bondad = bondadTemp / cont;
 	}
 
 	@Override
-	public void actualizarBondad(double probabilidad) {
-		bondad += probabilidad;
+	public void actualizarBondadRechazada(double probabilidad) {
+		bondadTemp += probabilidad;
+		cont++;
+		bondad = bondadTemp / cont;
 	}
 
 }

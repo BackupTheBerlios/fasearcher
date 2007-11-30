@@ -93,9 +93,15 @@ public class PruebaBondad {
 
 		calculador.run();
 		
-		System.out.println("Bondad: " + calculador.getBondad());
+		System.out.println("Bondad simple: " + calculador.getBondad());
+
+		CalculadorBondad.setTipo(CalculadorBondad.BALANACEADO);
 		
+		calculador = CalculadorBondad.newCalculadorBondad(afp, aceptadas, rechazadas);
+
+		calculador.run();
 		
+		System.out.println("Bondad balanceada: " + calculador.getBondad());
 	}
 
 }

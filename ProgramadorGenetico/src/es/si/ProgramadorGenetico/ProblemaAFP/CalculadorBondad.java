@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
+import es.si.ProgramadorGenetico.ProblemaAFP.CalculadoresBondad.CalculadorBondadBalanceado;
 import es.si.ProgramadorGenetico.ProblemaAFP.CalculadoresBondad.CalculadorBondadCuadratico;
 import es.si.ProgramadorGenetico.ProblemaAFP.CalculadoresBondad.CalculadorBondadSimple;
 import es.si.ProgramadorGenetico.ProblemaAFP.Factorias.ResolverAFPFactory;
@@ -18,13 +19,15 @@ public abstract class CalculadorBondad implements Runnable {
 	
 	private AFP afp;
 	
-	List<String> cadenasAceptadas;
+	protected List<String> cadenasAceptadas;
 	
-	List<String> cadenasRechazadas;
+	protected List<String> cadenasRechazadas;
 	
 	public final static int SIMPLE = 0;
 	
 	public final static int CUADRATICO = 1;
+	
+	public final static int BALANACEADO = 2;
 	
 	CountDownLatch cdl = null;
 	
@@ -44,6 +47,8 @@ public abstract class CalculadorBondad implements Runnable {
 			return new CalculadorBondadSimple(afp, cadenasAceptadas, cadenasRechazadas);
 		} else if (tipo == CUADRATICO) {
 			return new CalculadorBondadCuadratico(afp, cadenasAceptadas, cadenasRechazadas);
+		} else if (tipo == BALANACEADO) {
+			return new CalculadorBondadBalanceado(afp, cadenasAceptadas, cadenasRechazadas);
 		}
 		return new CalculadorBondadSimple(afp, cadenasAceptadas, cadenasRechazadas);
 			
@@ -67,7 +72,7 @@ public abstract class CalculadorBondad implements Runnable {
 			resolver.setAFP(afp);
 			resolver.setCadena(aceptadas.next());
 			resolver.run();
-			actualizarBondad(resolver.getProbabilidadAceptar());		
+			actualizarBondadAceptada(resolver.getProbabilidadAceptar());		
 		}
 		Iterator<String> rechazadas = cadenasRechazadas.iterator();
 		while(rechazadas.hasNext()) {
@@ -75,12 +80,10 @@ public abstract class CalculadorBondad implements Runnable {
 			resolver.setAFP(afp);
 			resolver.setCadena(rechazadas.next());
 			resolver.run();
-			actualizarBondad(1 - resolver.getProbabilidadAceptar());
+			actualizarBondadRechazada(1 - resolver.getProbabilidadAceptar());
 		}
-		bondad = bondad / ParametrosAFP.getInstance().getNumeroMuestras();
 		this.procesando = false;
 		this.termino = true;
-		//System.out.println("Bondad: " + this.bondad);
 		if (cdl != null)
 			cdl.countDown();
 	}
@@ -101,6 +104,7 @@ public abstract class CalculadorBondad implements Runnable {
 		return afp;
 	}
 	
-	public abstract void actualizarBondad(double probabilidad);
+	public abstract void actualizarBondadAceptada(double probabilidad);
+	public abstract void actualizarBondadRechazada(double probabilidad);
 
 }
