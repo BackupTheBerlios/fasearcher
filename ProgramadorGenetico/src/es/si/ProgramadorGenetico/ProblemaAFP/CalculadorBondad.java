@@ -7,6 +7,7 @@ import java.util.concurrent.CountDownLatch;
 
 import es.si.ProgramadorGenetico.ProblemaAFP.CalculadoresBondad.CalculadorBondadBalanceado;
 import es.si.ProgramadorGenetico.ProblemaAFP.CalculadoresBondad.CalculadorBondadCuadratico;
+import es.si.ProgramadorGenetico.ProblemaAFP.CalculadoresBondad.CalculadorBondadPrefernciaDet;
 import es.si.ProgramadorGenetico.ProblemaAFP.CalculadoresBondad.CalculadorBondadSimple;
 import es.si.ProgramadorGenetico.ProblemaAFP.Factorias.ResolverAFPFactory;
 
@@ -29,6 +30,8 @@ public abstract class CalculadorBondad implements Runnable {
 	
 	public final static int BALANACEADO = 2;
 	
+	public final static int PREFERNCIADET = 3;
+	
 	CountDownLatch cdl = null;
 	
 	static int tipo = SIMPLE;
@@ -49,6 +52,8 @@ public abstract class CalculadorBondad implements Runnable {
 			return new CalculadorBondadCuadratico(afp, cadenasAceptadas, cadenasRechazadas);
 		} else if (tipo == BALANACEADO) {
 			return new CalculadorBondadBalanceado(afp, cadenasAceptadas, cadenasRechazadas);
+		} else if (tipo == PREFERNCIADET) {
+			return new CalculadorBondadPrefernciaDet(afp, cadenasAceptadas, cadenasRechazadas);
 		}
 		return new CalculadorBondadSimple(afp, cadenasAceptadas, cadenasRechazadas);
 			

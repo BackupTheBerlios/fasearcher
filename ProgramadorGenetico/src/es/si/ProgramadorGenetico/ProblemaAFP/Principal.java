@@ -15,7 +15,7 @@ public class Principal {
 		
 		Writer.write("\n\nUtilizando version 0.1 del Selector\n");
 		Writer.write("Utilizando version 0.1 del CalculadorBondadBalanceado\n");
-		CalculadorBondad.setTipo(CalculadorBondad.BALANACEADO);
+		CalculadorBondad.setTipo(CalculadorBondad.PREFERNCIADET);
 		Writer.write("Utilizando version 0.11 del Generador Aleatorio\n");
 		Writer.write("Utilizando version 0.13 del Reproductor");
 		Writer.write("Problema a solucionar:\n");
