@@ -35,7 +35,7 @@ public class Dibujante extends JPanel{
 	/**
 	 * Numero de estados
 	 */
-	private int estados;
+	private int numEstados;
 	
 	/**
 	 * Posicion x 
@@ -72,7 +72,7 @@ public class Dibujante extends JPanel{
 	 * Array de JLabel donde se guardan los valores de cada transicion
 	 */
 	private JLabel[][] etiquetasValores;
-		
+
 	
 	public Dibujante () {		
 	}
@@ -87,27 +87,28 @@ public class Dibujante extends JPanel{
 	public Dibujante(Individuo mejor) {
 		AFP automataMejor = (AFP) mejor;
 		transiciones = automataMejor.getTransiciones();
-		estados = automataMejor.getEstados();
+		numEstados = automataMejor.getEstados();
 		probabilidadFinal = automataMejor.getProbabilidadesFinal();
 		
 		this.setPreferredSize(new Dimension(600,600));		
 		this.setLayout(null);
 		
-		puntosEstados = new Point[estados];
+		puntosEstados = new Point[numEstados];
 		
-		etiquetasEstados = new JLabel[estados];
-		for (int i=0; i<estados; i++) { 
+		etiquetasEstados = new JLabel[numEstados];
+		for (int i=0; i<numEstados; i++) { 
 			etiquetasEstados[i]=new JLabel ("Q"+i);			
-			add(etiquetasEstados[i]);			
+			add(etiquetasEstados[i]);
 		}							
 		
-		etiquetasValores =  new JLabel[estados][estados];
-		for (int i=0; i<estados; i++) {
-			for (int j=0; j<estados; j++) {
+		etiquetasValores =  new JLabel[numEstados][numEstados];
+		for (int i=0; i<numEstados; i++) {
+			for (int j=0; j<numEstados; j++) {
 				etiquetasValores[i][j]=new JLabel ();			
 				add(etiquetasValores[i][j]);		
 			}
 		}							
+		
 		
 		//el centro de la circunferencia imaginaria esta en el centro
 		int xini= (int) (this.getPreferredSize().getWidth() / 2) ; 
@@ -116,9 +117,9 @@ public class Dibujante extends JPanel{
 		y = yini;
 		//calculo el radio, angulo e incremento		
 		double alfa = 180;
-		double incremento = 360/(double)(estados);
+		double incremento = 360/(double)(numEstados);
 		//Colocamos las etiquetas en los vertices del poligono
-		for (int i=0; i< estados; i++) {								
+		for (int i=0; i< numEstados; i++) {								
 			x+=radioPolig*Math.cos(enRadianes(alfa));
 			y+=radioPolig*Math.sin(enRadianes(alfa));
 			etiquetasEstados[i].setBounds(x+10, y+10, 20, 20);					
@@ -140,7 +141,7 @@ public class Dibujante extends JPanel{
 				
 		this.transiciones = transiciones;
 		this.probabilidadFinal = probabilidadFinal;
-		this.estados = estados;
+		this.numEstados = estados;
 		
 		this.setPreferredSize(new Dimension(600,600));		
 		this.setLayout(null);
@@ -225,10 +226,10 @@ public class Dibujante extends JPanel{
 		y = yini;
 		//calculo el radio, angulo e incremento		
 		double alfa = 180;
-		double incremento = 360/(double)(estados);
+		double incremento = 360/(double)(numEstados);
 		//para cada estado pintamos un circulo, que forman los vertices de un poligono
 		//regular de un numero de lados igual al numero de estados.
-		for (int i=0; i< estados; i++) {
+		for (int i=0; i< numEstados; i++) {
 			x+=radioPolig*Math.cos(enRadianes(alfa));
 			y+=radioPolig*Math.sin(enRadianes(alfa));
 			puntosEstados[i]=new Point(x,y);
@@ -247,8 +248,8 @@ public class Dibujante extends JPanel{
 	 * @param g2
 	 */
 	public void pintaTransiciones (Graphics g, Graphics2D g2) {
-		for (int i=0; i<estados;i++) {
-			for (int j=0; j<estados;j++) { //estados+1
+		for (int i=0; i<numEstados;i++) {
+			for (int j=0; j<numEstados;j++) { //estados+1
 				boolean transicionCon0 = transiciones[i][0][j] > 0.1;
 				boolean transicionCon1 = transiciones[i][1][j] > 0.1;
 
@@ -256,7 +257,7 @@ public class Dibujante extends JPanel{
 
 					if (i==j) {
 						int radioArco = diamEst/2;
-						double incremento = 360/(double)(estados);
+						double incremento = 360/(double)(numEstados);
 						double ang = 180-i*incremento;
 						Point centro = getCentroEstado(puntosEstados[i]);
 						int despX = (int)(centro.getX()+(diamEst/2)*Math.cos(enRadianes(ang)));
