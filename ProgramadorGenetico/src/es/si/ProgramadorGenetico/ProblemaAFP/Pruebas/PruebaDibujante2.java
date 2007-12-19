@@ -1,5 +1,5 @@
 package es.si.ProgramadorGenetico.ProblemaAFP.Pruebas;
-import Dibujante;
+import es.si.ProgramadorGenetico.Interfaz.Dibujante;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
