@@ -55,20 +55,25 @@ public class DibujanteNuevo extends JPanel{
 	private double radioPolig = 150;
 	
 	/**
+	 * Objeto para Graphics2D
+	 */
+	private Graphics2D g2;
+	
+	/**
 	 * Array de JLabel donde se guardan las etiquetas de los
 	 * estados
 	 */
-	private JLabel[] etiquetasEstados;
+	//private JLabel[] etiquetasEstados;
 	
 	/**
 	 * Array de puntos donde se guardan las coordenadas de los estados
 	 */
-	private Point[] puntosEstados;
+	//private Point[] puntosEstados;
 	
 	/**
 	 * Array de JLabel donde se guardan los valores de cada transicion
 	 */
-	private JLabel[][] etiquetasValores;
+	//private JLabel[][] etiquetasValores;
 		
 	/**
 	 * Array que contiene los estados	 
@@ -79,7 +84,7 @@ public class DibujanteNuevo extends JPanel{
 	 * Array que contiene las transiciones
 	 *
 	 */
-	private ArrayList<Transicion> transiciones;
+	private Transicion[][] transiciones;
 	
 	public DibujanteNuevo () {		
 	}
@@ -101,19 +106,7 @@ public class DibujanteNuevo extends JPanel{
 		inicializacionesPanel();
 		calculoEstados();
 		calculoTransiciones(transicionesArray);
-		
-		//puntosEstados = new Point[numEstados];
-									
-		etiquetasValores =  new JLabel[numEstados][numEstados];
-		for (int i=0; i<numEstados; i++) {
-			for (int j=0; j<numEstados; j++) {
-				etiquetasValores[i][j]=new JLabel ();			
-				add(etiquetasValores[i][j]);		
-			}
-		}							
-		
-		
-		
+
 	}
 			
 	/**
@@ -127,21 +120,11 @@ public class DibujanteNuevo extends JPanel{
 			double[] probabilidadFinal,	int estados) {
 			
 		this.probabilidadFinal = probabilidadFinal;
-		this.numEstados = estados;
-		
+		this.numEstados = estados;		
 		inicializacionesPanel();
 		calculoEstados();
 		calculoTransiciones(transiciones);
-		
-		//puntosEstados = new Point[numEstados];						
-		
-		etiquetasValores =  new JLabel[estados][estados];
-		for (int i=0; i<estados; i++) {
-			for (int j=0; j<estados; j++) {
-				etiquetasValores[i][j]=new JLabel ();			
-				add(etiquetasValores[i][j]);		
-			}
-		}							
+										
 	}
 	
 	
@@ -179,21 +162,21 @@ public class DibujanteNuevo extends JPanel{
 	}
 	
 	public void calculoTransiciones(double [][][] transicionesArray) {
-		
-		transiciones = new ArrayList<Transicion>();
-		int j=0;
-		int k=0;
+
+		transiciones = new Transicion[numEstados][numEstados];
 		for (int i=0; i<transicionesArray.length; i++ ) {
-			for (j=0; j<transicionesArray[i].length; j++) {
-				for (k=0; k<transicionesArray[i][j].length; k++) {
-					Transicion t = new Transicion (estados.get(i),estados.get(k),
-							transicionesArray[i][j][k],j);
-					transiciones.add(t);
-				}
-			}
+			for (int k=0; k<transicionesArray[i][0].length; k++) {
+				transiciones[i][k] = new Transicion (estados.get(i),estados.get(k),
+						transicionesArray[i][0][k],transicionesArray[i][1][k]);
+
+				transiciones[i][k].setLabel(new JLabel());			
+				add(transiciones[i][k].getLabel());		
+
+			}	
 		}
-		                                     
 	}
+
+
 	
 	/**
 	 * Llama a pintar los estados y las transiciones
@@ -201,12 +184,12 @@ public class DibujanteNuevo extends JPanel{
 		
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);	
-		Graphics2D g2 = (Graphics2D) g;
+		g2 = (Graphics2D) g;
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);		
-		pintaEstados(g);
-		pintaTransiciones(g,g2);
+		pintaEstados(g2);
+		pintaTransiciones(g2);
 		//pintaTransicionesPrueba(g,g2);
-		pintaEstados(g);
+		pintaEstados(g2);
 		       
     }
 	
@@ -232,7 +215,7 @@ public class DibujanteNuevo extends JPanel{
 	 * Pinta los estados
 	 * @param g
 	 */
-	public void pintaEstados (Graphics g) {
+	public void pintaEstados (Graphics2D g) {
 		//el centro de la circunferencia imaginaria esta en el centro
 		int xini= (int) (this.getPreferredSize().getWidth() / 2) ; 
 		int yini = (int) (this.getPreferredSize().getHeight() / 2) ;
@@ -261,37 +244,15 @@ public class DibujanteNuevo extends JPanel{
 	 * @param g
 	 * @param g2
 	 */
-	public void pintaTransiciones (Graphics g, Graphics2D g2) {
-		for (int i=0; i<transiciones.size(); i++) {
-			Transicion trans = (Transicion) transiciones.get(i);
-			
-				boolean transicionCon0 = transiciones[i][0][j] > 0.1;
-				boolean transicionCon1 = transiciones[i][1][j] > 0.1;
-
+	public void pintaTransiciones (Graphics2D g) {
+		for (int i=0; i<transiciones.length; i++) {
+			for (int j=0; j<transiciones[i].length; j++) {
+				
+				Transicion trans = transiciones[i][j];
+							
+				boolean transicionCon0 = transiciones[i][j].getProbabilidad0() > 0.1;
+				boolean transicionCon1 = transiciones[i][j].getProbabilidad1() > 0.1;				
 				if (transicionCon0 || transicionCon1) {
-
-					if (i==j) {
-						int radioArco = diamEst/2;
-						double incremento = 360/(double)(numEstados);
-						double ang = 180-i*incremento;
-						Point centro = getCentroEstado(puntosEstados[i]);
-						int despX = (int)(centro.getX()+(diamEst/2)*Math.cos(enRadianes(ang)));
-						int despY = (int)(centro.getY()-(diamEst/2)*Math.sin(enRadianes(ang)));						
-						Color colorTransicion = getColorArco(i,j);
-						g.setColor(colorTransicion);						
-						g.drawOval(despX-radioArco/2, despY-radioArco/2, radioArco, radioArco);
-						//g.drawOval((int)puntosEstados[i].getX()+d/2-d, (int)puntosEstados[i].getY()+d/2-d, radioArco, radioArco);
-						System.out.println("ang:"+ang+"despX: "+despX+" despY: "+despY);
-						double xPuntoValor = (double)(centro.getX()+(1.5*diamEst)*Math.cos(enRadianes(ang)));
-						double yPuntoValor = (double)(centro.getY()-(1.5*diamEst)*Math.sin(enRadianes(ang)));
-						etiquetasValores[i][j].setBounds((int)xPuntoValor,
-								(int)yPuntoValor,20,20);
-						asignaEtiquetas(i, j, transicionCon0, transicionCon1);
-						
-						
-					}
-
-					else{
 
 						double punto0XAjustado = puntosEstados[i].getX()+(diamEst/2.0);
 						double punto0YAjustado = puntosEstados[i].getY()+(diamEst/2.0);
@@ -309,12 +270,7 @@ public class DibujanteNuevo extends JPanel{
 						QuadCurve2D q = new QuadCurve2D.Double();			
 						q.setCurve(punto0XAjustado, punto0YAjustado,xpuntoControl, ypuntoControl, 
 								punto1XAjustado, punto1YAjustado);
-						/*
-						if (transiciones[i][0][j] >= 0.9)
-							g.setColor(Color.black);
-						if (transiciones[i][0][j] < 0.9)
-							g.setColor(Color.red);
-						*/
+
 						Color colorTransicion = getColorArco(i,j);
 						g.setColor(colorTransicion);	
 						g2.draw(q);
@@ -329,7 +285,7 @@ public class DibujanteNuevo extends JPanel{
 							System.out.println("puntoValor:"+xPuntoValor+","+yPuntoValor);
 						}
 
-						etiquetasValores[i][j].setBounds((int)xPuntoValor,(int)yPuntoValor,20,20);
+						transiciones[i][j].getLabel().setBounds((int)xPuntoValor,(int)yPuntoValor,20,20);
 						asignaEtiquetas(i,j,transicionCon0,transicionCon1);						
 
 					}												
@@ -547,5 +503,10 @@ public class DibujanteNuevo extends JPanel{
 	    g2.setColor(Color.black);
 	    g2.draw(q);
 	    
+	}
+
+
+	public int getNumEstados() {
+		return numEstados;
 	}
 }
