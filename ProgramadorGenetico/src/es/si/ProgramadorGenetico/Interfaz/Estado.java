@@ -7,7 +7,7 @@ import javax.swing.JLabel;
 public class Estado {
 
 		private Point punto;
-		private int diametro;
+		private double diametro;
 		private JLabel label;
 		
 		public Estado () {}
@@ -29,11 +29,11 @@ public class Estado {
 			this.punto = p;
 		}
 		
-		public void setDiametro (int diam) {
+		public void setDiametro (double diam) {
 			this.diametro = diam;
 		}
 		
-		public int getDiametro () {
+		public double getDiametro () {
 			return diametro;
 		}
 		
@@ -41,5 +41,9 @@ public class Estado {
 			int x = (int)(punto.getX()+diametro/2.0);
 			int y = (int)(punto.getY()+diametro/2.0);			
 			return new Point(x,y);
+		}
+		
+		public double getRadio() {
+			return diametro/2.0;
 		}
 }
