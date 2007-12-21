@@ -47,7 +47,7 @@ public class DibujanteNuevo extends JPanel{
 	/**
 	 * Diametro del circulo que representa al estado 
 	 */
-	private int diamEst = 40;
+	private double diamEst = 40;
 	
 	/**
 	 * Radio del poligono que forman los estados.
@@ -231,8 +231,8 @@ public class DibujanteNuevo extends JPanel{
 			y+=radioPolig*Math.sin(enRadianes(alfa));
 			estados.get(i).setPunto(new Point(x,y));
 			g.setColor(Color.yellow);
-			g.fillOval(x, y, estados.get(i).getDiametro(), estados.get(i).getDiametro());
-	        g.drawOval(x, y, estados.get(i).getDiametro(), estados.get(i).getDiametro());
+			g.fillOval(x, y, (int)estados.get(i).getDiametro(), (int)estados.get(i).getDiametro());
+	        g.drawOval(x, y, (int)estados.get(i).getDiametro(), (int)estados.get(i).getDiametro());
 	        alfa+=incremento;
 	        x=xini;
 	        y=yini;
