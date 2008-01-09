@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 
 import java.awt.RenderingHints;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 
 public class DibujanteNuevo extends JPanel{
@@ -58,22 +59,6 @@ public class DibujanteNuevo extends JPanel{
 	 * Objeto para Graphics2D
 	 */
 	private Graphics2D g2;
-	
-	/**
-	 * Array de JLabel donde se guardan las etiquetas de los
-	 * estados
-	 */
-	//private JLabel[] etiquetasEstados;
-	
-	/**
-	 * Array de puntos donde se guardan las coordenadas de los estados
-	 */
-	//private Point[] puntosEstados;
-	
-	/**
-	 * Array de JLabel donde se guardan los valores de cada transicion
-	 */
-	//private JLabel[][] etiquetasValores;
 		
 	/**
 	 * Array que contiene los estados	 
@@ -124,6 +109,7 @@ public class DibujanteNuevo extends JPanel{
 		inicializacionesPanel();
 		calculoEstados();
 		calculoTransiciones(transiciones);
+		
 										
 	}
 	
@@ -133,12 +119,19 @@ public class DibujanteNuevo extends JPanel{
 		this.setLayout(null);
 	}
 	
+	/**
+	 * 
+	 */
+	/**
+	 * 
+	 */
 	public void calculoEstados() {
 		estados = new ArrayList<Estado>();
-		for (int i=0; i<numEstados; i++) { 
+		//Creamos un estado de mas
+		for (int i=0; i<numEstados+1; i++) { 
 			estados.add(new Estado());			
 			estados.get(i).setLabel(new JLabel ("Q"+i));
-			add(estados.get(i).getLabel());
+			//add(estados.get(i).getLabel());
 		}
 		//el centro de la circunferencia imaginaria esta en el centro
 		int xini= (int) (this.getPreferredSize().getWidth() / 2) ; 
@@ -150,8 +143,8 @@ public class DibujanteNuevo extends JPanel{
 		double incremento = 360/(double)(numEstados);
 		//Colocamos las etiquetas en los vertices del poligono
 		for (int i=0; i< numEstados; i++) {								
-			x+=radioPolig*Math.cos(enRadianes(alfa));
-			y+=radioPolig*Math.sin(enRadianes(alfa));
+			x+=radioPolig*Math.cos(Math.toRadians(alfa));
+			y+=radioPolig*Math.sin(Math.toRadians(alfa));
 			estados.get(i).setPunto(new Point(x,y));
 			estados.get(i).setDiametro(diamEst);
 			estados.get(i).getLabel().setBounds(x+10, y+10, 20, 20);					
@@ -159,11 +152,19 @@ public class DibujanteNuevo extends JPanel{
 			x=xini;
 			y=yini;
 		}
+		
+		for (int i=0; i<numEstados+1; i++) 
+			add(estados.get(i).getLabel());
+		
 	}
 	
 	public void calculoTransiciones(double [][][] transicionesArray) {
 
-		transiciones = new Transicion[numEstados][numEstados];
+		transiciones = new Transicion[numEstados][numEstados+1];
+		System.out.println("Longitud de la primera dimension."+transicionesArray.length);
+		System.out.println("Longitud de la segunda dimension."+transicionesArray[0].length);
+		System.out.println("Longitud de la tercera dimension."+transicionesArray[0][0].length);
+		
 		for (int i=0; i<transicionesArray.length; i++ ) {
 			for (int k=0; k<transicionesArray[i][0].length; k++) {
 				transiciones[i][k] = new Transicion (estados.get(i),estados.get(k),
@@ -187,9 +188,9 @@ public class DibujanteNuevo extends JPanel{
 		g2 = (Graphics2D) g;
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);		
 		pintaEstados(g2);
-		pintaTransiciones(g2);
+		//pintaTransiciones(g2);
 		//pintaTransicionesPrueba(g,g2);
-		pintaEstados(g2);
+		//pintaEstados(g2);
 		       
     }
 	
@@ -216,27 +217,21 @@ public class DibujanteNuevo extends JPanel{
 	 * @param g
 	 */
 	public void pintaEstados (Graphics2D g) {
-		//el centro de la circunferencia imaginaria esta en el centro
-		int xini= (int) (this.getPreferredSize().getWidth() / 2) ; 
-		int yini = (int) (this.getPreferredSize().getHeight() / 2) ;
-		x = xini;
-		y = yini;
-		//calculo el radio, angulo e incremento		
-		double alfa = 180;
-		double incremento = 360/(double)(numEstados);
-		//para cada estado pintamos un circulo, que forman los vertices de un poligono
-		//regular de un numero de lados igual al numero de estados.
-		for (int i=0; i< numEstados; i++) {
-			x+=radioPolig*Math.cos(enRadianes(alfa));
-			y+=radioPolig*Math.sin(enRadianes(alfa));
-			estados.get(i).setPunto(new Point(x,y));
+
+		//for (Iterator it=estados.listIterator(); it.hasNext();it.next()) {
+		//	Estado es = (Estado)(it.next());	
+		
+		for (int i = 0; i<estados.size(); i++)  
+			((Estado)(estados.get(i))).pinta(this);
+		
+		/*
+		for (int i =0; i<estados.size(); i++) {
 			g.setColor(Color.yellow);
-			g.fillOval(x, y, (int)estados.get(i).getDiametro(), (int)estados.get(i).getDiametro());
-	        g.drawOval(x, y, (int)estados.get(i).getDiametro(), (int)estados.get(i).getDiametro());
-	        alfa+=incremento;
-	        x=xini;
-	        y=yini;
+			Estado es =((Estado)(estados.get(i)));
+			g.fillOval((int)es.getPunto().getX(), (int)es.getPunto().getY(), (int)diamEst, (int)diamEst);
+			g.drawOval((int)es.getPunto().getX(), (int)es.getPunto().getY(), (int)diamEst, (int)diamEst);						
 		}
+		*/
 	}
 	
 	/**
@@ -247,221 +242,33 @@ public class DibujanteNuevo extends JPanel{
 	public void pintaTransiciones (Graphics2D g) {
 		for (int i=0; i<transiciones.length; i++) {
 			for (int j=0; j<transiciones[i].length; j++) {
-				
+
 				Transicion trans = transiciones[i][j];
-							
+
 				boolean transicionCon0 = transiciones[i][j].getProbabilidad0() > 0.1;
-				boolean transicionCon1 = transiciones[i][j].getProbabilidad1() > 0.1;				
+				boolean transicionCon1 = transiciones[i][j].getProbabilidad1() > 0.1;
+
 				if (transicionCon0 || transicionCon1) {
 
-						double punto0XAjustado = puntosEstados[i].getX()+(diamEst/2.0);
-						double punto0YAjustado = puntosEstados[i].getY()+(diamEst/2.0);
-						double punto1XAjustado = puntosEstados[j].getX()+(diamEst/2.0);
-						double punto1YAjustado = puntosEstados[j].getY()+(diamEst/2.0);
+					trans.pinta(this);
 
-						double xMedio = (punto0XAjustado+punto1XAjustado)/2.0;
-						double yMedio = (punto0YAjustado+punto1YAjustado)/2.0;	    
-						double tgangulo = Math.abs((punto1YAjustado-punto0YAjustado)/
-								(punto1XAjustado-punto0XAjustado));		
-						double angulo = Math.atan(tgangulo);
+					//asignaEtiquetas(i,j,transicionCon0,transicionCon1);						
 
-						double xpuntoControl = getPuntoControlX(i,j,angulo, xMedio, yMedio);
-						double ypuntoControl = getPuntoControlY(i,j,angulo,xMedio,yMedio);
-						QuadCurve2D q = new QuadCurve2D.Double();			
-						q.setCurve(punto0XAjustado, punto0YAjustado,xpuntoControl, ypuntoControl, 
-								punto1XAjustado, punto1YAjustado);
+				}												
 
-						Color colorTransicion = getColorArco(i,j);
-						g.setColor(colorTransicion);	
-						g2.draw(q);
-
-						//valores
-
-						double xPuntoValor = getPuntoValorX (i,j, angulo, xMedio, yMedio);
-						double yPuntoValor = getPuntoValorY (i,j, angulo, xMedio, yMedio);
-
-						if (i==0 && j==1) {
-							System.out.println("puntoControl:"+xpuntoControl+","+ypuntoControl);
-							System.out.println("puntoValor:"+xPuntoValor+","+yPuntoValor);
-						}
-
-						transiciones[i][j].getLabel().setBounds((int)xPuntoValor,(int)yPuntoValor,20,20);
-						asignaEtiquetas(i,j,transicionCon0,transicionCon1);						
-
-					}												
-
-				}
 			}
-
 		}
+
 	}
 
-	/**
-	 * Devuelve la coordenada x del punto de control del arco que representara la transicion
-	 * @param i
-	 * @param j
-	 * @param angulo
-	 * @param xMedio
-	 * @param yMedio
-	 * @return
-	 */
-	public double getPuntoControlX (int i, int j, double angulo, double xMedio, double yMedio) {
-		
-		double ajusteX = 70*Math.cos(enRadianes(90+enGrados(angulo)));
-		if (puntosEstados[j].getX() > puntosEstados[i].getX() && 
-			puntosEstados[j].getY() < puntosEstados[i].getY())							
-			
-			return xMedio+ajusteX;
-		else if (puntosEstados[j].getX() > puntosEstados[i].getX() && 
-				puntosEstados[j].getY() > puntosEstados[i].getY())
-			return xMedio-ajusteX;
-			else if (puntosEstados[j].getX() < puntosEstados[i].getX() && 
-			puntosEstados[j].getY() < puntosEstados[i].getY())
-				return xMedio+ajusteX;
-			else
-				return xMedio-ajusteX;
-			
-	}
-	
-	/**
-	 * Devuelve la coordenada y del punto de control del arco que representara la transicion
-	 * @param i
-	 * @param j
-	 * @param angulo
-	 * @param xMedio
-	 * @param yMedio
-	 * @return
-	 */
-	public double getPuntoControlY (int i, int j, double angulo, double xMedio, double yMedio) {
-		
-		double ajusteY = 70*Math.sin(enRadianes(90+enGrados(angulo)));
-		if (puntosEstados[j].getX() > puntosEstados[i].getX() && 
-			puntosEstados[j].getY() < puntosEstados[i].getY())
-			
-			return yMedio-ajusteY;
-		else if (puntosEstados[j].getX() > puntosEstados[i].getX() && 
-					puntosEstados[j].getY() > puntosEstados[i].getY())
-			return yMedio-ajusteY;
-		else if (puntosEstados[j].getX() < puntosEstados[i].getX() && 
-				puntosEstados[j].getY() < puntosEstados[i].getY())
-			return yMedio+ajusteY;
-		else return yMedio+ajusteY;
-				
-	}
-	
-	/**
-	 * Devuelve la coordenada x del punto donde se dibujara el valor
-	 * @param i
-	 * @param j
-	 * @param angulo
-	 * @param xMedio
-	 * @param yMedio
-	 * @return
-	 */
-	public double getPuntoValorX (int i, int j, double angulo, double xMedio, double yMedio) {
-		
-		double ajusteX = 60*Math.cos(enRadianes(90+enGrados(angulo)));
-		if (puntosEstados[j].getX() > puntosEstados[i].getX() && 
-			puntosEstados[j].getY() < puntosEstados[i].getY())							
-			
-			return xMedio+ajusteX;
-		else if (puntosEstados[j].getX() > puntosEstados[i].getX() && 
-				puntosEstados[j].getY() > puntosEstados[i].getY())
-			return xMedio-ajusteX;
-			else if (puntosEstados[j].getX() < puntosEstados[i].getX() && 
-			puntosEstados[j].getY() < puntosEstados[i].getY())
-				return xMedio+ajusteX;
-			else
-				return xMedio-ajusteX;
-			
-	}
-	/**
-	 * Devuelve la coordenada y del punto donde se dibujara el valor
-	 * @param i
-	 * @param j
-	 * @param angulo
-	 * @param xMedio
-	 * @param yMedio
-	 * @return
-	 */
-	public double getPuntoValorY (int i, int j, double angulo, double xMedio, double yMedio) {
-		
-		double ajusteY = 60*Math.sin(enRadianes(90+enGrados(angulo)));
-		if (puntosEstados[j].getX() > puntosEstados[i].getX() && 
-			puntosEstados[j].getY() < puntosEstados[i].getY())
-			
-			return yMedio-ajusteY;
-		else if (puntosEstados[j].getX() > puntosEstados[i].getX() && 
-					puntosEstados[j].getY() > puntosEstados[i].getY())
-			return yMedio-ajusteY;
-		else if (puntosEstados[j].getX() < puntosEstados[i].getX() && 
-				puntosEstados[j].getY() < puntosEstados[i].getY())
-			return yMedio+ajusteY;
-		else return yMedio+ajusteY;
-				
-	}
-	
-	/**
-	 * Devuelve el centro de la circunferencia que representa el estado
-	 * @param p
-	 * @return
-	 */
-	
-	public Point getCentroEstado (Point p) {
 
-		Point centro = new Point((int)(p.getX()+diamEst/2),(int)(p.getY()+diamEst/2));		
-		return centro;
-		
-	}
-	
-	/**
-	 * Devuelve el color con el que se pintara el arco de la transicion
-	 * @param i
-	 * @param j
-	 * @return
-	 */
-	public Color getColorArco (int i, int j) {
-		
-		if (transiciones[i][0][j] >= 0.9 || transiciones[i][1][j] >=0.9)
-			return Color.black;
-		
-		if (transiciones[i][0][j] < 0.1 && transiciones[i][1][j] < 0.9)
-			return Color.red;
-		
-		if (transiciones[i][1][j] < 0.1 && transiciones [i][0][j] < 0.9)
-			return Color.red;
-
-		return Color.black;
-	}
-	
-	/**
-	 * Dependiendo de los valores de las probabilidades de las transiciones de un estado i a
-	 * un estado j, devuelve el texto que se mostrara en la transicion
-	 * @param i
-	 * @param j
-	 * @param transicionCon0
-	 * @param transicionCon1
-	 */
-	public void asignaEtiquetas (int i, int j, boolean transicionCon0, boolean transicionCon1) {
-	
-		if (transicionCon0  && ! transicionCon1)
-			etiquetasValores[i][j].setText("0");
-		else if (!transicionCon0 && transicionCon1)
-			etiquetasValores[i][j].setText("1");
-		else if (transiciones[i][0][j] < 0.9 && transiciones[i][1][j] >= 0.9)
-			etiquetasValores[i][j].setText("1");
-		else if (transiciones[i][1][j] < 0.9 && transiciones[i][0][j] >= 0.9)
-			etiquetasValores[i][j].setText("0");
-		else
-			etiquetasValores[i][j].setText("0,1");
-		
-	}
 	
 	/**
 	 * Prueba de dibujo de las transiciones
 	 * @param g
 	 * @param g2
 	 */
+	/*
 	public void pintaTransicionesPrueba (Graphics g, Graphics2D g2) {
 		
 		double punto0XAjustado = puntosEstados[0].getX()+(diamEst/2.0);
@@ -469,12 +276,11 @@ public class DibujanteNuevo extends JPanel{
 		double punto1XAjustado = puntosEstados[1].getX()+(diamEst/2.0);
 		double punto1YAjustado = puntosEstados[1].getY()+(diamEst/2.0);
 		
-		/*
-		double punto0XAjustado = 150;
-		double punto0YAjustado = 300;
-		double punto1XAjustado = 250;
-		double punto1YAjustado = 200;
-		*/
+		//double punto0XAjustado = 150;
+		//double punto0YAjustado = 300;
+		//double punto1XAjustado = 250;
+		//double punto1YAjustado = 200;
+		
 		
 	    double xMedio = (punto0XAjustado+punto1XAjustado)/2.0;
 	    double yMedio = (punto0YAjustado+punto1YAjustado)/2.0;	    
@@ -504,7 +310,7 @@ public class DibujanteNuevo extends JPanel{
 	    g2.draw(q);
 	    
 	}
-
+	*/
 
 	public int getNumEstados() {
 		return numEstados;

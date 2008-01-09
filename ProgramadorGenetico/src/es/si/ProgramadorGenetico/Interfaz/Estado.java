@@ -1,5 +1,8 @@
 package es.si.ProgramadorGenetico.Interfaz;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 
 import javax.swing.JLabel;
@@ -10,7 +13,11 @@ public class Estado {
 		private double diametro;
 		private JLabel label;
 		
-		public Estado () {}
+		public Estado () {
+			punto = new Point();
+			diametro = 40;
+			label = new JLabel();
+		}
 		public Estado (Point punto, int diametro, JLabel etiqueta) {
 			this.punto = punto;
 			this.label = etiqueta;
@@ -46,4 +53,17 @@ public class Estado {
 		public double getRadio() {
 			return diametro/2.0;
 		}
+		
+		public Point getPunto() {
+			return punto;
+		}
+		
+		public void pinta (DibujanteNuevo panel) {
+			
+			Graphics2D g = (Graphics2D)panel.getGraphics();
+			g.setColor(Color.yellow);			
+			g.fillOval((int)punto.getX(), (int)punto.getY(), (int)diametro, (int)diametro);
+	        g.drawOval((int)punto.getX(), (int)punto.getY(), (int)diametro, (int)diametro);	       
+		}
+		
 }
