@@ -186,12 +186,9 @@ public class DibujanteNuevo extends JPanel{
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);	
 		g2 = (Graphics2D) g;
-		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);		
-		pintaEstados(g2);
-		//pintaTransiciones(g2);
-		//pintaTransicionesPrueba(g,g2);
-		//pintaEstados(g2);
-		       
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);				
+		pintaTransiciones(g2);
+		pintaEstados(g2);				      
     }
 	
 	/**
@@ -218,20 +215,9 @@ public class DibujanteNuevo extends JPanel{
 	 */
 	public void pintaEstados (Graphics2D g) {
 
-		//for (Iterator it=estados.listIterator(); it.hasNext();it.next()) {
-		//	Estado es = (Estado)(it.next());	
+		for (int i = 0; i<estados.size()-1; i++)  
+			((Estado)(estados.get(i))).paintComponent(g);
 		
-		for (int i = 0; i<estados.size(); i++)  
-			((Estado)(estados.get(i))).pinta(this);
-		
-		/*
-		for (int i =0; i<estados.size(); i++) {
-			g.setColor(Color.yellow);
-			Estado es =((Estado)(estados.get(i)));
-			g.fillOval((int)es.getPunto().getX(), (int)es.getPunto().getY(), (int)diamEst, (int)diamEst);
-			g.drawOval((int)es.getPunto().getX(), (int)es.getPunto().getY(), (int)diamEst, (int)diamEst);						
-		}
-		*/
 	}
 	
 	/**
@@ -242,75 +228,16 @@ public class DibujanteNuevo extends JPanel{
 	public void pintaTransiciones (Graphics2D g) {
 		for (int i=0; i<transiciones.length; i++) {
 			for (int j=0; j<transiciones[i].length; j++) {
-
 				Transicion trans = transiciones[i][j];
-
 				boolean transicionCon0 = transiciones[i][j].getProbabilidad0() > 0.1;
 				boolean transicionCon1 = transiciones[i][j].getProbabilidad1() > 0.1;
-
 				if (transicionCon0 || transicionCon1) {
-
-					trans.pinta(this);
-
-					//asignaEtiquetas(i,j,transicionCon0,transicionCon1);						
-
-				}												
-
+					trans.paintComponent(g);
+				}
 			}
 		}
 
 	}
-
-
-	
-	/**
-	 * Prueba de dibujo de las transiciones
-	 * @param g
-	 * @param g2
-	 */
-	/*
-	public void pintaTransicionesPrueba (Graphics g, Graphics2D g2) {
-		
-		double punto0XAjustado = puntosEstados[0].getX()+(diamEst/2.0);
-		double punto0YAjustado = puntosEstados[0].getY()+(diamEst/2.0);
-		double punto1XAjustado = puntosEstados[1].getX()+(diamEst/2.0);
-		double punto1YAjustado = puntosEstados[1].getY()+(diamEst/2.0);
-		
-		//double punto0XAjustado = 150;
-		//double punto0YAjustado = 300;
-		//double punto1XAjustado = 250;
-		//double punto1YAjustado = 200;
-		
-		
-	    double xMedio = (punto0XAjustado+punto1XAjustado)/2.0;
-	    double yMedio = (punto0YAjustado+punto1YAjustado)/2.0;	    
-	    double tgangulo = Math.abs((punto1YAjustado-punto0YAjustado)/
-	    				(punto1XAjustado-punto0XAjustado));
-	    
-	    double angulo = Math.atan(tgangulo);
-    
-	    double ajusteX = 150*Math.cos(enRadianes(90+enGrados(angulo)));
-	    double ajusteY = 150*Math.sin(enRadianes(90+enGrados(angulo)));
-	    
-	    double xpuntoControl = xMedio+ajusteX;
-	    double ypuntoControl = yMedio-ajusteY;
-	    
-	    System.out.println("X0:"+puntosEstados[0].getX()+","+puntosEstados[0].getY());
-	    System.out.println("X1:"+puntosEstados[1].getX()+","+puntosEstados[1].getY());
-	    System.out.println("Medio:"+xMedio+","+yMedio);
-	    System.out.println(angulo);
-	    System.out.println(enGrados(angulo));
-	    System.out.println("ajusteX"+ajusteX);
-	    System.out.println("ajusteY"+ajusteY);
-	    	    	         
-	    QuadCurve2D q = new QuadCurve2D.Double();
-	    q.setCurve(punto0XAjustado, punto0YAjustado,xpuntoControl, ypuntoControl, 
-	    		punto1XAjustado, punto1YAjustado);
-	    g2.setColor(Color.black);
-	    g2.draw(q);
-	    
-	}
-	*/
 
 	public int getNumEstados() {
 		return numEstados;

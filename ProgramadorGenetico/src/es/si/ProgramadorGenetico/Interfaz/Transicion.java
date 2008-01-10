@@ -6,10 +6,11 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.geom.QuadCurve2D;
 
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class Transicion {
+public class Transicion extends JComponent {
 
 	public Estado origen;
 	public Estado destino;
@@ -52,32 +53,40 @@ public class Transicion {
 		label = l;
 	}
 	
-	public void pinta (DibujanteNuevo panel) {
-		//panel.getGraphics().drawOval(0,0,0,0);
-		Graphics2D g = (Graphics2D) panel.getGraphics();
+	public void paintComponent (Graphics g) {		
+		//Graphics2D g = (Graphics2D) panel.getGraphics();
 		if (origen!=destino) {
 			int radioArco = (int)origen.getRadio();
 			double radio = origen.getRadio();
 			//double incremento = 360/(double)(panel.getNumEstados());
 			
 			double ang = getAnguloEstados();
-			Point origenArco = new Point ((int)(origen.getCentro().getX()+Math.cos(ang)*origen.getRadio()), 
-											(int)(origen.getCentro().getY()+Math.sin(ang)*origen.getRadio()));
-			Point destinoArco = new Point ((int)(destino.getCentro().getX()+Math.cos(ang)*destino.getRadio()),
-											(int)(destino.getCentro().getY()+Math.sin(ang)*destino.getRadio()));
-			Point puntoMedio = getPuntoMedio(origenArco,destinoArco); 
+			//Point origenArco = new Point ((int)(origen.getCentro().getX()+Math.cos(ang)*origen.getRadio()), 
+			//								(int)(origen.getCentro().getY()+Math.sin(ang)*origen.getRadio()));
+			//Point destinoArco = new Point ((int)(destino.getCentro().getX()+Math.cos(ang)*destino.getRadio()),
+			//								(int)(destino.getCentro().getY()+Math.sin(ang)*destino.getRadio()));
+			
+			Point origenArco = origen.getCentro();
+			Point destinoArco = destino.getCentro();
+			
+			Point puntoMedio = getPuntoMedio(origenArco,destinoArco); 			
 			Point puntoControl = getPuntoControlCurva(origenArco, destinoArco, puntoMedio, ang);
 			Point centro = origen.getCentro();
+			
+			//utiles en el futurio
 			int despX = (int)(centro.getX()+radio*Math.cos(Math.toRadians(ang)));
-			int despY = (int)(centro.getY()-radio*Math.sin(Math.toRadians(ang)));						
+			int despY = (int)(centro.getY()-radio*Math.sin(Math.toRadians(ang)));
+			
+			
 			Color colorTransicion = getColorArco();
 			g.setColor(colorTransicion);
 			QuadCurve2D q = new QuadCurve2D.Double();			
 			q.setCurve(origen.getCentro().getX(), origen.getCentro().getY(),puntoControl.getX(), puntoControl.getY(), 
 					destino.getCentro().getX(), destino.getCentro().getY());
-			g.draw(q);			
+			((Graphics2D)g).draw(q);			
 			
 			Point puntoValor = getPuntoValorCurva(origenArco, destinoArco, puntoMedio, ang);
+			asignaValorLabel();
 			label.setBounds((int)puntoValor.getX(),(int)puntoValor.getY(),20,20);
 			
 			/*
@@ -85,6 +94,19 @@ public class Transicion {
 			double yPuntoValor = (double)(centro.getY()-(1.5*diametro)*Math.sin(Math.toRadians(ang)));
 			*/							
 		}
+		else {
+			
+		}
+		
+	}
+	
+	public void asignaValorLabel() {
+		if (probabilidad0 >= 0.1 && probabilidad1 >=0.1)
+			label.setText("0,1");
+		else if (probabilidad0 < 0.1 && probabilidad1 >= 0.1)
+			label.setText("1");
+		else if (probabilidad0 >= 0.1 && probabilidad1 < 0.1)
+			label.setText("0");		
 		
 	}
 	
@@ -95,8 +117,8 @@ public class Transicion {
 		double yDestino = destino.getCentro().getY();
 		double catOpuesto = yOrigen - yDestino;
 		double catContiguo = xDestino - xOrigen;
-		double cosAng = catOpuesto / catContiguo;
-		return (Math.toDegrees((Math.acos(cosAng))));
+		double tgAng = catOpuesto / catContiguo;
+		return (Math.toDegrees((Math.atan(tgAng))));
 		
 	}
 	
@@ -117,72 +139,71 @@ public class Transicion {
 	 */
 	public Point getPuntoControlCurva (Point origenArco, Point destinoArco, Point puntoMedio, double angulo) {
 		
-		double xPuntoControl=0.0;
-		double yPuntoControl=0.0;
-		double ajusteX = 70*Math.cos(Math.toRadians((90+Math.toDegrees(angulo))));
-		if (destinoArco.getX() > origenArco.getX() && 
-			destinoArco.getY() < origenArco.getY())								
-			xPuntoControl = puntoMedio.getX()+ajusteX;
+		double xPuntoControl;
+		double yPuntoControl;
+		double ajusteX;
+		double ajusteY;
+		int cuadrante = getCuadrante();
 		
-		else if (destinoArco.getX() > origenArco.getX() && destinoArco.getY() > origenArco.getY())
-			xPuntoControl = puntoMedio.getX()-ajusteX;
+		if (cuadrante==1)
+			ajusteX = 70*Math.cos(Math.toRadians((90+angulo)));
+		else if (cuadrante==2)
+			ajusteX = 70*Math.cos(Math.toRadians((90+angulo)));
+		else if (cuadrante==3)
+			ajusteX = 70*Math.cos(Math.toRadians((90+angulo)));
+		else //cuadrante==4
+			ajusteX = 70*Math.cos(Math.toRadians((90+angulo)));
 		
-			else if (destinoArco.getX() < origenArco.getX() && destinoArco.getY() < origenArco.getY())
-				xPuntoControl = puntoMedio.getX()+ajusteX;
-			else
-				xPuntoControl = puntoMedio.getX()-ajusteX;
+		xPuntoControl = puntoMedio.getX()+ajusteX;		
 		
-		double ajusteY = 70*Math.sin(Math.toRadians((90+Math.toDegrees(angulo))));
-		
-		if (destinoArco.getX() > origenArco.getX() && 
-			destinoArco.getY() < origenArco.getY())
-			yPuntoControl = puntoMedio.getY()-ajusteY;
-		else if (destinoArco.getX() > origenArco.getX() && 
-					destinoArco.getY() > origenArco.getY())
-			yPuntoControl = puntoMedio.getY()-ajusteY;
-		else if (destinoArco.getX() < origenArco.getX() && 
-				destinoArco.getY() < origenArco.getY())
-			yPuntoControl = puntoMedio.getY()+ajusteY;
-		else 
-			yPuntoControl = puntoMedio.getY()+ajusteY;
+		if (cuadrante==1)
+			ajusteY = -70*Math.sin(Math.toRadians((90+angulo)));
+		else if (cuadrante==2)
+			ajusteY = -70*Math.sin(Math.toRadians((90+angulo)));
+		else if (cuadrante==3)
+			ajusteY = -70*Math.sin(Math.toRadians((90+angulo)));
+		else
+			ajusteY = -70*Math.sin(Math.toRadians((90+angulo)));
+			
+		yPuntoControl = puntoMedio.getY()+ajusteY;
 				
-		return new Point ((int)xPuntoControl, (int)yPuntoControl);		
-		
+		return new Point ((int)xPuntoControl, (int)yPuntoControl);	
+	
 	}
 	
 	public Point getPuntoValorCurva (Point origenArco, Point destinoArco, Point puntoMedio, double angulo) {
 		
 		double xPuntoValor=0.0;
 		double yPuntoValor=0.0;
-		double ajusteX = 60*Math.cos(Math.toRadians((90+Math.toDegrees(angulo))));
-		if (destinoArco.getX() > origenArco.getX() && 
-			destinoArco.getY() < origenArco.getY())								
-			xPuntoValor = puntoMedio.getX()+ajusteX;
 		
-		else if (destinoArco.getX() > origenArco.getX() && destinoArco.getY() > origenArco.getY())
-			xPuntoValor = puntoMedio.getX()-ajusteX;
+		double ajusteX;
+		double ajusteY;
+		int cuadrante = getCuadrante();
 		
-			else if (destinoArco.getX() < origenArco.getX() && destinoArco.getY() < origenArco.getY())
-				xPuntoValor = puntoMedio.getX()+ajusteX;
-			else
-				xPuntoValor = puntoMedio.getX()-ajusteX;
+		if (cuadrante==1)
+			ajusteX = 60*Math.cos(Math.toRadians((90+angulo)));
+		else if (cuadrante==2)
+			ajusteX = 60*Math.cos(Math.toRadians((90+angulo)));
+		else if (cuadrante==3)
+			ajusteX = 60*Math.cos(Math.toRadians((90+angulo)));
+		else //cuadrante==4
+			ajusteX = 60*Math.cos(Math.toRadians((90+angulo)));
 		
-		double ajusteY = 60*Math.sin(Math.toRadians((90+Math.toDegrees(angulo))));
+		xPuntoValor = puntoMedio.getX()+ajusteX;		
 		
-		if (destinoArco.getX() > origenArco.getX() && 
-			destinoArco.getY() < origenArco.getY())
-			yPuntoValor = puntoMedio.getY()-ajusteY;
-		else if (destinoArco.getX() > origenArco.getX() && 
-					destinoArco.getY() > origenArco.getY())
-			yPuntoValor = puntoMedio.getY()-ajusteY;
-		else if (destinoArco.getX() < origenArco.getX() && 
-				destinoArco.getY() < origenArco.getY())
-			yPuntoValor = puntoMedio.getY()+ajusteY;
-		else 
-			yPuntoValor = puntoMedio.getY()+ajusteY;
+		if (cuadrante==1)
+			ajusteY = -60*Math.sin(Math.toRadians((90+angulo)));
+		else if (cuadrante==2)
+			ajusteY = -60*Math.sin(Math.toRadians((90+angulo)));
+		else if (cuadrante==3)
+			ajusteY = -60*Math.sin(Math.toRadians((90+angulo)));
+		else
+			ajusteY = -60*Math.sin(Math.toRadians((90+angulo)));
+			
+		yPuntoValor = puntoMedio.getY()+ajusteY;
 				
-		return new Point ((int)xPuntoValor, (int)yPuntoValor);		
-		
+		return new Point ((int)xPuntoValor, (int)yPuntoValor);	
+				
 	}
 	
 	public Color getColorArco () {
@@ -199,7 +220,21 @@ public class Transicion {
 		return Color.black;
 	}
 	
-	
+	public int getCuadrante () {
+		if (origen.getCentro().getX() < destino.getCentro().getX() && 
+				origen.getCentro().getY() >= destino.getCentro().getY())
+			return 1;
+		if (origen.getCentro().getX() >= destino.getCentro().getX() &&
+				origen.getCentro().getY() > destino.getCentro().getY()) 
+			return 2;
+		if (origen.getCentro().getX() > destino.getCentro().getX() && 
+				origen.getCentro().getY() <= destino.getCentro().getY())
+			return 3;
+		else
+			return 4;
+			
+			
+	}
 	/*
 	public double distanciaEstados () {
 		double xOrigen = origen.getCentro().getX();
