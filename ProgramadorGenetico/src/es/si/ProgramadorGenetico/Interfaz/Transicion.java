@@ -54,13 +54,11 @@ public class Transicion extends JComponent {
 	}
 	
 	public void paintComponent (Graphics g) {		
-		//Graphics2D g = (Graphics2D) panel.getGraphics();
+		//Graphics2D g = (Graphics2D) panel.getGraphics();	
+		double radio = origen.getRadio();
+		double ang = getAnguloEstados();
 		if (origen!=destino) {
-			int radioArco = (int)origen.getRadio();
-			double radio = origen.getRadio();
-			//double incremento = 360/(double)(panel.getNumEstados());
 			
-			double ang = getAnguloEstados();
 			//Point origenArco = new Point ((int)(origen.getCentro().getX()+Math.cos(ang)*origen.getRadio()), 
 			//								(int)(origen.getCentro().getY()+Math.sin(ang)*origen.getRadio()));
 			//Point destinoArco = new Point ((int)(destino.getCentro().getX()+Math.cos(ang)*destino.getRadio()),
@@ -95,7 +93,12 @@ public class Transicion extends JComponent {
 			*/							
 		}
 		else {
-			
+			int despX = (int)(origen.getCentro().getX()+radio*Math.cos(Math.toRadians(90)));
+			int despY = (int)(origen.getCentro().getY()-radio*Math.sin(Math.toRadians(90)));
+			int radioArco = (int)origen.getRadio();
+			Color colorTransicion = getColorArco();
+			g.setColor(colorTransicion);						
+			g.drawOval(despX-radioArco/2, despY-radioArco/2, radioArco, radioArco);
 		}
 		
 	}

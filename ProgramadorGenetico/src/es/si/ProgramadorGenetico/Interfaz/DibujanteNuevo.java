@@ -7,13 +7,21 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.Shape;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.geom.Arc2D;
 import java.awt.geom.QuadCurve2D;
 
+import javax.swing.BorderFactory;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.event.MouseInputAdapter;
 
 
 
@@ -71,6 +79,72 @@ public class DibujanteNuevo extends JPanel{
 	 */
 	private Transicion[][] transiciones;
 	
+	/**
+	 * Punto inicial de un estado antes de moverlo
+	 */
+	
+	private Point puntoInicialEstado;
+	
+	/**
+	 * Estado que se esta moviendo
+	 *
+	 */
+	
+	private Estado estadoMovido;
+	
+	private class OyenteDibujante extends MouseInputAdapter {
+		public OyenteDibujante () {
+			
+		}
+		
+		public void mouseDragged (MouseEvent e) {
+			estadoMovido.actualizaPosicion(e.getPoint());	
+			actualizaDibujo();
+		}
+		
+		public void actualizaDibujo() {
+			repaint();
+		}
+
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+			for (int i=0; i<estados.size();i++){
+				Point puntoClick = e.getPoint();			
+				Estado es = ((Estado)estados.get(i));
+				if (es.getPulsado(puntoClick)) {
+					estadoMovido = es;
+					System.out.println("Estado "+i+" pulsado");
+				}
+			}
+			
+		}
+
+
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+			/*
+			estadoMovido.actualizaPosicion(e.getPoint());	
+			actualizaDibujo();
+			*/
+		}
+		
+		
+		
+	}
+	
+	
 	public DibujanteNuevo () {		
 	}
 	
@@ -82,6 +156,7 @@ public class DibujanteNuevo extends JPanel{
 	 */
 	
 	public DibujanteNuevo(Individuo mejor) {
+		super(new GridLayout(0,1));
 		AFP automataMejor = (AFP) mejor;		
 		double[][][] transicionesArray;
 		transicionesArray = automataMejor.getTransiciones();
@@ -104,26 +179,38 @@ public class DibujanteNuevo extends JPanel{
 	public DibujanteNuevo (double[][][] transiciones, 
 			double[] probabilidadFinal,	int estados) {
 			
+		super(new GridLayout(0,1));
 		this.probabilidadFinal = probabilidadFinal;
 		this.numEstados = estados;		
 		inicializacionesPanel();
 		calculoEstados();
 		calculoTransiciones(transiciones);
+				
 		
 										
 	}
 	
 	
-	public void inicializacionesPanel () {
+	public void inicializacionesPanel () {        
 		this.setPreferredSize(new Dimension(600,600));		
 		this.setLayout(null);
+		
+		
+		OyenteDibujante oyente = new OyenteDibujante();
+	    addMouseListener(oyente);
+	    addMouseMotionListener(oyente);
+		
+			
+        setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
+        
 	}
 	
+
+
+	
 	/**
-	 * 
-	 */
-	/**
-	 * 
+	 * Se calculan las posiciones iniciales de los estados
+	 *
 	 */
 	public void calculoEstados() {
 		estados = new ArrayList<Estado>();
@@ -242,4 +329,11 @@ public class DibujanteNuevo extends JPanel{
 	public int getNumEstados() {
 		return numEstados;
 	}
+
+	
+
+
+
+
+
 }

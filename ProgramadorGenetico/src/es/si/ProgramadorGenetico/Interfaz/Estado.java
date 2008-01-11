@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -63,6 +65,18 @@ public class Estado extends JComponent{
 			g.setColor(Color.yellow);			
 			g.fillOval((int)punto.getX(), (int)punto.getY(), (int)diametro, (int)diametro);
 	        g.drawOval((int)punto.getX(), (int)punto.getY(), (int)diametro, (int)diametro);	       
+		}
+		
+		public boolean getPulsado (Point p) {
+			if ( (getCentro().distance(p)) <= getRadio() )
+				return true;
+			return false;
+						
+		}
+		
+		public void actualizaPosicion(Point nuevoPunto) {
+			punto.setLocation(nuevoPunto.x-getRadio(), nuevoPunto.y-getRadio());			
+			label.setBounds((int)punto.getX()+10, (int)punto.getY()+10, label.getWidth(), label.getHeight());
 		}
 		
 }

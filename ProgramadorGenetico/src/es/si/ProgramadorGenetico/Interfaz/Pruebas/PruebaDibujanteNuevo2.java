@@ -5,6 +5,7 @@ import es.si.ProgramadorGenetico.Interfaz.DibujanteNuevo;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -26,8 +27,11 @@ public class PruebaDibujanteNuevo2 {
 		
 		setValoresEntrada();		
 		JFrame f = new JFrame("Dibujante automatas");
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);         
-        f.add(new DibujanteNuevo(transiciones,probabilidadFinal,estados));        
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JComponent newContentPane = new DibujanteNuevo(transiciones,probabilidadFinal,estados);
+        newContentPane.setOpaque(true); //content panes must be opaque
+        f.setContentPane(newContentPane);
+        //f.add(new DibujanteNuevo(transiciones,probabilidadFinal,estados));        
         f.pack();
         f.setVisible(true);	      	   	   	   	
 	}
@@ -36,6 +40,7 @@ public class PruebaDibujanteNuevo2 {
 		
 		estados = 4;
 		transiciones= new double[estados][2][estados+1];
+		transiciones[0][0][0]=1.0;
 		transiciones[0][1][1]=1.0;
 		transiciones[1][1][2]=0.4;
 		transiciones[2][1][3]=1.0;
