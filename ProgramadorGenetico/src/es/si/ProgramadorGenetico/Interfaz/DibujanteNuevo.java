@@ -98,8 +98,10 @@ public class DibujanteNuevo extends JPanel{
 		}
 		
 		public void mouseDragged (MouseEvent e) {
-			estadoMovido.actualizaPosicion(e.getPoint());	
-			actualizaDibujo();
+			if (estadoMovido !=null) {
+				estadoMovido.actualizaPosicion(e.getPoint());	
+				actualizaDibujo();
+			}
 		}
 		
 		public void actualizaDibujo() {
@@ -120,14 +122,18 @@ public class DibujanteNuevo extends JPanel{
 
 		public void mousePressed(MouseEvent e) {
 			// TODO Auto-generated method stub
+			boolean estadoPulsado = false;
 			for (int i=0; i<estados.size();i++){
 				Point puntoClick = e.getPoint();			
 				Estado es = ((Estado)estados.get(i));
 				if (es.getPulsado(puntoClick)) {
 					estadoMovido = es;
 					System.out.println("Estado "+i+" pulsado");
+					estadoPulsado = true;
 				}
 			}
+			if (!estadoPulsado)
+				estadoMovido = null;
 			
 		}
 
@@ -320,6 +326,8 @@ public class DibujanteNuevo extends JPanel{
 				boolean transicionCon1 = transiciones[i][j].getProbabilidad1() > 0.1;
 				if (transicionCon0 || transicionCon1) {
 					trans.paintComponent(g);
+					if (trans.getOrigen()==estados.get(0))
+						System.out.println(trans.getAnguloEstados());
 				}
 			}
 		}
