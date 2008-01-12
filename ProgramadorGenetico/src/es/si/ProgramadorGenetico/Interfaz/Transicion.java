@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Polygon;
 import java.awt.geom.QuadCurve2D;
 
 import javax.swing.JComponent;
@@ -60,40 +61,24 @@ public class Transicion extends JComponent {
 		if (origen!=destino) {
 			
 			Point origenArco = new Point ((int)(origen.getCentro().getX()+Math.cos(Math.toRadians(ang+22.5))*origen.getRadio()), 
-											(int)(origen.getCentro().getY()-Math.sin(Math.toRadians(ang+22.5))*origen.getRadio()));
-			//System.out.println(Math.cos(Math.toRadians(ang+22.5)));			
-			Point destinoArco = new Point ((int)(destino.getCentro().getX()+Math.cos(Math.toRadians(ang+90+22.5))*destino.getRadio()),
-											(int)(destino.getCentro().getY()-Math.sin(Math.toRadians(ang+90+22.5))*destino.getRadio()));
-			
-			//Point origenArco = origen.getCentro();
-			//Point destinoArco = destino.getCentro();
-			
+											(int)(origen.getCentro().getY()-Math.sin(Math.toRadians(ang+22.5))*origen.getRadio()));	
+			Point destinoArco = new Point ((int)(destino.getCentro().getX()+Math.cos(Math.toRadians(180+ang-22.5))*destino.getRadio()),
+											(int)(destino.getCentro().getY()-Math.sin(Math.toRadians(ang+180-22.5))*destino.getRadio()));
 			Point puntoMedio = getPuntoMedio(origenArco,destinoArco); 			
 			Point puntoControl = getPuntoControlCurva3(origenArco, destinoArco, puntoMedio, ang);
-			Point centro = origen.getCentro();
-			
-			//utiles en el futurio
-			int despX = (int)(centro.getX()+radio*Math.cos(Math.toRadians(ang)));
-			int despY = (int)(centro.getY()-radio*Math.sin(Math.toRadians(ang)));
-			
-			
+			Point centro = origen.getCentro();			
 			Color colorTransicion = getColorArco();
 			g.setColor(colorTransicion);
 			QuadCurve2D q = new QuadCurve2D.Double();			
-			//q.setCurve(origen.getCentro().getX(), origen.getCentro().getY(),puntoControl.getX(), puntoControl.getY(), 
-			//		destino.getCentro().getX(), destino.getCentro().getY());
 			q.setCurve(origenArco.getX(), origenArco.getY(),puntoControl.getX(), puntoControl.getY(), 
 					destinoArco.getX(), destinoArco.getY());
 			((Graphics2D)g).draw(q);			
-			
+			Polygon triangulo = calculaFlecha(destinoArco,puntoControl);
+			g.drawPolygon(triangulo);
+			g.fillPolygon(triangulo);			
 			Point puntoValor = getPuntoValorCurva3(origenArco, destinoArco, puntoMedio, ang);
 			asignaValorLabel();
-			label.setBounds((int)puntoValor.getX(),(int)puntoValor.getY(),20,20);
-			
-			/*
-			double xPuntoValor = (double)(centro.getX()+(1.5*(radio*2))*Math.cos(Math.toRadians(ang)));
-			double yPuntoValor = (double)(centro.getY()-(1.5*diametro)*Math.sin(Math.toRadians(ang)));
-			*/							
+			label.setBounds((int)puntoValor.getX(),(int)puntoValor.getY(),20,20);															
 		}
 		else {
 			int despX = (int)(origen.getCentro().getX()+radio*Math.cos(Math.toRadians(90)));
@@ -401,10 +386,84 @@ public class Transicion extends JComponent {
 				origen.getCentro().getY() <= destino.getCentro().getY())
 			return 3;
 		else
-			return 4;
-			
-			
+			return 4;				
 	}
+	
+	public int getCuadrantePuntos (Point pOrigen, Point pDestino) {
+		if (pOrigen.getX() < pDestino.getX() && 
+				pOrigen.getY() >= pDestino.getY())
+			return 1;
+		if (pOrigen.getX() >= pDestino.getX() &&
+				pOrigen.getY() > pDestino.getY()) 
+			return 2;
+		if (pOrigen.getX() > pDestino.getX() && 
+				pOrigen.getY() <= pDestino.getY())
+			return 3;
+		else
+			return 4;				
+	}
+	
+	public double getAnguloPuntos (Point pOrigen, Point pDestino) {
+		double xOrigen = pOrigen.getX();
+		double yOrigen = pOrigen.getY();
+		double xDestino = pDestino.getX();
+		double yDestino = pDestino.getY();			
+		double catContiguo = xDestino - xOrigen;
+		double catOpuesto = yOrigen - yDestino;
+		double tgAng = catOpuesto / catContiguo;
+		int cuadrante = getCuadrantePuntos(pOrigen, pDestino);
+		//System.out.println(Math.toDegrees((Math.atan(tgAng))));
+		if (cuadrante==1) {			
+			return (Math.toDegrees((Math.atan(tgAng))));
+		}
+		else if (cuadrante == 2) {
+			return (180+Math.toDegrees((Math.atan(tgAng))));
+		}
+		else if (cuadrante == 3) {
+			return (180+Math.toDegrees((Math.atan(tgAng))));
+		}
+		else { //if (cuadrante == 4)
+			return (360+Math.toDegrees((Math.atan(tgAng))));
+		}
+	}
+	public Polygon calculaFlecha (Point destinoArco, Point puntoControl) {
+		double largoFlecha = 15;
+		double angPunta = 15;
+		double angulo = getAnguloPuntos(destino.getCentro(), puntoControl);
+		double p1x = destinoArco.getX()+largoFlecha*Math.cos(Math.toRadians(angulo-angPunta));
+		double p1y = destinoArco.getY()-largoFlecha*Math.sin(Math.toRadians(angulo-angPunta));
+		double p2x = destinoArco.getX()+largoFlecha*Math.cos(Math.toRadians(angulo+angPunta));
+		double p2y = destinoArco.getY()-largoFlecha*Math.sin(Math.toRadians(angulo+angPunta));
+		int[] xTriangulo = new int[3];
+		int[] yTriangulo = new int[3];
+		xTriangulo[0] = (int)destinoArco.getX();
+		yTriangulo[0] = (int)destinoArco.getY();
+		xTriangulo[1] = (int)p1x;
+		yTriangulo[1] = (int)p1y;
+		xTriangulo[2] = (int)p2x;
+		yTriangulo[2] = (int)p2y;
+		Polygon triangulo = new Polygon(xTriangulo, yTriangulo, 3);
+		return triangulo;
+	}
+	
+	public Polygon calculaFlecha2 (Point destinoArco) {
+		double angulo = getAnguloPuntos(destino.getCentro(), destinoArco);
+		double p1x = destinoArco.getX()+12*Math.cos(Math.toRadians(angulo-7));
+		double p1y = destinoArco.getY()-12*Math.sin(Math.toRadians(angulo-7));
+		double p2x = destinoArco.getX()+12*Math.cos(Math.toRadians(angulo+7));
+		double p2y = destinoArco.getY()-12*Math.sin(Math.toRadians(angulo+7));
+		int[] xTriangulo = new int[3];
+		int[] yTriangulo = new int[3];
+		xTriangulo[0] = (int)destinoArco.getX();
+		yTriangulo[0] = (int)destinoArco.getY();
+		xTriangulo[1] = (int)p1x;
+		yTriangulo[1] = (int)p1y;
+		xTriangulo[2] = (int)p2x;
+		yTriangulo[2] = (int)p2y;
+		Polygon triangulo = new Polygon(xTriangulo, yTriangulo, 3);
+		return triangulo;
+	}
+	
 	/*
 	public double distanciaEstados () {
 		double xOrigen = origen.getCentro().getX();
