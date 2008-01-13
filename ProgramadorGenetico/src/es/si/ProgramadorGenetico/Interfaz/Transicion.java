@@ -376,11 +376,11 @@ public class Transicion extends JComponent {
 	}
 	
 	public int getCuadrante () {
-		if (origen.getCentro().getX() < destino.getCentro().getX() && 
+		if (origen.getCentro().getX() <= destino.getCentro().getX() && 
 				origen.getCentro().getY() >= destino.getCentro().getY())
 			return 1;
 		if (origen.getCentro().getX() >= destino.getCentro().getX() &&
-				origen.getCentro().getY() > destino.getCentro().getY()) 
+				origen.getCentro().getY() >= destino.getCentro().getY()) 
 			return 2;
 		if (origen.getCentro().getX() > destino.getCentro().getX() && 
 				origen.getCentro().getY() <= destino.getCentro().getY())
@@ -390,11 +390,11 @@ public class Transicion extends JComponent {
 	}
 	
 	public int getCuadrantePuntos (Point pOrigen, Point pDestino) {
-		if (pOrigen.getX() < pDestino.getX() && 
+		if (pOrigen.getX() <= pDestino.getX() && 
 				pOrigen.getY() >= pDestino.getY())
 			return 1;
 		if (pOrigen.getX() >= pDestino.getX() &&
-				pOrigen.getY() > pDestino.getY()) 
+				pOrigen.getY() >= pDestino.getY()) 
 			return 2;
 		if (pOrigen.getX() > pDestino.getX() && 
 				pOrigen.getY() <= pDestino.getY())
