@@ -1,9 +1,12 @@
 package es.si.ProgramadorGenetico.Interfaz.Pruebas;
 import es.si.ProgramadorGenetico.Interfaz.Dibujante;
 import es.si.ProgramadorGenetico.Interfaz.DibujanteNuevo;
+import es.si.ProgramadorGenetico.Interfaz.PanelTablaTransiciones;
 
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -26,8 +29,10 @@ public class PruebaDibujanteNuevo1 {
 		
 		setValoresEntrada();		
 		JFrame f = new JFrame("Dibujante automatas");
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);         
-        f.add(new DibujanteNuevo(transiciones,probabilidadFinal,estados));        
+		f.setLayout(new FlowLayout());
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);         
+        f.add(new DibujanteNuevo(transiciones,probabilidadFinal,estados));
+        f.add(new PanelTablaTransiciones(transiciones,probabilidadFinal,estados));
         f.pack();
         f.setVisible(true);	      	   	   	   	
 	}
