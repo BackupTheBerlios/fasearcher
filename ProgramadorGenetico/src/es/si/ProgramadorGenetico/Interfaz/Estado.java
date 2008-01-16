@@ -15,6 +15,7 @@ public class Estado extends JComponent{
 		private Point punto;
 		private double diametro;
 		private JLabel label;
+		private double probabilidadFinal;
 		
 		public Estado () {
 			punto = new Point();
@@ -64,7 +65,12 @@ public class Estado extends JComponent{
 		public void paintComponent (Graphics g) {
 			g.setColor(Color.yellow);			
 			g.fillOval((int)punto.getX(), (int)punto.getY(), (int)diametro, (int)diametro);
-	        g.drawOval((int)punto.getX(), (int)punto.getY(), (int)diametro, (int)diametro);	       
+	        g.drawOval((int)punto.getX(), (int)punto.getY(), (int)diametro, (int)diametro);
+	        g.setColor(Color.black);
+	        g.drawOval((int)punto.getX(), (int)punto.getY(), (int)diametro, (int)diametro);
+	        if (esFinal()) {	        	
+	        	g.drawOval((int)punto.getX()+4, (int)punto.getY()+4, (int)(diametro-8), (int)(diametro-8));
+	        }
 		}
 		
 		public boolean getPulsado (Point p) {
@@ -79,4 +85,13 @@ public class Estado extends JComponent{
 			label.setBounds((int)punto.getX()+10, (int)punto.getY()+10, label.getWidth(), label.getHeight());
 		}
 		
+		public boolean esFinal() {
+			if (probabilidadFinal > 0.9)
+				return true;
+			return false;
+		}
+		
+		public void setProbabilidadFinal (double prob) {
+			probabilidadFinal = prob;
+		}
 }

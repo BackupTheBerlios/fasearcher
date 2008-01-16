@@ -222,7 +222,9 @@ public class DibujanteNuevo extends JPanel{
 		estados = new ArrayList<Estado>();
 		//Creamos un estado de mas
 		for (int i=0; i<numEstados+1; i++) { 
-			estados.add(new Estado());			
+			estados.add(new Estado());
+			if (i<numEstados)
+				estados.get(i).setProbabilidadFinal(probabilidadFinal[i]);
 			estados.get(i).setLabel(new JLabel ("Q"+i));
 			//add(estados.get(i).getLabel());
 		}

@@ -18,28 +18,26 @@ public class FramePrincipal extends JFrame {
 	
 	public FramePrincipal (String s) {
 		super(s);
-		//menuPrincipal = new JMenu();
-	    //Where the GUI is created:
-		
 		test= true;
-		
+	
 	    JMenuBar menuBar;
-	    JMenu menu, submenu;
+	    JMenu menu;
 	    JMenuItem menuItem;
-	    JRadioButtonMenuItem rbMenuItem;
-	    JCheckBoxMenuItem cbMenuItem;
-
-	    //Create the menu bar.
+	   
+	    //Crea la barra de menu
+	    
 	    menuBar = new JMenuBar();
-
-	    //Build the first menu.
+	    
+	    //Primer menu
+	    
 	    menu = new JMenu("Archivo");
 	    menu.setMnemonic(KeyEvent.VK_A);
 	    menu.getAccessibleContext().setAccessibleDescription(
 	            "Menu archivo");
 	    menuBar.add(menu);
-
+	    
 	    //Menu Items
+	    
 	    menuItem = new JMenuItem("Nueva configuración",
 	                             KeyEvent.VK_N);
 	    menuItem.setAccelerator(KeyStroke.getKeyStroke(
@@ -48,28 +46,38 @@ public class FramePrincipal extends JFrame {
 	            "Crea una nueva configuración");
 	    menu.add(menuItem);
 
-	    JMenuItem menuItem2 = new JMenuItem("Cargar configuración",KeyEvent.VK_C);
-	    menuItem2.setMnemonic(KeyEvent.VK_C);
-	    menuItem2.setAccelerator(KeyStroke.getKeyStroke(
+	    menuItem = new JMenuItem("Cargar configuración",KeyEvent.VK_C);
+	    menuItem.setMnemonic(KeyEvent.VK_C);
+	    menuItem.setAccelerator(KeyStroke.getKeyStroke(
 	            KeyEvent.VK_C, ActionEvent.ALT_MASK));
-	    menu.add(menuItem2);
+	    menu.add(menuItem);
 	    
 	    menu.addSeparator();
-	    JMenuItem menuItem3 = new JMenuItem("Salir", KeyEvent.VK_S);
-	    menuItem3.setMnemonic(KeyEvent.VK_S);
-	    menuItem3.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.ALT_MASK));
-	    menu.add(menuItem3);
-    
+	    menuItem = new JMenuItem("Salir", KeyEvent.VK_S);
+	    menuItem.setMnemonic(KeyEvent.VK_S);
+	    menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.ALT_MASK));
+	    menu.add(menuItem);
+	    
+	    //Segundo menú
+	    
 	    menu = new JMenu("Opciones");
 	    menu.setMnemonic(KeyEvent.VK_O);
 	    menu.getAccessibleContext().setAccessibleDescription(
 	            "Menu de opciones");
 	    menuBar.add(menu);
 	    
+	    menuItem = new JMenuItem("Cambiar representación", KeyEvent.VK_C);
+	    menuItem.setMnemonic(KeyEvent.VK_C);
+	    menuItem.setAccelerator(null);
+	    menu.add(menuItem);
+	    	    
 	    this.setJMenuBar(menuBar);
-	    
+	    	    
+	    /*
 	    PanelNuevo panelNuevo = new PanelNuevo();
 	    this.add(panelNuevo);
+	    */
+	    
 	}
 	public static void main (String[] args) {	
 				
@@ -93,7 +101,13 @@ public class FramePrincipal extends JFrame {
 		transiciones[2][0][0]=1.0;
 		transiciones[3][1][0]=1.0;
 		transiciones[1][0][2]=0.9;
-		transiciones[2][1][2]=0.3;		
+		transiciones[2][1][2]=0.3;
+		probabilidadFinal = new double[estados];
+		probabilidadFinal[0]=0.0;
+		probabilidadFinal[1]=0.0;
+		probabilidadFinal[2]=1.0;
+		probabilidadFinal[3]=1.0;		
+		
 			
 	}
 	
