@@ -1,9 +1,13 @@
 package es.si.ProgramadorGenetico.Interfaz;
 import java.awt.FlowLayout;
+import java.awt.Frame;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.*;
+
+//import com.sun.media.sound.Toolkit;
 
 import es.si.ProgramadorGenetico.ProblemaAFP.AFP;
 
@@ -17,7 +21,9 @@ public class FramePrincipal extends JFrame {
 	private static double[] probabilidadFinal;
 	
 	public FramePrincipal (String s) {
-		super(s);
+		super(s);		
+		//this.setExtendedState(Frame.MAXIMIZED_BOTH);
+		
 		test= true;
 	
 	    JMenuBar menuBar;
@@ -86,10 +92,22 @@ public class FramePrincipal extends JFrame {
 		f.setLayout(new FlowLayout());
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		AFP mejor = creaAFP();
-        f.add(new DibujanteNuevo(mejor));
+		DibujanteNuevo dibujante = new DibujanteNuevo(mejor);
+		//JScrollPane panelDibujante = new JScrollPane(dibujante,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		 
+		JScrollPane scrollPrincipal = new JScrollPane(dibujante,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		
+		scrollPrincipal.setViewportView(dibujante);
+		scrollPrincipal.setBounds
+		(new Rectangle(350, 5, 400, 400)); 
+		f.add(dibujante);
+		//panelDibujante.setVerticalScrollBarPolicy(JScrollBar.VERTICAL_SCROLLBAR_ALWAYS);
+        //f.add(panelDibujante);
         f.add(new PanelTablaTransiciones(transiciones, probabilidadFinal, estados));
         f.pack();
-        f.setVisible(true);	   	   	   	
+        f.setVisible(true);
+        f.setExtendedState(Frame.MAXIMIZED_BOTH);        
 	}
 	
 	public static void setValoresEntrada() {		

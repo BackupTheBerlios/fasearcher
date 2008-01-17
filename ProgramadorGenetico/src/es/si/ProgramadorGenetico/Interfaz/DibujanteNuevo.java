@@ -198,7 +198,7 @@ public class DibujanteNuevo extends JPanel{
 	
 	
 	public void inicializacionesPanel () {        
-		this.setPreferredSize(new Dimension(600,600));		
+		this.setPreferredSize(new Dimension(500,500));		
 		this.setLayout(null);
 		
 		
