@@ -283,7 +283,7 @@ public class DibujanteNuevo extends JPanel{
 		g2 = (Graphics2D) g;
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);				
 		pintaTransiciones(g2);
-		pintaEstados(g2);				      
+		pintaEstados(g2);		      
     }
 	
 	/**
