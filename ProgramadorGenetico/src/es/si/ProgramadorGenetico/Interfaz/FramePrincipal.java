@@ -1,8 +1,10 @@
 package es.si.ProgramadorGenetico.Interfaz;
 import java.awt.FlowLayout;
 import java.awt.Frame;
+import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
 import javax.swing.*;
@@ -12,13 +14,16 @@ import javax.swing.*;
 import es.si.ProgramadorGenetico.ProblemaAFP.AFP;
 
 
-public class FramePrincipal extends JFrame {
+public class FramePrincipal extends JFrame implements ActionListener {
 
 	//JMenu menuPrincipal;
 	static boolean test;
 	private static int estados;
 	private static double[][][] transiciones;
 	private static double[] probabilidadFinal;
+	
+	private DibujanteNuevo dibujante;
+	private PanelTablaTransiciones tablaTransiciones;
 	
 	public FramePrincipal (String s) {
 		super(s);		
@@ -44,6 +49,7 @@ public class FramePrincipal extends JFrame {
 	    
 	    //Menu Items
 	    
+	    /*
 	    menuItem = new JMenuItem("Nueva configuración",
 	                             KeyEvent.VK_N);
 	    menuItem.setAccelerator(KeyStroke.getKeyStroke(
@@ -57,11 +63,19 @@ public class FramePrincipal extends JFrame {
 	    menuItem.setAccelerator(KeyStroke.getKeyStroke(
 	            KeyEvent.VK_C, ActionEvent.ALT_MASK));
 	    menu.add(menuItem);
+	    */
+	    
+	    menuItem = new JMenuItem("Simular",KeyEvent.VK_I);
+	    menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.ALT_MASK));
+	    menuItem.getAccessibleContext().setAccessibleDescription("Simula la configuración");
+	    menu.add(menuItem);
+	    
+	    menuItem.addActionListener(this);
 	    
 	    menu.addSeparator();
 	    menuItem = new JMenuItem("Salir", KeyEvent.VK_S);
 	    menuItem.setMnemonic(KeyEvent.VK_S);
-	    menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.ALT_MASK));
+	    menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.ALT_MASK));
 	    menu.add(menuItem);
 	    
 	    //Segundo menú
@@ -85,6 +99,7 @@ public class FramePrincipal extends JFrame {
 	    */
 	    
 	}
+	
 	public static void main (String[] args) {	
 				
 		FramePrincipal f = new FramePrincipal("Dibujante automatas");
@@ -109,6 +124,7 @@ public class FramePrincipal extends JFrame {
         f.setVisible(true);
         f.setExtendedState(Frame.MAXIMIZED_BOTH);        
 	}
+	
 	
 	public static void setValoresEntrada() {		
 		estados = 4;
@@ -150,4 +166,24 @@ public class FramePrincipal extends JFrame {
 		}
 		return mejor;
 	}
+	
+	public void actionPerformed (ActionEvent e) {
+		AFP mejor = creaAFP();
+		dibujante = new DibujanteNuevo(mejor);
+		JScrollPane scrollPrincipal = new JScrollPane(dibujante,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scrollPrincipal.setViewportView(dibujante);
+		//scrollPrincipal.setBounds(new Rectangle(350, 5, 400, 400)); 
+		add(dibujante);
+		tablaTransiciones = new PanelTablaTransiciones(transiciones, probabilidadFinal, estados);
+	    add(tablaTransiciones);
+	    repaint();
+	}
+	
+	public void paintComponent(Graphics g) {
+		super.paintComponents(g);
+		dibujante.repaint();
+		tablaTransiciones.repaint();
+	}
+	
 }
