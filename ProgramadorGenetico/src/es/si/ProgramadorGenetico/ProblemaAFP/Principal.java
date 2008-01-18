@@ -8,6 +8,7 @@ import es.si.ProgramadorGenetico.ProblemaAFP.Factorias.*;
 
 public class Principal {
 
+	static AFP mejor;
 	public static void main(String[] args) {
 		CruzadorAFPFactory.setTipo(CruzadorAFPFactory.TIPO_1);
 		MutadorAFPFactory.setTipo(MutadorAFPFactory.TIPO_1);
@@ -40,9 +41,15 @@ public class Principal {
 				Writer.write("Mantener="+i+";Poblacion Max="+j+"\n");
 				Algoritmo.MANTENER = i;
 				Algoritmo.POB_MAX = 1000;
-				AplicarAlgortimoAFP.aplicar(i, 50);
+				AplicarAlgoritmoAFP.aplicar(i, 50);
 			}
 		}
+		mejor = AplicarAlgoritmoAFP.getMejor();
 		
+		
+	}
+	
+	public static AFP getMejor() {
+		return mejor;
 	}
 }

@@ -113,9 +113,14 @@ public class Algoritmo {
 	}
 
 
+	public Individuo getMejor () {
+		return mejor;
+	}
 
 	public void setPoblacioninicial(PoblacionInicial poblacioninicial) {
 		this.poblacioninicial = poblacioninicial;
 	};
+	
+	
 	
 }

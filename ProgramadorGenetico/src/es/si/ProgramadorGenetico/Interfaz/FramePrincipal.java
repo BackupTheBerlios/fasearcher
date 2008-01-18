@@ -12,6 +12,7 @@ import javax.swing.*;
 //import com.sun.media.sound.Toolkit;
 
 import es.si.ProgramadorGenetico.ProblemaAFP.AFP;
+import es.si.ProgramadorGenetico.ProblemaAFP.Principal;
 
 
 public class FramePrincipal extends JFrame implements ActionListener {
@@ -29,7 +30,7 @@ public class FramePrincipal extends JFrame implements ActionListener {
 		super(s);		
 		//this.setExtendedState(Frame.MAXIMIZED_BOTH);
 		
-		test= true;
+		test= false;
 	
 	    JMenuBar menuBar;
 	    JMenu menu;
@@ -119,7 +120,7 @@ public class FramePrincipal extends JFrame implements ActionListener {
 		f.add(dibujante);
 		//panelDibujante.setVerticalScrollBarPolicy(JScrollBar.VERTICAL_SCROLLBAR_ALWAYS);
         //f.add(panelDibujante);
-        f.add(new PanelTablaTransiciones(transiciones, probabilidadFinal, estados));
+        //f.add(new PanelTablaTransiciones(transiciones, probabilidadFinal, estados));
         f.pack();
         f.setVisible(true);
         f.setExtendedState(Frame.MAXIMIZED_BOTH);        
@@ -154,9 +155,9 @@ public class FramePrincipal extends JFrame implements ActionListener {
 			mejor.setProbabilidadFinal(probabilidadFinal);
 		}
 		else {
-			// TODO
-			return null;
-			
+						
+			Principal.main(null);
+			mejor = Principal.getMejor();					
 			/*
 			mejor = ...
 			estados = mejor.getEstados();
@@ -170,20 +171,24 @@ public class FramePrincipal extends JFrame implements ActionListener {
 	public void actionPerformed (ActionEvent e) {
 		AFP mejor = creaAFP();
 		dibujante = new DibujanteNuevo(mejor);
-		JScrollPane scrollPrincipal = new JScrollPane(dibujante,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-		scrollPrincipal.setViewportView(dibujante);
+		JScrollPane scrollPrincipal = new JScrollPane(dibujante);
+		//,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		//scrollPrincipal.setViewportView(dibujante);
+		//add(dibujante);
+		add(scrollPrincipal);
 		//scrollPrincipal.setBounds(new Rectangle(350, 5, 400, 400)); 
-		add(dibujante);
-		tablaTransiciones = new PanelTablaTransiciones(transiciones, probabilidadFinal, estados);
-	    add(tablaTransiciones);
+		
+		//TODO
+		//tablaTransiciones = new PanelTablaTransiciones(transiciones, probabilidadFinal, estados);
+	    //add(tablaTransiciones);
 	    repaint();
 	}
 	
 	public void paintComponent(Graphics g) {
 		super.paintComponents(g);
-		dibujante.repaint();
-		tablaTransiciones.repaint();
+		//dibujante.repaint();
+		dibujante.paintComponent(g);
+		//tablaTransiciones.repaint();
 	}
 	
 }
