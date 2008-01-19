@@ -93,6 +93,7 @@ public class FramePrincipal extends JFrame implements ActionListener {
 	    menu.add(menuItem);
 	    	    
 	    this.setJMenuBar(menuBar);
+	    	   
 	    	    
 	    /*
 	    PanelNuevo panelNuevo = new PanelNuevo();
@@ -101,6 +102,7 @@ public class FramePrincipal extends JFrame implements ActionListener {
 	    
 	}
 	
+	/*
 	public static void main (String[] args) {	
 				
 		FramePrincipal f = new FramePrincipal("Dibujante automatas");
@@ -125,7 +127,7 @@ public class FramePrincipal extends JFrame implements ActionListener {
         f.setVisible(true);
         f.setExtendedState(Frame.MAXIMIZED_BOTH);        
 	}
-	
+	*/
 	
 	public static void setValoresEntrada() {		
 		estados = 4;
@@ -169,26 +171,35 @@ public class FramePrincipal extends JFrame implements ActionListener {
 	}
 	
 	public void actionPerformed (ActionEvent e) {
+
+		
 		AFP mejor = creaAFP();
 		dibujante = new DibujanteNuevo(mejor);
-		JScrollPane scrollPrincipal = new JScrollPane(dibujante);
+		//JScrollPane scrollPrincipal = new JScrollPane(dibujante);
 		//,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		//scrollPrincipal.setViewportView(dibujante);
-		//add(dibujante);
-		add(scrollPrincipal);
+		add(dibujante);
+		//add(scrollPrincipal);
 		//scrollPrincipal.setBounds(new Rectangle(350, 5, 400, 400)); 
+		System.out.println("Dentro");
+		
 		
 		//TODO
 		//tablaTransiciones = new PanelTablaTransiciones(transiciones, probabilidadFinal, estados);
 	    //add(tablaTransiciones);
-	    repaint();
+		
+		this.repaint();
 	}
 	
 	public void paintComponent(Graphics g) {
-		super.paintComponents(g);
-		//dibujante.repaint();
-		dibujante.paintComponent(g);
+		//super.paintComponents(g);			
+		dibujante.repaint();
 		//tablaTransiciones.repaint();
 	}
-	
+	/*
+	public void paint(Graphics g) {
+		super.paint(g);
+		dibujante.repaint();
+	}
+	*/
 }

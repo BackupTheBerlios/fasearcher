@@ -54,7 +54,8 @@ public class Transicion extends JComponent {
 		label = l;
 	}
 	
-	public void paintComponent (Graphics g) {		
+	public void paintComponent (Graphics g) {
+		super.paintComponent(g);
 		//Graphics2D g = (Graphics2D) panel.getGraphics();	
 		double radio = origen.getRadio();
 		double ang = getAnguloEstados();

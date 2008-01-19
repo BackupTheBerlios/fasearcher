@@ -199,15 +199,12 @@ public class DibujanteNuevo extends JPanel{
 	
 	public void inicializacionesPanel () {        
 		this.setPreferredSize(new Dimension(2000,2000));		
-		this.setLayout(null);
-		
-		
+		this.setLayout(null);			
 		OyenteDibujante oyente = new OyenteDibujante();
 	    addMouseListener(oyente);
-	    addMouseMotionListener(oyente);
-		
-			
+	    addMouseMotionListener(oyente);			
         setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
+  
         
 	}
 	
@@ -279,13 +276,14 @@ public class DibujanteNuevo extends JPanel{
 	 */
 		
 	public void paintComponent(Graphics g) {
-		super.paintComponent(g);	
+		super.paintComponent(g);
 		g2 = (Graphics2D) g;
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);				
 		pintaTransiciones(g2);
 		pintaEstados(g2);		      
     }
 	
+		
 	/**
 	 * Pasa de grados a radianes
 	 * @param ang
@@ -340,10 +338,13 @@ public class DibujanteNuevo extends JPanel{
 		return numEstados;
 	}
 
-	
-
-
-
-
-
+	/*
+	public void paint(Graphics g) {
+		super.paint(g);	
+		g2 = (Graphics2D) g;
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);				
+		pintaTransiciones(g2);
+		pintaEstados(g2);	
+	}
+	*/
 }
