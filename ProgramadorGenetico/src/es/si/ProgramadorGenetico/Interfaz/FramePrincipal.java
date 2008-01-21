@@ -1,4 +1,5 @@
 package es.si.ProgramadorGenetico.Interfaz;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.Graphics;
@@ -25,6 +26,8 @@ public class FramePrincipal extends JFrame implements ActionListener {
 	
 	private DibujanteNuevo dibujante;
 	private PanelTablaTransiciones tablaTransiciones;
+	private JScrollPane scrollPrincipal;
+	private JPanel panelScroll;
 	
 	public FramePrincipal (String s) {
 		super(s);		
@@ -93,7 +96,7 @@ public class FramePrincipal extends JFrame implements ActionListener {
 	    menu.add(menuItem);
 	    	    
 	    this.setJMenuBar(menuBar);
-	    	   
+	    	   	   
 	    	    
 	    /*
 	    PanelNuevo panelNuevo = new PanelNuevo();
@@ -159,7 +162,7 @@ public class FramePrincipal extends JFrame implements ActionListener {
 		else {
 						
 			Principal.main(null);
-			mejor = Principal.getMejor();					
+			mejor = Principal.getMejor();				
 			/*
 			mejor = ...
 			estados = mejor.getEstados();
@@ -175,31 +178,44 @@ public class FramePrincipal extends JFrame implements ActionListener {
 		
 		AFP mejor = creaAFP();
 		dibujante = new DibujanteNuevo(mejor);
-		//JScrollPane scrollPrincipal = new JScrollPane(dibujante);
+		
+		panelScroll = new JPanel();
+		panelScroll.setPreferredSize(new Dimension(1000,1000));
+		panelScroll.add(dibujante);
+		scrollPrincipal = new JScrollPane(panelScroll);
+		panelScroll.scrollRectToVisible(new Rectangle(0,0,2000,2000));
+		
+		
+		
+		this.add(scrollPrincipal);
+		
+		//scrollPrincipal = new JScrollPane(dibujante);
 		//,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-		//scrollPrincipal.setViewportView(dibujante);
-		add(dibujante);
+		//dibujante.scrollRectToVisible(new Rectangle(0,0,2000,2000));
+		//add(dibujante);
 		//add(scrollPrincipal);
-		//scrollPrincipal.setBounds(new Rectangle(350, 5, 400, 400)); 
-		System.out.println("Dentro");
+		//scrollPrincipal.setBounds(new Rectangle(350, 5, 400, 400));
+		//scrollPrincipal.setViewportView(dibujante);
 		
-		
+		//add(dibujante);
+							
 		//TODO
 		//tablaTransiciones = new PanelTablaTransiciones(transiciones, probabilidadFinal, estados);
 	    //add(tablaTransiciones);
 		
-		this.repaint();
+		pintar();		
+		//this.update(this.getGraphics());
+		
 	}
 	
-	public void paintComponent(Graphics g) {
-		//super.paintComponents(g);			
-		dibujante.repaint();
-		//tablaTransiciones.repaint();
+	public void pintar() {
+		this.paintComponent(this.getGraphics());
 	}
-	/*
-	public void paint(Graphics g) {
-		super.paint(g);
-		dibujante.repaint();
+	
+	
+	public void paintComponent(Graphics g) {		
+		super.paintComponents(g);
 	}
-	*/
+	
+	
 }

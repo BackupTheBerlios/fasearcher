@@ -198,7 +198,7 @@ public class DibujanteNuevo extends JPanel{
 	
 	
 	public void inicializacionesPanel () {        
-		this.setPreferredSize(new Dimension(2000,2000));		
+		this.setPreferredSize(new Dimension(1000,1000));		
 		this.setLayout(null);			
 		OyenteDibujante oyente = new OyenteDibujante();
 	    addMouseListener(oyente);
