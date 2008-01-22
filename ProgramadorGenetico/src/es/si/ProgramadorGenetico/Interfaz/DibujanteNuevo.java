@@ -232,9 +232,9 @@ public class DibujanteNuevo extends JPanel{
 		y = yini;
 		//calculo el radio, angulo e incremento		
 		double alfa = 180;
-		double incremento = 360/(double)(numEstados);
+		double incremento = 360/(double)(numEstados+1);
 		//Colocamos las etiquetas en los vertices del poligono
-		for (int i=0; i< numEstados; i++) {								
+		for (int i=0; i< numEstados+1; i++) {								
 			x+=radioPolig*Math.cos(Math.toRadians(alfa));
 			y+=radioPolig*Math.sin(Math.toRadians(alfa));
 			estados.get(i).setPunto(new Point(x,y));
@@ -259,12 +259,20 @@ public class DibujanteNuevo extends JPanel{
 		
 		for (int i=0; i<transicionesArray.length; i++ ) {
 			for (int k=0; k<transicionesArray[i][0].length; k++) {
-				transiciones[i][k] = new Transicion (estados.get(i),estados.get(k),
-						transicionesArray[i][0][k],transicionesArray[i][1][k]);
+				if (k==0) {					
+					transiciones[i][numEstados] = new Transicion (estados.get(i),estados.get(numEstados),
+							transicionesArray[i][0][k],transicionesArray[i][1][k]);
 
-				transiciones[i][k].setLabel(new JLabel());			
-				add(transiciones[i][k].getLabel());		
+					transiciones[i][numEstados].setLabel(new JLabel());			
+					add(transiciones[i][numEstados].getLabel());								
+				}
+				else {
+					transiciones[i][k-1] = new Transicion (estados.get(i),estados.get(k-1),
+							transicionesArray[i][0][k],transicionesArray[i][1][k]);
 
+					transiciones[i][k-1].setLabel(new JLabel());			
+					add(transiciones[i][k-1].getLabel());	
+				}
 			}	
 		}
 	}
@@ -308,7 +316,7 @@ public class DibujanteNuevo extends JPanel{
 	 */
 	public void pintaEstados (Graphics2D g) {
 
-		for (int i = 0; i<estados.size()-1; i++)  
+		for (int i = 0; i<estados.size(); i++)  
 			((Estado)(estados.get(i))).paintComponent(g);
 		
 	}
@@ -325,9 +333,7 @@ public class DibujanteNuevo extends JPanel{
 				boolean transicionCon0 = transiciones[i][j].getProbabilidad0() > 0.1;
 				boolean transicionCon1 = transiciones[i][j].getProbabilidad1() > 0.1;
 				if (transicionCon0 || transicionCon1) {
-					trans.paintComponent(g);
-					if (trans.getOrigen()==estados.get(0))
-						System.out.println(trans.getAnguloEstados());
+					trans.paintComponent(g);					
 				}
 			}
 		}
