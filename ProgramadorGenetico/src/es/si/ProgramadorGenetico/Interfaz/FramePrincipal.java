@@ -133,13 +133,15 @@ public class FramePrincipal extends JFrame implements ActionListener {
 	*/
 	
 	public static void setValoresEntrada() {		
-		estados = 4;
+		estados = 4;		
 		transiciones= new double[estados][2][estados+1];
-		transiciones[0][1][0]=1.0;
+		transiciones[0][0][0]=0.7;
+		transiciones[0][1][0]=0.5;
 		transiciones[1][1][0]=0.4;
 		transiciones[2][1][0]=1.0;
-		transiciones[2][0][0]=1.0;
-		transiciones[3][1][0]=1.0;
+		transiciones[2][0][0]=0.5;
+		transiciones[3][0][0]=0.8;
+		transiciones[3][1][0]=0.2;
 		transiciones[1][0][2]=0.9;
 		transiciones[2][1][2]=0.3;
 		probabilidadFinal = new double[estados];
