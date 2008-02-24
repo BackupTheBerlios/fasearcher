@@ -9,6 +9,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Point;
+import java.awt.Polygon;
 import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -263,15 +264,20 @@ public class DibujanteNuevo extends JPanel{
 					transiciones[i][numEstados] = new Transicion (estados.get(i),estados.get(numEstados),
 							transicionesArray[i][0][k],transicionesArray[i][1][k]);
 
-					transiciones[i][numEstados].setLabel(new JLabel());			
-					add(transiciones[i][numEstados].getLabel());								
+					//transiciones[i][numEstados].setLabel(new JLabel());			
+					transiciones[i][numEstados].setLabel0(new JLabel());
+					transiciones[i][numEstados].setLabel1(new JLabel());
+					add(transiciones[i][numEstados].getLabel0());								
+					add(transiciones[i][numEstados].getLabel1());
 				}
 				else {
 					transiciones[i][k-1] = new Transicion (estados.get(i),estados.get(k-1),
 							transicionesArray[i][0][k],transicionesArray[i][1][k]);
 
-					transiciones[i][k-1].setLabel(new JLabel());			
-					add(transiciones[i][k-1].getLabel());	
+					transiciones[i][k-1].setLabel0(new JLabel());					
+					transiciones[i][k-1].setLabel1(new JLabel());
+					add(transiciones[i][k-1].getLabel0());	
+					add(transiciones[i][k-1].getLabel1());
 				}
 			}	
 		}
@@ -289,6 +295,7 @@ public class DibujanteNuevo extends JPanel{
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);				
 		pintaTransiciones(g2);
 		pintaEstados(g2);		      
+				
     }
 	
 		
@@ -318,6 +325,19 @@ public class DibujanteNuevo extends JPanel{
 
 		for (int i = 0; i<estados.size(); i++)  
 			((Estado)(estados.get(i))).paintComponent(g);
+		
+		Estado q0 = estados.get(0);					
+		int[] xTriangulo = new int[3];
+		int[] yTriangulo = new int[3];
+		xTriangulo[0] = (int)(q0.getCentro().getX()-q0.getRadio());
+		yTriangulo[0] = (int)q0.getCentro().getY();
+		xTriangulo[1] = (int)(xTriangulo[0]+Math.cos(Math.toRadians(135))*q0.getRadio());
+		yTriangulo[1] = (int)(yTriangulo[0]+Math.sin(Math.toRadians(135))*q0.getRadio());
+		xTriangulo[2] = (int)(xTriangulo[0]+Math.cos(Math.toRadians(225))*q0.getRadio());
+		yTriangulo[2] = (int)(yTriangulo[0]+Math.sin(Math.toRadians(225))*q0.getRadio());
+		Polygon triangulo = new Polygon(xTriangulo, yTriangulo, 3);
+		g.drawPolygon(triangulo);		
+
 		
 	}
 	
