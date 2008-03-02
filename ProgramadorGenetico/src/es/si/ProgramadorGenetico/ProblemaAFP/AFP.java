@@ -5,6 +5,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 import es.si.ProgramadorGenetico.Individuo;
+import es.si.ProgramadorGenetico.GeneradorAutomatico.AF;
 
 public class AFP implements Individuo {
 
@@ -25,6 +26,12 @@ public class AFP implements Individuo {
 		this.estados = estados;
 		transiciones = new double[estados][2][estados + 1];
 		probabilidadFinal = new double[estados];
+	}
+	
+	public AFP (AF automataFinito) {
+		estados = automataFinito.getEstados();
+		transiciones = automataFinito.getTransiciones();
+		probabilidadFinal = automataFinito.getFinales();
 	}
 	
 	@Override
