@@ -19,6 +19,8 @@ public class Transicion extends JComponent {
 	public double probabilidad1;
 	public JLabel label0;
 	public JLabel label1;
+	private boolean pintar0;
+	private boolean pintar1;
 
 	public Transicion () {
 
@@ -75,6 +77,7 @@ public class Transicion extends JComponent {
 					(int)(destino.getCentro().getY()-Math.sin(Math.toRadians(ang+180-22.5))*destino.getRadio()));
 			Point puntoMedio = getPuntoMedio(origenArco,destinoArco);
 
+			if (pintar0) {
 			Point puntoControl0 = getPuntoControlCurva0(origenArco, destinoArco, puntoMedio, ang);
 			Point centro = origen.getCentro();			
 			Color colorTransicion0 = getColorArco0();
@@ -89,7 +92,9 @@ public class Transicion extends JComponent {
 			Point puntoValor0 = getPuntoValorCurva0(origenArco, destinoArco, puntoMedio, ang);
 			label0.setText("0");
 			label0.setBounds((int)puntoValor0.getX()-10,(int)puntoValor0.getY()-10,20,20);
-
+			}
+			
+			if (pintar1) {
 			Point puntoControl1 = getPuntoControlCurva1(origenArco, destinoArco, puntoMedio, ang);
 			Color colorTransicion1 = getColorArco1();
 			g.setColor(colorTransicion1);
@@ -103,7 +108,7 @@ public class Transicion extends JComponent {
 			Point puntoValor1 = getPuntoValorCurva1(origenArco, destinoArco, puntoMedio, ang);
 			label1.setText("1");
 			label1.setBounds((int)puntoValor1.getX()-10,(int)puntoValor1.getY()-10,20,20);
-
+			}
 
 		}
 		else {
@@ -117,6 +122,7 @@ public class Transicion extends JComponent {
 			label0.setText("0");
 			label0.setBounds(despX,(int)(despY-(radioArco*1.5)),20,20);
 			*/
+			if (pintar0) {
 			int despX = (int)(origen.getCentro().getX()+radio*Math.cos(Math.toRadians(90)));
 			int despY = (int)(origen.getCentro().getY()-radio*Math.sin(Math.toRadians(90)));
 			int radioArco = (int)origen.getRadio();
@@ -125,15 +131,17 @@ public class Transicion extends JComponent {
 			g.drawOval(despX-radioArco/2, despY-radioArco/2, radioArco, radioArco);
 			label0.setText("0");
 			label0.setBounds(despX,(int)(despY-(radioArco*1.5)),20,20);
-			
-			despX = (int)(origen.getCentro().getX()+2*radio*Math.cos(Math.toRadians(90)));
-			despY = (int)(origen.getCentro().getY()-2*radio*Math.sin(Math.toRadians(90)));
-			radioArco = (int)origen.getRadio()*2;
+			}
+			if (pintar1) {
+			int despX = (int)(origen.getCentro().getX()+2*radio*Math.cos(Math.toRadians(90)));
+			int despY = (int)(origen.getCentro().getY()-2*radio*Math.sin(Math.toRadians(90)));
+			int radioArco = (int)origen.getRadio()*2;
 			Color colorTransicion1 = getColorArco1();
 			g.setColor(colorTransicion1);						
 			g.drawOval(despX-radioArco/2, despY-radioArco/3+5, radioArco, radioArco);
 			label1.setText("1");
 			label1.setBounds(despX,(int)(despY-(radioArco)+8),20,20);
+			}
 			
 		}
 
@@ -456,6 +464,11 @@ public class Transicion extends JComponent {
 		return triangulo;
 	}
 
+	public void pinta (boolean trans0, boolean trans1, Graphics g) {
+		pintar0 = trans0;
+		pintar1 = trans1;
+		paintComponent(g);
+	}
 	/*
 	public double distanciaEstados () {
 		double xOrigen = origen.getCentro().getX();
