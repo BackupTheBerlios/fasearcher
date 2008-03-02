@@ -1,5 +1,4 @@
 package es.si.ProgramadorGenetico.Interfaz.Pruebas;
-import es.si.ProgramadorGenetico.Interfaz.Dibujante;
 import es.si.ProgramadorGenetico.Interfaz.DibujanteNuevo;
 import es.si.ProgramadorGenetico.Interfaz.PanelTablaTransiciones;
 
