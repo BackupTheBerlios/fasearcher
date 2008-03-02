@@ -1,5 +1,6 @@
 package es.si.ProgramadorGenetico.Interfaz;
 import es.si.ProgramadorGenetico.ProblemaAFP.AFP;
+import es.si.ProgramadorGenetico.Dibujante;
 import es.si.ProgramadorGenetico.Individuo;
 
 import java.awt.Color;
@@ -33,91 +34,84 @@ import java.util.Iterator;
 
 public class DibujanteNuevo extends JPanel{
 
-		
+
 	/**
 	 * Probabilidad final 
 	 */
 	private double[] probabilidadFinal;
-	
+
 	/**
 	 * Numero de estados
 	 */
 	private int numEstados;
-	
+
 	/**
 	 * Posicion x 
 	 */	
 	private int x;
-	
+
 	/**
 	 * Posicion y 
 	 */
 	private int y;
-	
+
 	/**
 	 * Diametro del circulo que representa al estado 
 	 */
 	private double diamEst = 40;
-	
+
 	/**
 	 * Radio del poligono que forman los estados.
 	 */
 	private double radioPolig = 150;
-	
+
 	/**
 	 * Objeto para Graphics2D
 	 */
 	private Graphics2D g2;
-		
+
 	/**
 	 * Array que contiene los estados	 
 	 */
 	private ArrayList<Estado> estados;
-	
+
 	/**
 	 * Array que contiene las transiciones
 	 *
 	 */
 	private Transicion[][] transiciones;
-	
-	/**
-	 * Punto inicial de un estado antes de moverlo
-	 */
-	
-	private Point puntoInicialEstado;
-	
+
 	/**
 	 * Estado que se esta moviendo
 	 *
 	 */
-	
-	private Estado estadoMovido;
-	
+	private Estado estadoMovido;	
+
 	private class OyenteDibujante extends MouseInputAdapter {
 		public OyenteDibujante () {
-			
-		}
-		
+
+		}	
+
 		public void mouseDragged (MouseEvent e) {
 			if (estadoMovido !=null) {
 				estadoMovido.actualizaPosicion(e.getPoint());	
 				actualizaDibujo();
 			}
 		}
-		
+
 		public void actualizaDibujo() {
 			repaint();
 		}
 
 		public void mouseEntered(MouseEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 
 		public void mouseExited(MouseEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 
@@ -135,83 +129,79 @@ public class DibujanteNuevo extends JPanel{
 			}
 			if (!estadoPulsado)
 				estadoMovido = null;
-			
+
 		}
 
 
 		public void mouseReleased(MouseEvent e) {
 			// TODO Auto-generated method stub
 			/*
-			estadoMovido.actualizaPosicion(e.getPoint());	
-			actualizaDibujo();
-			*/
-		}
-		
-		
-		
+		estadoMovido.actualizaPosicion(e.getPoint());	
+		actualizaDibujo();
+			 */
+		}	
+
 	}
-	
-	
 	public DibujanteNuevo () {		
 	}
-	
-	
+
+
 	/**
 	 * Esta constructora recibe el mejor automata seleccionado
 	 * Inicializa los arrays y crea las etiquetas 
 	 * @param mejor Automata seleccionado
 	 */
-	
+
 	public DibujanteNuevo(Individuo mejor) {
-		super(new GridLayout(0,1));
+		super(new GridLayout(0,1));	
 		AFP automataMejor = (AFP) mejor;		
 		double[][][] transicionesArray;
 		transicionesArray = automataMejor.getTransiciones();
 		numEstados = automataMejor.getEstados();
 		probabilidadFinal = automataMejor.getProbabilidadesFinal();
-		
+
 		inicializacionesPanel();
 		calculoEstados();
 		calculoTransiciones(transicionesArray);
 
 	}
-			
+
 	/**
 	 * Constructora que recibe en 3 parametros los datos necesarios
 	 * @param transiciones
 	 * @param probabilidadFinal
 	 * @param estados
 	 */
-	
+
 	public DibujanteNuevo (double[][][] transiciones, 
 			double[] probabilidadFinal,	int estados) {
-			
-		super(new GridLayout(0,1));
+
+		super(new GridLayout(0,1));		
 		this.probabilidadFinal = probabilidadFinal;
 		this.numEstados = estados;		
 		inicializacionesPanel();
 		calculoEstados();
 		calculoTransiciones(transiciones);
-				
-		
-										
+
+
+
 	}
-	
-	
+
+
 	public void inicializacionesPanel () {        
 		this.setPreferredSize(new Dimension(1000,1000));		
 		this.setLayout(null);			
 		OyenteDibujante oyente = new OyenteDibujante();
-	    addMouseListener(oyente);
-	    addMouseMotionListener(oyente);			
-        setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
-  
-        
+		addMouseListener(oyente);
+		addMouseMotionListener(oyente);			
+		setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
+
+
 	}
-	
 
 
-	
+
+
 	/**
 	 * Se calculan las posiciones iniciales de los estados
 	 *
@@ -245,19 +235,19 @@ public class DibujanteNuevo extends JPanel{
 			x=xini;
 			y=yini;
 		}
-		
+
 		for (int i=0; i<numEstados+1; i++) 
 			add(estados.get(i).getLabel());
-		
+
 	}
-	
+
 	public void calculoTransiciones(double [][][] transicionesArray) {
 
 		transiciones = new Transicion[numEstados][numEstados+1];
 		System.out.println("Longitud de la primera dimension."+transicionesArray.length);
 		System.out.println("Longitud de la segunda dimension."+transicionesArray[0].length);
 		System.out.println("Longitud de la tercera dimension."+transicionesArray[0][0].length);
-		
+
 		for (int i=0; i<transicionesArray.length; i++ ) {
 			for (int k=0; k<transicionesArray[i][0].length; k++) {
 				if (k==0) {					
@@ -284,21 +274,21 @@ public class DibujanteNuevo extends JPanel{
 	}
 
 
-	
+
 	/**
 	 * Llama a pintar los estados y las transiciones
 	 */
-		
+
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g2 = (Graphics2D) g;
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);				
 		pintaTransiciones(g2);
 		pintaEstados(g2);		      
-				
-    }
-	
-		
+
+	}
+
+
 	/**
 	 * Pasa de grados a radianes
 	 * @param ang
@@ -307,7 +297,7 @@ public class DibujanteNuevo extends JPanel{
 	public double enRadianes (double ang) {
 		return ang*2*Math.PI/360.0;
 	}
-	
+
 	/**
 	 * Pasa de radianes a grados
 	 * @param ang
@@ -325,7 +315,9 @@ public class DibujanteNuevo extends JPanel{
 
 		for (int i = 0; i<estados.size(); i++)  
 			((Estado)(estados.get(i))).paintComponent(g);
-		
+
+
+		//Pinta triangulo del estado inicial 
 		Estado q0 = estados.get(0);					
 		int[] xTriangulo = new int[3];
 		int[] yTriangulo = new int[3];
@@ -338,9 +330,9 @@ public class DibujanteNuevo extends JPanel{
 		Polygon triangulo = new Polygon(xTriangulo, yTriangulo, 3);
 		g.drawPolygon(triangulo);		
 
-		
+
 	}
-	
+
 	/**
 	 * Pinta las transiciones
 	 * @param g
@@ -352,9 +344,8 @@ public class DibujanteNuevo extends JPanel{
 				Transicion trans = transiciones[i][j];
 				boolean transicionCon0 = transiciones[i][j].getProbabilidad0() > 0.1;
 				boolean transicionCon1 = transiciones[i][j].getProbabilidad1() > 0.1;
-				if (transicionCon0 || transicionCon1) {
-					trans.paintComponent(g);					
-				}
+				trans.pinta(transicionCon0, transicionCon1,g);
+
 			}
 		}
 
@@ -372,5 +363,5 @@ public class DibujanteNuevo extends JPanel{
 		pintaTransiciones(g2);
 		pintaEstados(g2);	
 	}
-	*/
+	 */
 }
