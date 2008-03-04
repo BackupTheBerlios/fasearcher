@@ -27,6 +27,7 @@ public class GeneradorAF {
 	
 	public GeneradorAF (int numEstados) {
 		aut = new AF(numEstados);		
+		generarAutomata();
 	}
 	
 	public void generarAutomata () {
@@ -44,14 +45,12 @@ public class GeneradorAF {
 			if (transicionesExistentes.get(i).getTrans(0)==0) {
 				int estadoDestino = (int)(aut.getEstados()*Math.random());				
 				transicionesExistentes.get(i).setTrans(0);
-				aut.setTransicion(i,0,estadoDestino);
-				System.out.println("Aleatorio"+i+" "+estadoDestino);
+				aut.setTransicion(i,0,estadoDestino);		
 			}
 			if (transicionesExistentes.get(i).getTrans(1)==0) {
 				int estadoDestino = (int)(aut.getEstados()*Math.random());
 				transicionesExistentes.get(i).setTrans(1);
-				aut.setTransicion(i,1,estadoDestino);
-				System.out.println("Aleatorio"+i+" "+estadoDestino);
+				aut.setTransicion(i,1,estadoDestino);				
 			}									
 		}
 		

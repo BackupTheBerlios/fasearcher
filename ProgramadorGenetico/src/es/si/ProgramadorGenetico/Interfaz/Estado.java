@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -21,16 +22,24 @@ public class Estado extends JComponent{
 		private double diametro;
 		private JLabel label;
 		private double probabilidadFinal;
+		private Rectangle ajusteLabel;
 		
 		public Estado () {
 			punto = new Point();
-			diametro = 40;
-			label = new JLabel();
+			diametro = 50;
+			label = new JLabel();			
 		}
 		public Estado (Point punto, int diametro, JLabel etiqueta) {
 			this.punto = punto;
 			this.label = etiqueta;
 			this.diametro = diametro;
+		}
+		
+		public Estado (int diametro, Rectangle coordenadasLabel) {
+			punto = new Point();
+			label = new JLabel();
+			this.diametro = diametro;			
+			ajusteLabel = (Rectangle) coordenadasLabel.clone();
 		}
 		
 		public void setLabel (JLabel label) {
@@ -88,7 +97,11 @@ public class Estado extends JComponent{
 		
 		public void actualizaPosicion(Point nuevoPunto) {
 			punto.setLocation(nuevoPunto.x-getRadio(), nuevoPunto.y-getRadio());			
-			label.setBounds((int)punto.getX()+10, (int)punto.getY()+10, label.getWidth(), label.getHeight());
+			label.setBounds((int)(punto.getX()+ajusteLabel.getX()), (int)(punto.getY()+ajusteLabel.getY()), label.getWidth(), label.getHeight());			
+		}			
+		
+		public void setBoundsLabel (int x, int y) {
+			label.setBounds((int)(x+ajusteLabel.getX()), (int)(y+ajusteLabel.getY()), (int)ajusteLabel.getWidth(), (int)ajusteLabel.getHeight());
 		}
 		
 		public boolean esFinal() {

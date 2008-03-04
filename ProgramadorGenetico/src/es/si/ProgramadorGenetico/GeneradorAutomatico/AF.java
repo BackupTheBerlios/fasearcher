@@ -3,7 +3,9 @@ package es.si.ProgramadorGenetico.GeneradorAutomatico;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-public class AF {
+import es.si.ProgramadorGenetico.Individuo;
+
+public class AF implements Individuo{
 	/**
 	 * Numero de estados
 	 */
@@ -60,6 +62,23 @@ public class AF {
 		}
 
 		return af;
+	}
+
+	@Override
+	public boolean equals(Individuo otro) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	public boolean esFinal (int estado) {
+		if (this.finales[estado]==1)
+			return true;
+		else
+			return false;
+	}
+	
+	public boolean acepta (String cadena) {
+		//cadena
+		return false;
 	}
 
 }

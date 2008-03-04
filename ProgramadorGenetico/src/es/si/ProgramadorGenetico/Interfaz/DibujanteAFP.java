@@ -11,6 +11,7 @@ import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.Polygon;
+import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -32,7 +33,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 
-public class DibujanteNuevo extends JPanel{
+public class DibujanteAFP extends JPanel{
 
 
 	/**
@@ -58,7 +59,7 @@ public class DibujanteNuevo extends JPanel{
 	/**
 	 * Diametro del circulo que representa al estado 
 	 */
-	private double diamEst = 40;
+	private int diamEst = 50;
 
 	/**
 	 * Radio del poligono que forman los estados.
@@ -122,8 +123,7 @@ public class DibujanteNuevo extends JPanel{
 				Point puntoClick = e.getPoint();			
 				Estado es = ((Estado)estados.get(i));
 				if (es.getPulsado(puntoClick)) {
-					estadoMovido = es;
-					System.out.println("Estado "+i+" pulsado");
+					estadoMovido = es;				
 					estadoPulsado = true;
 				}
 			}
@@ -142,7 +142,7 @@ public class DibujanteNuevo extends JPanel{
 		}	
 
 	}
-	public DibujanteNuevo () {		
+	public DibujanteAFP () {		
 	}
 
 
@@ -152,7 +152,7 @@ public class DibujanteNuevo extends JPanel{
 	 * @param mejor Automata seleccionado
 	 */
 
-	public DibujanteNuevo(Individuo mejor) {
+	public DibujanteAFP(Individuo mejor) {
 		super(new GridLayout(0,1));	
 		AFP automataMejor = (AFP) mejor;		
 		double[][][] transicionesArray;
@@ -173,7 +173,7 @@ public class DibujanteNuevo extends JPanel{
 	 * @param estados
 	 */
 
-	public DibujanteNuevo (double[][][] transiciones, 
+	public DibujanteAFP (double[][][] transiciones, 
 			double[] probabilidadFinal,	int estados) {
 
 		super(new GridLayout(0,1));		
@@ -210,10 +210,11 @@ public class DibujanteNuevo extends JPanel{
 		estados = new ArrayList<Estado>();
 		//Creamos un estado de mas
 		for (int i=0; i<numEstados+1; i++) { 
-			estados.add(new Estado());
+			Rectangle ajusteLabel = new Rectangle((int)(diamEst/2)-15, (int)(diamEst/2)-15, 30, 30);
+			estados.add(new Estado(diamEst,ajusteLabel));
+			estados.get(i).setLabel(new JLabel ("Q"+i));
 			if (i<numEstados)
 				estados.get(i).setProbabilidadFinal(probabilidadFinal[i]);
-			estados.get(i).setLabel(new JLabel ("Q"+i));
 			//add(estados.get(i).getLabel());
 		}
 		//el centro de la circunferencia imaginaria esta en el centro
@@ -228,9 +229,8 @@ public class DibujanteNuevo extends JPanel{
 		for (int i=0; i< numEstados+1; i++) {								
 			x+=radioPolig*Math.cos(Math.toRadians(alfa));
 			y+=radioPolig*Math.sin(Math.toRadians(alfa));
-			estados.get(i).setPunto(new Point(x,y));
-			estados.get(i).setDiametro(diamEst);
-			estados.get(i).getLabel().setBounds(x+10, y+10, 20, 20);					
+			estados.get(i).setPunto(new Point(x,y));			
+			estados.get(i).setBoundsLabel(x,y);							
 			alfa+=incremento;
 			x=xini;
 			y=yini;

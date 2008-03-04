@@ -1,5 +1,5 @@
 package es.si.ProgramadorGenetico.Interfaz.Pruebas;
-import es.si.ProgramadorGenetico.Interfaz.DibujanteNuevo;
+import es.si.ProgramadorGenetico.Interfaz.DibujanteAFP;
 import es.si.ProgramadorGenetico.Interfaz.PanelTablaTransiciones;
 
 import java.awt.Dimension;
@@ -34,7 +34,7 @@ public class PruebaDibujanteNuevo2 {
         //JComponent newContentPane = new DibujanteNuevo(transiciones,probabilidadFinal,estados);
         //newContentPane.setOpaque(true); //content panes must be opaque
         //f.setContentPane(newContentPane);                
-        f.add(new DibujanteNuevo(transiciones,probabilidadFinal,estados));
+        f.add(new DibujanteAFP(transiciones,probabilidadFinal,estados));
         f.add(new PanelTablaTransiciones(transiciones,probabilidadFinal,estados));
         f.pack();
         f.setVisible(true);	      	   	   	   	

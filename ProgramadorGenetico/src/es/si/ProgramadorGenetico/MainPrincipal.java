@@ -7,7 +7,7 @@ import java.awt.Rectangle;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 
-import es.si.ProgramadorGenetico.Interfaz.DibujanteNuevo;
+import es.si.ProgramadorGenetico.Interfaz.DibujanteAFP;
 import es.si.ProgramadorGenetico.Interfaz.FramePrincipal;
 import es.si.ProgramadorGenetico.Interfaz.PanelTablaTransiciones;
 import es.si.ProgramadorGenetico.ProblemaAFP.AFP;

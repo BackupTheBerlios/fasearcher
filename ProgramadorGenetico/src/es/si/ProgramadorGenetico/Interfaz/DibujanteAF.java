@@ -1,4 +1,5 @@
 package es.si.ProgramadorGenetico.Interfaz;
+import es.si.ProgramadorGenetico.GeneradorAutomatico.AF;
 import es.si.ProgramadorGenetico.ProblemaAFP.AFP;
 import es.si.ProgramadorGenetico.Dibujante;
 import es.si.ProgramadorGenetico.Individuo;
@@ -11,6 +12,7 @@ import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.Polygon;
+import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -58,7 +60,7 @@ public class DibujanteAF extends JPanel implements Dibujante{
 	/**
 	 * Diametro del circulo que representa al estado 
 	 */
-	private double diamEst = 40;
+	private int diamEst = 50;
 
 	/**
 	 * Radio del poligono que forman los estados.
@@ -86,6 +88,11 @@ public class DibujanteAF extends JPanel implements Dibujante{
 	 *
 	 */
 	private Estado estadoMovido;	
+	
+	/**
+	 * Automata
+	 */
+	private AF automataMejor;
 
 	private class OyenteDibujante extends MouseInputAdapter {
 		public OyenteDibujante () {
@@ -122,8 +129,7 @@ public class DibujanteAF extends JPanel implements Dibujante{
 				Point puntoClick = e.getPoint();			
 				Estado es = ((Estado)estados.get(i));
 				if (es.getPulsado(puntoClick)) {
-					estadoMovido = es;
-					System.out.println("Estado "+i+" pulsado");
+					estadoMovido = es;					
 					estadoPulsado = true;
 				}
 			}
@@ -155,12 +161,11 @@ public class DibujanteAF extends JPanel implements Dibujante{
 
 	public DibujanteAF(Individuo mejor) {
 		super(new GridLayout(0,1));		
-		AFP automataMejor = (AFP) mejor;		
+		automataMejor = (AF) mejor;		
 		double[][][] transicionesArray;
 		transicionesArray = automataMejor.getTransiciones();
-		numEstados = automataMejor.getEstados();
-		probabilidadFinal = automataMejor.getProbabilidadesFinal();
-
+		numEstados = automataMejor.getEstados();		
+		probabilidadFinal = automataMejor.getFinales();
 		inicializacionesPanel();
 		calculoEstados();
 		calculoTransiciones(transicionesArray);
@@ -211,10 +216,11 @@ public class DibujanteAF extends JPanel implements Dibujante{
 		estados = new ArrayList<Estado>();
 		//Creamos un estado de mas
 		for (int i=0; i<numEstados; i++) { 
-			estados.add(new Estado());
-			if (i<numEstados)
-				estados.get(i).setProbabilidadFinal(probabilidadFinal[i]);
+			Rectangle ajusteLabel = new Rectangle((int)(diamEst/2)-15, (int)(diamEst/2)-15, 30, 30);
+			estados.add(new Estado(diamEst,ajusteLabel));
 			estados.get(i).setLabel(new JLabel ("Q"+i));
+			if (i<numEstados)
+				estados.get(i).setProbabilidadFinal(probabilidadFinal[i]);			
 			//add(estados.get(i).getLabel());
 		}
 		//el centro de la circunferencia imaginaria esta en el centro
@@ -228,10 +234,9 @@ public class DibujanteAF extends JPanel implements Dibujante{
 		//Colocamos las etiquetas en los vertices del poligono
 		for (int i=0; i< numEstados; i++) {								
 			x+=radioPolig*Math.cos(Math.toRadians(alfa));
-			y+=radioPolig*Math.sin(Math.toRadians(alfa));
+			y+=radioPolig*Math.sin(Math.toRadians(alfa));			
 			estados.get(i).setPunto(new Point(x,y));
-			estados.get(i).setDiametro(diamEst);
-			estados.get(i).getLabel().setBounds(x+10, y+10, 20, 20);					
+			estados.get(i).setBoundsLabel(x,y);
 			alfa+=incremento;
 			x=xini;
 			y=yini;
@@ -343,6 +348,10 @@ public class DibujanteAF extends JPanel implements Dibujante{
 
 	public int getNumEstados() {
 		return numEstados;
+	}
+	
+	public AF getAutomata() {
+		return automataMejor;
 	}
 
 	/*

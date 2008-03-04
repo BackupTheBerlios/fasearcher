@@ -12,7 +12,7 @@ import javax.swing.JScrollPane;
 import es.si.ProgramadorGenetico.GeneradorAutomatico.AF;
 import es.si.ProgramadorGenetico.GeneradorAutomatico.GeneradorAF;
 import es.si.ProgramadorGenetico.Interfaz.DibujanteAF;
-import es.si.ProgramadorGenetico.Interfaz.DibujanteNuevo;
+import es.si.ProgramadorGenetico.Interfaz.DibujanteAFP;
 import es.si.ProgramadorGenetico.Interfaz.FramePrincipal;
 import es.si.ProgramadorGenetico.ProblemaAFP.AFP;
 
@@ -38,13 +38,13 @@ public class PruebaGenerador {
 		panel.add(dibujante);						
 		f.add(panel);
 		f.paintComponents(f.getGraphics());
+				
 		
 	}
 	
-	public static void inicializar () {
-		AFP mejor;
+	public static void inicializar () {		
 		setValoresEntrada();
-		mejor = new AFP (generador.getAF());			
+		AF mejor = generador.getAF();			
 		dibujante = new DibujanteAF(mejor);		
 	}
 	
@@ -52,7 +52,6 @@ public class PruebaGenerador {
 	public static void setValoresEntrada() {		
 		estados = 15;
 		generador = new GeneradorAF (estados);
-		generador.generarAutomata();
 		System.out.println(generador.getAF().toString());
 		
 	}
