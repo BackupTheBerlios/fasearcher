@@ -1,5 +1,6 @@
 package es.si.ProgramadorGenetico.GeneradorAutomatico;
 
+import java.util.List;
 import java.util.ArrayList;
 
 public class GeneradorAF {
@@ -23,7 +24,7 @@ public class GeneradorAF {
 		}
 	};
 	AF aut;
-	ArrayList<Pareja> transicionesExistentes;
+	List<Pareja> transicionesExistentes;
 	
 	public GeneradorAF (int numEstados) {
 		aut = new AF(numEstados);		

@@ -28,17 +28,17 @@ public class FramePrincipal extends JFrame implements ActionListener {
 	private static int estados;
 	private static double[][][] transiciones;
 	private static double[] probabilidadFinal;
-	
 	private PanelTablaTransiciones tablaTransiciones;
-	private JScrollPane scrollPrincipal;
-	private JPanel panelScroll;
+	private JPanel panelPrincipal;
 	private DibujanteAFP dibujanteAFP;
 	private DibujanteAF dibujanteAF;
+	private PanelDatos tablaDatos;
 
 	public FramePrincipal (String s) {
 		super(s);		
 		//this.setExtendedState(Frame.MAXIMIZED_BOTH);		
-		test= false;		   
+		test= false;
+		panelPrincipal = new JPanel();
 		crearMenus();    	    	  
 
 	}
@@ -113,6 +113,7 @@ public class FramePrincipal extends JFrame implements ActionListener {
 		return mejor;
 	}
 
+	/*
 	public void actionPerformed (ActionEvent e) {
 
 		JMenuItem m = ((JMenuItem)(e.getSource()));
@@ -120,12 +121,10 @@ public class FramePrincipal extends JFrame implements ActionListener {
 			dibujanteAF=null;
 			AFP mejor = creaAFP();
 			dibujanteAFP = new DibujanteAFP(mejor);
-			panelScroll = new JPanel();
-			panelScroll.setPreferredSize(new Dimension(1000,1000));
-			panelScroll.add(dibujanteAFP);
-			scrollPrincipal = new JScrollPane(panelScroll);
-			panelScroll.scrollRectToVisible(new Rectangle(0,0,2000,2000));
-			this.add(scrollPrincipal);
+			panelPrincipal = new JPanel();
+			panelPrincipal.setPreferredSize(new Dimension(1000,1000));
+			panelPrincipal.add(dibujanteAFP);			
+			this.add(panelPrincipal);
 			pintar();
 			//scrollPrincipal = new JScrollPane(dibujante);
 			//,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -142,6 +141,7 @@ public class FramePrincipal extends JFrame implements ActionListener {
 		}
 
 	}
+	*/
 
 	public void crearMenus () {
 		JMenuBar menuBar;
@@ -184,34 +184,50 @@ public class FramePrincipal extends JFrame implements ActionListener {
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.ALT_MASK));
 		menuItem.getAccessibleContext().setAccessibleDescription("Simula la configuración");
 		menu.add(menuItem);
-		menuItem.addActionListener(this);
-
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+					
+					borraDibujos();
+					AFP mejor = creaAFP();
+					dibujanteAFP = new DibujanteAFP(mejor);			
+					agregaPanel(dibujanteAFP);
+					pintar();				
+			}
+		});
+		
+		menuItem = new JMenuItem("Introducir cadenas para genético",KeyEvent.VK_I);
+		menuItem.setName("Genetico2");		
+		menu.add(menuItem);
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+					
+					borraDibujos();
+					tablaDatos = new PanelDatos();
+					AFP mejor = creaAFP();
+					dibujanteAFP = new DibujanteAFP(mejor);			
+					agregaPanel(dibujanteAFP);
+					pintar();				
+			}
+		});
+		
 		menuItem = new JMenuItem("Generar autómata automáticamente",KeyEvent.VK_G);
 		menuItem.setName("Automata");		
 		menuItem.getAccessibleContext().setAccessibleDescription("Genera un autómata");
 		menu.add(menuItem);
-		
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				dibujanteAFP = null;
-				dibujanteAF = null;				
+				borraDibujos();
+				
 				String s = (String)JOptionPane.showInputDialog(
-						"Introduzca el número de estados del automáta a generar",
-				"8");
+						"Introduzca el número de estados del automáta a generar","8");
 				int numEstados = Integer.valueOf(s);
 				System.out.println("Num estados: "+numEstados);
 				GeneradorAF genAF = new GeneradorAF(numEstados);
-				dibujanteAF = new DibujanteAF (genAF.getAF());
-				
-				
-				panelScroll = new JPanel();
-				panelScroll.setPreferredSize(new Dimension(1000,1000));
-				panelScroll.add(dibujanteAF);
-				scrollPrincipal = new JScrollPane(panelScroll);
-				panelScroll.scrollRectToVisible(new Rectangle(0,0,2000,2000));
-				agregaPanel(scrollPrincipal);
+				dibujanteAF = new DibujanteAF (genAF.getAF());																
+				agregaPanel(dibujanteAF);
 				pintar();
+				
 				s = "¿Desea ver cadenas posibles de este automata?";
 				int respuesta = mostrarMensajeConfirmacion(s);
 				if (respuesta == JOptionPane.YES_OPTION) {
@@ -231,9 +247,11 @@ public class FramePrincipal extends JFrame implements ActionListener {
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				GeneradorCadenas genCad = new GeneradorCadenas(dibujanteAF.getAutomata());
-				String message = genCad.toString();
-				mostrarMensaje(message);				
+				if (dibujanteAF!=null) {
+					GeneradorCadenas genCad = new GeneradorCadenas(dibujanteAF.getAutomata());
+					String message = genCad.toString();
+					mostrarMensaje(message);
+				}
 			}
 
 		});
@@ -268,14 +286,17 @@ public class FramePrincipal extends JFrame implements ActionListener {
 
 	public void pintar() {
 		this.paintComponent(this.getGraphics());
+		//panelPrincipal.paintComponents(this.getGraphics());
 	}
 
-	public void agregaPanel(JScrollPane panel) {
-		this.add(panel);		
+	public void agregaPanel(JPanel panel) {
+		this.add(panel);	
 	}
 
 	public void paintComponent(Graphics g) {		
 		super.paintComponents(g);
+		//panelPrincipal.paintComponents(this.getGraphics());
+		//panelPrincipal.repaint();
 	}
 	
 	public void mostrarMensaje (String mensaje) {
@@ -285,6 +306,24 @@ public class FramePrincipal extends JFrame implements ActionListener {
 	public int mostrarMensajeConfirmacion (String mensaje) {
 		int i = JOptionPane.showConfirmDialog(this,mensaje);
 		return i; 
+	}
+	
+	public void borraDibujos () {	
+		if (dibujanteAF!=null) {
+			this.remove(dibujanteAF);
+			dibujanteAF = null;
+		}
+		if (dibujanteAFP!=null) {
+			this.remove(dibujanteAFP);
+			dibujanteAFP = null;
+		}
+
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 

@@ -9,8 +9,8 @@ import es.si.ProgramadorGenetico.ProblemaAFP.ParametrosAFP;
 public class GeneradorCadenas {
 
 	private AF af;
-	private ArrayList<String> cadenasAceptadas;
-	private ArrayList<String> cadenasRechazadas;
+	private List<String> cadenasAceptadas;
+	private List<String> cadenasRechazadas;
 	private int estados;
 	private double[][][] transiciones;
 	
