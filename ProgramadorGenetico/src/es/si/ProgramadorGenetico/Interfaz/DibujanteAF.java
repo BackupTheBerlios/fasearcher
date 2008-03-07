@@ -216,7 +216,7 @@ public class DibujanteAF extends JPanel implements Dibujante{
 		estados = new ArrayList<Estado>();
 		//Creamos un estado de mas
 		for (int i=0; i<numEstados; i++) { 
-			Rectangle ajusteLabel = new Rectangle((int)(diamEst/2)-15, (int)(diamEst/2)-15, 30, 30);
+			Rectangle ajusteLabel = new Rectangle((int)(diamEst/2)-10, (int)(diamEst/2)-15, 30, 30);
 			estados.add(new Estado(diamEst,ajusteLabel));
 			estados.get(i).setLabel(new JLabel ("Q"+i));
 			if (i<numEstados)
