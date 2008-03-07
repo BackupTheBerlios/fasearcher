@@ -58,7 +58,7 @@ public class GeneradorCadenas {
 				cadenasRechazadas.add(clonCadena);			
 		}
 	}
-	public int buscaDestino(double [][][] trans,int origen, int valor) {
+	public int buscaDestino(double [][][] trans,int valor, int origen) {
 		for (int i=0; i<trans[origen][valor].length; i++) {
 			if (trans[origen][valor][i]==1)
 				return i;
