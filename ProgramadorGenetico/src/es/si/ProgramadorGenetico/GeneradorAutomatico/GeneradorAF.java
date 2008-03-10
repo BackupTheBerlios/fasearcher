@@ -65,11 +65,11 @@ public class GeneradorAF {
 		//Minimo un estado final
 		int estadoFinalSeguro = (int)(((aut.getEstados())*Math.random()));
 		aut.setFinal(estadoFinalSeguro);
-		for (int i=0; i<aut.getEstados(); i++) {
-			//Probabildad de que un estado sea final entre 0% y 40%
-			int probabilidadFinal = (int)(Math.random()*40);
+		//Probabildad de que un estado sea final entre 0% y 20%
+		int probabilidadFinal = (int)(Math.random()*20);
+		for (int i=0; i<aut.getEstados(); i++) {			
 			int prob = (int)(100*(Math.random()));
-			if (prob >= probabilidadFinal)
+			if (prob <= probabilidadFinal)
 				aut.setFinal(i);							
 		}		
 	}

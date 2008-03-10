@@ -50,7 +50,7 @@ public class PruebaGenerador {
 	
 	
 	public static void setValoresEntrada() {		
-		estados = 15;
+		estados = 5;
 		generador = new GeneradorAF (estados);
 		System.out.println(generador.getAF().toString());
 		

@@ -31,6 +31,9 @@ public class Transicion extends JComponent {
 		this.destino = destino;
 		this.probabilidad0 = probabilidad0;
 		this.probabilidad1 = probabilidad1;
+		label0 = new JLabel();
+		label1 = new JLabel();
+		
 	}
 
 	public Estado getOrigen () {
@@ -91,7 +94,7 @@ public class Transicion extends JComponent {
 			g.fillPolygon(triangulo0);
 			Point puntoValor0 = getPuntoValorCurva0(origenArco, destinoArco, puntoMedio, ang);
 			label0.setText("0");
-			label0.setBounds((int)puntoValor0.getX()-10,(int)puntoValor0.getY()-10,20,20);
+			label0.setBounds((int)puntoValor0.getX()-10,(int)puntoValor0.getY()-10,10,10);
 			}
 			
 			if (pintar1) {
@@ -107,7 +110,7 @@ public class Transicion extends JComponent {
 			g.fillPolygon(triangulo1);
 			Point puntoValor1 = getPuntoValorCurva1(origenArco, destinoArco, puntoMedio, ang);
 			label1.setText("1");
-			label1.setBounds((int)puntoValor1.getX()-10,(int)puntoValor1.getY()-10,20,20);
+			label1.setBounds((int)puntoValor1.getX()-10,(int)puntoValor1.getY()-10,10,10);
 			}
 
 		}
@@ -123,24 +126,24 @@ public class Transicion extends JComponent {
 			label0.setBounds(despX,(int)(despY-(radioArco*1.5)),20,20);
 			*/
 			if (pintar0) {
-			int despX = (int)(origen.getCentro().getX()+radio*Math.cos(Math.toRadians(90)));
-			int despY = (int)(origen.getCentro().getY()-radio*Math.sin(Math.toRadians(90)));
-			int radioArco = (int)origen.getRadio();
-			Color colorTransicion0 = getColorArco0();
-			g.setColor(colorTransicion0);						
-			g.drawOval(despX-radioArco/2, despY-radioArco/2, radioArco, radioArco);
-			label0.setText("0");
-			label0.setBounds(despX,(int)(despY-(radioArco*1.5)),20,20);
+				int despX = (int)(origen.getCentro().getX()+radio*Math.cos(Math.toRadians(90)));
+				int despY = (int)(origen.getCentro().getY()-radio*Math.sin(Math.toRadians(90)));
+				int radioArco = (int)origen.getRadio();
+				Color colorTransicion0 = getColorArco0();
+				g.setColor(colorTransicion0);						
+				g.drawOval(despX-radioArco/2, despY-radioArco/2, radioArco, radioArco);
+				label0.setText("0");
+				label0.setBounds(despX,(int)(despY-(radioArco*1.5)),20,20);
 			}
 			if (pintar1) {
-			int despX = (int)(origen.getCentro().getX()+2*radio*Math.cos(Math.toRadians(90)));
-			int despY = (int)(origen.getCentro().getY()-2*radio*Math.sin(Math.toRadians(90)));
-			int radioArco = (int)origen.getRadio()*2;
-			Color colorTransicion1 = getColorArco1();
-			g.setColor(colorTransicion1);						
-			g.drawOval(despX-radioArco/2, despY-radioArco/3+5, radioArco, radioArco);
-			label1.setText("1");
-			label1.setBounds(despX,(int)(despY-(radioArco)+8),20,20);
+				int despX = (int)(origen.getCentro().getX()+2*radio*Math.cos(Math.toRadians(90)));
+				int despY = (int)(origen.getCentro().getY()-2*radio*Math.sin(Math.toRadians(90)));
+				int radioArco = (int)origen.getRadio()*2;
+				Color colorTransicion1 = getColorArco1();
+				g.setColor(colorTransicion1);						
+				g.drawOval(despX-radioArco/2, despY-radioArco/3+5, radioArco, radioArco);
+				label1.setText("1");
+				label1.setBounds(despX,(int)(despY-(radioArco)+8),20,20);
 			}
 			
 		}
@@ -468,6 +471,16 @@ public class Transicion extends JComponent {
 		pintar0 = trans0;
 		pintar1 = trans1;
 		paintComponent(g);
+		label0.repaint();
+		label1.repaint();
+	}
+	
+	public boolean equals (Transicion t) {
+		if ((origen==t.origen)&&(destino==t.destino)) {
+			if (probabilidad0==t.getProbabilidad0() && probabilidad1==t.getProbabilidad1())
+			return true;
+		}
+		return false;
 	}
 	/*
 	public double distanciaEstados () {
@@ -478,5 +491,35 @@ public class Transicion extends JComponent {
 
 	}
 	 */
+
+	public void setProbabilidad0(double probabilidad0) {
+		this.probabilidad0 = probabilidad0;
+	}
+
+	public void setProbabilidad1(double probabilidad1) {
+		this.probabilidad1 = probabilidad1;
+	}
+	
+	public void setProbabilidad(int valor, double probabilidad) {
+		if (valor==0) 
+			probabilidad0 = probabilidad;
+		if (valor==1)
+			probabilidad1 = probabilidad;
+	}
+	
+	public void setLabel (int valor, JLabel label) {
+		if (valor==0)
+			label0 = label;
+		if (valor==1)
+			label1 = label;
+	}
+	
+	public JLabel getLabel (int valor) {
+		if (valor==0)
+			return label0;
+		if (valor==1)
+			return label1;
+		return null;
+	}
 
 }

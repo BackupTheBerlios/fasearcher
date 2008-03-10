@@ -86,6 +86,7 @@ public class Estado extends JComponent{
 	        if (esFinal()) {	        	
 	        	g.drawOval((int)punto.getX()+4, (int)punto.getY()+4, (int)(diametro-8), (int)(diametro-8));
 	        }
+	        label.repaint();
 		}
 		
 		public boolean getPulsado (Point p) {
@@ -112,6 +113,10 @@ public class Estado extends JComponent{
 		
 		public void setProbabilidadFinal (double prob) {
 			probabilidadFinal = prob;
+		}
+		
+		public void setAjusteLabel (Rectangle r) {
+			ajusteLabel = r;
 		}
 
 }

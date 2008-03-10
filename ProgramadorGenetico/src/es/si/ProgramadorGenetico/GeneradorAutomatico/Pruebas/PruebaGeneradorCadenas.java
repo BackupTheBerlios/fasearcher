@@ -42,22 +42,16 @@ public class PruebaGeneradorCadenas {
 		
 	}
 	
-	public static void inicializar () {		
-		setValoresEntrada();
-		AF mejor = generador.getAF();			
-		dibujante = new DibujanteAF(mejor);		
-	}
-	
-	
-	public static void setValoresEntrada() {		
+	public static void inicializar () {				
 		estados = 5;
 		generador = new GeneradorAF (estados);		
 		System.out.println(generador.getAF().toString());
 		GeneradorCadenas genCad = new GeneradorCadenas (generador.getAF());
 		System.out.println(genCad.toString());
-		
+		AF mejor = generador.getAF();			
+		dibujante = new DibujanteAF(mejor);		
 	}
-	
+		
 }
 
 
