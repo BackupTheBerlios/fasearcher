@@ -24,6 +24,7 @@ import java.awt.geom.QuadCurve2D;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputAdapter;
 
@@ -32,6 +33,7 @@ import javax.swing.event.MouseInputAdapter;
 import java.awt.RenderingHints;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 
 public class DibujanteAF extends JPanel implements Dibujante{
@@ -82,6 +84,8 @@ public class DibujanteAF extends JPanel implements Dibujante{
 	 *
 	 */
 	private Transicion[][] transiciones;
+	
+	private List<Transicion> transiciones2;
 
 	/**
 	 * Estado que se esta moviendo
@@ -93,6 +97,28 @@ public class DibujanteAF extends JPanel implements Dibujante{
 	 * Automata
 	 */
 	private AF automataMejor;
+	
+	private int modo;	
+	protected final int INSERTAR_ESTADO=1;
+	protected final int INSERTAR_TRANSICION=2;
+	protected final int FINALIZAR_TRANSICION=3;
+	protected final int EDICION=4;
+	private Estado estadoInicioTransicion;
+	
+	private class OrigenDestinos {
+		
+		private int destino0;
+		private int destino1;
+				
+		public int get0() {
+			return destino0;
+		}
+		public int get1() {
+			return destino1;
+		}
+	}
+	
+	//private List<OrigenTransiciones> tablaDestinos; 
 
 	private class OyenteDibujante extends MouseInputAdapter {
 		public OyenteDibujante () {
@@ -124,19 +150,126 @@ public class DibujanteAF extends JPanel implements Dibujante{
 
 		public void mousePressed(MouseEvent e) {
 			// TODO Auto-generated method stub
-			boolean estadoPulsado = false;
-			for (int i=0; i<estados.size();i++){
-				Point puntoClick = e.getPoint();			
-				Estado es = ((Estado)estados.get(i));
-				if (es.getPulsado(puntoClick)) {
-					estadoMovido = es;					
-					estadoPulsado = true;
-				}
+			switch (modo) {
+			case 1: {
+				Point puntoClick = e.getPoint();				
+				String etiqueta = new String("Q"+getNumEstados());
+				JLabel label = new JLabel(etiqueta);
+				Rectangle ajusteLabel = new Rectangle((int)(diamEst/2)-10, (int)(diamEst/2)-15, 30, 30);
+				Estado nuevoE = new Estado(diamEst,ajusteLabel);								
+				nuevoE.setLabel(label);
+				nuevoE.setPunto(puntoClick);
+				nuevoE.setBoundsLabel(puntoClick.x, puntoClick.y);
+				addEstado(nuevoE);
+				addLabelEstado(nuevoE.getLabel());
+				paintComponent(getGraphics());
+				break;
 			}
-			if (!estadoPulsado)
-				estadoMovido = null;
+			case 2: {
+				boolean estadoPulsado = false;
+				for (int i=0; i<estados.size()&&!estadoPulsado;i++){
+					Point puntoClick = e.getPoint();			
+					Estado es = ((Estado)estados.get(i));
+					if (es.getPulsado(puntoClick)) {
+						estadoInicioTransicion = es;					
+						estadoPulsado = true;
+						setModo(FINALIZAR_TRANSICION);
+					}
+				}
+				paintComponent(getGraphics());
+				break;
+			}
+
+			case 3: {
+				boolean estadoPulsado = false;
+				for (int i=0; i<estados.size()&&!estadoPulsado;i++){
+					Point puntoClick = e.getPoint();			
+					Estado estadoFinTransicion = ((Estado)estados.get(i));
+					if (estadoFinTransicion.getPulsado(puntoClick)) {
+						estadoPulsado=true;
+						String s= new String(); 
+						do {
+							s = JOptionPane.showInputDialog("Introduzca el nuevo valor de la transicion (0 o 1)");
+						}
+						while (s==null||!((s.equals("0"))||(s.equals("1"))));
+						int valor = Integer.valueOf(s);
+						
+						Transicion t = buscaTransiciones(estadoInicioTransicion,estadoFinTransicion);
+						if (t!=null) {						
+							Transicion viejaT = buscaTransiciones(valor, estadoInicioTransicion);
+							if (viejaT!=null) {
+								viejaT.setProbabilidad(valor,0);
+								if (viejaT.getProbabilidad0()==0 && viejaT.getProbabilidad1()==0) {
+									removeLabel(viejaT.getLabel0());
+									removeLabel(viejaT.getLabel1());
+									transiciones2.remove(viejaT);
+									
+								}
+							}					
+							t.setProbabilidad(valor,1);
+							t.setLabel(valor, new JLabel(Integer.toString(valor)));
+						}
+						else {
+							Transicion viejaT = buscaTransiciones(valor, estadoInicioTransicion);
+							if (viejaT!=null) {
+								viejaT.setProbabilidad(valor,0);
+								if (viejaT.getProbabilidad0()==0 && viejaT.getProbabilidad1()==0) {
+									removeLabel(viejaT.getLabel0());
+									removeLabel(viejaT.getLabel1());
+									transiciones2.remove(viejaT);
+								}
+							}					
+							Transicion nuevaT = new Transicion (estadoInicioTransicion,estadoFinTransicion,0,0);
+							nuevaT.setProbabilidad(valor,1);
+							nuevaT.setLabel(valor,new JLabel(Integer.toString(valor)));
+							addTransicion(nuevaT);
+							//AÑADIR LA LABEL
+							add(transiciones2.get(transiciones2.size()-1).getLabel(valor));
+						}
+					}
+				}
+				estadoInicioTransicion=null;
+				setModo(2);
+				paintComponent(getGraphics());
+				break;
+			
+			}
+			case 4: {
+				boolean estadoPulsado = false;
+				for (int i=0; i<estados.size()&&!estadoPulsado;i++){
+					Point puntoClick = e.getPoint();			
+					Estado es = ((Estado)estados.get(i));
+					if (es.getPulsado(puntoClick)) {
+						estadoMovido = es;					
+						estadoPulsado = true;
+					}
+				}
+				if (!estadoPulsado)
+					estadoMovido = null;
+				paintComponent(getGraphics());
+				break;
+				
+			}
+
+			default: {
+				boolean estadoPulsado = false;
+				for (int i=0; i<estados.size()&&!estadoPulsado;i++){
+					Point puntoClick = e.getPoint();			
+					Estado es = ((Estado)estados.get(i));
+					if (es.getPulsado(puntoClick)) {
+						estadoMovido = es;					
+						estadoPulsado = true;
+					}
+				}
+				if (!estadoPulsado)
+					estadoMovido = null;
+				paintComponent(getGraphics());
+				break;
+			}
+			}
 
 		}
+	}
 
 
 		public void mouseReleased(MouseEvent e) {
@@ -147,9 +280,16 @@ public class DibujanteAF extends JPanel implements Dibujante{
 			 */
 		}	
 
+		public void buscaEstado () {
+		
 	}
 
-	public DibujanteAF () {		
+	public DibujanteAF () {
+		super(new GridLayout(0,1));		
+		inicializacionesPanel();
+		estados = new ArrayList<Estado>();
+		transiciones2 = new ArrayList<Transicion>();
+		//tablaDestinos = new ArrayList<DestinoTransiciones>();
 	}
 
 
@@ -168,7 +308,7 @@ public class DibujanteAF extends JPanel implements Dibujante{
 		probabilidadFinal = automataMejor.getFinales();
 		inicializacionesPanel();
 		calculoEstados();
-		calculoTransiciones(transicionesArray);
+		calculoTransiciones2(transicionesArray);
 
 	}
 
@@ -181,16 +321,12 @@ public class DibujanteAF extends JPanel implements Dibujante{
 
 	public DibujanteAF (double[][][] transiciones, 
 			double[] probabilidadFinal,	int estados) {
-
 		super(new GridLayout(0,1));		
 		this.probabilidadFinal = probabilidadFinal;
 		this.numEstados = estados;		
 		inicializacionesPanel();
 		calculoEstados();
 		calculoTransiciones(transiciones);
-
-
-
 	}
 
 
@@ -201,8 +337,6 @@ public class DibujanteAF extends JPanel implements Dibujante{
 		addMouseListener(oyente);
 		addMouseMotionListener(oyente);			
 		setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
-
-
 	}
 
 
@@ -267,6 +401,22 @@ public class DibujanteAF extends JPanel implements Dibujante{
 			}	
 		}
 	}
+	
+	public void calculoTransiciones2(double [][][] transicionesArray) {
+
+		transiciones2 = new ArrayList<Transicion>();		
+		for (int i=0; i<transicionesArray.length; i++ ) {
+			for (int k=0; k<transicionesArray[i][0].length; k++) {
+				transiciones2.add(new Transicion (estados.get(i),estados.get(k),
+						transicionesArray[i][0][k],transicionesArray[i][1][k]));
+				transiciones2.get(transiciones2.size()-1).setLabel0(new JLabel());
+				transiciones2.get(transiciones2.size()-1).setLabel1(new JLabel());
+				add(transiciones2.get(transiciones2.size()-1).getLabel0());								
+				add(transiciones2.get(transiciones2.size()-1).getLabel1());
+
+			}	
+		}
+	}
 
 
 
@@ -278,7 +428,7 @@ public class DibujanteAF extends JPanel implements Dibujante{
 		super.paintComponent(g);
 		g2 = (Graphics2D) g;
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);				
-		pintaTransiciones(g2);
+		pintaTransiciones2(g2);
 		pintaEstados(g2);		      
 
 	}
@@ -312,18 +462,20 @@ public class DibujanteAF extends JPanel implements Dibujante{
 			((Estado)(estados.get(i))).paintComponent(g);
 
 
-		//Pinta triangulo del estado inicial 
-		Estado q0 = estados.get(0);					
-		int[] xTriangulo = new int[3];
-		int[] yTriangulo = new int[3];
-		xTriangulo[0] = (int)(q0.getCentro().getX()-q0.getRadio());
-		yTriangulo[0] = (int)q0.getCentro().getY();
-		xTriangulo[1] = (int)(xTriangulo[0]+Math.cos(Math.toRadians(135))*q0.getRadio());
-		yTriangulo[1] = (int)(yTriangulo[0]+Math.sin(Math.toRadians(135))*q0.getRadio());
-		xTriangulo[2] = (int)(xTriangulo[0]+Math.cos(Math.toRadians(225))*q0.getRadio());
-		yTriangulo[2] = (int)(yTriangulo[0]+Math.sin(Math.toRadians(225))*q0.getRadio());
-		Polygon triangulo = new Polygon(xTriangulo, yTriangulo, 3);
-		g.drawPolygon(triangulo);		
+		//Pinta triangulo del estado inicial
+		if (estados.size()>0) {
+			Estado q0 = estados.get(0);					
+			int[] xTriangulo = new int[3];
+			int[] yTriangulo = new int[3];
+			xTriangulo[0] = (int)(q0.getCentro().getX()-q0.getRadio());
+			yTriangulo[0] = (int)q0.getCentro().getY();
+			xTriangulo[1] = (int)(xTriangulo[0]+Math.cos(Math.toRadians(135))*q0.getRadio());
+			yTriangulo[1] = (int)(yTriangulo[0]+Math.sin(Math.toRadians(135))*q0.getRadio());
+			xTriangulo[2] = (int)(xTriangulo[0]+Math.cos(Math.toRadians(225))*q0.getRadio());
+			yTriangulo[2] = (int)(yTriangulo[0]+Math.sin(Math.toRadians(225))*q0.getRadio());
+			Polygon triangulo = new Polygon(xTriangulo, yTriangulo, 3);
+			g.drawPolygon(triangulo);
+		}
 
 
 	}
@@ -345,6 +497,16 @@ public class DibujanteAF extends JPanel implements Dibujante{
 		}
 
 	}
+	
+	public void pintaTransiciones2 (Graphics2D g) {
+		for (int i=0; i<transiciones2.size(); i++) {			
+			Transicion trans = transiciones2.get(i);
+			boolean transicionCon0 = trans.getProbabilidad0() > 0.1;
+			boolean transicionCon1 = trans.getProbabilidad1() > 0.1;
+			trans.pinta(transicionCon0, transicionCon1,g);
+		}
+
+	}
 
 	public int getNumEstados() {
 		return numEstados;
@@ -352,6 +514,59 @@ public class DibujanteAF extends JPanel implements Dibujante{
 	
 	public AF getAutomata() {
 		return automataMejor;
+	}
+	
+	public void addEstado (Estado e) {
+		estados.add(e);
+		numEstados++;
+	}
+	
+	public void addTransicion (Transicion t) {			
+		transiciones2.add(t);
+		
+	}
+	
+	public void addLabelEstado (JLabel label) {
+		add(label);
+	}
+	
+	public void removeLabel (JLabel label) {
+		if (label!=null)
+			remove(label);
+	}
+	
+	public void setModo(int modo) {
+		this.modo = modo;
+	}
+	
+	public int getModo() {
+		return modo;
+	}
+	
+	public Transicion buscaTransiciones (Estado estadoInicio, Estado estadoFin) {
+		for (int i=0; i<transiciones2.size();i++) {
+			if (transiciones2.get(i).getOrigen()==estadoInicio && 
+				transiciones2.get(i).getDestino()==estadoFin)
+				return transiciones2.get(i);			
+		}
+		return null;
+	}
+	
+	public Transicion buscaTransiciones(int valor, Estado estadoInicio) {
+		for (int i=0; i<transiciones2.size(); i++) {
+			if (transiciones2.get(i).getOrigen()==estadoInicio) {
+				if (valor==0) {
+					if (transiciones2.get(i).getProbabilidad0()==1)
+						return transiciones2.get(i);
+				}
+				else { //valor==1					
+					if (transiciones2.get(i).getProbabilidad1()==1)
+						return transiciones2.get(i);
+				}
+			}
+		}
+		return null;
+		
 	}
 
 	/*
