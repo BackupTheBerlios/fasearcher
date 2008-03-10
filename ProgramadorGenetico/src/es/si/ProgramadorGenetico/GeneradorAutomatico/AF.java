@@ -64,11 +64,6 @@ public class AF implements Individuo{
 		return af;
 	}
 
-	@Override
-	public boolean equals(Individuo otro) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 	public boolean esFinal (int estado) {
 		if (this.finales[estado]==1)
 			return true;
@@ -77,8 +72,28 @@ public class AF implements Individuo{
 	}
 	
 	public boolean acepta (String cadena) {
-		//cadena
+		int estadoActual = 0;//estado inicial
+		for (int i=0; i<cadena.length(); i++) {
+			int bit = (int)(Integer.valueOf(cadena.substring(i,i+1)));
+			estadoActual = buscaDestino(estadoActual,bit);			
+		}
+		if (esFinal(estadoActual))
+			return true;		
 		return false;
 	}
 
+	public int buscaDestino (int estadoOrigen, int valor) {
+		int longit = transiciones[estadoOrigen][valor].length;
+		for (int i=0; i<transiciones[estadoOrigen][valor].length; i++) {
+			if (transiciones[estadoOrigen][valor][i]==1)
+				return i;
+		}
+		return -1;
+	}
+
+	@Override
+	public boolean equals(Individuo otro) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
