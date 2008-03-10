@@ -24,7 +24,8 @@ public class GeneradorCadenas {
 	public void generaCadenas () {
 		estados = af.getEstados();
 		transiciones = af.getTransiciones();
-		generaCadenasIniciales();
+		//generaCadenasIniciales();
+		generaCadenasAleatorias();
 		
 	}
 	
@@ -58,6 +59,24 @@ public class GeneradorCadenas {
 				cadenasRechazadas.add(clonCadena);			
 		}
 	}
+	
+	public void generaCadenasAleatorias () {	
+		String cadena = new String();
+		nuevaCadena(af.acepta("00"),"00");
+		nuevaCadena(af.acepta("01"),"01");
+		nuevaCadena(af.acepta("10"),"10");
+		nuevaCadena(af.acepta("11"),"11");
+		for (int i=0; i<estados; i++) {
+			cadena = "";
+			int longitudCadena = 3+ (int)(Math.random()*estados*2);
+			for (int j=0; j<longitudCadena; j++) {
+				int bitActual = (int)(Math.random()*2);
+				cadena+=bitActual;				
+			}
+			nuevaCadena(af.acepta(cadena),cadena);								
+		}
+	}
+	
 	public int buscaDestino(double [][][] trans,int valor, int origen) {
 		for (int i=0; i<trans[origen][valor].length; i++) {
 			if (trans[origen][valor][i]==1)
@@ -81,5 +100,15 @@ public class GeneradorCadenas {
 			cadenas+=cad+"\n";
 		}
 		return cadenas;
+	}
+	
+	public void nuevaCadena (boolean aceptada, String cadena) {
+		if (aceptada) {
+			if (!cadenasAceptadas.contains(cadena))
+				cadenasAceptadas.add(cadena); 
+		}				
+		else if (!cadenasRechazadas.contains(cadena)) 
+			cadenasRechazadas.add(cadena);		
+		
 	}
 }
