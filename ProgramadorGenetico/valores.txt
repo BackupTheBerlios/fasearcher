@@ -5,13 +5,13 @@ muestras=20
 pobmax=100000
 
 # cantidad de estados que tendrán los AFPS (opcional, defecto = 5)
-estados=4
+estados=3
 
 # cadenas aceptadas por el AFP que se pretende encontrar, separadas por coma
-aceptadas=01,11,01011,01001,11011,01011001,01011011,01011001
+aceptadas=111,01111,001111
 
 # cadenas rechazadas por el AFP que se pretende encontrar, separadas por coma
-rechazadas=010,111,1111,0,110,1100,0101,010111,0101,010110,0101101,00,000
+rechazadas=0,1,11,00,01,10,000,010,1011,100,11010,000101
 
 # cantidad de particiones al generar las probabilidades de transicion de un AFP (opcional, defecto = 200)
 particiones=5

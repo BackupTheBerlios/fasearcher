@@ -13,12 +13,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
+
 import javax.swing.*;
 
 import java.awt.Dialog; 
+import java.util.List;
 
 //import com.sun.media.sound.Toolkit;
 
+import es.si.ProgramadorGenetico.GeneradorAutomatico.AF;
 import es.si.ProgramadorGenetico.GeneradorAutomatico.GeneradorAF;
 import es.si.ProgramadorGenetico.GeneradorAutomatico.GeneradorCadenas;
 import es.si.ProgramadorGenetico.ProblemaAFP.AFP;
@@ -43,6 +46,8 @@ public class FramePrincipal extends JFrame implements ActionListener {
 	private JMenuBar menuBar;
 	private JMenu menu;
 	private JMenuItem menuItem;
+	private AF afGenetico;
+	private GeneradorCadenas genCadenas;
 
 	public FramePrincipal (String s) {
 		super(s);		
@@ -123,6 +128,11 @@ public class FramePrincipal extends JFrame implements ActionListener {
 		return mejor;
 	}
 
+	public static AFP creaAFPdeAF (List<String> aceptadas, List<String> rechazadas, int numEstados) {
+		//Principal.ejecucionGenetico(aceptadas, rechazadas);		
+		Principal.ejecuta2(aceptadas, rechazadas,numEstados);
+		return Principal.getMejor();
+	}
 	/*
 	public void actionPerformed (ActionEvent e) {
 
@@ -202,6 +212,25 @@ public class FramePrincipal extends JFrame implements ActionListener {
 			}
 		});
 		
+		menuItem = new JMenuItem("Algoritmo genético a partir del autómata finito",KeyEvent.VK_L);
+		menuItem.setName("Genetico");
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B, ActionEvent.ALT_MASK));
+		menuItem.getAccessibleContext().setAccessibleDescription("Simula la configuración");
+		menu.add(menuItem);
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {										
+			
+					afGenetico = new AF(dibujanteAF.getEstados(),dibujanteAF.getTransiciones2());					
+					genCadenas = new GeneradorCadenas(afGenetico);
+					AFP mejor = creaAFPdeAF(genCadenas.getCadenasAceptadas(),
+							genCadenas.getCadenasRechazadas(),
+							afGenetico.getEstados());					
+					borraDibujos();
+					dibujanteAFP = new DibujanteAFP (mejor);
+					agregaPanel(dibujanteAFP);
+					pintar();
+			}
+		});
 		
 
 		menuItem = new JMenuItem("Obtener cadenas del AF",KeyEvent.VK_O);
@@ -213,9 +242,11 @@ public class FramePrincipal extends JFrame implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
 
 				if (dibujanteAF!=null) {
+					if (dibujanteAF.getAutomata()==null) 
+						afGenetico = new AF(dibujanteAF.getEstados(), dibujanteAF.getTransiciones2());									 
 					GeneradorCadenas genCad = new GeneradorCadenas(dibujanteAF.getAutomata());
 					String message = genCad.toString();
-					mostrarMensaje(message);
+					mostrarMensaje(message);																				
 				}
 			}
 
@@ -264,7 +295,6 @@ public class FramePrincipal extends JFrame implements ActionListener {
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dibujanteAF.setModo(dibujanteAF.INSERTAR_ESTADO);
-				System.out.println("Modo:"+dibujanteAF.getModo());
 			}
 		});
 		
@@ -277,6 +307,17 @@ public class FramePrincipal extends JFrame implements ActionListener {
 				dibujanteAF.setModo(dibujanteAF.INSERTAR_TRANSICION);
 			}
 		});
+		
+		menuItem = new JMenuItem("Activar/Desactivar estado final", KeyEvent.VK_I);
+		menuItem.setName("Set Final");
+		menuItem.setEnabled(false);
+		menu.add(menuItem);
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dibujanteAF.setModo(dibujanteAF.SET_FINAL);
+			}
+		});
+		
 		
 		menuItem = new JMenuItem("Modo Edicion", KeyEvent.VK_I);
 		menuItem.setName("Modo edicion");
@@ -373,6 +414,5 @@ public class FramePrincipal extends JFrame implements ActionListener {
 		// TODO Auto-generated method stub
 		
 	}
-
 
 }

@@ -77,7 +77,7 @@ public class DibujanteAF extends JPanel implements Dibujante{
 	/**
 	 * Array que contiene los estados	 
 	 */
-	private ArrayList<Estado> estados;
+	private List<Estado> estados;
 
 	/**
 	 * Array que contiene las transiciones
@@ -86,12 +86,14 @@ public class DibujanteAF extends JPanel implements Dibujante{
 	private Transicion[][] transiciones;
 	
 	private List<Transicion> transiciones2;
+	
+	private List<Boolean> estadosFinales;
 
 	/**
 	 * Estado que se esta moviendo
 	 *
 	 */
-	private Estado estadoMovido;	
+	private Estado estadoMovido;
 	
 	/**
 	 * Automata
@@ -102,7 +104,8 @@ public class DibujanteAF extends JPanel implements Dibujante{
 	protected final int INSERTAR_ESTADO=1;
 	protected final int INSERTAR_TRANSICION=2;
 	protected final int FINALIZAR_TRANSICION=3;
-	protected final int EDICION=4;
+	protected final int SET_FINAL=4;
+	protected final int EDICION=0;
 	private Estado estadoInicioTransicion;
 	
 	private class OrigenDestinos {
@@ -234,7 +237,22 @@ public class DibujanteAF extends JPanel implements Dibujante{
 				break;
 			
 			}
+			
 			case 4: {
+				boolean estadoPulsado = false;
+				for (int i=0; i<estados.size()&&!estadoPulsado;i++){
+					Point puntoClick = e.getPoint();			
+					Estado es = ((Estado)estados.get(i));					
+					if (es.getPulsado(puntoClick)) {
+						es.setProbabilidadFinal(1.0-es.getProbabilidadFinal());						
+					}
+				}
+				paintComponent(getGraphics());
+				break;
+				
+				
+			}
+			case 0: {
 				boolean estadoPulsado = false;
 				for (int i=0; i<estados.size()&&!estadoPulsado;i++){
 					Point puntoClick = e.getPoint();			
@@ -289,6 +307,7 @@ public class DibujanteAF extends JPanel implements Dibujante{
 		inicializacionesPanel();
 		estados = new ArrayList<Estado>();
 		transiciones2 = new ArrayList<Transicion>();
+		estadosFinales = new ArrayList<Boolean> ();
 		//tablaDestinos = new ArrayList<DestinoTransiciones>();
 	}
 
@@ -301,7 +320,7 @@ public class DibujanteAF extends JPanel implements Dibujante{
 
 	public DibujanteAF(Individuo mejor) {
 		super(new GridLayout(0,1));		
-		automataMejor = (AF) mejor;		
+		automataMejor = (AF) mejor;	
 		double[][][] transicionesArray;
 		transicionesArray = automataMejor.getTransiciones();
 		numEstados = automataMejor.getEstados();		
@@ -376,8 +395,10 @@ public class DibujanteAF extends JPanel implements Dibujante{
 			y=yini;
 		}
 
-		for (int i=0; i<numEstados; i++) 
+		for (int i=0; i<numEstados; i++) {
 			add(estados.get(i).getLabel());
+			estados.get(i).setIndice(i);
+		}
 
 	}
 
@@ -518,6 +539,8 @@ public class DibujanteAF extends JPanel implements Dibujante{
 	
 	public void addEstado (Estado e) {
 		estados.add(e);
+		e.setIndice(numEstados);
+		estadosFinales.add(new Boolean(false));
 		numEstados++;
 	}
 	
@@ -567,6 +590,14 @@ public class DibujanteAF extends JPanel implements Dibujante{
 		}
 		return null;
 		
+	}
+	
+	public List<Estado> getEstados () {
+		return estados;
+	}
+	
+	public List<Transicion> getTransiciones2 () {
+		return transiciones2;
 	}
 
 	/*

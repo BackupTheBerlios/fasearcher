@@ -86,6 +86,61 @@ public class ParametrosAFP {
 
 	}
 	
+	public ParametrosAFP (List<String> aceptadas, List<String> rechazadas) {		
+		muestras = new ArrayList<Integer>();
+		pobmax = new ArrayList<Integer>();
+		this.aceptadas = aceptadas;
+		this.rechazadas = rechazadas;
+		
+		Properties valores = new Properties();
+		FileInputStream fis;
+		try {
+			fis = new FileInputStream("./valores.txt");
+			valores.load(fis);
+		} catch (FileNotFoundException e) {
+			System.out.print("No se encontro el fichero valores.txt");
+		} catch (IOException e) {
+			System.out.print("Problemas leyendo el fichero de entrada");
+		}
+		
+		if (valores.getProperty("estados") != null) {
+			estados = Integer.valueOf(valores.getProperty("estados")).intValue();
+		}
+				
+		particiones = Integer.valueOf(valores.getProperty("particiones", "200")).intValue();
+		
+		StringTokenizer st = new StringTokenizer(valores.getProperty("aceptadas", ""), ",");
+		while(st.hasMoreTokens()) {
+			//aceptadas.add(st.nextToken());
+			String s = st.nextToken();
+			//numeroMuestras++;
+		}
+		
+		st = new StringTokenizer(valores.getProperty("rechazadas", ""), ",");
+		while(st.hasMoreTokens()) {
+			//rechazadas.add(st.nextToken());
+			String s = st.nextToken();
+			//numeroMuestras++;
+		}
+		
+		numeroMuestras = aceptadas.size()+rechazadas.size();
+		
+		if (valores.getProperty("muestras") != null) {
+			st = new StringTokenizer(valores.getProperty("muestras", ""), ",");
+			while(st.hasMoreTokens()) {
+				muestras.add(Integer.parseInt(st.nextToken()));
+			}			
+		}
+
+		if (valores.getProperty("pobmax") != null) {
+			st = new StringTokenizer(valores.getProperty("pobmax", ""), ",");
+			while(st.hasMoreTokens()) {
+				pobmax.add(Integer.parseInt(st.nextToken()));
+			}			
+		}
+
+	}
+	
 	public static ParametrosAFP getInstance() {
 		if (parametros == null) {
 			parametros = new ParametrosAFP();
@@ -137,4 +192,7 @@ public class ParametrosAFP {
 		this.particiones = particiones;
 	}
 	
+	public void setNumeroMuestras (int num) {
+		numeroMuestras = num;
+	}
 }

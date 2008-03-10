@@ -23,6 +23,7 @@ public class Estado extends JComponent{
 		private JLabel label;
 		private double probabilidadFinal;
 		private Rectangle ajusteLabel;
+		private int indice;
 		
 		public Estado () {
 			punto = new Point();
@@ -117,6 +118,17 @@ public class Estado extends JComponent{
 		
 		public void setAjusteLabel (Rectangle r) {
 			ajusteLabel = r;
+		}
+		public double getProbabilidadFinal() {
+			return probabilidadFinal;
+		}
+		
+		public void setIndice (int ind) {
+			indice = ind;
+		}
+		
+		public int getIndice () {
+			return indice;
 		}
 
 }

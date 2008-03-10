@@ -2,6 +2,9 @@ package es.si.ProgramadorGenetico.GeneradorAutomatico;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.List;
+
+import es.si.ProgramadorGenetico.Interfaz.*;
 
 import es.si.ProgramadorGenetico.Individuo;
 
@@ -24,6 +27,21 @@ public class AF implements Individuo{
 		transiciones = new double[estados][2][estados];
 		finales = new double[estados];
 	}
+	
+	public AF (List<Estado> listaEstados, List<Transicion> listaTransiciones) {		
+		estados = listaEstados.size();
+		transiciones = new double[estados][2][estados];
+		for (int i=0; i<listaTransiciones.size(); i++) {
+			Transicion t = listaTransiciones.get(i);
+			transiciones[t.getOrigen().getIndice()][0][t.getDestino().getIndice()]=t.getProbabilidad0();
+			transiciones[t.getOrigen().getIndice()][1][t.getDestino().getIndice()]=t.getProbabilidad1();			
+		}
+		finales = new double[estados];
+		for (int i=0; i<estados; i++) {			
+			finales[i] = listaEstados.get(i).getProbabilidadFinal();
+		}
+	}
+		
 	
 	public void setTransicion (int origen, int valor, int destino) {
 		transiciones[origen][valor][destino]=1;
@@ -48,6 +66,14 @@ public class AF implements Individuo{
 	public void setFinal (int estado) {
 		finales[estado] = 1;
 	}
+	/*
+	public void setFinalBool (boolean estadoFinal, int estado) {
+		if (estadoFinal)
+			finales[estado] = 1;
+		else
+			finales[estado] = 0;
+	}
+	*/
 	
 	public String toString() {
 		String af = new String();
