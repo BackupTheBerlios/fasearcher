@@ -3,6 +3,10 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.Graphics;
+import java.awt.Menu;
+import java.awt.MenuBar;
+import java.awt.MenuItem;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -33,6 +37,12 @@ public class FramePrincipal extends JFrame implements ActionListener {
 	private DibujanteAFP dibujanteAFP;
 	private DibujanteAF dibujanteAF;
 	private PanelDatos tablaDatos;
+	private boolean dibujar;
+	private int diametroEstado = 40;
+	private Estado estadoInicioTransicion;
+	private JMenuBar menuBar;
+	private JMenu menu;
+	private JMenuItem menuItem;
 
 	public FramePrincipal (String s) {
 		super(s);		
@@ -144,9 +154,6 @@ public class FramePrincipal extends JFrame implements ActionListener {
 	*/
 
 	public void crearMenus () {
-		JMenuBar menuBar;
-		JMenu menu;
-		JMenuItem menuItem;
 
 		//Crea la barra de menu
 
@@ -195,49 +202,7 @@ public class FramePrincipal extends JFrame implements ActionListener {
 			}
 		});
 		
-		menuItem = new JMenuItem("Introducir cadenas para genético",KeyEvent.VK_I);
-		menuItem.setName("Genetico2");		
-		menu.add(menuItem);
-		menuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-					
-					borraDibujos();
-					tablaDatos = new PanelDatos();
-					AFP mejor = creaAFP();
-					dibujanteAFP = new DibujanteAFP(mejor);			
-					agregaPanel(dibujanteAFP);
-					pintar();				
-			}
-		});
 		
-		menuItem = new JMenuItem("Generar autómata automáticamente",KeyEvent.VK_G);
-		menuItem.setName("Automata");		
-		menuItem.getAccessibleContext().setAccessibleDescription("Genera un autómata");
-		menu.add(menuItem);
-		menuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				borraDibujos();
-				
-				String s = (String)JOptionPane.showInputDialog(
-						"Introduzca el número de estados del automáta a generar","8");
-				int numEstados = Integer.valueOf(s);
-				System.out.println("Num estados: "+numEstados);
-				GeneradorAF genAF = new GeneradorAF(numEstados);
-				dibujanteAF = new DibujanteAF (genAF.getAF());																
-				agregaPanel(dibujanteAF);
-				pintar();
-				
-				s = "¿Desea ver cadenas posibles de este automata?";
-				int respuesta = mostrarMensajeConfirmacion(s);
-				if (respuesta == JOptionPane.YES_OPTION) {
-					GeneradorCadenas genCad = new GeneradorCadenas(dibujanteAF.getAutomata());
-					String message = genCad.toString();
-					mostrarMensaje(message);
-				}												
-			}
-
-		});
 
 		menuItem = new JMenuItem("Obtener cadenas del AF",KeyEvent.VK_O);
 		menuItem.setName("Cadenas");		
@@ -270,14 +235,88 @@ public class FramePrincipal extends JFrame implements ActionListener {
 
 		//Segundo menú
 
-		menu = new JMenu("Opciones");
+		menu = new JMenu("Crear un autómata finito");
 		menu.setMnemonic(KeyEvent.VK_O);
 		menu.getAccessibleContext().setAccessibleDescription(
 				"Menu de opciones");
 		menuBar.add(menu);
 		this.setJMenuBar(menuBar);
 
+		menuItem = new JMenuItem("Dibujar autómata",KeyEvent.VK_D);
+		menuItem.setName("Dibujar");
+		menu.add(menuItem);
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {					
+					borraDibujos();
+					dibujar=true;					
+					dibujanteAF = new DibujanteAF();
+					agregaPanel(dibujanteAF);
+					activarMenusDibujo();
+					pintar();
+					
+			}
+		});
+		
+		menuItem = new JMenuItem("Insertar estado", KeyEvent.VK_I);
+		menuItem.setName("Insertar estado");
+		menuItem.setEnabled(false);
+		menu.add(menuItem);
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dibujanteAF.setModo(dibujanteAF.INSERTAR_ESTADO);
+				System.out.println("Modo:"+dibujanteAF.getModo());
+			}
+		});
+		
+		menuItem = new JMenuItem("Insertar transicion", KeyEvent.VK_I);
+		menuItem.setName("Insertar transicion");
+		menuItem.setEnabled(false);
+		menu.add(menuItem);
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dibujanteAF.setModo(dibujanteAF.INSERTAR_TRANSICION);
+			}
+		});
+		
+		menuItem = new JMenuItem("Modo Edicion", KeyEvent.VK_I);
+		menuItem.setName("Modo edicion");
+		menuItem.setEnabled(false);
+		menu.add(menuItem);
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dibujanteAF.setModo(dibujanteAF.EDICION);
+			}
+		});
 
+		menu.addSeparator();
+		
+		menuItem = new JMenuItem("Generar autómata finito automáticamente",KeyEvent.VK_G);
+		menuItem.setName("Automata");		
+		menuItem.getAccessibleContext().setAccessibleDescription("Genera un autómata");
+		menu.add(menuItem);
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				borraDibujos();				
+				String s = (String)JOptionPane.showInputDialog(
+						"Introduzca el número de estados del automáta a generar","8");
+				int numEstados = Integer.valueOf(s);
+				System.out.println("Num estados: "+numEstados);
+				GeneradorAF genAF = new GeneradorAF(numEstados);
+				dibujanteAF = new DibujanteAF (genAF.getAF());																
+				agregaPanel(dibujanteAF);
+				pintar();			
+				s = "¿Desea ver cadenas posibles de este automata?";
+				int respuesta = mostrarMensajeConfirmacion(s);
+				if (respuesta == JOptionPane.YES_OPTION) {
+					GeneradorCadenas genCad = new GeneradorCadenas(dibujanteAF.getAutomata());
+					String message = genCad.toString();
+					mostrarMensaje(message);
+				}												
+			}
+
+		});
+		
+		
 		/*
         	    PanelNuevo panelNuevo = new PanelNuevo();
         	    this.add(panelNuevo);
@@ -318,6 +357,15 @@ public class FramePrincipal extends JFrame implements ActionListener {
 			dibujanteAFP = null;
 		}
 
+	}
+	
+	public void activarMenusDibujo() {
+		//MenuBar menubar = this.getMenuBar();
+		JMenu menu = menuBar.getMenu(1);
+		menu.getItem(1).setEnabled(true);
+		menu.getItem(2).setEnabled(true);
+		menu.getItem(3).setEnabled(true);
+		
 	}
 
 	@Override
