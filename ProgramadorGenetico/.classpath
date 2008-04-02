@@ -13,5 +13,6 @@
 	<classpathentry kind="lib" path="lib/commons-httpclient-3.0.1.jar"/>
 	<classpathentry kind="lib" path="lib/commons-codec-1.3.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/FASearcherServer.jar"/>
+	<classpathentry kind="lib" path="classpath"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

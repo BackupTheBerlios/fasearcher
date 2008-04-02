@@ -10,6 +10,7 @@ import es.si.ProgramadorGenetico.WS.FASearcherBeanServiceStub.GetProblema;
 import es.si.ProgramadorGenetico.WS.FASearcherBeanServiceStub.GetProblema2;
 import es.si.ProgramadorGenetico.WS.FASearcherBeanServiceStub.GetProblemaRequest;
 import es.si.ProgramadorGenetico.WS.FASearcherBeanServiceStub.GetProblemaResponse3;
+import es.si.ProgramadorGenetico.util.Config;
 
 public class GetProblemaWS {
 
@@ -28,10 +29,10 @@ public class GetProblemaWS {
 	private List<String> rechazadas;
 	
 	public boolean ejecutar() {
-		
 		try {
 			FASearcherBeanServiceStub fasbss;
-			fasbss = new FASearcherBeanServiceStub("http://169.254.140.126:18080/fasearcher/FASearcherBean");
+			String server = Config.getInstance().getProperty("FASearcherServer");
+			fasbss = new FASearcherBeanServiceStub(server);
 			GetProblema2 gp2 = new GetProblema2();
 			GetProblema gp = new GetProblema();
 			GetProblemaRequest gpr = new GetProblemaRequest();

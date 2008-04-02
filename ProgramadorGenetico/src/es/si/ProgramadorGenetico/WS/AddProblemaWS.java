@@ -6,7 +6,18 @@ import java.util.List;
 import org.apache.axis2.AxisFault;
 
 import es.si.ProgramadorGenetico.WS.FASearcherServiceBeanServiceStub.*;
+import es.si.ProgramadorGenetico.util.Config;
 
+/**
+ * Esta clase es utilizada para contactar al serividor y añadir
+ * un nuevo problema en la BBDD.<p>
+ * 
+ * Para usar este método hay que crear una instacia, luego dar
+ * valores a los distintos parámetos y por ultimo, al llamar
+ * al método "ejecutar" se envía la información al servidor.
+ * Una vez enviada la información al servidor este devuevle
+ * el id del problema, que se puede obtener de la instacia.
+ */
 public class AddProblemaWS {
 
 	private List<String> aceptadas;
@@ -25,7 +36,8 @@ public class AddProblemaWS {
 	
 	public boolean ejecutar() {
 			try {
-				FASearcherServiceBeanServiceStub fassbss = new FASearcherServiceBeanServiceStub("http://169.254.140.126:18080/fasearcher/FASearcherServiceBean");
+				String server = Config.getInstance().getProperty("FASearcherServerService");
+				FASearcherServiceBeanServiceStub fassbss = new FASearcherServiceBeanServiceStub(server);
 				
 				AddProblemaRequest apr = new AddProblemaRequest();
 				

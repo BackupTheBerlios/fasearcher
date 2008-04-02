@@ -5,6 +5,7 @@ import java.rmi.RemoteException;
 import org.apache.axis2.AxisFault;
 
 import es.si.ProgramadorGenetico.WS.FASearcherBeanServiceStub.*;
+import es.si.ProgramadorGenetico.util.Config;
 
 
 public class SetSolucionWS {
@@ -30,7 +31,8 @@ public class SetSolucionWS {
 	public boolean ejecutar() {
 		
 		try {
-			FASearcherBeanServiceStub fasbss = new FASearcherBeanServiceStub("http://169.254.140.126:18080/fasearcher/FASearcherBean");
+			String server = Config.getInstance().getProperty("FASearcherServer");
+			FASearcherBeanServiceStub fasbss = new FASearcherBeanServiceStub(server);
 
 			SetSolucionRequest ssr = new SetSolucionRequest();
 			
