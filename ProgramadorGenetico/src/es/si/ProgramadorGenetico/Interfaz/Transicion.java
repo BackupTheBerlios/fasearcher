@@ -205,6 +205,7 @@ public class Transicion extends JComponent {
 	}
 
 
+	
 	public Point getPuntoControlCurva0 (Point origenArco, Point destinoArco, Point puntoMedio, double angulo) {
 
 		double xPuntoControl;

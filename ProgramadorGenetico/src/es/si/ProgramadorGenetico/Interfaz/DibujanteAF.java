@@ -308,6 +308,7 @@ public class DibujanteAF extends JPanel implements Dibujante{
 		estados = new ArrayList<Estado>();
 		transiciones2 = new ArrayList<Transicion>();
 		estadosFinales = new ArrayList<Boolean> ();
+		numEstados = 0;
 		//tablaDestinos = new ArrayList<DestinoTransiciones>();
 	}
 

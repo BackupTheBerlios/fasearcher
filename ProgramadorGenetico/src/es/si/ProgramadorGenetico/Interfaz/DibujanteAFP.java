@@ -45,7 +45,7 @@ public class DibujanteAFP extends JPanel{
 	 * Numero de estados
 	 */
 	private int numEstados;
-
+	
 	/**
 	 * Posicion x 
 	 */	

@@ -202,12 +202,12 @@ public class FramePrincipal extends JFrame implements ActionListener {
 		menuItem.getAccessibleContext().setAccessibleDescription("Simula la configuración");
 		menu.add(menuItem);
 		menuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-					
+			public void actionPerformed(ActionEvent e) {					
 					borraDibujos();
 					AFP mejor = creaAFP();
 					dibujanteAFP = new DibujanteAFP(mejor);			
 					agregaPanel(dibujanteAFP);
+					activarMenusDibujo(false);
 					pintar();				
 			}
 		});
@@ -228,6 +228,7 @@ public class FramePrincipal extends JFrame implements ActionListener {
 					borraDibujos();
 					dibujanteAFP = new DibujanteAFP (mejor);
 					agregaPanel(dibujanteAFP);
+					activarMenusDibujo(false);
 					pintar();
 			}
 		});
@@ -244,9 +245,12 @@ public class FramePrincipal extends JFrame implements ActionListener {
 				if (dibujanteAF!=null) {
 					if (dibujanteAF.getAutomata()==null) 
 						afGenetico = new AF(dibujanteAF.getEstados(), dibujanteAF.getTransiciones2());									 
-					GeneradorCadenas genCad = new GeneradorCadenas(dibujanteAF.getAutomata());
+					//GeneradorCadenas genCad = new GeneradorCadenas(dibujanteAF.getAutomata());
+					comprobarAFD(afGenetico);
+					GeneradorCadenas genCad = new GeneradorCadenas(afGenetico);
 					String message = genCad.toString();
-					mostrarMensaje(message);																				
+					mostrarMensaje(message);
+					activarMenusDibujo(false);
 				}
 			}
 
@@ -282,7 +286,7 @@ public class FramePrincipal extends JFrame implements ActionListener {
 					dibujar=true;					
 					dibujanteAF = new DibujanteAF();
 					agregaPanel(dibujanteAF);
-					activarMenusDibujo();
+					activarMenusDibujo(true);
 					pintar();
 					
 			}
@@ -400,13 +404,18 @@ public class FramePrincipal extends JFrame implements ActionListener {
 
 	}
 	
-	public void activarMenusDibujo() {
+	public void activarMenusDibujo(boolean valor) {
 		//MenuBar menubar = this.getMenuBar();
 		JMenu menu = menuBar.getMenu(1);
-		menu.getItem(1).setEnabled(true);
-		menu.getItem(2).setEnabled(true);
-		menu.getItem(3).setEnabled(true);
+		menu.getItem(1).setEnabled(valor);
+		menu.getItem(2).setEnabled(valor);
+		menu.getItem(3).setEnabled(valor);
+		menu.getItem(4).setEnabled(valor);
 		
+	}
+	
+	public void comprobarAFD (AF afd) {
+		afd
 	}
 
 	@Override
