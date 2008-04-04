@@ -20,8 +20,9 @@ public class MainPrincipal {
 		f.setLayout(new FlowLayout());
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);         
         f.pack();
-        f.setVisible(true);
         f.setExtendedState(Frame.MAXIMIZED_BOTH);
+        f.setVisible(true);
+        
 	}
 	public static void main (String[] args) {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {

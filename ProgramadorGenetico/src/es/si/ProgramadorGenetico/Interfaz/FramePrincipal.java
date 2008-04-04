@@ -1,4 +1,5 @@
 package es.si.ProgramadorGenetico.Interfaz;
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Frame;
@@ -48,12 +49,13 @@ public class FramePrincipal extends JFrame implements ActionListener {
 	private JMenuItem menuItem;
 	private AF afGenetico;
 	private GeneradorCadenas genCadenas;
+	private JScrollPane scrollPane;
 
 	public FramePrincipal (String s) {
 		super(s);		
-		//this.setExtendedState(Frame.MAXIMIZED_BOTH);		
+		//this.setExtendedState(Frame.MAXIMIZED_BOTH);
+		this.setLayout(new BorderLayout());
 		test= false;
-		panelPrincipal = new JPanel();
 		crearMenus();    	    	  
 
 	}
@@ -220,15 +222,22 @@ public class FramePrincipal extends JFrame implements ActionListener {
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {										
 			
-					afGenetico = new AF(dibujanteAF.getEstados(),dibujanteAF.getTransiciones2());					
-					genCadenas = new GeneradorCadenas(afGenetico);
-					AFP mejor = creaAFPdeAF(genCadenas.getCadenasAceptadas(),
-							genCadenas.getCadenasRechazadas(),
-							afGenetico.getEstados());					
-					borraDibujos();
-					dibujanteAFP = new DibujanteAFP (mejor);
-					agregaPanel(dibujanteAFP);
-					activarMenusDibujo(false);
+					afGenetico = new AF(dibujanteAF.getEstados(),dibujanteAF.getTransiciones2());
+					boolean esAFD = afGenetico.comprobarAFD();
+					if (!esAFD) {												
+						 JOptionPane.showMessageDialog(null,"Falta completar transiciones en el automata", "",
+								 JOptionPane.ERROR_MESSAGE);
+					}
+					else {	
+						genCadenas = new GeneradorCadenas(afGenetico);
+						AFP mejor = creaAFPdeAF(genCadenas.getCadenasAceptadas(),
+								genCadenas.getCadenasRechazadas(),
+								afGenetico.getEstados());					
+						borraDibujos();
+						dibujanteAFP = new DibujanteAFP (mejor);
+						agregaPanel(dibujanteAFP);
+						activarMenusDibujo(false);
+					}
 					pintar();
 			}
 		});
@@ -246,11 +255,17 @@ public class FramePrincipal extends JFrame implements ActionListener {
 					if (dibujanteAF.getAutomata()==null) 
 						afGenetico = new AF(dibujanteAF.getEstados(), dibujanteAF.getTransiciones2());									 
 					//GeneradorCadenas genCad = new GeneradorCadenas(dibujanteAF.getAutomata());
-					comprobarAFD(afGenetico);
-					GeneradorCadenas genCad = new GeneradorCadenas(afGenetico);
-					String message = genCad.toString();
-					mostrarMensaje(message);
-					activarMenusDibujo(false);
+					boolean esAFD = afGenetico.comprobarAFD();
+					if (!esAFD) {												
+						 JOptionPane.showMessageDialog(null,"Falta completar transiciones en el automata", "",
+								 JOptionPane.ERROR_MESSAGE);
+					}
+					else {				
+						GeneradorCadenas genCad = new GeneradorCadenas(afGenetico);
+						String message = genCad.toString();
+						mostrarMensaje(message);
+						activarMenusDibujo(false);
+					}
 				}
 			}
 
@@ -374,7 +389,11 @@ public class FramePrincipal extends JFrame implements ActionListener {
 	}
 
 	public void agregaPanel(JPanel panel) {
-		this.add(panel);	
+		//this.add(panel);
+		panel.setPreferredSize(new Dimension (2000,2000));
+		scrollPane = new JScrollPane (panel);
+		scrollPane.setPreferredSize(new Dimension(600,600));
+		this.add(scrollPane,BorderLayout.CENTER);
 	}
 
 	public void paintComponent(Graphics g) {		
@@ -412,10 +431,6 @@ public class FramePrincipal extends JFrame implements ActionListener {
 		menu.getItem(3).setEnabled(valor);
 		menu.getItem(4).setEnabled(valor);
 		
-	}
-	
-	public void comprobarAFD (AF afd) {
-		afd
 	}
 
 	@Override

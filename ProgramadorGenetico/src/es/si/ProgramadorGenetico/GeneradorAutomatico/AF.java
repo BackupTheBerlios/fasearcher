@@ -122,4 +122,16 @@ public class AF implements Individuo{
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
+	public boolean comprobarAFD () {
+		for (int i=0; i<estados; i++) {			
+			if (buscaDestino(i, 0) == -1) {
+				return false;
+			}
+			if (buscaDestino(i, 1) == -1) {
+				return false;
+			}
+		}
+		return true;
+	}
 }
