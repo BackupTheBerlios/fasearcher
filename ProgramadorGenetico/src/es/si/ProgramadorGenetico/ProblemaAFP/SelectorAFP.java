@@ -7,6 +7,7 @@ import es.si.ProgramadorGenetico.Individuo;
 import es.si.ProgramadorGenetico.Poblacion;
 import es.si.ProgramadorGenetico.Selector;
 import es.si.ProgramadorGenetico.Writer;
+import es.si.ProgramadorGenetico.ProblemaAFP.Factorias.CalculadorBondadAFPFactory;
 
 public class SelectorAFP implements Selector {
 
@@ -97,12 +98,10 @@ public class SelectorAFP implements Selector {
 			rechazadas = ParametrosAFP.getInstance().getRechazadas();
 			Iterator<Individuo> afps = poblacion.getIterator();
 			while (afps.hasNext()) {
-				CalculadorBondad calculador = CalculadorBondad.newCalculadorBondad((AFP) afps.next(),aceptadas, rechazadas);
+				CalculadorBondad calculador = CalculadorBondadAFPFactory.getCalculadorBondadAFP((AFP) afps.next(),aceptadas, rechazadas);
 				calculadores.add(calculador);
 				calculador.run();
 			}
-
-			
 		}
 
 	}

@@ -21,6 +21,12 @@ public class ParametrosAFP {
 	
 	private static ParametrosAFP parametros;
 	
+	private static int origen = 1;
+	
+	private static final int FROM_FILE = 1;
+	
+	private static final int FROM_WEB = 2;
+	
 	private List<String> aceptadas;
 	
 	private List<String> rechazadas;
@@ -36,6 +42,12 @@ public class ParametrosAFP {
 	private int numeroMuestras = 0;
 	
 	private ParametrosAFP() {
+		if (origen == FROM_FILE)
+			deFichero();
+
+	}
+	
+	private void deFichero() {
 		aceptadas = new ArrayList<String>();
 		rechazadas = new ArrayList<String>();
 		muestras = new ArrayList<Integer>();
@@ -83,62 +95,6 @@ public class ParametrosAFP {
 				pobmax.add(Integer.parseInt(st.nextToken()));
 			}			
 		}
-
-	}
-	
-	public ParametrosAFP (List<String> aceptadas, List<String> rechazadas) {		
-		muestras = new ArrayList<Integer>();
-		pobmax = new ArrayList<Integer>();
-		this.aceptadas = aceptadas;
-		this.rechazadas = rechazadas;
-		
-		Properties valores = new Properties();
-		FileInputStream fis;
-		try {
-			fis = new FileInputStream("./valores.txt");
-			valores.load(fis);
-		} catch (FileNotFoundException e) {
-			System.out.print("No se encontro el fichero valores.txt");
-		} catch (IOException e) {
-			System.out.print("Problemas leyendo el fichero de entrada");
-		}
-		
-		if (valores.getProperty("estados") != null) {
-			estados = Integer.valueOf(valores.getProperty("estados")).intValue();
-		}
-				
-		particiones = Integer.valueOf(valores.getProperty("particiones", "200")).intValue();
-		
-		StringTokenizer st = new StringTokenizer(valores.getProperty("aceptadas", ""), ",");
-		while(st.hasMoreTokens()) {
-			//aceptadas.add(st.nextToken());
-			String s = st.nextToken();
-			//numeroMuestras++;
-		}
-		
-		st = new StringTokenizer(valores.getProperty("rechazadas", ""), ",");
-		while(st.hasMoreTokens()) {
-			//rechazadas.add(st.nextToken());
-			String s = st.nextToken();
-			//numeroMuestras++;
-		}
-		
-		numeroMuestras = aceptadas.size()+rechazadas.size();
-		
-		if (valores.getProperty("muestras") != null) {
-			st = new StringTokenizer(valores.getProperty("muestras", ""), ",");
-			while(st.hasMoreTokens()) {
-				muestras.add(Integer.parseInt(st.nextToken()));
-			}			
-		}
-
-		if (valores.getProperty("pobmax") != null) {
-			st = new StringTokenizer(valores.getProperty("pobmax", ""), ",");
-			while(st.hasMoreTokens()) {
-				pobmax.add(Integer.parseInt(st.nextToken()));
-			}			
-		}
-
 	}
 	
 	public static ParametrosAFP getInstance() {
@@ -194,5 +150,12 @@ public class ParametrosAFP {
 	
 	public void setNumeroMuestras (int num) {
 		numeroMuestras = num;
+	}
+
+	/**
+	 * @param origen the origen to set
+	 */
+	public static void setOrigen(int origen) {
+		ParametrosAFP.origen = origen;
 	}
 }

@@ -24,17 +24,7 @@ public abstract class CalculadorBondad implements Runnable {
 	
 	protected List<String> cadenasRechazadas;
 	
-	public final static int SIMPLE = 0;
-	
-	public final static int CUADRATICO = 1;
-	
-	public final static int BALANACEADO = 2;
-	
-	public final static int PREFERNCIADET = 3;
-	
 	CountDownLatch cdl = null;
-	
-	static int tipo = SIMPLE;
 	
 	protected CalculadorBondad(AFP afp, List<String> cadenasAceptadas, List<String> cadenasRechazadas) {
 		this.cadenasAceptadas = new ArrayList<String>(cadenasAceptadas);
@@ -44,25 +34,7 @@ public abstract class CalculadorBondad implements Runnable {
 		procesando = false;
 		bondad = 0;
 	}
-	
-	public static CalculadorBondad newCalculadorBondad(AFP afp, List<String> cadenasAceptadas, List<String> cadenasRechazadas) {
-		if (tipo == SIMPLE) {
-			return new CalculadorBondadSimple(afp, cadenasAceptadas, cadenasRechazadas);
-		} else if (tipo == CUADRATICO) {
-			return new CalculadorBondadCuadratico(afp, cadenasAceptadas, cadenasRechazadas);
-		} else if (tipo == BALANACEADO) {
-			return new CalculadorBondadBalanceado(afp, cadenasAceptadas, cadenasRechazadas);
-		} else if (tipo == PREFERNCIADET) {
-			return new CalculadorBondadPrefernciaDet(afp, cadenasAceptadas, cadenasRechazadas);
-		}
-		return new CalculadorBondadSimple(afp, cadenasAceptadas, cadenasRechazadas);
-			
-	}
-	
-	public static void setTipo(int nuevotipo) {
-		tipo = nuevotipo;
-	}
-	
+		
 	public void setCountDownLatch(CountDownLatch cdl){
 		this.cdl = cdl;
 	}
@@ -111,5 +83,26 @@ public abstract class CalculadorBondad implements Runnable {
 	
 	public abstract void actualizarBondadAceptada(double probabilidad);
 	public abstract void actualizarBondadRechazada(double probabilidad);
+
+	/**
+	 * @param afp the afp to set
+	 */
+	public void setAfp(AFP afp) {
+		this.afp = afp;
+	}
+
+	/**
+	 * @param cadenasAceptadas the cadenasAceptadas to set
+	 */
+	public void setCadenasAceptadas(List<String> cadenasAceptadas) {
+		this.cadenasAceptadas = cadenasAceptadas;
+	}
+
+	/**
+	 * @param cadenasRechazadas the cadenasRechazadas to set
+	 */
+	public void setCadenasRechazadas(List<String> cadenasRechazadas) {
+		this.cadenasRechazadas = cadenasRechazadas;
+	}
 
 }

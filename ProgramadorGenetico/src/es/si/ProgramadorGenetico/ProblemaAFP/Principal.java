@@ -14,10 +14,10 @@ public class Principal {
 		CruzadorAFPFactory.setTipo(CruzadorAFPFactory.TIPO_1);
 		MutadorAFPFactory.setTipo(MutadorAFPFactory.TIPO_1);
 		ResolverAFPFactory.setTipo(ResolverAFPFactory.VECTORES);
+		CalculadorBondadAFPFactory.setTipo(CalculadorBondadAFPFactory.PREFERNCIADET);
 		
 		Writer.write("\n\nUtilizando version 0.1 del Selector\n");
 		Writer.write("Utilizando version 0.1 del CalculadorBondadBalanceado\n");
-		CalculadorBondad.setTipo(CalculadorBondad.PREFERNCIADET);
 		Writer.write("Utilizando version 0.11 del Generador Aleatorio\n");
 		Writer.write("Utilizando version 0.13 del Reproductor");
 		Writer.write("Problema a solucionar:\n");
@@ -54,10 +54,10 @@ public class Principal {
 		CruzadorAFPFactory.setTipo(CruzadorAFPFactory.TIPO_1);
 		MutadorAFPFactory.setTipo(MutadorAFPFactory.TIPO_1);
 		ResolverAFPFactory.setTipo(ResolverAFPFactory.VECTORES);
+		CalculadorBondadAFPFactory.setTipo(CalculadorBondadAFPFactory.PREFERNCIADET);
 		
 		Writer.write("\n\nUtilizando version 0.1 del Selector\n");
 		Writer.write("Utilizando version 0.1 del CalculadorBondadBalanceado\n");
-		CalculadorBondad.setTipo(CalculadorBondad.PREFERNCIADET);
 		Writer.write("Utilizando version 0.11 del Generador Aleatorio\n");
 		Writer.write("Utilizando version 0.13 del Reproductor");
 		Writer.write("Problema a solucionar:\n");
@@ -94,14 +94,20 @@ public class Principal {
 		
 	}
 	
+	/**
+	 * Esto esta mal! cuidado, porque no funciona asi la clase parametrosAFP
+	 * 
+	 * @param aceptadas
+	 * @param rechazadas
+	 */
 	public static void ejecucionGenetico(List<String> aceptadas, List<String> rechazadas) {
 		CruzadorAFPFactory.setTipo(CruzadorAFPFactory.TIPO_1);
 		MutadorAFPFactory.setTipo(MutadorAFPFactory.TIPO_1);
 		ResolverAFPFactory.setTipo(ResolverAFPFactory.VECTORES);
+		CalculadorBondadAFPFactory.setTipo(CalculadorBondadAFPFactory.PREFERNCIADET);
 		
 		Writer.write("\n\nUtilizando version 0.1 del Selector\n");
 		Writer.write("Utilizando version 0.1 del CalculadorBondadBalanceado\n");
-		CalculadorBondad.setTipo(CalculadorBondad.PREFERNCIADET);
 		Writer.write("Utilizando version 0.11 del Generador Aleatorio\n");
 		Writer.write("Utilizando version 0.13 del Reproductor");
 		Writer.write("Problema a solucionar:\n");
