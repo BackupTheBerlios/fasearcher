@@ -65,9 +65,10 @@ public class Principal {
 					CalculadorBondad temp = CalculadorBondadAFPFactory.getCalculadorBondadAFP(AplicarAlgoritmoAFP.getMejor(), ParametrosAFP.getInstance().getAceptadas(), ParametrosAFP.getInstance().getRechazadas());
 					temp.run();
 					setSolucionWS.setMejorValor(""+temp.getBondad());
-					setSolucionWS.setAlgoritmo(MutadorAFPFactory.getVersion());
+					setSolucionWS.setMutador(MutadorAFPFactory.getVersion());
 					setSolucionWS.setCruzador(CruzadorAFPFactory.getVersion());
 					setSolucionWS.setFuncbondad(CalculadorBondadAFPFactory.getVersion());
+					setSolucionWS.setMetodoRes(ResolverAFPFactory.getVersion());
 					setSolucionWS.ejecutar();
 				}
 			}

@@ -26,7 +26,9 @@ public class SetSolucionWS {
 	
 	private Integer pasos;
 	
-	private String algoritmo;
+	private String mutador;
+	
+	private String metodoRes;
 	
 	private String funcbondad;
 	
@@ -51,9 +53,10 @@ public class SetSolucionWS {
 			ssr.setMejorValor(mejorValor);
 			ssr.setAfp(afp);
 			ssr.setPasos(pasos);
-			ssr.setAlgoritmo(algoritmo);
+			ssr.setMutador(mutador);
 			ssr.setFuncbondad(funcbondad);
 			ssr.setCruzador(cruzador);
+			ssr.setMetodoRes(metodoRes);
 			ssr.setPobmax(pobmax);
 			ssr.setMuestras(muestras);
 			
@@ -115,10 +118,6 @@ public class SetSolucionWS {
 		this.pasos = pasos;
 	}
 
-	public void setAlgoritmo(String algoritmo) {
-		this.algoritmo = algoritmo;
-	}
-
 	public void setFuncbondad(String funcbondad) {
 		this.funcbondad = funcbondad;
 	}
@@ -133,6 +132,14 @@ public class SetSolucionWS {
 
 	public void setMuestras(Integer muestras) {
 		this.muestras = muestras;
+	}
+
+	public void setMutador(String mutador) {
+		this.mutador = mutador;
+	}
+
+	public void setMetodoRes(String metodoRes) {
+		this.metodoRes = metodoRes;
 	}
 	
 	
