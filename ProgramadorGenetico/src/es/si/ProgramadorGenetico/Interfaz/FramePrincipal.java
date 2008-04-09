@@ -1,9 +1,11 @@
 package es.si.ProgramadorGenetico.Interfaz;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.Menu;
 import java.awt.MenuBar;
 import java.awt.MenuItem;
@@ -27,7 +29,7 @@ import es.si.ProgramadorGenetico.GeneradorAutomatico.GeneradorAF;
 import es.si.ProgramadorGenetico.GeneradorAutomatico.GeneradorCadenas;
 import es.si.ProgramadorGenetico.ProblemaAFP.AFP;
 import es.si.ProgramadorGenetico.ProblemaAFP.Principal;
-
+import es.si.ProgramadorGenetico.WS.AddProblemaWS;
 
 public class FramePrincipal extends JFrame implements ActionListener {
 
@@ -54,7 +56,8 @@ public class FramePrincipal extends JFrame implements ActionListener {
 	public FramePrincipal (String s) {
 		super(s);		
 		//this.setExtendedState(Frame.MAXIMIZED_BOTH);
-		this.setLayout(new BorderLayout());
+		//this.setLayout(new GridLayout());
+		this.getContentPane().setLayout(new FlowLayout());
 		test= false;
 		crearMenus();    	    	  
 
@@ -375,7 +378,33 @@ public class FramePrincipal extends JFrame implements ActionListener {
 			}
 
 		});
-		
+		menuItem = new JMenuItem ("Enviar problema");
+		menu.add(menuItem);
+		menuItem.addActionListener (new ActionListener() {
+			public void actionPerformed (ActionEvent e) {
+				//AddProblemaWS problemaWS = new AddProblemaWS();
+				//problemaWS.ejecutar();
+				//problemaWS.setAceptadas(af.getAceptadas);
+				
+				if (dibujanteAF!=null) {
+					if (dibujanteAF.getAutomata()==null) 
+						afGenetico = new AF(dibujanteAF.getEstados(), dibujanteAF.getTransiciones2());									 
+					//GeneradorCadenas genCad = new GeneradorCadenas(dibujanteAF.getAutomata());
+					boolean esAFD = afGenetico.comprobarAFD();
+					if (!esAFD) {												
+						 JOptionPane.showMessageDialog(null,"Falta completar transiciones en el automata", "",
+								 JOptionPane.ERROR_MESSAGE);
+					}
+					else {				
+						GeneradorCadenas genCad = new GeneradorCadenas(afGenetico);
+						String message = genCad.toString();
+						mostrarMensaje(message);
+						activarMenusDibujo(false);
+					}
+				}
+				
+			}
+		});
 		
 		/*
         	    PanelNuevo panelNuevo = new PanelNuevo();
@@ -392,8 +421,21 @@ public class FramePrincipal extends JFrame implements ActionListener {
 		//this.add(panel);
 		panel.setPreferredSize(new Dimension (2000,2000));
 		scrollPane = new JScrollPane (panel);
-		scrollPane.setPreferredSize(new Dimension(600,600));
-		this.add(scrollPane,BorderLayout.CENTER);
+		scrollPane.setPreferredSize(new Dimension(500,500));
+		JScrollBar vert = scrollPane.getVerticalScrollBar();
+		JScrollBar hor = scrollPane.getHorizontalScrollBar();
+		vert.setValue((vert.getMaximum()/2));
+		hor.setValue((hor.getMaximum()/2)-200);
+		JLabel j = new JLabel ("HOLA");j.setSize(200,200);
+		j.setBackground(Color.blue);
+		j.setVisible(true);
+		//this.add(j,FlowLayout.LEFT);
+		this.add(scrollPane,FlowLayout.LEFT);		
+
+
+		
+		
+		
 	}
 
 	public void paintComponent(Graphics g) {		
@@ -432,7 +474,7 @@ public class FramePrincipal extends JFrame implements ActionListener {
 		menu.getItem(4).setEnabled(valor);
 		
 	}
-
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub

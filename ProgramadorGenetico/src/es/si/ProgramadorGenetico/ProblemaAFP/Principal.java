@@ -53,7 +53,7 @@ public class Principal {
 				Algoritmo.MANTENER = i;
 				Algoritmo.POB_MAX = j;
 				AplicarAlgoritmoAFP.aplicar(ParametrosAFP.getInstance().getParticiones(), 50);
-				
+				System.out.println("hola");
 				
 				if (config.getProperty("usarinternet").equals("true")) {
 					SetSolucionWS setSolucionWS = new SetSolucionWS();
