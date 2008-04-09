@@ -1,11 +1,19 @@
 package es.si.ProgramadorGenetico.WS;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+
+import javax.xml.namespace.QName;
 
 import org.apache.axis2.AxisFault;
 
-import es.si.ProgramadorGenetico.WS.FASearcherBeanServiceStub.*;
 import es.si.ProgramadorGenetico.util.Config;
+import es.si.fasearcherserver.GetProblemaRequest;
+import es.si.fasearcherserver.GetProblemaResponse;
+import es.si.fasearcherserver.SetSolucionRequest;
+import es.si.fasearcherserver.SetSolucionResponse;
 
 
 public class SetSolucionWS {
@@ -31,11 +39,14 @@ public class SetSolucionWS {
 	public boolean ejecutar() {
 		
 		try {
-			String server = Config.getInstance().getProperty("FASearcherServer");
-			FASearcherBeanServiceStub fasbss = new FASearcherBeanServiceStub(server);
+			QName service = new QName("http://ejb.FASearcherServer.si.es/", "FASearcherBeanService");
+			URL server = new URL(Config.getInstance().getProperty("FASearcherServer"));
 
-			SetSolucionRequest ssr = new SetSolucionRequest();
+			FASearcherBeanService fasbs = new FASearcherBeanService(server, service);
+			FASearcher fas = fasbs.getFASearcherBeanPort();
 			
+			SetSolucionRequest ssr = new SetSolucionRequest();
+
 			ssr.setId(id);
 			ssr.setMejorValor(mejorValor);
 			ssr.setAfp(afp);
@@ -47,24 +58,18 @@ public class SetSolucionWS {
 			ssr.setMuestras(muestras);
 			
 			
-			SetSolucion ss = new SetSolucion();
-			ss.setSetSolucionRequest(ssr);
-			SetSolucion4 ss4 = new SetSolucion4();
-			ss4.setSetSolucion(ss);
-			SetSolucionResponse5 ssresponse5 = fasbss.setSolucion(ss4);
-			
-			if (ssresponse5.getSetSolucionResponse().getSetSolucionResponse().getResult().equals("OK"))
+			SetSolucionResponse ssresponse = fas.setSolucion(ssr);
+
+			if (ssresponse.getResult().equals("OK"))
 				return true;
 			else
 				return false;
 			
-		} catch (AxisFault e) {
+		}  catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return false;
-		} catch (RemoteException e) {
-			e.printStackTrace();
-			return false;
 		}
+		return false;
 	}
 
 	public void setId(String id) {
@@ -81,6 +86,7 @@ public class SetSolucionWS {
 	
 	public void setAFP(es.si.ProgramadorGenetico.ProblemaAFP.AFP afp) {
 		int estados = afp.getEstados();
+		this.afp = new Afp();
 		this.afp.setEstados(afp.getEstados());
 		
 		String probFinales = "";
@@ -95,11 +101,14 @@ public class SetSolucionWS {
 			for (int j = 0; j < 2; j ++) {
 				trans[i*2 +j] = "" + i + ":" + j + ":";
 				for (int k = 0; k < estados+1; k++) {
-					trans[i*2+j] += (k == 0 ? transiciones[i] : ";" + transiciones[i]);
+					trans[i*2+j] += (k == 0 ? transiciones[i][j][k] : ";" + transiciones[i][j][k]);
 				}
+				System.out.println(trans[i*2+j]);
 			}
 		}
-		this.afp.setTransiciones(trans);
+		
+		for (int i = 0; i < trans.length; i++)
+			this.afp.getTransiciones().add(trans[i]);
 	}
   
 	public void setPasos(Integer pasos) {

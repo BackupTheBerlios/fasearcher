@@ -11,6 +11,8 @@ import es.si.ProgramadorGenetico.ProblemaAFP.ParametrosAFP;
 
 public class MutadorAFP_2 implements Mutador {
 
+	public static final double VERSION = 1.0f;
+
 	private static Random rand = new Random();
 
 	@Override

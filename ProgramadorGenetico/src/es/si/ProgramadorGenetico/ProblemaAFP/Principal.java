@@ -6,6 +6,8 @@ import java.util.List;
 import es.si.ProgramadorGenetico.Algoritmo;
 import es.si.ProgramadorGenetico.Writer;
 import es.si.ProgramadorGenetico.ProblemaAFP.Factorias.*;
+import es.si.ProgramadorGenetico.WS.SetSolucionWS;
+import es.si.ProgramadorGenetico.util.Config;
 
 public class Principal {
 
@@ -16,12 +18,20 @@ public class Principal {
 		ResolverAFPFactory.setTipo(ResolverAFPFactory.VECTORES);
 		CalculadorBondadAFPFactory.setTipo(CalculadorBondadAFPFactory.PREFERNCIADET);
 		
-		Writer.write("\n\nUtilizando version 0.1 del Selector\n");
-		Writer.write("Utilizando version 0.1 del CalculadorBondadBalanceado\n");
-		Writer.write("Utilizando version 0.11 del Generador Aleatorio\n");
-		Writer.write("Utilizando version 0.13 del Reproductor");
+		Writer.write("\n\nUtilizando version 1.0 del Selector\n");
+		Writer.write("Utilizando version 1.0 del CalculadorBondadBalanceado\n");
+		Writer.write("Utilizando version 1.0 del Generador Aleatorio\n");
+		Writer.write("Utilizando version 1.0 del Reproductor");
 		Writer.write("Problema a solucionar:\n");
 		Writer.write("  aceptadas=");
+		
+		Config config = Config.getInstance();
+		
+		if (config.getProperty("usarinternet").equals("true")) {
+		ParametrosAFP.setOrigen(ParametrosAFP.FROM_WEB);
+		ParametrosAFP.recrear();
+		}
+		
 		Iterator<String> it = ParametrosAFP.getInstance().getAceptadas().iterator();
 		while(it.hasNext()) {
 			Writer.write(it.next()+",");
@@ -41,14 +51,33 @@ public class Principal {
 				Writer.write("*******************************************\n");
 				Writer.write("Mantener="+i+";Poblacion Max="+j+"\n");
 				Algoritmo.MANTENER = i;
-				Algoritmo.POB_MAX = 1000;
-				AplicarAlgoritmoAFP.aplicar(i, 50);
+				Algoritmo.POB_MAX = j;
+				AplicarAlgoritmoAFP.aplicar(ParametrosAFP.getInstance().getParticiones(), 50);
+				
+				
+				if (config.getProperty("usarinternet").equals("true")) {
+					SetSolucionWS setSolucionWS = new SetSolucionWS();
+					setSolucionWS.setAFP(AplicarAlgoritmoAFP.getMejor());
+					setSolucionWS.setMuestras(i);
+					setSolucionWS.setId(ParametrosAFP.getInstance().getId());
+					setSolucionWS.setPobmax(j);
+					setSolucionWS.setPasos(AplicarAlgoritmoAFP.getPasos());
+					CalculadorBondad temp = CalculadorBondadAFPFactory.getCalculadorBondadAFP(AplicarAlgoritmoAFP.getMejor(), ParametrosAFP.getInstance().getAceptadas(), ParametrosAFP.getInstance().getRechazadas());
+					temp.run();
+					setSolucionWS.setMejorValor(""+temp.getBondad());
+					setSolucionWS.setAlgoritmo(MutadorAFPFactory.getVersion());
+					setSolucionWS.setCruzador(CruzadorAFPFactory.getVersion());
+					setSolucionWS.setFuncbondad(CalculadorBondadAFPFactory.getVersion());
+					setSolucionWS.ejecutar();
+				}
 			}
 		}
 		mejor = AplicarAlgoritmoAFP.getMejor();
 		
 		
 	}
+	
+	
 	
 	public static void ejecuta2(List<String> aceptadas, List<String> rechazadas, int numEstados) {
 		CruzadorAFPFactory.setTipo(CruzadorAFPFactory.TIPO_1);
@@ -100,6 +129,7 @@ public class Principal {
 	 * @param aceptadas
 	 * @param rechazadas
 	 */
+	/*
 	public static void ejecucionGenetico(List<String> aceptadas, List<String> rechazadas) {
 		CruzadorAFPFactory.setTipo(CruzadorAFPFactory.TIPO_1);
 		MutadorAFPFactory.setTipo(MutadorAFPFactory.TIPO_1);
@@ -140,7 +170,7 @@ public class Principal {
 		
 		
 	}
-	
+	*/
 	
 	
 	public static AFP getMejor() {

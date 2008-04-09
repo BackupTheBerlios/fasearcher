@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
+import es.si.ProgramadorGenetico.WS.GetProblemaWS;
+
 /**
  * Clase Singelton que mantiene los valores específicos del problema que se quieres solucionar.<p>
  * 
@@ -23,9 +25,9 @@ public class ParametrosAFP {
 	
 	private static int origen = 1;
 	
-	private static final int FROM_FILE = 1;
+	public static final int FROM_FILE = 1;
 	
-	private static final int FROM_WEB = 2;
+	public static final int FROM_WEB = 2;
 	
 	private List<String> aceptadas;
 	
@@ -35,6 +37,8 @@ public class ParametrosAFP {
 	
 	private List<Integer> pobmax;
 	
+	private String id;
+	
 	private int estados = 5;
 	
 	private int particiones = 200;
@@ -42,9 +46,38 @@ public class ParametrosAFP {
 	private int numeroMuestras = 0;
 	
 	private ParametrosAFP() {
+		if (origen == FROM_WEB)
+			deWeb();
 		if (origen == FROM_FILE)
 			deFichero();
-
+		else
+			deWeb();		
+	}
+	
+	public static void recrear() {
+		parametros = new ParametrosAFP();
+	}
+	
+	private void deWeb() {
+		GetProblemaWS getProblemaWS = new GetProblemaWS();
+		if (!getProblemaWS.ejecutar()) {
+			System.out.println("Error al buscar información de web");
+			deFichero();
+		}
+		else {
+			aceptadas = getProblemaWS.getAceptadas();
+			rechazadas = getProblemaWS.getRechazadas();
+			muestras = new ArrayList<Integer>();
+			muestras.add(new Integer(20));
+			pobmax = new ArrayList<Integer>();
+			pobmax.add(new Integer(10000));
+			estados = getProblemaWS.getEstados();
+			if (estados <= 1)
+				estados = 4;
+			particiones = 100;
+			numeroMuestras = aceptadas.size() + rechazadas.size();
+			id = getProblemaWS.getId();
+		}
 	}
 	
 	private void deFichero() {
@@ -150,6 +183,10 @@ public class ParametrosAFP {
 	
 	public void setNumeroMuestras (int num) {
 		numeroMuestras = num;
+	}
+	
+	public String getId() {
+		return id;
 	}
 
 	/**

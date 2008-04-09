@@ -9,6 +9,9 @@ import es.si.ProgramadorGenetico.ProblemaAFP.ParametrosAFP;
 
 
 public class CruzadorAFP_2 implements Cruzador {
+
+	public static final double VERSION = 1.0f;
+
 	private static Random rand = new Random();
 	
 	@Override

@@ -7,6 +7,8 @@ import es.si.ProgramadorGenetico.ProblemaAFP.CalculadorBondad;
 
 public class CalculadorBondadCuadratico extends CalculadorBondad {
 
+	public static final double VERSION = 1.0f;
+
 	private int cont;
 	private double bondadTemp;
 	public CalculadorBondadCuadratico(AFP afp,

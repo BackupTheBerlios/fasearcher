@@ -7,6 +7,8 @@ import es.si.ProgramadorGenetico.ProblemaAFP.CalculadorBondad;
 
 public class CalculadorBondadBalanceado extends CalculadorBondad {
 
+	public static final double VERSION = 1.0f;
+	
 	private double bondadAceptadas;
 	
 	private double bondadRechazadas;

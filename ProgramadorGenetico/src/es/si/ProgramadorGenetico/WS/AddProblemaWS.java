@@ -1,12 +1,24 @@
 package es.si.ProgramadorGenetico.WS;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+
+import javax.xml.namespace.QName;
 
 import org.apache.axis2.AxisFault;
 
-import es.si.ProgramadorGenetico.WS.FASearcherServiceBeanServiceStub.*;
+import es.si.ProgramadorGenetico.ServiceWS.Afp;
+import es.si.ProgramadorGenetico.ServiceWS.FASearcherService;
+import es.si.ProgramadorGenetico.ServiceWS.FASearcherServiceBeanService;
 import es.si.ProgramadorGenetico.util.Config;
+import es.si.fasearcherserver.AddProblemaRequest;
+import es.si.fasearcherserver.AddProblemaResponse;
+
+
 
 /**
  * Esta clase es utilizada para contactar al serividor y añadir
@@ -36,30 +48,32 @@ public class AddProblemaWS {
 	
 	public boolean ejecutar() {
 			try {
-				String server = Config.getInstance().getProperty("FASearcherServerService");
-				FASearcherServiceBeanServiceStub fassbss = new FASearcherServiceBeanServiceStub(server);
+				
+				QName service = new QName("http://ejb.FASearcherServer.si.es/", "FASearcherBeanService");
+				URL server = new URL(Config.getInstance().getProperty("FASearcherServerService"));
+
+				FASearcherServiceBeanService fasbs = new FASearcherServiceBeanService(server, service);
+				FASearcherService fas = fasbs.getFASearcherServiceBeanPort();
 				
 				AddProblemaRequest apr = new AddProblemaRequest();
-				
-				apr.setAceptadas((String[]) aceptadas.toArray());
-				apr.setRechazadas((String[]) rechazadas.toArray());
+
+				Iterator<String> it = aceptadas.iterator();
+				while (it.hasNext())
+					apr.getAceptadas().add(it.next());
+				it = rechazadas.iterator();
+				while (it.hasNext())
+					apr.getRechazadas().add(it.next());
 				apr.setTipoAutomata(tipoAutomata);
 				apr.setAfp(afp);
 				apr.setEstados(estados);
 				apr.setPobMax(pobMax);
 				
-				AddProblema ap = new AddProblema();
-				ap.setAddProblemaRequest(apr);
-				AddProblema2 ap2 = new AddProblema2();
-				ap2.setAddProblema(ap);
-				AddProblemaResponse1 apresponse1 = fassbss.addProblema(ap2);
-				id = apresponse1.getAddProblemaResponse().getAddProblemaResponse().getId();
+				AddProblemaResponse gpresponse = fas.addProblema(apr);
+
+				id = gpresponse.getId();
+
 			
-			
-			} catch (AxisFault e) {
-				e.printStackTrace();
-				return false;
-			} catch (RemoteException e) {
+			} catch (MalformedURLException e) {
 				e.printStackTrace();
 				return false;
 			}
@@ -103,11 +117,13 @@ public class AddProblemaWS {
 			for (int j = 0; j < 2; j ++) {
 				trans[i*2 +j] = "" + i + ":" + j + ":";
 				for (int k = 0; k < estados+1; k++) {
-					trans[i*2+j] += (k == 0 ? transiciones[i] : ";" + transiciones[i]);
+					double temp = (transiciones[i][j][k] < 0.0001 ? 0 : transiciones[i][j][k]);
+					trans[i*2+j] += (k == 0 ? temp : ";" + temp);
 				}
 			}
 		}
-		this.afp.setTransiciones(trans);
+		for (int i = 0; i < trans.length; i++)
+			this.afp.getTransiciones().add(trans[i]);
 	}
 
 	public void setEstados(Integer estados) {

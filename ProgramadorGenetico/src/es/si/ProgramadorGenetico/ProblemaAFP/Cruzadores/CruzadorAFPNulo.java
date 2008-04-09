@@ -7,6 +7,8 @@ import es.si.ProgramadorGenetico.ProblemaAFP.ParametrosAFP;
 
 public class CruzadorAFPNulo implements Cruzador {
 
+	public static final double VERSION = 1.0f;
+
 	@Override
 	public Poblacion entrecruzar(int cant, Poblacion mejores) {
 		int tam = mejores.getCantidad();

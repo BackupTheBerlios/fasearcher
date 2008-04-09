@@ -27,4 +27,14 @@ public class CruzadorAFPFactory {
 		tipo = tipo_nuevo;
 	}
 	
+	public static String getVersion() {
+		if (tipo == TIPO_NULO)
+			return "NULO " + CruzadorAFPNulo.VERSION;
+		if (tipo == TIPO_1)
+			return "TIPO_1 " + CruzadorAFP_1.VERSION;
+		if (tipo == TIPO_2)
+			return "TIPO_2 " + CruzadorAFP_2.VERSION;
+		return "TIPO_1 " + CruzadorAFP_1.VERSION;
+	}
+	
 }

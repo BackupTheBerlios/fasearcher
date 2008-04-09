@@ -27,4 +27,15 @@ public class MutadorAFPFactory {
 		tipo = tipo_nuevo;
 	}
 	
+	public static String getVersion() {
+		if (tipo == TIPO_NULO)
+			return "TIPO_NULO " + MutadorAFPNulo.VERSION;
+		if (tipo == TIPO_1)
+			return "TIPO_1 " + MutadorAFP_1.VERSION;
+		if (tipo == TIPO_2)
+			return "TIPO_2 " + MutadorAFP_2.VERSION;
+		return "TIPO_1 " + MutadorAFP_1.VERSION;
+
+	}
+	
 }

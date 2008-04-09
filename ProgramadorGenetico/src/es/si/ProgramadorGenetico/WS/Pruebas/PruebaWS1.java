@@ -1,11 +1,15 @@
 package es.si.ProgramadorGenetico.WS.Pruebas;
 
-import java.rmi.RemoteException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
-import org.apache.axis2.AxisFault;
+import javax.xml.namespace.QName;
 
-import es.si.ProgramadorGenetico.WS.FASearcherBeanServiceStub;
-import es.si.ProgramadorGenetico.WS.FASearcherBeanServiceStub.*;
+import es.si.ProgramadorGenetico.WS.FASearcher;
+import es.si.ProgramadorGenetico.WS.FASearcherBeanService;
+import es.si.fasearcherserver.GetProblemaRequest;
+import es.si.fasearcherserver.GetProblemaResponse;
+
 
 public class PruebaWS1 {
 
@@ -16,24 +20,21 @@ public class PruebaWS1 {
 		// TODO Auto-generated method stub
 		
 		try {
-			//FASearcherBeanServiceCallbackHandler fasbsch = new FASearcherBeanServiceCallbackHandler();
-			FASearcherBeanServiceStub fasbss = new FASearcherBeanServiceStub("http://169.254.140.126:18080/fasearcher/FASearcherBean");
-			GetProblema2 gp2 = new GetProblema2();
-			GetProblema gp = new GetProblema();
+			QName service = new QName("http://ejb.FASearcherServer.si.es/", "FASearcherBeanService");
+			FASearcherBeanService fasbs = new FASearcherBeanService(new URL("http://169.254.140.126:18080/fasearcher/FASearcherBean"), service);
+			FASearcher fas = fasbs.getFASearcherBeanPort();
+			
 			GetProblemaRequest gpr = new GetProblemaRequest();
 			gpr.setTamano(0);
 			gpr.setTipoAutomata("AFP");
-			gp.setGetProblemaRequest(gpr);
-			gp2.setGetProblema(gp);
-			GetProblemaResponse3 gpresponse3 = fasbss.getProblema(gp2);
-			int estados = gpresponse3.getGetProblemaResponse().getGetProblemResponse().getEstados();
+			
+			GetProblemaResponse gpresponse = fas.getProblema(gpr);
+			
+			System.out.println(gpresponse.getAceptadas());
+			System.out.println(gpresponse.getRechazadas());
 
 			
-			
-		} catch (AxisFault e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (RemoteException e) {
+		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

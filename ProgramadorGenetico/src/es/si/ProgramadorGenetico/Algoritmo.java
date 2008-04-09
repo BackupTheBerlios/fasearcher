@@ -23,6 +23,8 @@ public class Algoritmo {
 	
 	private Individuo mejor;
 	
+	private int pasos;
+	
 	public static int MANTENER = 10;
 	
 	public static int POB_MAX = 1000;
@@ -60,11 +62,13 @@ public class Algoritmo {
 			
 		} while (cont < maxit && !mejor.equals(ultimomejor));
 		
+		pasos = cont;
+		
 		Writer.write("\nTiempo: "+ (System.currentTimeMillis() - tiempo)/1000 + "s\n");
 		Writer.write("--------------------\n");
 		Writer.write(mejor.toString() + "\n");
 		Writer.write("--------------------\n");
-		return null;
+		return mejor;
 	}
 
 
@@ -121,6 +125,9 @@ public class Algoritmo {
 		this.poblacioninicial = poblacioninicial;
 	};
 	
+	public int getPasos() {
+		return pasos;
+	}
 	
 	
 }

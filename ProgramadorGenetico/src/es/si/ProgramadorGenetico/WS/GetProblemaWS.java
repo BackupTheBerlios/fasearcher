@@ -1,16 +1,18 @@
 package es.si.ProgramadorGenetico.WS;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.namespace.QName;
+
 import org.apache.axis2.AxisFault;
 
-import es.si.ProgramadorGenetico.WS.FASearcherBeanServiceStub.GetProblema;
-import es.si.ProgramadorGenetico.WS.FASearcherBeanServiceStub.GetProblema2;
-import es.si.ProgramadorGenetico.WS.FASearcherBeanServiceStub.GetProblemaRequest;
-import es.si.ProgramadorGenetico.WS.FASearcherBeanServiceStub.GetProblemaResponse3;
 import es.si.ProgramadorGenetico.util.Config;
+import es.si.fasearcherserver.GetProblemaRequest;
+import es.si.fasearcherserver.GetProblemaResponse;
 
 public class GetProblemaWS {
 
@@ -30,43 +32,39 @@ public class GetProblemaWS {
 	
 	public boolean ejecutar() {
 		try {
-			FASearcherBeanServiceStub fasbss;
-			String server = Config.getInstance().getProperty("FASearcherServer");
-			fasbss = new FASearcherBeanServiceStub(server);
-			GetProblema2 gp2 = new GetProblema2();
-			GetProblema gp = new GetProblema();
+			QName service = new QName("http://ejb.FASearcherServer.si.es/", "FASearcherBeanService");
+			URL server = new URL(Config.getInstance().getProperty("FASearcherServer"));
+
+			FASearcherBeanService fasbs = new FASearcherBeanService(server, service);
+			FASearcher fas = fasbs.getFASearcherBeanPort();
+			
 			GetProblemaRequest gpr = new GetProblemaRequest();
 			if (tamano != null)
 				gpr.setTamano(tamano);
 			if (tipoAutomata != null)
 				gpr.setTipoAutomata(tipoAutomata);
-			gp.setGetProblemaRequest(gpr);
-			gp2.setGetProblema(gp);
 			
-			GetProblemaResponse3 gpresponse3 = fasbss.getProblema(gp2);
-			
-			estados = gpresponse3.getGetProblemaResponse().getGetProblemResponse().getEstados();
-			id = gpresponse3.getGetProblemaResponse().getGetProblemResponse().getId();
+			GetProblemaResponse gpresponse = fas.getProblema(gpr);
+
+			estados = gpresponse.getEstados();
+			id = gpresponse.getId();
 			
 			aceptadas = new ArrayList<String>();
-			String[] arrayAceptadas = gpresponse3.getGetProblemaResponse().getGetProblemResponse().getAceptadas().split("\\;");
+			String[] arrayAceptadas = gpresponse.getAceptadas().split("\\,");
 			for (int i = 0; i < arrayAceptadas.length; i++)
 				aceptadas.add(arrayAceptadas[i]);
 			
 			rechazadas = new ArrayList<String>();
-			String[] arrayRechazadas = gpresponse3.getGetProblemaResponse().getGetProblemResponse().getRechazadas().split("\\;");
+			String[] arrayRechazadas = gpresponse.getRechazadas().split("\\,");
 			for (int i = 0; i < arrayRechazadas.length; i++)
 				rechazadas.add(arrayRechazadas[i]);
 			
-			pobMax = gpresponse3.getGetProblemaResponse().getGetProblemResponse().getPobMax();
-			tipoAutomata = gpresponse3.getGetProblemaResponse().getGetProblemResponse().getTipoAutomata();
+			pobMax = gpresponse.getPobMax();
+			tipoAutomata = gpresponse.getTipoAutomata();
 			
-		} catch (AxisFault e) {
+		}  catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return false;
-		} catch (RemoteException e) {
-			e.printStackTrace();
-			return false;
 		}
 	
 		

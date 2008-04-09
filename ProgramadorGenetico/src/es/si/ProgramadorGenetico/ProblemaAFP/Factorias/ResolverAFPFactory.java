@@ -25,4 +25,15 @@ public class ResolverAFPFactory {
 	public static void setTipo(int tipo_nuevo) {
 		tipo = tipo_nuevo;
 	}
+	
+	public static String getVersion() {
+		if (tipo == VECTORES) {
+			return "VECTORES " + ResolverAFPVectores.VERSION;
+		}
+		if (tipo == PILA) {
+			return "PILA " + ResolverAFPPila.VERSION;
+		}
+		return "VECTORES " + ResolverAFPVectores.VERSION;
+		
+	}
 }

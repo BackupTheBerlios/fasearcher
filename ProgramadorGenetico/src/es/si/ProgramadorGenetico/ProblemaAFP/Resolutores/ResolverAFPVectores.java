@@ -20,6 +20,8 @@ import es.si.ProgramadorGenetico.ProblemaAFP.ResolverAFP;
  */
 public class ResolverAFPVectores implements ResolverAFP {
 
+	public static final double VERSION = 1.0f;
+
 	private AFP af;
 	
 	private String cadenaInicial;

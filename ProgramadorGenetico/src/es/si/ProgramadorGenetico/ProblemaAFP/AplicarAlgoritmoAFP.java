@@ -6,7 +6,10 @@ import es.si.ProgramadorGenetico.ProblemaAFP.Factorias.MutadorAFPFactory;
 
 public class AplicarAlgoritmoAFP {
 
-	public static AFP mejor;
+	private static AFP mejor;
+	
+	private static int pasos;
+	
 	public static void aplicar(int particiones, int iteraciones) {
 		Algoritmo alg = new Algoritmo();
 		GeneradorAleatorioAFP.PARTICIONES = particiones;
@@ -16,6 +19,7 @@ public class AplicarAlgoritmoAFP {
 		alg.setSelector(new SelectorAFP());
 		alg.run(iteraciones);
 		mejor = (AFP)alg.getMejor();
+		pasos = alg.getPasos();
 	}
 
 	public static AFP getMejor() {
@@ -26,6 +30,10 @@ public class AplicarAlgoritmoAFP {
 	 */
 	public static void main(String[] args) {
 		aplicar(5, 30);
+	}
+	
+	public static int getPasos() {
+		return pasos;
 	}
 
 }
