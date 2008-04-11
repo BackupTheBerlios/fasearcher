@@ -361,7 +361,8 @@ public class FramePrincipal extends JFrame implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
 				borraDibujos();				
 				String s = (String)JOptionPane.showInputDialog(
-						"Introduzca el número de estados del automáta a generar","8");
+						"Introduzca el número de estados del automáta a generar","6");
+				
 				int numEstados = Integer.valueOf(s);
 				System.out.println("Num estados: "+numEstados);
 				GeneradorAF genAF = new GeneradorAF(numEstados);
@@ -377,6 +378,35 @@ public class FramePrincipal extends JFrame implements ActionListener {
 				}												
 			}
 
+		});
+		
+		menu = new JMenu ("Ver");
+		menuBar.add(menu);
+		JCheckBoxMenuItem jcbmenuItem = new JCheckBoxMenuItem ("Automata finito original");
+		menu.add(jcbmenuItem);
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed (ActionEvent e) {
+				if (dibujanteAF != null){
+					agregaPanel(dibujanteAF);
+				}
+				else {
+					JCheckBoxMenuItem jcb = (JCheckBoxMenuItem)e.getSource();
+					jcb.setSelected(false);
+				}
+			}
+		});
+		jcbmenuItem = new JCheckBoxMenuItem ("Automata probabilista obtenido");	
+		menu.add(jcbmenuItem);
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed (ActionEvent e) {
+				if (dibujanteAFP != null){
+					agregaPanel(dibujanteAFP);
+				}
+				else {
+					JCheckBoxMenuItem jcb = (JCheckBoxMenuItem)e.getSource();
+					jcb.setSelected(false);
+				}
+			}
 		});
 		
 		menu = new JMenu ("Enviar");
@@ -407,6 +437,8 @@ public class FramePrincipal extends JFrame implements ActionListener {
 						problemaWS.ejecutar();
 						problemaWS.setAceptadas(genCad.getCadenasAceptadas());
 						problemaWS.setRechazadas(genCad.getCadenasRechazadas());
+						AFP afp = new AFP (afGenetico);
+						problemaWS.setAFP(afp);
 					}
 				}
 				else {
@@ -470,11 +502,11 @@ public class FramePrincipal extends JFrame implements ActionListener {
 	public void borraDibujos () {	
 		if (dibujanteAF!=null) {
 			this.remove(dibujanteAF);
-			dibujanteAF = null;
+			//dibujanteAF.setVisible(false);
 		}
 		if (dibujanteAFP!=null) {
 			this.remove(dibujanteAFP);
-			dibujanteAFP = null;
+			//dibujanteAFP.setVisible(false);
 		}
 
 	}
