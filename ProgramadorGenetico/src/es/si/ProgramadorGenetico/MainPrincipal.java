@@ -1,5 +1,6 @@
 package es.si.ProgramadorGenetico;
 
+import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.Rectangle;
@@ -17,7 +18,7 @@ public class MainPrincipal {
 	
 	private static void createAndShowGUI() {
 		FramePrincipal f = new FramePrincipal("Dibujante automatas");		
-		f.setLayout(new FlowLayout());
+		f.setLayout(new BorderLayout());
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);         
         f.pack();
         f.setExtendedState(Frame.MAXIMIZED_BOTH);

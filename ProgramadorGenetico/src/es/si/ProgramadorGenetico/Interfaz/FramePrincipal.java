@@ -57,7 +57,7 @@ public class FramePrincipal extends JFrame implements ActionListener {
 		super(s);		
 		//this.setExtendedState(Frame.MAXIMIZED_BOTH);
 		//this.setLayout(new GridLayout());
-		this.getContentPane().setLayout(new FlowLayout());
+		//this.getContentPane().setLayout(new BorderLayout());
 		test= false;
 		crearMenus();    	    	  
 
@@ -378,14 +378,15 @@ public class FramePrincipal extends JFrame implements ActionListener {
 			}
 
 		});
+		
+		menu = new JMenu ("Enviar");
 		menuItem = new JMenuItem ("Enviar problema");
 		menu.add(menuItem);
+		menuBar.add(menu);
 		menuItem.addActionListener (new ActionListener() {
 			public void actionPerformed (ActionEvent e) {
-				//AddProblemaWS problemaWS = new AddProblemaWS();
-				//problemaWS.ejecutar();
-				//problemaWS.setAceptadas(af.getAceptadas);
-				
+			
+			
 				if (dibujanteAF!=null) {
 					if (dibujanteAF.getAutomata()==null) 
 						afGenetico = new AF(dibujanteAF.getEstados(), dibujanteAF.getTransiciones2());									 
@@ -396,11 +397,21 @@ public class FramePrincipal extends JFrame implements ActionListener {
 								 JOptionPane.ERROR_MESSAGE);
 					}
 					else {				
+																		
 						GeneradorCadenas genCad = new GeneradorCadenas(afGenetico);
 						String message = genCad.toString();
 						mostrarMensaje(message);
 						activarMenusDibujo(false);
+						
+						AddProblemaWS problemaWS = new AddProblemaWS();
+						problemaWS.ejecutar();
+						problemaWS.setAceptadas(genCad.getCadenasAceptadas());
+						problemaWS.setRechazadas(genCad.getCadenasRechazadas());
 					}
+				}
+				else {
+					 JOptionPane.showMessageDialog(null,"No hay problema que enviar", "",
+							 JOptionPane.ERROR_MESSAGE);
 				}
 				
 			}
@@ -422,15 +433,18 @@ public class FramePrincipal extends JFrame implements ActionListener {
 		panel.setPreferredSize(new Dimension (2000,2000));
 		scrollPane = new JScrollPane (panel);
 		scrollPane.setPreferredSize(new Dimension(500,500));
+		//scrollPane.setAutoscrolls(true);
 		JScrollBar vert = scrollPane.getVerticalScrollBar();
 		JScrollBar hor = scrollPane.getHorizontalScrollBar();
 		vert.setValue((vert.getMaximum()/2));
-		hor.setValue((hor.getMaximum()/2)-200);
-		JLabel j = new JLabel ("HOLA");j.setSize(200,200);
-		j.setBackground(Color.blue);
-		j.setVisible(true);
+		hor.setValue((hor.getMaximum()/2));
+		
+		//JLabel j = new JLabel ("HOLA");j.setSize(200,200);
+		//j.setBackground(Color.blue);
+		//j.setVisible(true);
 		//this.add(j,FlowLayout.LEFT);
-		this.add(scrollPane,FlowLayout.LEFT);		
+		
+		this.getContentPane().add(scrollPane,BorderLayout.WEST);		
 
 
 		
