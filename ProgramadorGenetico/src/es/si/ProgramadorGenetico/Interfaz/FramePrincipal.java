@@ -51,7 +51,8 @@ public class FramePrincipal extends JFrame implements ActionListener {
 	private JMenuItem menuItem;
 	private AF afGenetico;
 	private GeneradorCadenas genCadenas;
-	private JScrollPane scrollPane;
+	private JScrollPane scrollPaneAF;
+	private JScrollPane scrollPaneAFP;
 
 	public FramePrincipal (String s) {
 		super(s);		
@@ -200,6 +201,7 @@ public class FramePrincipal extends JFrame implements ActionListener {
 	    menu.add(menuItem);
 		 */
 
+		/*
 
 		menuItem = new JMenuItem("Algoritmo genético",KeyEvent.VK_A);
 		menuItem.setName("Genetico");
@@ -211,11 +213,13 @@ public class FramePrincipal extends JFrame implements ActionListener {
 					borraDibujos();
 					AFP mejor = creaAFP();
 					dibujanteAFP = new DibujanteAFP(mejor);			
-					agregaPanel(dibujanteAFP);
+					agregaPanelAFP(dibujanteAFP);
 					activarMenusDibujo(false);
 					pintar();				
 			}
 		});
+		
+		*/
 		
 		menuItem = new JMenuItem("Algoritmo genético a partir del autómata finito",KeyEvent.VK_L);
 		menuItem.setName("Genetico");
@@ -238,7 +242,7 @@ public class FramePrincipal extends JFrame implements ActionListener {
 								afGenetico.getEstados());					
 						borraDibujos();
 						dibujanteAFP = new DibujanteAFP (mejor);
-						agregaPanel(dibujanteAFP);
+						agregaPanelAFP(dibujanteAFP);
 						activarMenusDibujo(false);
 					}
 					pintar();
@@ -255,24 +259,31 @@ public class FramePrincipal extends JFrame implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
 
 				if (dibujanteAF!=null) {
-					if (dibujanteAF.getAutomata()==null) 
+					if (dibujanteAF.getAutomata()==null) { 
 						afGenetico = new AF(dibujanteAF.getEstados(), dibujanteAF.getTransiciones2());									 
-					//GeneradorCadenas genCad = new GeneradorCadenas(dibujanteAF.getAutomata());
-					boolean esAFD = afGenetico.comprobarAFD();
-					if (!esAFD) {												
-						 JOptionPane.showMessageDialog(null,"Falta completar transiciones en el automata", "",
-								 JOptionPane.ERROR_MESSAGE);
+
+						boolean esAFD = afGenetico.comprobarAFD();
+						if (!esAFD) {												
+							JOptionPane.showMessageDialog(null,"Falta completar transiciones en el automata", "",
+									JOptionPane.ERROR_MESSAGE);
+						}
+						else {				
+							GeneradorCadenas genCad = new GeneradorCadenas(afGenetico);
+							String message = genCad.toString();
+							mostrarMensaje(message);
+							activarMenusDibujo(false);
+						}
 					}
-					else {				
-						GeneradorCadenas genCad = new GeneradorCadenas(afGenetico);
+					else {
+						GeneradorCadenas genCad = new GeneradorCadenas(dibujanteAF.getAutomata());
 						String message = genCad.toString();
 						mostrarMensaje(message);
 						activarMenusDibujo(false);
 					}
-				}
 			}
+		}
 
-		});
+	});
 
 		
 		menu.addSeparator();
@@ -303,7 +314,7 @@ public class FramePrincipal extends JFrame implements ActionListener {
 					borraDibujos();
 					dibujar=true;					
 					dibujanteAF = new DibujanteAF();
-					agregaPanel(dibujanteAF);
+					agregaPanelAF(dibujanteAF);
 					activarMenusDibujo(true);
 					pintar();
 					
@@ -361,13 +372,13 @@ public class FramePrincipal extends JFrame implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
 				borraDibujos();				
 				String s = (String)JOptionPane.showInputDialog(
-						"Introduzca el número de estados del automáta a generar","6");
+						"Introduzca el número de estados del automáta a generar","4");
 				
 				int numEstados = Integer.valueOf(s);
 				System.out.println("Num estados: "+numEstados);
 				GeneradorAF genAF = new GeneradorAF(numEstados);
 				dibujanteAF = new DibujanteAF (genAF.getAF());																
-				agregaPanel(dibujanteAF);
+				agregaPanelAF(dibujanteAF);
 				pintar();			
 				s = "¿Desea ver cadenas posibles de este automata?";
 				int respuesta = mostrarMensajeConfirmacion(s);
@@ -384,10 +395,10 @@ public class FramePrincipal extends JFrame implements ActionListener {
 		menuBar.add(menu);
 		JCheckBoxMenuItem jcbmenuItem = new JCheckBoxMenuItem ("Automata finito original");
 		menu.add(jcbmenuItem);
-		menuItem.addActionListener(new ActionListener() {
+		jcbmenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed (ActionEvent e) {
 				if (dibujanteAF != null){
-					agregaPanel(dibujanteAF);
+					agregaPanelAF(dibujanteAF);
 				}
 				else {
 					JCheckBoxMenuItem jcb = (JCheckBoxMenuItem)e.getSource();
@@ -397,10 +408,10 @@ public class FramePrincipal extends JFrame implements ActionListener {
 		});
 		jcbmenuItem = new JCheckBoxMenuItem ("Automata probabilista obtenido");	
 		menu.add(jcbmenuItem);
-		menuItem.addActionListener(new ActionListener() {
+		jcbmenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed (ActionEvent e) {
 				if (dibujanteAFP != null){
-					agregaPanel(dibujanteAFP);
+					agregaPanelAFP(dibujanteAFP);
 				}
 				else {
 					JCheckBoxMenuItem jcb = (JCheckBoxMenuItem)e.getSource();
@@ -460,27 +471,58 @@ public class FramePrincipal extends JFrame implements ActionListener {
 		//panelPrincipal.paintComponents(this.getGraphics());
 	}
 
-	public void agregaPanel(JPanel panel) {
+	public void agregaPanelAF(JPanel panel) {
 		//this.add(panel);
-		panel.setPreferredSize(new Dimension (2000,2000));
-		scrollPane = new JScrollPane (panel);
-		scrollPane.setPreferredSize(new Dimension(500,500));
-		//scrollPane.setAutoscrolls(true);
+		JScrollPane scrollPaneAF = new JScrollPane(panel);
+		panel.setPreferredSize(new Dimension (2000,2000));		
+		scrollPaneAF.setPreferredSize(new Dimension(500,500));
+		this.getContentPane().add(scrollPaneAF,BorderLayout.WEST);
+		/*
+		JScrollBar hvar = scrollPaneAF.getHorizontalScrollBar();
+		//scrollPaneAF.getHorizontalScrollBar().setEnabled(true);
+		scrollPaneAF.getHorizontalScrollBar().setValue(scrollPaneAF.getHorizontalScrollBar().getMaximum()/2);
+		int val = scrollPaneAF.getHorizontalScrollBar().getValue();
+		System.out.println(val);
+		System.out.println(hvar.getValue());
+		System.out.println(hvar.getMaximum());
+		System.out.println("hvar.getMinimum()"+hvar.getMinimum());
+		hvar.setValue(hvar.getMaximum()/2);
+		System.out.println("hvar.setValue(hvar.getMaximum()/2);"+hvar.getMaximum()/2);	
+		System.out.println("System.out.println(hvar.getValue());"+hvar.getValue());
+		
+			*/
+		
+		/*
 		JScrollBar vert = scrollPane.getVerticalScrollBar();
 		JScrollBar hor = scrollPane.getHorizontalScrollBar();
 		vert.setValue((vert.getMaximum()/2));
 		hor.setValue((hor.getMaximum()/2));
-		
+		*/
 		//JLabel j = new JLabel ("HOLA");j.setSize(200,200);
 		//j.setBackground(Color.blue);
 		//j.setVisible(true);
 		//this.add(j,FlowLayout.LEFT);
 		
-		this.getContentPane().add(scrollPane,BorderLayout.WEST);		
-
-
-		
-		
+	}
+	
+	public void agregaPanelAFP(JPanel panel) {
+		//this.add(panel);
+		scrollPaneAFP = new JScrollPane(panel);
+		panel.setPreferredSize(new Dimension (2000,2000));		
+		scrollPaneAFP.setPreferredSize(new Dimension(500,500));
+		scrollPaneAFP.setMaximumSize(new Dimension(500,1500));
+		this.getContentPane().add(scrollPaneAFP,BorderLayout.CENTER);
+				
+		/*
+		JScrollBar vert = scrollPane.getVerticalScrollBar();
+		JScrollBar hor = scrollPane.getHorizontalScrollBar();
+		vert.setValue((vert.getMaximum()/2));
+		hor.setValue((hor.getMaximum()/2));
+		*/
+		//JLabel j = new JLabel ("HOLA");j.setSize(200,200);
+		//j.setBackground(Color.blue);
+		//j.setVisible(true);
+		//this.add(j,FlowLayout.LEFT);
 		
 	}
 

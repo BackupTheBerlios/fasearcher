@@ -79,7 +79,7 @@ public class Estado extends JComponent{
 		
 		public void paintComponent (Graphics g) {
 			super.paintComponent(g);
-			g.setColor(Color.yellow);			
+			//g.setColor(Color.yellow);			
 			g.fillOval((int)punto.getX(), (int)punto.getY(), (int)diametro, (int)diametro);
 	        g.drawOval((int)punto.getX(), (int)punto.getY(), (int)diametro, (int)diametro);
 	        g.setColor(Color.black);

@@ -480,9 +480,13 @@ public class DibujanteAF extends JPanel implements Dibujante{
 	 */
 	public void pintaEstados (Graphics2D g) {
 
-		for (int i = 0; i<estados.size(); i++)  
+		
+		for (int i = 0; i<estados.size(); i++) {
+			g.setColor(Color.yellow);
 			((Estado)(estados.get(i))).paintComponent(g);
-
+		}
+			
+		g.setColor(Color.black);
 
 		//Pinta triangulo del estado inicial
 		if (estados.size()>0) {

@@ -284,6 +284,7 @@ public class DibujanteAFP extends JPanel{
 		g2 = (Graphics2D) g;
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);				
 		pintaTransiciones(g2);
+		
 		pintaEstados(g2);		      
 
 	}
@@ -312,10 +313,12 @@ public class DibujanteAFP extends JPanel{
 	 * @param g
 	 */
 	public void pintaEstados (Graphics2D g) {
-
-		for (int i = 0; i<estados.size(); i++)  
+		
+		for (int i = 0; i<estados.size(); i++) {
+			g.setColor(Color.green);
 			((Estado)(estados.get(i))).paintComponent(g);
-
+		}
+		g.setColor(Color.black);
 
 		//Pinta triangulo del estado inicial 
 		Estado q0 = estados.get(0);					
