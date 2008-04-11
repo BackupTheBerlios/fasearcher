@@ -5,6 +5,7 @@ import java.text.NumberFormat;
 import java.util.List;
 
 import es.si.ProgramadorGenetico.Interfaz.*;
+import es.si.ProgramadorGenetico.ProblemaAFP.AFP;
 
 import es.si.ProgramadorGenetico.Individuo;
 
@@ -134,4 +135,5 @@ public class AF implements Individuo{
 		}
 		return true;
 	}
+	
 }
