@@ -19,7 +19,7 @@ public class PruebaBondad {
 	public static void main(String[] args) {
 		AFP afp = new AFP(4);
 		double[][][] transiciones = new double[4][2][5];
-		
+/*		
 		transiciones[A-1][1][0] = 0.25;
 		transiciones[A-1][1][A] = 0.25;
 		transiciones[A-1][1][B] = 0.3;
@@ -67,7 +67,56 @@ public class PruebaBondad {
 		transiciones[D-1][0][B] = 0.1;
 		transiciones[D-1][0][C] = 0.1;
 		transiciones[D-1][0][D] = 0.6;
+*/
+		transiciones[A-1][1][0] = 0.0;
+		transiciones[A-1][1][A] = 0.0;
+		transiciones[A-1][1][B] = 1.0;
+		transiciones[A-1][1][C] = 0.0;
+		transiciones[A-1][1][D] = 0;
+		
+		transiciones[A-1][0][0] = 0;
+		transiciones[A-1][0][A] = 1.0;
+		transiciones[A-1][0][B] = 0.0;
+		transiciones[A-1][0][C] = 0.0;
+		transiciones[A-1][0][D] = 0.0;
+		
+		transiciones[B-1][1][0] = 0.0;
+		transiciones[B-1][1][A] = 0.0;
+		transiciones[B-1][1][B] = 1.0;
+		transiciones[B-1][1][C] = 0.0;
+		transiciones[B-1][1][D] = 0.0;
+		
+		transiciones[B-1][0][0] = 1.0;
+		transiciones[B-1][0][A] = 0.0;
+		transiciones[B-1][0][B] = 0.0;
+		transiciones[B-1][0][C] = 0.0;
+		transiciones[B-1][0][D] = 0.0;
 
+		transiciones[C-1][1][0] = 0.0;
+		transiciones[C-1][1][A] = 0.0;
+		transiciones[C-1][1][B] = 1.0;
+		transiciones[C-1][1][C] = 0.0;
+		transiciones[C-1][1][D] = 0.0;
+	
+		transiciones[C-1][0][0] = 0.0;
+		transiciones[C-1][0][A] = 0.0;
+		transiciones[C-1][0][B] = 0.0;
+		transiciones[C-1][0][C] = 0.0;
+		transiciones[C-1][0][D] = 1.0;
+
+		transiciones[D-1][1][0] = 0.0;
+		transiciones[D-1][1][A] = 0.0;
+		transiciones[D-1][1][B] = 0.0;
+		transiciones[D-1][1][C] = 1.0;
+		transiciones[D-1][1][D] = 0.0;
+		
+		transiciones[D-1][0][0] = 0.0;
+		transiciones[D-1][0][A] = 0.0;
+		transiciones[D-1][0][B] = 0.0;
+		transiciones[D-1][0][C] = 0.0;
+		transiciones[D-1][0][D] = 1.0;
+
+		
 		afp.setTransiciones(transiciones);
 
 		double[] probfinal = new double[4];
@@ -103,6 +152,15 @@ public class PruebaBondad {
 		calculador.run();
 		
 		System.out.println("Bondad balanceada: " + calculador.getBondad());
+
+		CalculadorBondadAFPFactory.setTipo(CalculadorBondadAFPFactory.PREFERNCIADET);
+		
+		calculador = CalculadorBondadAFPFactory.getCalculadorBondadAFP(afp, aceptadas, rechazadas);
+
+		calculador.run();
+		
+		System.out.println("Bondad pref det: " + calculador.getBondad());
+
 	}
 
 }

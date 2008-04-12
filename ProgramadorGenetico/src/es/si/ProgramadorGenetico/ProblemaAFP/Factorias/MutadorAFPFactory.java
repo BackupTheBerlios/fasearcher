@@ -1,5 +1,7 @@
 package es.si.ProgramadorGenetico.ProblemaAFP.Factorias;
 
+import java.text.DecimalFormat;
+
 import es.si.ProgramadorGenetico.Mutador;
 import es.si.ProgramadorGenetico.ProblemaAFP.Mutadores.*;
 
@@ -29,12 +31,12 @@ public class MutadorAFPFactory {
 	
 	public static String getVersion() {
 		if (tipo == TIPO_NULO)
-			return "TIPO_NULO " + MutadorAFPNulo.VERSION;
+			return "TIPO_NULO " + (new DecimalFormat("0.00")).format(MutadorAFPNulo.VERSION);
 		if (tipo == TIPO_1)
-			return "TIPO_1 " + MutadorAFP_1.VERSION;
+			return "TIPO_1 " + (new DecimalFormat("0.00")).format(MutadorAFP_1.VERSION);
 		if (tipo == TIPO_2)
-			return "TIPO_2 " + MutadorAFP_2.VERSION;
-		return "TIPO_1 " + MutadorAFP_1.VERSION;
+			return "TIPO_2 " + (new DecimalFormat("0.00")).format(MutadorAFP_2.VERSION);
+		return "TIPO_1 " + (new DecimalFormat("0.00")).format(MutadorAFP_1.VERSION);
 
 	}
 	

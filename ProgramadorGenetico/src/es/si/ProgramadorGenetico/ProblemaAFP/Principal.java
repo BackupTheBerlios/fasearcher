@@ -69,6 +69,7 @@ public class Principal {
 					setSolucionWS.setCruzador(CruzadorAFPFactory.getVersion());
 					setSolucionWS.setFuncbondad(CalculadorBondadAFPFactory.getVersion());
 					setSolucionWS.setMetodoRes(ResolverAFPFactory.getVersion());
+					setSolucionWS.setParticiones(new Integer(ParametrosAFP.getInstance().getParticiones()));
 					setSolucionWS.ejecutar();
 				}
 			}

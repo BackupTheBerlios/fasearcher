@@ -3,15 +3,19 @@ package es.si.ProgramadorGenetico.WS;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.rmi.RemoteException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 import javax.xml.namespace.QName;
 
 import org.apache.axis2.AxisFault;
 
 import es.si.ProgramadorGenetico.ServiceWS.Afp;
+import es.si.ProgramadorGenetico.ServiceWS.Configuracion;
 import es.si.ProgramadorGenetico.ServiceWS.FASearcherService;
 import es.si.ProgramadorGenetico.ServiceWS.FASearcherServiceBeanService;
 import es.si.ProgramadorGenetico.util.Config;
@@ -36,6 +40,8 @@ public class AddProblemaWS {
 	
 	private List<String> rechazadas;
 	
+	private List<Configuracion> configs;
+	
 	private String tipoAutomata;
 	
 	private Afp afp;
@@ -45,6 +51,10 @@ public class AddProblemaWS {
 	private Integer pobMax;
 	
 	private String id;
+	
+	public AddProblemaWS() {
+		configs = new ArrayList<Configuracion>();
+	}
 	
 	public boolean ejecutar() {
 			try {
@@ -67,6 +77,10 @@ public class AddProblemaWS {
 				apr.setAfp(afp);
 				apr.setEstados(estados);
 				apr.setPobMax(pobMax);
+				Iterator<Configuracion> it2 = configs.iterator();
+				while(it2.hasNext())
+					apr.getConfiguraciones().add(it2.next());
+				
 				
 				AddProblemaResponse gpresponse = fas.addProblema(apr);
 
@@ -118,7 +132,11 @@ public class AddProblemaWS {
 				trans[i*2 +j] = "" + i + ":" + j + ":";
 				for (int k = 0; k < estados+1; k++) {
 					double temp = (transiciones[i][j][k] < 0.0001 ? 0 : transiciones[i][j][k]);
-					trans[i*2+j] += (k == 0 ? temp : ";" + temp);
+					temp = (temp > 0.9999 ? 1 : temp);
+					NumberFormat format = NumberFormat.getInstance(Locale.ENGLISH);
+					format.setMaximumFractionDigits(4);
+					String temp2 = format.format(temp);
+					trans[i*2+j] += (k == 0 ? temp2 : ";" + temp2);
 				}
 			}
 		}
@@ -134,7 +152,13 @@ public class AddProblemaWS {
 		this.pobMax = pobMax;
 	}
 	
-	
+	public void addConfiguracion(int estados, int muestras, int pobMax) {
+		Configuracion conf = new Configuracion();
+		conf.setEstados(estados);
+		conf.setMuestras(muestras);
+		conf.setPobMax(pobMax);
+		configs.add(conf);
+	}
 	
 	
 	

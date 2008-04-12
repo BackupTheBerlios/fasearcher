@@ -1,5 +1,6 @@
 package es.si.ProgramadorGenetico.ProblemaAFP.Factorias;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import es.si.ProgramadorGenetico.Cruzador;
@@ -46,15 +47,15 @@ public class CalculadorBondadAFPFactory {
 	
 	public static String getVersion() {
 		if (tipo == SIMPLE) {
-			return "SIMPLE " + CalculadorBondadSimple.VERSION;
+			return "SIMPLE " + (new DecimalFormat("0.00")).format(CalculadorBondadSimple.VERSION);
 		} else if (tipo == CUADRATICO) {
-			return "CUADRATICO " + CalculadorBondadCuadratico.VERSION;
+			return "CUADRATICO " + (new DecimalFormat("0.00")).format(CalculadorBondadCuadratico.VERSION);
 		} else if (tipo == BALANACEADO) {
-			return "BALANACEADO " + CalculadorBondadBalanceado.VERSION;
+			return "BALANACEADO " + (new DecimalFormat("0.00")).format(CalculadorBondadBalanceado.VERSION);
 		} else if (tipo == PREFERNCIADET) {
-			return "PREFERNCIADET " + CalculadorBondadPrefernciaDet.VERSION;
+			return "PREFERNCIADET " + (new DecimalFormat("0.00")).format(CalculadorBondadPrefernciaDet.VERSION);
 		}
-		return "SIMPLE " + CalculadorBondadSimple.VERSION;
+		return "SIMPLE " + (new DecimalFormat("0.00")).format(CalculadorBondadSimple.VERSION);
 		
 	}
 	

@@ -24,6 +24,8 @@ public class GetProblemaWS {
 	
 	private Integer pobMax;
 	
+	private Integer muestras;
+	
 	private String id;
 	
 	private List<String> aceptadas;
@@ -59,6 +61,7 @@ public class GetProblemaWS {
 			for (int i = 0; i < arrayRechazadas.length; i++)
 				rechazadas.add(arrayRechazadas[i]);
 			
+			muestras = gpresponse.getMuestras();
 			pobMax = gpresponse.getPobMax();
 			tipoAutomata = gpresponse.getTipoAutomata();
 			
@@ -101,6 +104,10 @@ public class GetProblemaWS {
 
 	public void setTamano(Integer tamano) {
 		this.tamano = tamano;
+	}
+
+	public Integer getMuestras() {
+		return muestras;
 	}
 	
 }

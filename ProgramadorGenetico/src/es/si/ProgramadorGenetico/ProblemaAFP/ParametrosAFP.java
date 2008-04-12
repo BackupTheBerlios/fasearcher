@@ -68,12 +68,10 @@ public class ParametrosAFP {
 			aceptadas = getProblemaWS.getAceptadas();
 			rechazadas = getProblemaWS.getRechazadas();
 			muestras = new ArrayList<Integer>();
-			muestras.add(new Integer(20));
+			muestras.add(new Integer(getProblemaWS.getMuestras()));
 			pobmax = new ArrayList<Integer>();
-			pobmax.add(new Integer(10000));
+			pobmax.add(new Integer(getProblemaWS.getPobMax()));
 			estados = getProblemaWS.getEstados();
-			if (estados <= 1)
-				estados = 4;
 			particiones = 100;
 			numeroMuestras = aceptadas.size() + rechazadas.size();
 			id = getProblemaWS.getId();

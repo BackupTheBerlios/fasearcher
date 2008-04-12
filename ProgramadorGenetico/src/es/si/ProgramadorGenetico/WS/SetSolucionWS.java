@@ -3,7 +3,10 @@ package es.si.ProgramadorGenetico.WS;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.rmi.RemoteException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import javax.xml.namespace.QName;
 
@@ -38,6 +41,12 @@ public class SetSolucionWS {
 	
 	private Integer muestras;
 	
+	private Integer particiones;
+	
+	public void setParticiones(Integer particiones) {
+		this.particiones = particiones;
+	}
+
 	public boolean ejecutar() {
 		
 		try {
@@ -59,7 +68,7 @@ public class SetSolucionWS {
 			ssr.setMetodoRes(metodoRes);
 			ssr.setPobmax(pobmax);
 			ssr.setMuestras(muestras);
-			
+			ssr.setParticiones(particiones);
 			
 			SetSolucionResponse ssresponse = fas.setSolucion(ssr);
 
@@ -104,7 +113,12 @@ public class SetSolucionWS {
 			for (int j = 0; j < 2; j ++) {
 				trans[i*2 +j] = "" + i + ":" + j + ":";
 				for (int k = 0; k < estados+1; k++) {
-					trans[i*2+j] += (k == 0 ? transiciones[i][j][k] : ";" + transiciones[i][j][k]);
+					double temp = (transiciones[i][j][k] < 0.0001 ? 0 : transiciones[i][j][k]);
+					temp = (temp > 0.9999 ? 1 : temp);
+					NumberFormat format = NumberFormat.getInstance(Locale.ENGLISH);
+					format.setMaximumFractionDigits(4);
+					String temp2 = format.format(temp);
+					trans[i*2+j] += (k == 0 ? temp2 : ";" + temp2);
 				}
 				System.out.println(trans[i*2+j]);
 			}

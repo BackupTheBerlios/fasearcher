@@ -1,5 +1,7 @@
 package es.si.ProgramadorGenetico.ProblemaAFP.Factorias;
 
+import java.text.DecimalFormat;
+
 import es.si.ProgramadorGenetico.Cruzador;
 import es.si.ProgramadorGenetico.ProblemaAFP.Cruzadores.*;
 
@@ -29,12 +31,12 @@ public class CruzadorAFPFactory {
 	
 	public static String getVersion() {
 		if (tipo == TIPO_NULO)
-			return "NULO " + CruzadorAFPNulo.VERSION;
+			return "NULO " + (new DecimalFormat("0.00")).format(CruzadorAFPNulo.VERSION);
 		if (tipo == TIPO_1)
-			return "TIPO_1 " + CruzadorAFP_1.VERSION;
+			return "TIPO_1 " + (new DecimalFormat("0.00")).format(CruzadorAFP_1.VERSION);
 		if (tipo == TIPO_2)
-			return "TIPO_2 " + CruzadorAFP_2.VERSION;
-		return "TIPO_1 " + CruzadorAFP_1.VERSION;
+			return "TIPO_2 " + (new DecimalFormat("0.00")).format(CruzadorAFP_2.VERSION);
+		return "TIPO_1 " + (new DecimalFormat("0.00")).format(CruzadorAFP_1.VERSION);
 	}
 	
 }
