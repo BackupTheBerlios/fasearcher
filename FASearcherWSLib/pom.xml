@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?><project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>FASearcherWSLib</groupId>
+  <artifactId>FASearcherWSLib</artifactId>
+  <version>0.0.1</version>
+  <repositories>
+	<repository>
+		<id>apache-snapshots</id>
+		<name>Apache SNAPSHOT Repository</name>
+		<url>http://people.apache.org/repo/m2-snapshot-repository/</url>
+		<snapshots>
+			<enabled>true</enabled>
+		</snapshots>
+	</repository>
+	<repository>
+		<id>apache-incubating</id>
+		<name>Apache Incubating Repository</name>
+		<url>http://people.apache.org/repo/m2-incubating-repository/</url>
+	</repository>
+        <!-- for jaxb-impl -->
+        <repository>
+            <id>java.net</id>
+            <url>http://download.java.net/maven/1/</url>
+            <layout>legacy</layout>
+        </repository>
+</repositories>
+
+<pluginRepositories>
+	<pluginRepository>
+		<id>apache-plugin-snapshots</id>
+		<name>Apache Maven Plugin Snapshots</name>
+		<url>http://people.apache.org/repo/m2-snapshot-repository</url>
+		<releases>
+			<enabled>false</enabled>
+		</releases>
+		<snapshots>
+			<enabled>true</enabled>
+		</snapshots>
+	</pluginRepository>
+        <pluginRepository>
+               <id>apache-plugin-incubating</id>
+               <name>Apache Plugin Incubating Repository</name>
+               <url>http://people.apache.org/repo/m2-incubating-repository/</url>
+      	</pluginRepository>
+</pluginRepositories>
+  <build>
+    <sourceDirectory>./src/main/java</sourceDirectory>
+
+    <finalName>FASearcherWSLib</finalName>
+
+    <plugins>
+    	<plugin>
+   		<groupId>org.apache.cxf</groupId>
+		<artifactId>cxf-codegen-plugin</artifactId>
+		<version>2.0.2-incubator</version>
+		<executions>
+			<execution>
+				<id>generate-sources</id>
+				<phase>generate-sources</phase>
+				<configuration>
+					<sourceRoot>${basedir}/target/generated/src/main/java</sourceRoot>
+					<wsdlOptions>
+						<wsdlOption>
+							<wsdl>http://localhost:18080/fasearcher/FASearcherBean?WSDL</wsdl>
+							<extraargs>
+								<extraarg>-p</extraarg>
+								<extraarg>http://ejb.FASearcherServer.si.es/=es.si.ProgramadorGenetico.WS</extraarg>
+							</extraargs>
+						</wsdlOption>
+						<wsdlOption>
+							<wsdl>http://localhost:18080/fasearcher/FASearcherServiceBean?WSDL</wsdl>
+							<extraargs>
+								<extraarg>-p</extraarg>
+								<extraarg>http://ejb.FASearcherServer.si.es/=es.si.ProgramadorGenetico.ServiceWS</extraarg>
+							</extraargs>
+						</wsdlOption>
+					</wsdlOptions>
+				</configuration>
+				<goals>
+					<goal>wsdl2java</goal>
+				</goals>
+			</execution>
+		</executions>
+		</plugin>
+		
+		<plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+          <includes>
+            <include>es/si/fasearcherserver/*.java</include>
+            <include>es/si/ProgramadorGenetico/ServiceWS/*.java</include>
+            <include>es/si/ProgramadorGenetico/WS/*.java</include>
+          </includes>
+        </configuration>
+      </plugin>
+		
+    </plugins>
+  </build>
+<dependencies>
+	<dependency>
+		<groupId>org.apache.cxf</groupId>
+		<artifactId>cxf-rt-frontend-jaxws</artifactId>
+		<version>2.0.2-incubator</version>
+	</dependency>
+	<dependency>
+		<groupId>org.apache.cxf</groupId>
+		<artifactId>cxf-rt-transports-http</artifactId>
+		<version>2.0.2-incubator</version>
+	</dependency>
+        <!-- Jetty is needed if you're are not using the CXFServlet -->
+	<dependency>
+		<groupId>org.apache.cxf</groupId>
+		<artifactId>cxf-rt-transports-http-jetty</artifactId>
+		<version>2.0.2-incubator</version>
+	</dependency>
+  </dependencies>
+</project>
