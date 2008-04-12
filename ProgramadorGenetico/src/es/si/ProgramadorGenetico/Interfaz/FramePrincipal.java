@@ -240,10 +240,11 @@ public class FramePrincipal extends JFrame implements ActionListener {
 						AFP mejor = creaAFPdeAF(genCadenas.getCadenasAceptadas(),
 								genCadenas.getCadenasRechazadas(),
 								afGenetico.getEstados());					
-						borraDibujos();
+						//borraDibujos();
 						dibujanteAFP = new DibujanteAFP (mejor);
 						agregaPanelAFP(dibujanteAFP);
-						activarMenusDibujo(false);
+						agregaTabla(tablaTransiciones);
+						//activarMenusDibujo(false);
 					}
 					pintar();
 			}
@@ -271,14 +272,14 @@ public class FramePrincipal extends JFrame implements ActionListener {
 							GeneradorCadenas genCad = new GeneradorCadenas(afGenetico);
 							String message = genCad.toString();
 							mostrarMensaje(message);
-							activarMenusDibujo(false);
+							//activarMenusDibujo(false);
 						}
 					}
 					else {
 						GeneradorCadenas genCad = new GeneradorCadenas(dibujanteAF.getAutomata());
 						String message = genCad.toString();
 						mostrarMensaje(message);
-						activarMenusDibujo(false);
+						//activarMenusDibujo(false);
 					}
 			}
 		}
@@ -473,7 +474,10 @@ public class FramePrincipal extends JFrame implements ActionListener {
 
 	public void agregaPanelAF(JPanel panel) {
 		//this.add(panel);
-		JScrollPane scrollPaneAF = new JScrollPane(panel);
+		if (scrollPaneAF!=null) {
+			this.remove(scrollPaneAF);
+		}
+		scrollPaneAF = new JScrollPane(panel);
 		panel.setPreferredSize(new Dimension (2000,2000));		
 		scrollPaneAF.setPreferredSize(new Dimension(500,500));
 		this.getContentPane().add(scrollPaneAF,BorderLayout.WEST);
@@ -507,12 +511,15 @@ public class FramePrincipal extends JFrame implements ActionListener {
 	
 	public void agregaPanelAFP(JPanel panel) {
 		//this.add(panel);
+		if (scrollPaneAFP!=null)
+			this.remove(scrollPaneAFP);
 		scrollPaneAFP = new JScrollPane(panel);
 		panel.setPreferredSize(new Dimension (2000,2000));		
 		scrollPaneAFP.setPreferredSize(new Dimension(500,500));
 		scrollPaneAFP.setMaximumSize(new Dimension(500,1500));
 		this.getContentPane().add(scrollPaneAFP,BorderLayout.CENTER);
-				
+		//scrollPaneAF
+		
 		/*
 		JScrollBar vert = scrollPane.getVerticalScrollBar();
 		JScrollBar hor = scrollPane.getHorizontalScrollBar();
@@ -524,6 +531,12 @@ public class FramePrincipal extends JFrame implements ActionListener {
 		//j.setVisible(true);
 		//this.add(j,FlowLayout.LEFT);
 		
+	}
+	
+	public void agregaTabla (PanelTablaTransiciones tablaTransiciones) {
+		tablaTransiciones = new PanelTablaTransiciones(dibujanteAFP);
+		this.add(tablaTransiciones);
+		this.update(this.getGraphics());
 	}
 
 	public void paintComponent(Graphics g) {		
@@ -543,11 +556,11 @@ public class FramePrincipal extends JFrame implements ActionListener {
 	
 	public void borraDibujos () {	
 		if (dibujanteAF!=null) {
-			this.remove(dibujanteAF);
+			this.remove(scrollPaneAF);
 			//dibujanteAF.setVisible(false);
 		}
 		if (dibujanteAFP!=null) {
-			this.remove(dibujanteAFP);
+			this.remove(scrollPaneAFP);
 			//dibujanteAFP.setVisible(false);
 		}
 

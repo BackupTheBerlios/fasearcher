@@ -605,6 +605,10 @@ public class DibujanteAF extends JPanel implements Dibujante{
 		return transiciones2;
 	}
 
+	public double[] getProbabilidadFinal() {
+		return probabilidadFinal;
+	}
+
 	/*
 	public void paint(Graphics g) {
 		super.paint(g);	

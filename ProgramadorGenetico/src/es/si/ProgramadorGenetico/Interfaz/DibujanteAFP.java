@@ -31,6 +31,7 @@ import javax.swing.event.MouseInputAdapter;
 import java.awt.RenderingHints;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 
 public class DibujanteAFP extends JPanel{
@@ -74,7 +75,7 @@ public class DibujanteAFP extends JPanel{
 	/**
 	 * Array que contiene los estados	 
 	 */
-	private ArrayList<Estado> estados;
+	private List<Estado> estados;
 
 	/**
 	 * Array que contiene las transiciones
@@ -356,6 +357,21 @@ public class DibujanteAFP extends JPanel{
 
 	public int getNumEstados() {
 		return numEstados;
+	}
+
+
+	public Transicion[][] getTransiciones() {
+		return transiciones;
+	}
+
+
+	public List<Estado> getEstados() {
+		return estados;
+	}
+
+
+	public double[] getProbabilidadFinal() {
+		return probabilidadFinal;
 	}
 
 	/*
