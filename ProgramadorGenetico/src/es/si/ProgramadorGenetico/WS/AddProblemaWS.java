@@ -55,7 +55,7 @@ public class AddProblemaWS {
 	public boolean ejecutar() {
 			try {
 				
-				QName service = new QName("http://ejb.FASearcherServer.si.es/", "FASearcherServiceBeanService");
+				QName service = new QName("http://ejb.FASearcherServer.si.es/", "FASearcherServiceBeanService");				
 				URL server = new URL(Config.getInstance().getProperty("FASearcherServiceServer"));
 
 				FASearcherServiceBeanService fasbs = new FASearcherServiceBeanService(server, service);
