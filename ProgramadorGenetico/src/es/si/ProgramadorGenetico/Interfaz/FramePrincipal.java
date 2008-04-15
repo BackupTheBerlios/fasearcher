@@ -281,10 +281,10 @@ public class FramePrincipal extends JFrame implements ActionListener {
 						mostrarMensaje(message);
 						//activarMenusDibujo(false);
 					}
+				}
 			}
-		}
 
-	});
+		});
 
 		
 		menu.addSeparator();
@@ -427,24 +427,35 @@ public class FramePrincipal extends JFrame implements ActionListener {
 		menuBar.add(menu);
 		menuItem.addActionListener (new ActionListener() {
 			public void actionPerformed (ActionEvent e) {
-			
-			
+
+
 				if (dibujanteAF!=null) {
-					if (dibujanteAF.getAutomata()==null) 
+					if (dibujanteAF.getAutomata()==null) { 
 						afGenetico = new AF(dibujanteAF.getEstados(), dibujanteAF.getTransiciones2());									 
-					//GeneradorCadenas genCad = new GeneradorCadenas(dibujanteAF.getAutomata());
-					boolean esAFD = afGenetico.comprobarAFD();
-					if (!esAFD) {												
-						 JOptionPane.showMessageDialog(null,"Falta completar transiciones en el automata", "",
-								 JOptionPane.ERROR_MESSAGE);
+
+						boolean esAFD = afGenetico.comprobarAFD();
+						if (!esAFD) {												
+							JOptionPane.showMessageDialog(null,"Falta completar transiciones en el automata", "",
+									JOptionPane.ERROR_MESSAGE);
+						}
+						else {				
+							GeneradorCadenas genCad = new GeneradorCadenas(afGenetico);
+							String message = genCad.toString();
+							mostrarMensaje(message);
+							//activarMenusDibujo(false);
+							AddProblemaWS problemaWS = new AddProblemaWS();
+							problemaWS.ejecutar();
+							problemaWS.setAceptadas(genCad.getCadenasAceptadas());
+							problemaWS.setRechazadas(genCad.getCadenasRechazadas());
+							AFP afp = new AFP (afGenetico);
+							problemaWS.setAFP(afp);
+						}
 					}
-					else {				
-																		
-						GeneradorCadenas genCad = new GeneradorCadenas(afGenetico);
+					else {
+						GeneradorCadenas genCad = new GeneradorCadenas(dibujanteAF.getAutomata());
 						String message = genCad.toString();
 						mostrarMensaje(message);
-						activarMenusDibujo(false);
-						
+						//activarMenusDibujo(false);
 						AddProblemaWS problemaWS = new AddProblemaWS();
 						problemaWS.ejecutar();
 						problemaWS.setAceptadas(genCad.getCadenasAceptadas());
@@ -453,11 +464,12 @@ public class FramePrincipal extends JFrame implements ActionListener {
 						problemaWS.setAFP(afp);
 					}
 				}
+
 				else {
-					 JOptionPane.showMessageDialog(null,"No hay problema que enviar", "",
-							 JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null,"No hay problema que enviar", "",
+							JOptionPane.ERROR_MESSAGE);
 				}
-				
+
 			}
 		});
 		
