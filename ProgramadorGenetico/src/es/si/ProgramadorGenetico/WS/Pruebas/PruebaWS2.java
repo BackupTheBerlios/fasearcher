@@ -1,7 +1,5 @@
 package es.si.ProgramadorGenetico.WS.Pruebas;
 
-import java.net.URL;
-
 import es.si.ProgramadorGenetico.WS.GetProblemaWS;
 
 public class PruebaWS2 {

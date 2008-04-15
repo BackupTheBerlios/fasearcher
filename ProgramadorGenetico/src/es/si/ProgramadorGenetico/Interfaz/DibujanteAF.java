@@ -42,7 +42,7 @@ public class DibujanteAF extends JPanel implements Dibujante{
 	/**
 	 * Probabilidad final 
 	 */
-	private double[] probabilidadFinal;
+	private float[] probabilidadFinal;
 
 	/**
 	 * Numero de estados
@@ -244,7 +244,7 @@ public class DibujanteAF extends JPanel implements Dibujante{
 					Point puntoClick = e.getPoint();			
 					Estado es = ((Estado)estados.get(i));					
 					if (es.getPulsado(puntoClick)) {
-						es.setProbabilidadFinal(1.0-es.getProbabilidadFinal());						
+						es.setProbabilidadFinal(1.0f - es.getProbabilidadFinal());						
 					}
 				}
 				paintComponent(getGraphics());
@@ -322,7 +322,7 @@ public class DibujanteAF extends JPanel implements Dibujante{
 	public DibujanteAF(Individuo mejor) {
 		super(new GridLayout(0,1));		
 		automataMejor = (AF) mejor;	
-		double[][][] transicionesArray;
+		float[][][] transicionesArray;
 		transicionesArray = automataMejor.getTransiciones();
 		numEstados = automataMejor.getEstados();		
 		probabilidadFinal = automataMejor.getFinales();
@@ -339,8 +339,8 @@ public class DibujanteAF extends JPanel implements Dibujante{
 	 * @param estados
 	 */
 
-	public DibujanteAF (double[][][] transiciones, 
-			double[] probabilidadFinal,	int estados) {
+	public DibujanteAF (float[][][] transiciones, 
+			float[] probabilidadFinal,	int estados) {
 		super(new GridLayout(0,1));		
 		this.probabilidadFinal = probabilidadFinal;
 		this.numEstados = estados;		
@@ -403,7 +403,7 @@ public class DibujanteAF extends JPanel implements Dibujante{
 
 	}
 
-	public void calculoTransiciones(double [][][] transicionesArray) {
+	public void calculoTransiciones(float [][][] transicionesArray) {
 
 		transiciones = new Transicion[numEstados][numEstados];
 		System.out.println("Longitud de la primera dimension."+transicionesArray.length);
@@ -424,7 +424,7 @@ public class DibujanteAF extends JPanel implements Dibujante{
 		}
 	}
 	
-	public void calculoTransiciones2(double [][][] transicionesArray) {
+	public void calculoTransiciones2(float [][][] transicionesArray) {
 
 		transiciones2 = new ArrayList<Transicion>();		
 		for (int i=0; i<transicionesArray.length; i++ ) {
@@ -605,7 +605,7 @@ public class DibujanteAF extends JPanel implements Dibujante{
 		return transiciones2;
 	}
 
-	public double[] getProbabilidadFinal() {
+	public float[] getProbabilidadFinal() {
 		return probabilidadFinal;
 	}
 

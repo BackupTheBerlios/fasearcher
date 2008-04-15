@@ -7,7 +7,7 @@ import es.si.ProgramadorGenetico.ProblemaAFP.CalculadorBondad;
 
 public class CalculadorBondadPrefernciaDet extends CalculadorBondad {
 
-	public static final double VERSION = 1.3f;
+	public static final double VERSION = 2.0f;
 
 	private double bondadAceptadas;
 	
@@ -46,18 +46,18 @@ public class CalculadorBondadPrefernciaDet extends CalculadorBondad {
 		bondad = bondad/2 + bondadUnos;
 	}
 
-	private double calcularPorcentajeUnos(int estados, double[][][] trans) {
-		double valor =0;
-		int cont= 0;
+	private float calcularPorcentajeUnos(int estados, float[][][] trans) {
+		float valor =0;
+		float suma = 0;
 		for (int i = 0; i < estados; i++) {
 			for (int j = 0; j < estados + 1; j++) {
-				if (trans[i][0][j] > 0.95)
-					cont++;
-				if (trans[i][1][j] > 0.95)
-					cont++;
+				if (trans[i][0][j] > 0.5)
+					suma += trans[i][0][j];
+				if (trans[i][1][j] > 0.5)
+					suma += trans[i][0][j];
 			}
 		}
-		valor = (double) cont / (estados*2);
+		valor = suma / (estados*2);
 		return valor/2;
 	}
 }

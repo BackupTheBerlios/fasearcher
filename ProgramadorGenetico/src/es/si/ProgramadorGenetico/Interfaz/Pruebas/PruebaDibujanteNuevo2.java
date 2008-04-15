@@ -16,9 +16,9 @@ import javax.swing.JPanel;
 
 public class PruebaDibujanteNuevo2 {
 
-	private static double[][][] transiciones;
+	private static float[][][] transiciones;
 	
-	private static double[] probabilidadFinal;
+	private static float[] probabilidadFinal;
 	
 	private static int estados;
 		
@@ -43,12 +43,12 @@ public class PruebaDibujanteNuevo2 {
 	public static void setValoresEntrada() {
 		
 		estados = 4;
-		transiciones= new double[estados][2][estados+1];
-		transiciones[0][0][0]=1.0;
-		transiciones[0][1][1]=1.0;
-		transiciones[1][1][2]=0.4;
-		transiciones[2][1][3]=1.0;
-		transiciones[3][0][0]=1.0;
+		transiciones= new float[estados][2][estados+1];
+		transiciones[0][0][0]=1.0f;
+		transiciones[0][1][1]=1.0f;
+		transiciones[1][1][2]=0.4f;
+		transiciones[2][1][3]=1.0f;
+		transiciones[3][0][0]=1.0f;
 		
 			
 	}

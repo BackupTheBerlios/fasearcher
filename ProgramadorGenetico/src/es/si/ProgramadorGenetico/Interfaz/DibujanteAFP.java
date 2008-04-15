@@ -40,7 +40,7 @@ public class DibujanteAFP extends JPanel{
 	/**
 	 * Probabilidad final 
 	 */
-	private double[] probabilidadFinal;
+	private float[] probabilidadFinal;
 
 	/**
 	 * Numero de estados
@@ -156,7 +156,7 @@ public class DibujanteAFP extends JPanel{
 	public DibujanteAFP(Individuo mejor) {
 		super(new GridLayout(0,1));	
 		AFP automataMejor = (AFP) mejor;		
-		double[][][] transicionesArray;
+		float[][][] transicionesArray;
 		transicionesArray = automataMejor.getTransiciones();
 		numEstados = automataMejor.getEstados();
 		probabilidadFinal = automataMejor.getProbabilidadesFinal();
@@ -174,8 +174,8 @@ public class DibujanteAFP extends JPanel{
 	 * @param estados
 	 */
 
-	public DibujanteAFP (double[][][] transiciones, 
-			double[] probabilidadFinal,	int estados) {
+	public DibujanteAFP (float[][][] transiciones, 
+			float[] probabilidadFinal,	int estados) {
 
 		super(new GridLayout(0,1));		
 		this.probabilidadFinal = probabilidadFinal;
@@ -242,7 +242,7 @@ public class DibujanteAFP extends JPanel{
 
 	}
 
-	public void calculoTransiciones(double [][][] transicionesArray) {
+	public void calculoTransiciones(float [][][] transicionesArray) {
 
 		transiciones = new Transicion[numEstados][numEstados+1];
 		System.out.println("Longitud de la primera dimension."+transicionesArray.length);
@@ -370,7 +370,7 @@ public class DibujanteAFP extends JPanel{
 	}
 
 
-	public double[] getProbabilidadFinal() {
+	public float[] getProbabilidadFinal() {
 		return probabilidadFinal;
 	}
 

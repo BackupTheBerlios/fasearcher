@@ -28,9 +28,9 @@ public class ResolverAFPVectores implements ResolverAFP {
 	
 	private boolean reconoce;
 	
-	private double[] probabilidades;
+	private float[] probabilidades;
 	
-	private double[] probstemp;
+	private float[] probstemp;
 	
 	private double probabilidadAceptar;
 	
@@ -38,7 +38,7 @@ public class ResolverAFPVectores implements ResolverAFP {
 	
 	private boolean termino;
 	
-	private double[][][] trans;
+	private float[][][] trans;
 	
 	private int estados;
 	
@@ -120,10 +120,10 @@ public class ResolverAFPVectores implements ResolverAFP {
 
 	public void setAFP(AFP afp) {
 		this.af = afp;
-		this.probabilidades = new double[af.getEstados()];
+		this.probabilidades = new float[af.getEstados()];
 		this.trans = af.getTransiciones();
 		this.estados = af.getEstados();
-		this.probstemp = new double[estados];
+		this.probstemp = new float[estados];
 	}
 
 

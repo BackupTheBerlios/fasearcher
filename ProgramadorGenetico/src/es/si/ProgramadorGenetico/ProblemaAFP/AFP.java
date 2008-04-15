@@ -15,17 +15,17 @@ public class AFP implements Individuo {
 	 * El primer ídice representa el estado origen, el segundo
 	 * la entrada y el tercero el estado destino
 	 */
-	private double[][][] transiciones;
+	private float[][][] transiciones;
 	
 	/**
 	 * Probabilidad de que el estado i-1 sea final
 	 */
-	private double[] probabilidadFinal;
+	private float[] probabilidadFinal;
 		
 	public AFP(int estados) {
 		this.estados = estados;
-		transiciones = new double[estados][2][estados + 1];
-		probabilidadFinal = new double[estados];
+		transiciones = new float[estados][2][estados + 1];
+		probabilidadFinal = new float[estados];
 	}
 	
 	public AFP (AF automataFinito) {
@@ -56,27 +56,27 @@ public class AFP implements Individuo {
 		return true;
 	}
 
-	public double getProbabilidad(int origen, int entrada, int destino) {
+	public float getProbabilidad(int origen, int entrada, int destino) {
 		return transiciones[origen - 1][entrada][destino];
 	}
 	
-	public double[][][] getTransiciones() {
+	public float[][][] getTransiciones() {
 		return transiciones;
 	}
 	
-	public double[] getProbabilidadesFinal() {
+	public float[] getProbabilidadesFinal() {
 		return probabilidadFinal;
 	}
 	
-	public void setTransiciones(double[][][] transiciones){
+	public void setTransiciones(float[][][] transiciones){
 		this.transiciones = transiciones;
 	}
 	
-	public void setProbabilidadFinal(double[] probabilidadFinal) {
+	public void setProbabilidadFinal(float[] probabilidadFinal) {
 		this.probabilidadFinal = probabilidadFinal;
 	}
 	
-	public double getProbabilidadFinal(int estado) {
+	public float getProbabilidadFinal(int estado) {
 		return probabilidadFinal[estado - 1];
 	}
 	

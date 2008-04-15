@@ -1,5 +1,8 @@
 package es.si.ProgramadorGenetico;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Algoritmo genético básico.<p>
  * 
@@ -23,6 +26,8 @@ public class Algoritmo {
 	
 	private Individuo mejor;
 	
+	private List<Individuo> mejores;
+	
 	private int pasos;
 	
 	public static int MANTENER = 10;
@@ -34,7 +39,7 @@ public class Algoritmo {
 		long tiempo = System.currentTimeMillis();
 		
 		poblacion = poblacioninicial.generar();
-
+		
 		Writer.write("mejores=");
 	
 		mejor = selector.mejor(poblacion);
@@ -43,6 +48,7 @@ public class Algoritmo {
 		
 		Individuo ultimomejor;
 		
+		mejores = new ArrayList<Individuo>();
 		
 		do {
 			Writer.write(",");
@@ -57,9 +63,10 @@ public class Algoritmo {
 			
 			mejor = selector.mejor(poblacion);
 			
+			mejores.add(mejor);
+			
 			cont++;
-			
-			
+
 		} while (cont < maxit && !mejor.equals(ultimomejor));
 		
 		pasos = cont;
@@ -71,13 +78,9 @@ public class Algoritmo {
 		return mejor;
 	}
 
-
-
 	public Selector getSelector() {
 		return selector;
 	}
-
-
 
 	public void setSelector(Selector selector) {
 		this.selector = selector;
@@ -104,18 +107,13 @@ public class Algoritmo {
 		return poblacion;
 	}
 
-
-
 	public void setPoblacion(Poblacion poblacion) {
 		this.poblacion = poblacion;
 	}
 
-
-
 	public PoblacionInicial getPoblacioninicial() {
 		return poblacioninicial;
 	}
-
 
 	public Individuo getMejor () {
 		return mejor;
@@ -123,11 +121,13 @@ public class Algoritmo {
 
 	public void setPoblacioninicial(PoblacionInicial poblacioninicial) {
 		this.poblacioninicial = poblacioninicial;
-	};
+	}
 	
 	public int getPasos() {
 		return pasos;
 	}
-	
-	
+
+	public List<Individuo> getMejores() {
+		return mejores;
+	}
 }

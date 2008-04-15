@@ -15,8 +15,8 @@ public class Transicion extends JComponent {
 
 	public Estado origen;
 	public Estado destino;
-	public double probabilidad0;
-	public double probabilidad1;
+	public float probabilidad0;
+	public float probabilidad1;
 	public JLabel label0;
 	public JLabel label1;
 	private boolean pintar0;
@@ -26,7 +26,7 @@ public class Transicion extends JComponent {
 
 	}
 
-	public Transicion (Estado origen, Estado destino, double probabilidad0, double probabilidad1) {
+	public Transicion (Estado origen, Estado destino, float probabilidad0, float probabilidad1) {
 		this.origen = origen;
 		this.destino = destino;
 		this.probabilidad0 = probabilidad0;
@@ -44,11 +44,11 @@ public class Transicion extends JComponent {
 		return destino;
 	}
 
-	public double getProbabilidad0 () {
+	public float getProbabilidad0 () {
 		return probabilidad0;
 	}
 
-	public double getProbabilidad1 () {
+	public float getProbabilidad1 () {
 		return probabilidad1;
 	}
 
@@ -493,15 +493,15 @@ public class Transicion extends JComponent {
 	}
 	 */
 
-	public void setProbabilidad0(double probabilidad0) {
+	public void setProbabilidad0(float probabilidad0) {
 		this.probabilidad0 = probabilidad0;
 	}
 
-	public void setProbabilidad1(double probabilidad1) {
+	public void setProbabilidad1(float probabilidad1) {
 		this.probabilidad1 = probabilidad1;
 	}
 	
-	public void setProbabilidad(int valor, double probabilidad) {
+	public void setProbabilidad(int valor, float probabilidad) {
 		if (valor==0) 
 			probabilidad0 = probabilidad;
 		if (valor==1)

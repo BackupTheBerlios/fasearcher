@@ -36,8 +36,8 @@ public class FramePrincipal extends JFrame implements ActionListener {
 	//JMenu menuPrincipal;
 	static boolean test;
 	private static int estados;
-	private static double[][][] transiciones;
-	private static double[] probabilidadFinal;
+	private static float[][][] transiciones;
+	private static float[] probabilidadFinal;
 	private PanelTablaTransiciones tablaTransiciones;
 	private JPanel panelPrincipal;
 	private DibujanteAFP dibujanteAFP;
@@ -93,21 +93,21 @@ public class FramePrincipal extends JFrame implements ActionListener {
 
 	public static void setValoresEntrada() {		
 		estados = 4;		
-		transiciones= new double[estados][2][estados+1];
-		transiciones[0][0][0]=0.7;
-		transiciones[0][1][0]=0.5;
-		transiciones[1][1][0]=0.4;
-		transiciones[2][1][0]=1.0;
-		transiciones[2][0][0]=0.5;
-		transiciones[3][0][0]=0.8;
-		transiciones[3][1][0]=0.2;
-		transiciones[1][0][2]=0.9;
-		transiciones[2][1][2]=0.3;
-		probabilidadFinal = new double[estados];
-		probabilidadFinal[0]=0.0;
-		probabilidadFinal[1]=0.0;
-		probabilidadFinal[2]=1.0;
-		probabilidadFinal[3]=1.0;		
+		transiciones= new float[estados][2][estados+1];
+		transiciones[0][0][0]=0.7f;
+		transiciones[0][1][0]=0.5f;
+		transiciones[1][1][0]=0.4f;
+		transiciones[2][1][0]=1.0f;
+		transiciones[2][0][0]=0.5f;
+		transiciones[3][0][0]=0.8f;
+		transiciones[3][1][0]=0.2f;
+		transiciones[1][0][2]=0.9f;
+		transiciones[2][1][2]=0.3f;
+		probabilidadFinal = new float[estados];
+		probabilidadFinal[0]=0.0f;
+		probabilidadFinal[1]=0.0f;
+		probabilidadFinal[2]=1.0f;
+		probabilidadFinal[3]=1.0f;		
 
 
 	}

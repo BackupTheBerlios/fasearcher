@@ -19,9 +19,9 @@ import javax.swing.JLabel;
 public class Estado extends JComponent{
 
 		private Point punto;
-		private double diametro;
+		private float diametro;
 		private JLabel label;
-		private double probabilidadFinal;
+		private float probabilidadFinal;
 		private Rectangle ajusteLabel;
 		private int indice;
 		
@@ -55,7 +55,7 @@ public class Estado extends JComponent{
 			this.punto = p;
 		}
 		
-		public void setDiametro (double diam) {
+		public void setDiametro (float diam) {
 			this.diametro = diam;
 		}
 		
@@ -112,14 +112,14 @@ public class Estado extends JComponent{
 			return false;
 		}
 		
-		public void setProbabilidadFinal (double prob) {
+		public void setProbabilidadFinal (float prob) {
 			probabilidadFinal = prob;
 		}
 		
 		public void setAjusteLabel (Rectangle r) {
 			ajusteLabel = r;
 		}
-		public double getProbabilidadFinal() {
+		public float getProbabilidadFinal() {
 			return probabilidadFinal;
 		}
 		

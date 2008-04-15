@@ -28,8 +28,8 @@ public class CruzadorAFPNulo implements Cruzador {
 	private AFP clon(AFP a) {
 		int estados = ParametrosAFP.getInstance().getEstados();
 		AFP nuevo = new AFP(estados);
-		double[][][] transiciones = new double[estados][2][estados +1];
-		double[] finales = new double[estados];
+		float[][][] transiciones = new float[estados][2][estados +1];
+		float[] finales = new float[estados];
 		for (int i = 0; i < estados; i++) {
 			for (int j = 0; j < estados + 1; j++) {
 				transiciones[i][0][j] = a.getProbabilidad(i+1, 0, j);

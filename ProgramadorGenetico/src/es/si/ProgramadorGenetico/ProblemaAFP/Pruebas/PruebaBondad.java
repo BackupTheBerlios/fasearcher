@@ -18,7 +18,7 @@ public class PruebaBondad {
 	 */
 	public static void main(String[] args) {
 		AFP afp = new AFP(4);
-		double[][][] transiciones = new double[4][2][5];
+		float[][][] transiciones = new float[4][2][5];
 /*		
 		transiciones[A-1][1][0] = 0.25;
 		transiciones[A-1][1][A] = 0.25;
@@ -68,63 +68,63 @@ public class PruebaBondad {
 		transiciones[D-1][0][C] = 0.1;
 		transiciones[D-1][0][D] = 0.6;
 */
-		transiciones[A-1][1][0] = 0.0;
-		transiciones[A-1][1][A] = 0.0;
-		transiciones[A-1][1][B] = 1.0;
-		transiciones[A-1][1][C] = 0.0;
-		transiciones[A-1][1][D] = 0;
+		transiciones[A-1][1][0] = 0.0f;
+		transiciones[A-1][1][A] = 0.0f;
+		transiciones[A-1][1][B] = 1.0f;
+		transiciones[A-1][1][C] = 0.0f;
+		transiciones[A-1][1][D] = 0f;
 		
-		transiciones[A-1][0][0] = 0;
-		transiciones[A-1][0][A] = 1.0;
-		transiciones[A-1][0][B] = 0.0;
-		transiciones[A-1][0][C] = 0.0;
-		transiciones[A-1][0][D] = 0.0;
+		transiciones[A-1][0][0] = 0f;
+		transiciones[A-1][0][A] = 1.0f;
+		transiciones[A-1][0][B] = 0.0f;
+		transiciones[A-1][0][C] = 0.0f;
+		transiciones[A-1][0][D] = 0.0f;
 		
-		transiciones[B-1][1][0] = 0.0;
-		transiciones[B-1][1][A] = 0.0;
-		transiciones[B-1][1][B] = 1.0;
-		transiciones[B-1][1][C] = 0.0;
-		transiciones[B-1][1][D] = 0.0;
+		transiciones[B-1][1][0] = 0.0f;
+		transiciones[B-1][1][A] = 0.0f;
+		transiciones[B-1][1][B] = 1.0f;
+		transiciones[B-1][1][C] = 0.0f;
+		transiciones[B-1][1][D] = 0.0f;
 		
-		transiciones[B-1][0][0] = 1.0;
-		transiciones[B-1][0][A] = 0.0;
-		transiciones[B-1][0][B] = 0.0;
-		transiciones[B-1][0][C] = 0.0;
-		transiciones[B-1][0][D] = 0.0;
+		transiciones[B-1][0][0] = 1.0f;
+		transiciones[B-1][0][A] = 0.0f;
+		transiciones[B-1][0][B] = 0.0f;
+		transiciones[B-1][0][C] = 0.0f;
+		transiciones[B-1][0][D] = 0.0f;
 
-		transiciones[C-1][1][0] = 0.0;
-		transiciones[C-1][1][A] = 0.0;
-		transiciones[C-1][1][B] = 1.0;
-		transiciones[C-1][1][C] = 0.0;
-		transiciones[C-1][1][D] = 0.0;
+		transiciones[C-1][1][0] = 0.0f;
+		transiciones[C-1][1][A] = 0.0f;
+		transiciones[C-1][1][B] = 1.0f;
+		transiciones[C-1][1][C] = 0.0f;
+		transiciones[C-1][1][D] = 0.0f;
 	
-		transiciones[C-1][0][0] = 0.0;
-		transiciones[C-1][0][A] = 0.0;
-		transiciones[C-1][0][B] = 0.0;
-		transiciones[C-1][0][C] = 0.0;
-		transiciones[C-1][0][D] = 1.0;
+		transiciones[C-1][0][0] = 0.0f;
+		transiciones[C-1][0][A] = 0.0f;
+		transiciones[C-1][0][B] = 0.0f;
+		transiciones[C-1][0][C] = 0.0f;
+		transiciones[C-1][0][D] = 1.0f;
 
-		transiciones[D-1][1][0] = 0.0;
-		transiciones[D-1][1][A] = 0.0;
-		transiciones[D-1][1][B] = 0.0;
-		transiciones[D-1][1][C] = 1.0;
-		transiciones[D-1][1][D] = 0.0;
+		transiciones[D-1][1][0] = 0.0f;
+		transiciones[D-1][1][A] = 0.0f;
+		transiciones[D-1][1][B] = 0.0f;
+		transiciones[D-1][1][C] = 1.0f;
+		transiciones[D-1][1][D] = 0.0f;
 		
-		transiciones[D-1][0][0] = 0.0;
-		transiciones[D-1][0][A] = 0.0;
-		transiciones[D-1][0][B] = 0.0;
-		transiciones[D-1][0][C] = 0.0;
-		transiciones[D-1][0][D] = 1.0;
+		transiciones[D-1][0][0] = 0.0f;
+		transiciones[D-1][0][A] = 0.0f;
+		transiciones[D-1][0][B] = 0.0f;
+		transiciones[D-1][0][C] = 0.0f;
+		transiciones[D-1][0][D] = 1.0f;
 
 		
 		afp.setTransiciones(transiciones);
 
-		double[] probfinal = new double[4];
+		float[] probfinal = new float[4];
 		
-		probfinal[A-1] = 0.2;
-		probfinal[B-1] = 0.2;
-		probfinal[C-1] = 0.3;
-		probfinal[D-1] = 0.9;
+		probfinal[A-1] = 0.2f;
+		probfinal[B-1] = 0.2f;
+		probfinal[C-1] = 0.3f;
+		probfinal[D-1] = 0.9f;
 		
 		afp.setProbabilidadFinal(probfinal);
 

@@ -2,13 +2,10 @@ package es.si.ProgramadorGenetico.WS;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.namespace.QName;
-
-import org.apache.axis2.AxisFault;
 
 import es.si.ProgramadorGenetico.util.Config;
 import es.si.fasearcherserver.GetProblemaRequest;

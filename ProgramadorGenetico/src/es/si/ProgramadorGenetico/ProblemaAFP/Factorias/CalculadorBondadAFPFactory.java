@@ -3,16 +3,12 @@ package es.si.ProgramadorGenetico.ProblemaAFP.Factorias;
 import java.text.DecimalFormat;
 import java.util.List;
 
-import es.si.ProgramadorGenetico.Cruzador;
 import es.si.ProgramadorGenetico.ProblemaAFP.AFP;
 import es.si.ProgramadorGenetico.ProblemaAFP.CalculadorBondad;
 import es.si.ProgramadorGenetico.ProblemaAFP.CalculadoresBondad.CalculadorBondadBalanceado;
 import es.si.ProgramadorGenetico.ProblemaAFP.CalculadoresBondad.CalculadorBondadCuadratico;
 import es.si.ProgramadorGenetico.ProblemaAFP.CalculadoresBondad.CalculadorBondadPrefernciaDet;
 import es.si.ProgramadorGenetico.ProblemaAFP.CalculadoresBondad.CalculadorBondadSimple;
-import es.si.ProgramadorGenetico.ProblemaAFP.Cruzadores.CruzadorAFPNulo;
-import es.si.ProgramadorGenetico.ProblemaAFP.Cruzadores.CruzadorAFP_1;
-import es.si.ProgramadorGenetico.ProblemaAFP.Cruzadores.CruzadorAFP_2;
 
 
 public class CalculadorBondadAFPFactory {

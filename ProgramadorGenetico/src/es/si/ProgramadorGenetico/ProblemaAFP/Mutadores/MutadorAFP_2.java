@@ -26,12 +26,12 @@ public class MutadorAFP_2 implements Mutador {
 	
 	private void mutarAFP(AFP afp) {
 		int estados = ParametrosAFP.getInstance().getEstados();
-		double[][][] transiciones = afp.getTransiciones();
+		float[][][] transiciones = afp.getTransiciones();
 		for (int i = 0; i < estados; i ++) {
 			if (rand.nextInt(100) == 5) {
 				int valor = rand.nextInt(2);
-				double minval = 1;
-				double suma = 0;
+				float minval = 1;
+				float suma = 0;
 				int total = 0;
 				for (int j = 0; j < estados + 1; j++) {
 					suma += transiciones[i][valor][j];
@@ -40,7 +40,7 @@ public class MutadorAFP_2 implements Mutador {
 					if (transiciones[i][valor][j] > 0.001 && transiciones[i][valor][j] < minval)
 						minval = transiciones[i][valor][j];
 				}	
-				double div = 1 / (suma - minval*total);
+				float div = 1 / (suma - minval*total);
 				for (int j = 0; j < estados + 1; j++) {
 					if (transiciones[i][valor][j] > 0.001) {
 						transiciones[i][valor][j] = (transiciones[i][valor][j] - minval) * div;

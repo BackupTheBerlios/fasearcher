@@ -27,8 +27,8 @@ public class CruzadorAFP_2 implements Cruzador {
 	private AFP cruzar(AFP a, AFP b) {
 		int estados = ParametrosAFP.getInstance().getEstados();
 		AFP nuevo = new AFP(estados);
-		double[][][] transiciones = new double[estados][2][estados +1];
-		double[] finales = new double[estados];
+		float[][][] transiciones = new float[estados][2][estados +1];
+		float[] finales = new float[estados];
 		int aut;
 		for (int i = 0; i < estados; i++) {
 			aut = rand.nextInt(2);

@@ -12,7 +12,7 @@ public class GeneradorCadenas {
 	private List<String> cadenasAceptadas;
 	private List<String> cadenasRechazadas;
 	private int estados;
-	private double[][][] transiciones;
+	private float[][][] transiciones;
 	
 	public GeneradorCadenas (AF af) {
 		this.af = af;
@@ -89,7 +89,7 @@ public class GeneradorCadenas {
 		
 	}
 	
-	public int buscaDestino(double [][][] trans,int valor, int origen) {
+	public int buscaDestino(float [][][] trans,int valor, int origen) {
 		for (int i=0; i<trans[origen][valor].length; i++) {
 			if (trans[origen][valor][i]==1)
 				return i;

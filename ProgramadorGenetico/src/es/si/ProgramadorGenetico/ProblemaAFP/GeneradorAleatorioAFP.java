@@ -10,8 +10,8 @@ public class GeneradorAleatorioAFP {
 	private static Random rand = new Random();
 	
 	public static AFP nuevo(int estados) {
-		double[][][] transiciones = new double[estados][2][estados +1];
-		double[] probfinal = new double[estados];
+		float[][][] transiciones = new float[estados][2][estados +1];
+		float[] probfinal = new float[estados];
 		//Random rand = new Random();
 		//rand.setSeed(System.currentTimeMillis());
 		int[] valores0 = new int[estados + 1];
@@ -29,11 +29,11 @@ public class GeneradorAleatorioAFP {
 				if (total0 == 0)
 					transiciones[i][0][j] = 1.0f/estados;
 				else
-					transiciones[i][0][j] = ((double) valores0[j]) / total0;
+					transiciones[i][0][j] = ((float) valores0[j]) / total0;
 				if (total1 == 0)
 					transiciones[i][1][j] = 1.0f/estados;
 				else
-					transiciones[i][1][j] = ((double) valores1[j]) / total1;
+					transiciones[i][1][j] = ((float) valores1[j]) / total1;
 			}
 			//probfinal[i] = (double)(i + rand.nextInt(PARTICIONES)) / (estados + PARTICIONES);
 			if (rand.nextBoolean())

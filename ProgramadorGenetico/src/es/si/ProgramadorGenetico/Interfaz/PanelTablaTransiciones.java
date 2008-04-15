@@ -20,7 +20,7 @@ public class PanelTablaTransiciones extends JPanel{
 		tabla = new JTable();
 	}
 	
-	public PanelTablaTransiciones (double[][][] transiciones, double[] probabilidadFinal, int estados) {
+	public PanelTablaTransiciones (float[][][] transiciones, float[] probabilidadFinal, int estados) {
 		String [] columnas = {"Origen", "Destino", "Valor", "Probabilidad"};
 		Object[][] datos = new Object [estados*(estados+1)*2][4];
 		int fila = 0;

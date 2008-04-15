@@ -19,25 +19,25 @@ public class AF implements Individuo{
 	 * El primer ídice representa el estado origen, el segundo
 	 * la entrada y el tercero el estado destino
 	 */
-	private double[][][] transiciones;
+	private float[][][] transiciones;
 	
-	private double[] finales;
+	private float[] finales;
 	
 	public AF (int estados) {
 		this.estados = estados;
-		transiciones = new double[estados][2][estados];
-		finales = new double[estados];
+		transiciones = new float[estados][2][estados];
+		finales = new float[estados];
 	}
 	
 	public AF (List<Estado> listaEstados, List<Transicion> listaTransiciones) {		
 		estados = listaEstados.size();
-		transiciones = new double[estados][2][estados];
+		transiciones = new float[estados][2][estados];
 		for (int i=0; i<listaTransiciones.size(); i++) {
 			Transicion t = listaTransiciones.get(i);
 			transiciones[t.getOrigen().getIndice()][0][t.getDestino().getIndice()]=t.getProbabilidad0();
 			transiciones[t.getOrigen().getIndice()][1][t.getDestino().getIndice()]=t.getProbabilidad1();			
 		}
-		finales = new double[estados];
+		finales = new float[estados];
 		for (int i=0; i<estados; i++) {			
 			finales[i] = listaEstados.get(i).getProbabilidadFinal();
 		}
@@ -52,15 +52,15 @@ public class AF implements Individuo{
 		return estados;
 	}
 	
-	public double getTransicion (int origen, int valor, int destino) {
+	public float getTransicion (int origen, int valor, int destino) {
 		return transiciones[origen][valor][destino];
 	}
 	
-	public double [][][] getTransiciones () {
+	public float [][][] getTransiciones () {
 		return transiciones;
 	}
 	
-	public double[] getFinales () {
+	public float[] getFinales () {
 		return finales;
 	}
 	

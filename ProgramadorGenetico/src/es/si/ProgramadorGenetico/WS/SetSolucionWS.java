@@ -2,19 +2,12 @@ package es.si.ProgramadorGenetico.WS;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.rmi.RemoteException;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.Locale;
 
 import javax.xml.namespace.QName;
 
-import org.apache.axis2.AxisFault;
-
 import es.si.ProgramadorGenetico.util.Config;
-import es.si.fasearcherserver.GetProblemaRequest;
-import es.si.fasearcherserver.GetProblemaResponse;
 import es.si.fasearcherserver.SetSolucionRequest;
 import es.si.fasearcherserver.SetSolucionResponse;
 
@@ -102,18 +95,18 @@ public class SetSolucionWS {
 		this.afp.setEstados(afp.getEstados());
 		
 		String probFinales = "";
-		double[] prob = afp.getProbabilidadesFinal();
+		float[] prob = afp.getProbabilidadesFinal();
 		for (int i = 0; i < estados; i ++)
 			probFinales += (probFinales.equals("") ? prob[i] : ";" + prob[i]);
 		this.afp.setProbFinales(probFinales);
 		
 		String[] trans = new String[estados*2];
-		double[][][] transiciones = afp.getTransiciones();
+		float[][][] transiciones = afp.getTransiciones();
 		for (int i = 0; i < estados; i ++) {
 			for (int j = 0; j < 2; j ++) {
 				trans[i*2 +j] = "" + i + ":" + j + ":";
 				for (int k = 0; k < estados+1; k++) {
-					double temp = (transiciones[i][j][k] < 0.0001 ? 0 : transiciones[i][j][k]);
+					float temp = (transiciones[i][j][k] < 0.0001 ? 0 : transiciones[i][j][k]);
 					temp = (temp > 0.9999 ? 1 : temp);
 					NumberFormat format = NumberFormat.getInstance(Locale.ENGLISH);
 					format.setMaximumFractionDigits(4);
