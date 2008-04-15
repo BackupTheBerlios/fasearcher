@@ -113,6 +113,7 @@ public class AddProblemaWS {
 	
 	public void setAFP(es.si.ProgramadorGenetico.ProblemaAFP.AFP afp) {
 		int estados = afp.getEstados();
+		this.afp = new Afp();
 		this.afp.setEstados(afp.getEstados());
 		
 		String probFinales = "";
