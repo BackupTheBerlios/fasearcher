@@ -427,8 +427,8 @@ public class FramePrincipal extends JFrame implements ActionListener {
 		menuBar.add(menu);
 		menuItem.addActionListener (new ActionListener() {
 			public void actionPerformed (ActionEvent e) {
-
-
+			
+			
 				if (dibujanteAF!=null) {
 					if (dibujanteAF.getAutomata()==null) { 
 						afGenetico = new AF(dibujanteAF.getEstados(), dibujanteAF.getTransiciones2());									 
@@ -443,12 +443,12 @@ public class FramePrincipal extends JFrame implements ActionListener {
 							String message = genCad.toString();
 							mostrarMensaje(message);
 							//activarMenusDibujo(false);
-							AddProblemaWS problemaWS = new AddProblemaWS();
-							problemaWS.ejecutar();
+							AddProblemaWS problemaWS = new AddProblemaWS();							
 							problemaWS.setAceptadas(genCad.getCadenasAceptadas());
 							problemaWS.setRechazadas(genCad.getCadenasRechazadas());
 							AFP afp = new AFP (afGenetico);
 							problemaWS.setAFP(afp);
+							problemaWS.ejecutar();
 						}
 					}
 					else {
@@ -457,20 +457,19 @@ public class FramePrincipal extends JFrame implements ActionListener {
 						mostrarMensaje(message);
 						//activarMenusDibujo(false);
 						AddProblemaWS problemaWS = new AddProblemaWS();
-
 						problemaWS.setAceptadas(genCad.getCadenasAceptadas());
 						problemaWS.setRechazadas(genCad.getCadenasRechazadas());
-						problemaWS.ejecutar();
-						AFP afp = new AFP (afGenetico);
+						AFP afp = new AFP (dibujanteAF.getAutomata());
 						problemaWS.setAFP(afp);
+						problemaWS.ejecutar();
 					}
 				}
-
+				
 				else {
-					JOptionPane.showMessageDialog(null,"No hay problema que enviar", "",
-							JOptionPane.ERROR_MESSAGE);
+					 JOptionPane.showMessageDialog(null,"No hay problema que enviar", "",
+							 JOptionPane.ERROR_MESSAGE);
 				}
-
+				
 			}
 		});
 		
