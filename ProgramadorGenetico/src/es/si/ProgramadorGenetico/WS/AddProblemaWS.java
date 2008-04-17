@@ -10,13 +10,13 @@ import java.util.Locale;
 
 import javax.xml.namespace.QName;
 
+import es.si.ProgramadorGenetico.ServiceWS.Afp;
+import es.si.ProgramadorGenetico.ServiceWS.Configuracion;
+import es.si.ProgramadorGenetico.ServiceWS.FASearcherService;
+import es.si.ProgramadorGenetico.ServiceWS.FASearcherServiceBeanService;
 import es.si.ProgramadorGenetico.util.Config;
 import es.si.fasearcherserver.AddProblemaRequest;
 import es.si.fasearcherserver.AddProblemaResponse;
-import es.si.fasearcherserver.ejb.Afp;
-import es.si.fasearcherserver.ejb.Configuracion;
-import es.si.fasearcherserver.ejb.FASearcherService;
-import es.si.fasearcherserver.ejb.FASearcherServiceBeanService;
 
 
 

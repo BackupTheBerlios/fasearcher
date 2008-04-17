@@ -10,9 +10,6 @@ import javax.xml.namespace.QName;
 import es.si.ProgramadorGenetico.util.Config;
 import es.si.fasearcherserver.SetSolucionRequest;
 import es.si.fasearcherserver.SetSolucionResponse;
-import es.si.fasearcherserver.ejb.Afp;
-import es.si.fasearcherserver.ejb.FASearcher;
-import es.si.fasearcherserver.ejb.FASearcherBeanService;
 
 
 public class SetSolucionWS {

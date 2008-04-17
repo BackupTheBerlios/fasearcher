@@ -10,8 +10,6 @@ import javax.xml.namespace.QName;
 import es.si.ProgramadorGenetico.util.Config;
 import es.si.fasearcherserver.GetProblemaRequest;
 import es.si.fasearcherserver.GetProblemaResponse;
-import es.si.fasearcherserver.ejb.FASearcher;
-import es.si.fasearcherserver.ejb.FASearcherBeanService;
 
 public class GetProblemaWS {
 
