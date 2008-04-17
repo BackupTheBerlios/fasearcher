@@ -1,7 +1,9 @@
 package es.si.ProgramadorGenetico.ProblemaAFP;
 
+import java.text.NumberFormat;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 import es.si.ProgramadorGenetico.Algoritmo;
 import es.si.ProgramadorGenetico.Writer;
@@ -64,7 +66,9 @@ public class Principal {
 					setSolucionWS.setPasos(AplicarAlgoritmoAFP.getPasos());
 					CalculadorBondad temp = CalculadorBondadAFPFactory.getCalculadorBondadAFP(AplicarAlgoritmoAFP.getMejor(), ParametrosAFP.getInstance().getAceptadas(), ParametrosAFP.getInstance().getRechazadas());
 					temp.run();
-					setSolucionWS.setMejorValor(""+temp.getBondad());
+					NumberFormat nf = NumberFormat.getInstance(Locale.ENGLISH);
+					nf.setMaximumFractionDigits(4);
+					setSolucionWS.setMejorValor(nf.format(temp.getBondad()));
 					setSolucionWS.setMutador(MutadorAFPFactory.getVersion());
 					setSolucionWS.setCruzador(CruzadorAFPFactory.getVersion());
 					setSolucionWS.setFuncbondad(CalculadorBondadAFPFactory.getVersion());

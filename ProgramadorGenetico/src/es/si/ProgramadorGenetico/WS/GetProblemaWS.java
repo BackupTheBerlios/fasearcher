@@ -35,7 +35,8 @@ public class GetProblemaWS {
 		try {
 			QName service = new QName("http://ejb.FASearcherServer.si.es/", "FASearcherBeanService");
 			URL server = new URL(Config.getInstance().getProperty("FASearcherServer"));
-
+			//File file = new File("e:\\FASearcherBean.wsdl");
+			//System.out.println(file.toURI().toURL());
 			FASearcherBeanService fasbs = new FASearcherBeanService(server, service);
 			FASearcher fas = fasbs.getFASearcherBeanPort();
 			

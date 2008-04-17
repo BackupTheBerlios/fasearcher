@@ -8,8 +8,6 @@ import java.util.Locale;
 import javax.xml.namespace.QName;
 
 import es.si.ProgramadorGenetico.util.Config;
-import es.si.fasearcherserver.GetProblemaRequest;
-import es.si.fasearcherserver.GetProblemaResponse;
 import es.si.fasearcherserver.SetSolucionRequest;
 import es.si.fasearcherserver.SetSolucionResponse;
 import es.si.fasearcherserver.ejb.Afp;

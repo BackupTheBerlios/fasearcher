@@ -5,10 +5,10 @@ import java.net.URL;
 
 import javax.xml.namespace.QName;
 
-import es.si.ProgramadorGenetico.WS.FASearcher;
-import es.si.ProgramadorGenetico.WS.FASearcherBeanService;
 import es.si.fasearcherserver.GetProblemaRequest;
 import es.si.fasearcherserver.GetProblemaResponse;
+import es.si.fasearcherserver.ejb.FASearcher;
+import es.si.fasearcherserver.ejb.FASearcherBeanService;
 
 
 public class PruebaWS1 {
