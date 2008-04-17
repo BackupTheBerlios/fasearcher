@@ -457,9 +457,10 @@ public class FramePrincipal extends JFrame implements ActionListener {
 						mostrarMensaje(message);
 						//activarMenusDibujo(false);
 						AddProblemaWS problemaWS = new AddProblemaWS();
-						problemaWS.ejecutar();
+
 						problemaWS.setAceptadas(genCad.getCadenasAceptadas());
 						problemaWS.setRechazadas(genCad.getCadenasRechazadas());
+						problemaWS.ejecutar();
 						AFP afp = new AFP (afGenetico);
 						problemaWS.setAFP(afp);
 					}

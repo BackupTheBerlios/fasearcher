@@ -5,6 +5,10 @@ import java.util.List;
 import es.si.ProgramadorGenetico.ProblemaAFP.AFP;
 import es.si.ProgramadorGenetico.ProblemaAFP.CalculadorBondad;
 
+/**
+ * Este calculador de bondad simple solo realiza el promedio entre
+ * las probabilidades de ser aceptadas o rechazadas de cada palabra.
+ */
 public class CalculadorBondadSimple extends CalculadorBondad {
 
 	public static final double VERSION = 1.0f;

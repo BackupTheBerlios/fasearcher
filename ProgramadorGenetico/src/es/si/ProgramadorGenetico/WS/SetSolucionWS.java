@@ -8,8 +8,13 @@ import java.util.Locale;
 import javax.xml.namespace.QName;
 
 import es.si.ProgramadorGenetico.util.Config;
+import es.si.fasearcherserver.GetProblemaRequest;
+import es.si.fasearcherserver.GetProblemaResponse;
 import es.si.fasearcherserver.SetSolucionRequest;
 import es.si.fasearcherserver.SetSolucionResponse;
+import es.si.fasearcherserver.ejb.Afp;
+import es.si.fasearcherserver.ejb.FASearcher;
+import es.si.fasearcherserver.ejb.FASearcherBeanService;
 
 
 public class SetSolucionWS {
@@ -106,7 +111,7 @@ public class SetSolucionWS {
 			for (int j = 0; j < 2; j ++) {
 				trans[i*2 +j] = "" + i + ":" + j + ":";
 				for (int k = 0; k < estados+1; k++) {
-					float temp = (transiciones[i][j][k] < 0.0001 ? 0 : transiciones[i][j][k]);
+					double temp = (transiciones[i][j][k] < 0.0001 ? 0 : transiciones[i][j][k]);
 					temp = (temp > 0.9999 ? 1 : temp);
 					NumberFormat format = NumberFormat.getInstance(Locale.ENGLISH);
 					format.setMaximumFractionDigits(4);

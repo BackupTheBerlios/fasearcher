@@ -5,6 +5,11 @@ import java.util.List;
 import es.si.ProgramadorGenetico.ProblemaAFP.AFP;
 import es.si.ProgramadorGenetico.ProblemaAFP.CalculadorBondad;
 
+/**
+ * Este calculador de bondad tiene en cuenta no solo las probabilidades de 
+ * aceptar y rechazar las cadenas dadas, sino tambien cuanto se parece el
+ * Automata Finito Probabilista a un Automata Finito.
+ */
 public class CalculadorBondadPrefernciaDet extends CalculadorBondad {
 
 	public static final double VERSION = 2.0f;

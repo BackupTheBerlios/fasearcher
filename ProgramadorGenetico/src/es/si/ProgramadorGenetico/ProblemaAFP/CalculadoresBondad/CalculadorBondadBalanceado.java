@@ -5,6 +5,11 @@ import java.util.List;
 import es.si.ProgramadorGenetico.ProblemaAFP.AFP;
 import es.si.ProgramadorGenetico.ProblemaAFP.CalculadorBondad;
 
+/**
+ * Este calculador de bondad da igual importancia a las palabras aceptadas
+ * que a las rechazadas, independientemente del número que haya de cada una de
+ * ellas.
+ */
 public class CalculadorBondadBalanceado extends CalculadorBondad {
 
 	public static final double VERSION = 1.0f;
