@@ -61,14 +61,16 @@
 					<sourceRoot>${basedir}/target/generated/src/main/java</sourceRoot>
 					<wsdlOptions>
 						<wsdlOption>
-							<wsdl>http://localhost:18080/fasearcher/FASearcherBean?WSDL</wsdl>
+							<wsdl>http://169.254.61.141:18080/fasearcher/FASearcherBean?WSDL</wsdl>
+							<!--<wsdl>http://localhost:18080/fasearcher/FASearcherBean?WSDL</wsdl>-->
 							<extraargs>
 								<extraarg>-p</extraarg>
 								<extraarg>http://ejb.FASearcherServer.si.es/=es.si.ProgramadorGenetico.WS</extraarg>
 							</extraargs>
 						</wsdlOption>
 						<wsdlOption>
-							<wsdl>http://localhost:18080/fasearcher/FASearcherServiceBean?WSDL</wsdl>
+							<wsdl>http://169.254.61.141:18080/fasearcher/FASearcherServiceBean?WSDL</wsdl>
+							<!--<wsdl>http://localhost:18080/fasearcher/FASearcherServiceBean?WSDL</wsdl>-->
 							<extraargs>
 								<extraarg>-p</extraarg>
 								<extraarg>http://ejb.FASearcherServer.si.es/=es.si.ProgramadorGenetico.ServiceWS</extraarg>

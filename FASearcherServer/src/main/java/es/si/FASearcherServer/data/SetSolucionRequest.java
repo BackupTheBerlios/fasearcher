@@ -13,7 +13,9 @@ public class SetSolucionRequest {
 	
 	private Integer pasos;
 	
-	private String algoritmo;
+	private String mutador;
+	
+	private String metodoRes;
 	
 	private String funcbondad;
 	
@@ -22,6 +24,16 @@ public class SetSolucionRequest {
 	private Integer pobmax;
 	
 	private Integer muestras;
+	
+	private Integer particiones;
+
+	public Integer getParticiones() {
+		return particiones;
+	}
+
+	public void setParticiones(Integer particiones) {
+		this.particiones = particiones;
+	}
 
 	public Integer getPasos() {
 		return pasos;
@@ -31,12 +43,22 @@ public class SetSolucionRequest {
 		this.pasos = pasos;
 	}
 
-	public String getAlgoritmo() {
-		return algoritmo;
+
+
+	public String getMutador() {
+		return mutador;
 	}
 
-	public void setAlgoritmo(String algoritmo) {
-		this.algoritmo = algoritmo;
+	public void setMutador(String mutador) {
+		this.mutador = mutador;
+	}
+
+	public String getMetodoRes() {
+		return metodoRes;
+	}
+
+	public void setMetodoRes(String metodoRes) {
+		this.metodoRes = metodoRes;
 	}
 
 	public String getFuncbondad() {

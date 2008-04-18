@@ -18,13 +18,16 @@ import javax.sql.DataSource;
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
 import org.jboss.wsf.spi.annotation.WebContext;
+import org.jboss.ws.annotation.EndpointConfig;
 
 import es.si.FASearcherServer.data.AddProblemaRequest;
 import es.si.FASearcherServer.data.AddProblemaResponse;
+import es.si.FASearcherServer.data.Configuracion;
 
 @Stateless
 @WebService(endpointInterface="es.si.FASearcherServer.ejb.FASearcherService")
 @WebContext(contextRoot="/fasearcher")
+@EndpointConfig(configName="Standard WSSecurity Endpoint")
 public class FASearcherServiceBean implements FASearcherService {
 
 	@Resource(mappedName="java:/MySqlDS")
@@ -111,7 +114,17 @@ public class FASearcherServiceBean implements FASearcherService {
 			pstmt.executeUpdate();
 			pstmt.close();
 
-
+			if (request.getConfiguraciones() != null) {
+				Iterator<Configuracion> it2 = request.getConfiguraciones().iterator();
+				while(it2.hasNext()) {
+					sql = "INSERT INTO configuraciones VALUES('" + id + "','" + it2.next().getEstados() +"'," +
+															  "'" + it2.next().getPobMax() + "','" + it2.next().getMuestras() + "')";
+					pstmt = connection.prepareStatement(sql);
+					pstmt.executeUpdate();
+					pstmt.close();			
+				}
+			}
+			
 			connection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();

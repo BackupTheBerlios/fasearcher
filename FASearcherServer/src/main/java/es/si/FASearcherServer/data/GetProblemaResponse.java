@@ -9,6 +9,8 @@ public class GetProblemaResponse {
 	
 	private Integer pobMax;
 	
+	private Integer muestras;
+	
 	private Integer estados;
 	
 	// enum?
@@ -66,6 +68,14 @@ public class GetProblemaResponse {
 
 	public void setRechazadas(String rechazadas) {
 		this.rechazadas = rechazadas;
+	}
+
+	public Integer getMuestras() {
+		return muestras;
+	}
+
+	public void setMuestras(Integer muestras) {
+		this.muestras = muestras;
 	}
 	
 	

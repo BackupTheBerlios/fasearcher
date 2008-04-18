@@ -5,7 +5,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,6 +13,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
@@ -35,6 +35,7 @@ public class FASearcherBean implements FASearcher {
 	@Resource(mappedName="java:/MySqlDS")
 	DataSource ds;
 	
+    @WebMethod
     @WebResult(name="getProblemResponse")
 	public GetProblemaResponse getProblema(@WebParam(name="getProblemaRequest") GetProblemaRequest request) {
 		GetProblemaResponse response = new GetProblemaResponse();
@@ -79,6 +80,38 @@ public class FASearcherBean implements FASearcher {
 				System.out.println("rechazadas = " + rsRechazadas.getString("Rechazadas"));
 			}
 
+			
+			Statement stmtConfig1 = connection.createStatement();
+			ResultSet rsConfig1 = stmtConfig1.executeQuery("SELECT configuraciones.Estados as \"Estados\", " +
+																  "configuraciones.PobMax as \"PobMax\", " +
+																  "configuraciones.Muestras as \"Muestras\" " +
+														   "FROM configuraciones " +
+														   "WHERE configuraciones.id = \"" + id + "\"");
+
+			if (!rsConfig1.next()) {
+				rsConfig1 = stmtConfig1.executeQuery("SELECT configuraciones.Estados as \"Estados\", " +
+						  "configuraciones.PobMax as \"PobMax\", " +
+						  "configuraciones.Muestras as \"Muestras\" " +
+				   "FROM configuraciones " +
+				   "WHERE configuraciones.id = \"-1\"");
+				rsConfig1.next();
+			}
+			
+			List<Configuracion> configs = new ArrayList<Configuracion>();
+			
+			do {
+				int muestras = rsConfig1.getInt("Muestras");
+				int estados = rsConfig1.getInt("Estados");
+				int pobMax = rsConfig1.getInt("PobMax");
+				configs.add(new Configuracion(muestras, pobMax, estados));
+			} while (rsConfig1.next()); 
+			
+			Random rand = new Random();
+			int i = rand.nextInt(configs.size());
+			response.setMuestras(configs.get(i).getMuestras());
+			response.setPobMax(configs.get(i).getPobMax());
+			response.setEstados(configs.get(i).getEstados());
+			
 			response.setAceptadas(aceptadas);
 			response.setRechazadas(rechazadas);
 			response.setId(id);
@@ -94,6 +127,7 @@ public class FASearcherBean implements FASearcher {
 		return response;
 	};
     
+    @WebMethod
     @WebResult(name="setSolucionResponse")
    public SetSolucionResponse setSolucion(@WebParam(name="setSolucionRequest") SetSolucionRequest request) {
     	SetSolucionResponse response = new SetSolucionResponse();
@@ -118,7 +152,6 @@ public class FASearcherBean implements FASearcher {
 			}
 			rs0.close();
 			stmt0.close();
-			connection.close();
 			
 			es.si.ProgramadorGenetico.ProblemaAFP.AFP automata = new es.si.ProgramadorGenetico.ProblemaAFP.AFP(request.getAfp().getEstados().intValue());
 			
@@ -155,12 +188,15 @@ public class FASearcherBean implements FASearcher {
 				e.printStackTrace();
 			}
 			
-			connection = ds.getConnection();
+
+			
 			String sql = "INSERT INTO Solucion" +
-						 " VALUES('" + id + "'," + request.getAfp().getEstados() + "," +
-						 request.getMejorValor() + ",'" + request.getAfp().getTipo() + "',?," +
-						 request.getPasos() + ",'" + request.getAlgoritmo() + "','" + request.getFuncbondad() +
-						 "','" + request.getCruzador() + "'," + request.getPobmax() + "," + request.getMuestras() + ")";
+						 " VALUES(null,'" + id + "'," + request.getAfp().getEstados() + "," +
+						 request.getMejorValor() + ",'" + 
+						 request.getAfp().getTipo() + "',?," +
+						 request.getPasos() + ",'" + request.getMutador() + "','" + request.getFuncbondad() +
+						 "','" + request.getCruzador() + "','" + request.getMetodoRes() + "'," + 
+						 request.getPobmax() + "," + request.getMuestras() + "," + request.getParticiones() + ")";
 			System.out.println(sql);
 			byte[] automataAsBytes = baos.toByteArray();
 			ByteArrayInputStream bais = new ByteArrayInputStream(automataAsBytes);
@@ -179,7 +215,7 @@ public class FASearcherBean implements FASearcher {
 			e.printStackTrace();
 		}
 		
-		retriveFromDataBase();
+		//retriveFromDataBase();
  	
     	return response;
     };

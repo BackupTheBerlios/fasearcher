@@ -12,6 +12,8 @@ public class AddProblemaRequest {
 	
 	private List<String> rechazadas;
 	
+	private List<Configuracion> configuraciones;
+	
 	private String tipoAutomata;
 	
 	private AFP afp;
@@ -71,6 +73,14 @@ public class AddProblemaRequest {
 
 	public void setPobMax(Integer pobMax) {
 		this.pobMax = pobMax;
+	}
+
+	public List<Configuracion> getConfiguraciones() {
+		return configuraciones;
+	}
+
+	public void setConfiguraciones(List<Configuracion> configuraciones) {
+		this.configuraciones = configuraciones;
 	}
 	
 	
