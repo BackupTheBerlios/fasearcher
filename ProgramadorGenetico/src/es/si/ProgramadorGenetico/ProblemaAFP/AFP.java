@@ -30,7 +30,17 @@ public class AFP implements Individuo {
 	
 	public AFP (AF automataFinito) {
 		estados = automataFinito.getEstados();
-		transiciones = automataFinito.getTransiciones();
+		transiciones = new float[estados][2][estados + 1];
+		for (int i = 0; i < estados; i++) {
+			for (int j = 0; j < 2; j++) {
+				float temp = 0;
+				for (int k = 1; k < estados+1; k++) {
+					transiciones[i][j][k] = automataFinito.getTransiciones()[i][j][k-1];
+					temp += transiciones[i][j][k];
+				}
+				transiciones[i][j][0] = 1 - temp;
+			}
+		}
 		probabilidadFinal = automataFinito.getFinales();
 	}
 	
