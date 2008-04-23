@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import es.si.ProgramadorGenetico.ProblemaAFP.ParametrosAFP;
+import es.si.ProgramadorGenetico.Interfaz.componentes.AF;
 
 public class GeneradorCadenas {
 
@@ -13,25 +13,25 @@ public class GeneradorCadenas {
 	private List<String> cadenasRechazadas;
 	private int estados;
 	private float[][][] transiciones;
-	
-	public GeneradorCadenas (AF af) {
+
+	public GeneradorCadenas(AF af) {
 		this.af = af;
 		cadenasAceptadas = new ArrayList<String>();
 		cadenasRechazadas = new ArrayList<String>();
 		generaCadenas();
 	}
-	
-	public void generaCadenas () {
+
+	public void generaCadenas() {
 		estados = af.getEstados();
 		transiciones = af.getTransiciones();
 		generaCadenasIniciales();
 		generaCadenasAleatorias();
-		
+
 	}
-	
-	public void generaCadenasIniciales () {
-		int destinoCadena0 = buscaDestino(transiciones,0,0);
-		int destinoCadena1 = buscaDestino(transiciones,1,0);
+
+	public void generaCadenasIniciales() {
+		int destinoCadena0 = buscaDestino(transiciones, 0, 0);
+		int destinoCadena1 = buscaDestino(transiciones, 1, 0);
 		if (af.esFinal(destinoCadena0))
 			cadenasAceptadas.add(new String("0"));
 		else
@@ -40,94 +40,88 @@ public class GeneradorCadenas {
 			cadenasAceptadas.add(new String("1"));
 		else
 			cadenasRechazadas.add(new String("1"));
-		
-		String cadenaActual="";
-		for (int i=0; i<estados-1; i++) {
-			if (transiciones[i][0][i+1]==1) {
-				cadenaActual+='0';				
-			}
-			else if (transiciones[i][1][i+1]==1) {
-				cadenaActual+='1';
-				
+
+		String cadenaActual = "";
+		for (int i = 0; i < estados - 1; i++) {
+			if (transiciones[i][0][i + 1] == 1) {
+				cadenaActual += '0';
+			} else if (transiciones[i][1][i + 1] == 1) {
+				cadenaActual += '1';
+
 			}
 			String clonCadena = new String(cadenaActual);
-			if (af.esFinal(i+1)) {
+			if (af.esFinal(i + 1)) {
 				if (!cadenasAceptadas.contains(clonCadena))
-					cadenasAceptadas.add(clonCadena); 
-			}				
-			else if (!cadenasRechazadas.contains(clonCadena)) 
-				cadenasRechazadas.add(clonCadena);			
+					cadenasAceptadas.add(clonCadena);
+			} else if (!cadenasRechazadas.contains(clonCadena))
+				cadenasRechazadas.add(clonCadena);
 		}
 	}
-	
-	public void generaCadenasAleatorias () {	
+
+	public void generaCadenasAleatorias() {
 		String cadena = new String();
-		nuevaCadena(af.acepta("00"),"00");
-		nuevaCadena(af.acepta("01"),"01");
-		nuevaCadena(af.acepta("10"),"10");
-		nuevaCadena(af.acepta("11"),"11");
-		for (int i=0; i<6; i++) {
+		nuevaCadena(af.acepta("00"), "00");
+		nuevaCadena(af.acepta("01"), "01");
+		nuevaCadena(af.acepta("10"), "10");
+		nuevaCadena(af.acepta("11"), "11");
+		for (int i = 0; i < 6; i++) {
 			cadena = "";
-			int longitudCadena = 3+ (int)(Math.random()*2);
-			//24 posibles cadenas
-			for (int j=0; j<longitudCadena; j++) {
-				int bitActual = (int)(Math.random()*2);
-				cadena+=bitActual;				
+			int longitudCadena = 3 + (int) (Math.random() * 2);
+			// 24 posibles cadenas
+			for (int j = 0; j < longitudCadena; j++) {
+				int bitActual = (int) (Math.random() * 2);
+				cadena += bitActual;
 			}
-			nuevaCadena(af.acepta(cadena),cadena);								
+			nuevaCadena(af.acepta(cadena), cadena);
 		}
-		for (int i=0; i<estados; i++) {
+		for (int i = 0; i < estados; i++) {
 			cadena = "";
-			int longitudCadena = 5 + (int)(Math.random()*estados-1);
-			for (int j=0; j<longitudCadena; j++) {
-				int bitActual = (int)(Math.random()*2);
-				cadena+=bitActual;				
+			int longitudCadena = 5 + (int) (Math.random() * estados - 1);
+			for (int j = 0; j < longitudCadena; j++) {
+				int bitActual = (int) (Math.random() * 2);
+				cadena += bitActual;
 			}
-			nuevaCadena(af.acepta(cadena),cadena);								
+			nuevaCadena(af.acepta(cadena), cadena);
 		}
-		
-		
 	}
-	
-	public int buscaDestino(float [][][] trans,int valor, int origen) {
-		for (int i=0; i<trans[origen][valor].length; i++) {
-			if (trans[origen][valor][i]==1)
+
+	public int buscaDestino(float[][][] trans, int valor, int origen) {
+		for (int i = 0; i < trans[origen][valor].length; i++) {
+			if (trans[origen][valor][i] == 1)
 				return i;
 		}
 		return -1;
 	}
-	
+
 	public String toString() {
-		String cadenas= new String();
-		cadenas="Cadenas aceptadas:"+"\n";
+		String cadenas = new String();
+		cadenas = "Cadenas aceptadas:" + "\n";
 		Iterator<String> it = cadenasAceptadas.iterator();
 		while (it.hasNext()) {
 			String cad = it.next();
-			cadenas+=cad+"\n";
+			cadenas += cad + "\n";
 		}
-		cadenas+="Cadenas rechazadas:"+"\n";
+		cadenas += "Cadenas rechazadas:" + "\n";
 		it = cadenasRechazadas.iterator();
 		while (it.hasNext()) {
 			String cad = it.next();
-			cadenas+=cad+"\n";
+			cadenas += cad + "\n";
 		}
 		return cadenas;
 	}
-	
-	public void nuevaCadena (boolean aceptada, String cadena) {
+
+	public void nuevaCadena(boolean aceptada, String cadena) {
 		if (aceptada) {
 			if (!cadenasAceptadas.contains(cadena))
-				cadenasAceptadas.add(cadena); 
-		}				
-		else if (!cadenasRechazadas.contains(cadena)) 
-			cadenasRechazadas.add(cadena);		
-		
+				cadenasAceptadas.add(cadena);
+		} else if (!cadenasRechazadas.contains(cadena))
+			cadenasRechazadas.add(cadena);
 	}
-	
-	public List<String> getCadenasAceptadas () {
+
+	public List<String> getCadenasAceptadas() {
 		return cadenasAceptadas;
 	}
-	
+
 	public List<String> getCadenasRechazadas() {
 		return cadenasRechazadas;
 	}

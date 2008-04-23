@@ -124,60 +124,8 @@ public class Principal {
 				AplicarAlgoritmoAFP.aplicar(i, 50);
 			}
 		}
-		mejor = AplicarAlgoritmoAFP.getMejor();
-		
-		
+		mejor = AplicarAlgoritmoAFP.getMejor();		
 	}
-	
-	/**
-	 * Esto esta mal! cuidado, porque no funciona asi la clase parametrosAFP
-	 * 
-	 * @param aceptadas
-	 * @param rechazadas
-	 */
-	/*
-	public static void ejecucionGenetico(List<String> aceptadas, List<String> rechazadas) {
-		CruzadorAFPFactory.setTipo(CruzadorAFPFactory.TIPO_1);
-		MutadorAFPFactory.setTipo(MutadorAFPFactory.TIPO_1);
-		ResolverAFPFactory.setTipo(ResolverAFPFactory.VECTORES);
-		CalculadorBondadAFPFactory.setTipo(CalculadorBondadAFPFactory.PREFERNCIADET);
-		
-		Writer.write("\n\nUtilizando version 0.1 del Selector\n");
-		Writer.write("Utilizando version 0.1 del CalculadorBondadBalanceado\n");
-		Writer.write("Utilizando version 0.11 del Generador Aleatorio\n");
-		Writer.write("Utilizando version 0.13 del Reproductor");
-		Writer.write("Problema a solucionar:\n");
-		Writer.write("  aceptadas=");
-		ParametrosAFP paramAFP = new ParametrosAFP(aceptadas, rechazadas);
-		Iterator<String> it = paramAFP.getAceptadas().iterator();
-		while(it.hasNext()) {
-			Writer.write(it.next()+",");
-		}
-		it = paramAFP.getRechazadas().iterator();
-		Writer.write("\n  rechazadas=");
-		while(it.hasNext()) {
-			Writer.write(it.next()+",");
-		}
-		Writer.write("\n");
-		Iterator<Integer> itmuestras = paramAFP.getMuestras().iterator();
-		while (itmuestras.hasNext()) {
-			int i = itmuestras.next().intValue();
-			Iterator<Integer> itpobmax = paramAFP.getPobmax().iterator();
-			while(itpobmax.hasNext()) {
-				int j = itpobmax.next().intValue();
-				Writer.write("*******************************************\n");
-				Writer.write("Mantener="+i+";Poblacion Max="+j+"\n");
-				Algoritmo.MANTENER = i;
-				Algoritmo.POB_MAX = 1000;
-				AplicarAlgoritmoAFP.aplicar(i, 50);
-			}
-		}
-		mejor = AplicarAlgoritmoAFP.getMejor();
-		
-		
-	}
-	*/
-	
 	
 	public static AFP getMejor() {
 		return mejor;

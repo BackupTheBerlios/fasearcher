@@ -5,7 +5,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 import es.si.ProgramadorGenetico.Individuo;
-import es.si.ProgramadorGenetico.GeneradorAutomatico.AF;
+import es.si.ProgramadorGenetico.Interfaz.componentes.AF;
 
 public class AFP implements Individuo {
 
@@ -96,8 +96,10 @@ public class AFP implements Individuo {
 	
 	public String toString() {
 		String afp = new String();
-		NumberFormat form = new DecimalFormat("0.0000");
-		
+		// form tiene formato "0.0000"
+		NumberFormat form = NumberFormat.getInstance();
+		form.setMinimumFractionDigits(4);
+		form.setMaximumFractionDigits(4);
 		for (int i = 0; i < estados;i++) {
 			afp += ""+i +":0:- >> " + form.format(transiciones[i][0][0]);
 			afp += " || "+i +":1:- >> " + form.format(transiciones[i][1][0]) + "\n";

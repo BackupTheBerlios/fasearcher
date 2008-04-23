@@ -3,14 +3,11 @@ package es.si.ProgramadorGenetico.Interfaz.Pruebas;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Frame;
-import java.awt.Rectangle;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 
-import es.si.ProgramadorGenetico.Interfaz.DibujanteAFP;
-import es.si.ProgramadorGenetico.Interfaz.FramePrincipal;
+import es.si.ProgramadorGenetico.Interfaz.paneles.PanelAF;
 import es.si.ProgramadorGenetico.ProblemaAFP.AFP;
 
 public class PruebaDibujanteNuevo3 {
@@ -18,7 +15,7 @@ public class PruebaDibujanteNuevo3 {
 	private static int estados;
 	private static float[][][] transiciones;
 	private static float[] probabilidadFinal;
-	private static DibujanteAFP dibujante;
+	private static PanelAF dibujante;
 	
 	public static void main (String[] args) {
 		JFrame f = new JFrame("Dibujante automatas");		
@@ -43,7 +40,7 @@ public class PruebaDibujanteNuevo3 {
 		mejor = new AFP (estados);
 		mejor.setTransiciones(transiciones);
 		mejor.setProbabilidadFinal(probabilidadFinal);
-		dibujante = new DibujanteAFP(mejor);		
+		dibujante = new PanelAF(mejor);		
 	}
 	
 	

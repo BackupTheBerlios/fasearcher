@@ -1,4 +1,4 @@
-package es.si.ProgramadorGenetico.Interfaz;
+package es.si.ProgramadorGenetico.Interfaz.paneles;
 
 import java.awt.FlowLayout;
 
@@ -7,6 +7,11 @@ import javax.swing.JPanel;
 
 public class PanelNuevo extends JPanel{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1557985157193018240L;
+
 	public PanelNuevo () {
 		super();
 		setLayout(new FlowLayout());		

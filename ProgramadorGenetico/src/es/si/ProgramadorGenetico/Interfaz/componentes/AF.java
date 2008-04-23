@@ -1,10 +1,8 @@
-package es.si.ProgramadorGenetico.GeneradorAutomatico;
+package es.si.ProgramadorGenetico.Interfaz.componentes;
 
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.List;
 
-import es.si.ProgramadorGenetico.Interfaz.*;
 import es.si.ProgramadorGenetico.ProblemaAFP.AFP;
 
 import es.si.ProgramadorGenetico.Individuo;
@@ -29,7 +27,17 @@ public class AF implements Individuo{
 		finales = new float[estados];
 	}
 	
-	public AF (List<Estado> listaEstados, List<Transicion> listaTransiciones) {		
+	public AF (AFP automata) {
+		estados = automata.getEstados();
+		transiciones = new float[estados][2][estados];
+		for (int i = 0; i < estados; i++)
+			for (int j = 0; j < 2; j++)
+				for (int k = 0; k < estados; k++)
+					transiciones[i][j][k] = automata.getTransiciones()[i][j][k+1];
+		finales = automata.getProbabilidadesFinal();
+	}
+	
+	public AF (List<Estado>listaEstados, List<Transicion> listaTransiciones) {		
 		estados = listaEstados.size();
 		transiciones = new float[estados][2][estados];
 		for (int i=0; i<listaTransiciones.size(); i++) {
@@ -67,27 +75,19 @@ public class AF implements Individuo{
 	public void setFinal (int estado) {
 		finales[estado] = 1;
 	}
-	/*
-	public void setFinalBool (boolean estadoFinal, int estado) {
-		if (estadoFinal)
-			finales[estado] = 1;
-		else
-			finales[estado] = 0;
-	}
-	*/
 	
 	public String toString() {
 		String af = new String();
-		NumberFormat form = new DecimalFormat("0.0000");
-		
+		// form tiene formato "0.0000"
+		NumberFormat form = NumberFormat.getInstance();
+		form.setMinimumFractionDigits(4);
+		form.setMaximumFractionDigits(4);
 		for (int i = 0; i < estados;i++) {
 			for (int j = 0; j < estados; j++) {
 				af += ""+i +":0:"+j+" >> " + form.format(transiciones[i][0][j]);
 				af += " || "+i +":1:"+j+" >> " + form.format(transiciones[i][1][j]) + "\n";
-
 			}
 		}
-
 		return af;
 	}
 
@@ -102,7 +102,8 @@ public class AF implements Individuo{
 		int estadoActual = 0;//estado inicial
 		for (int i=0; i<cadena.length(); i++) {
 			int bit = (int)(Integer.valueOf(cadena.substring(i,i+1)));
-			estadoActual = buscaDestino(estadoActual,bit);			
+			estadoActual = buscaDestino(estadoActual,bit);	
+			if (estadoActual == -1) return false;
 		}
 		if (esFinal(estadoActual))
 			return true;		
@@ -110,7 +111,6 @@ public class AF implements Individuo{
 	}
 
 	public int buscaDestino (int estadoOrigen, int valor) {
-		int longit = transiciones[estadoOrigen][valor].length;
 		for (int i=0; i<transiciones[estadoOrigen][valor].length; i++) {
 			if (transiciones[estadoOrigen][valor][i]==1)
 				return i;
@@ -120,18 +120,19 @@ public class AF implements Individuo{
 
 	@Override
 	public boolean equals(Individuo otro) {
-		// TODO Auto-generated method stub
+		if (otro == null) return false;
+		if (!(otro instanceof AF)) return false;
+		if (otro == this) return true;
+		// aqui se podría hacer un cast de otro a AF y comprobar las transiciones
 		return false;
 	}
 	
 	public boolean comprobarAFD () {
 		for (int i=0; i<estados; i++) {			
-			if (buscaDestino(i, 0) == -1) {
+			if (buscaDestino(i, 0) == -1)
 				return false;
-			}
-			if (buscaDestino(i, 1) == -1) {
+			if (buscaDestino(i, 1) == -1)
 				return false;
-			}
 		}
 		return true;
 	}

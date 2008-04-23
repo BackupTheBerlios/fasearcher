@@ -3,25 +3,18 @@ package es.si.ProgramadorGenetico.GeneradorAutomatico.Pruebas;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Frame;
-import java.awt.Rectangle;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 
-import es.si.ProgramadorGenetico.GeneradorAutomatico.AF;
 import es.si.ProgramadorGenetico.GeneradorAutomatico.GeneradorAF;
-import es.si.ProgramadorGenetico.Interfaz.DibujanteAF;
-import es.si.ProgramadorGenetico.Interfaz.DibujanteAFP;
-import es.si.ProgramadorGenetico.Interfaz.FramePrincipal;
-import es.si.ProgramadorGenetico.ProblemaAFP.AFP;
+import es.si.ProgramadorGenetico.Interfaz.componentes.AF;
+import es.si.ProgramadorGenetico.Interfaz.paneles.PanelAF;
 
 public class PruebaGenerador {
 
 	private static int estados;
-	private static double[][][] transiciones;
-	private static double[] probabilidadFinal;
-	private static DibujanteAF dibujante;
+	private static PanelAF dibujante;
 	private static GeneradorAF generador;
 	
 	public static void main (String[] args) {
@@ -45,7 +38,7 @@ public class PruebaGenerador {
 	public static void inicializar () {		
 		setValoresEntrada();
 		AF mejor = generador.getAF();			
-		dibujante = new DibujanteAF(mejor);		
+		dibujante = new PanelAF(mejor);		
 	}
 	
 	

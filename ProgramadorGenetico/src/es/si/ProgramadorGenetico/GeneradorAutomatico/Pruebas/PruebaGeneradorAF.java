@@ -1,22 +1,10 @@
 package es.si.ProgramadorGenetico.GeneradorAutomatico.Pruebas;
 
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Frame;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
-import es.si.ProgramadorGenetico.GeneradorAutomatico.AF;
-import es.si.ProgramadorGenetico.GeneradorAutomatico.GeneradorAF;
 import es.si.ProgramadorGenetico.GeneradorAutomatico.GeneradorCadenas;
-import es.si.ProgramadorGenetico.Interfaz.DibujanteAF;
+import es.si.ProgramadorGenetico.Interfaz.componentes.AF;
 
 public class PruebaGeneradorAF {
 	private static int estados;
-	private static double[][][] transiciones;
-	private static double[] probabilidadFinal;	
-	private static GeneradorAF generador;
 	
 	public static void main (String[] args) {
 		inicializar();	
@@ -25,7 +13,6 @@ public class PruebaGeneradorAF {
 	public static void inicializar () {		
 		setValoresEntrada();				
 	}
-	
 	
 	public static void setValoresEntrada() {		
 		estados = 4;

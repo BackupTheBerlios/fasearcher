@@ -1,10 +1,8 @@
 package es.si.ProgramadorGenetico.Interfaz.Pruebas;
 
-import java.awt.BorderLayout;
-
 import javax.swing.JFrame;
 
-import es.si.ProgramadorGenetico.Interfaz.PanelDatos;
+import es.si.ProgramadorGenetico.Interfaz.paneles.PanelDatos;
 
 public class PruebaTablaDatos {
 

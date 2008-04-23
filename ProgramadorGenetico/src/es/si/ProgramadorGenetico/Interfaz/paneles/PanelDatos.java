@@ -1,11 +1,9 @@
-package es.si.ProgramadorGenetico.Interfaz;
+package es.si.ProgramadorGenetico.Interfaz.paneles;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 
 import javax.swing.ButtonGroup;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -14,18 +12,21 @@ import javax.swing.JTextField;
 
 public class PanelDatos extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7061031104177193411L;
+	
 	JTable tablaDatos;
 	JLabel labelIntroduccion;
-	JTextField campoPalabra;	
+	JTextField campoPalabra;
     ButtonGroup aceptada;
 	
 	public PanelDatos() {
 		super(new BorderLayout());
-		setPreferredSize(new Dimension(800,800));				
+		setPreferredSize(new Dimension(800,800));		
         setVisible(true);
-        construyeComponentes();   
-        
-        
+        construyeComponentes();
 	}
 	
 	public void construyeComponentes() {

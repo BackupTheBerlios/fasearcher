@@ -1,9 +1,7 @@
-package es.si.ProgramadorGenetico.Interfaz;
+package es.si.ProgramadorGenetico.Interfaz.paneles;
 
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.util.ArrayList;
-import java.util.List;
+import java.text.NumberFormat;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -12,7 +10,14 @@ import javax.swing.JTable;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 
+import es.si.ProgramadorGenetico.Interfaz.componentes.Transicion;
+
 public class PanelTablaTransiciones extends JPanel{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2349064315517135706L;
 	
 	JTable tabla;
 	
@@ -45,11 +50,14 @@ public class PanelTablaTransiciones extends JPanel{
         add(scrollPane);
 	}
 	
-	public PanelTablaTransiciones (DibujanteAFP dibujanteAFP) {				
-		Transicion [][] transiciones = dibujanteAFP.getTransiciones();
+	public PanelTablaTransiciones (PanelAF dibujanteAFP) {				
+		Transicion [][] transiciones = dibujanteAFP.getTransicionesArray();
 		int estados = dibujanteAFP.getNumEstados();		
 		String [] columnas = {"Origen", "Destino", "Valor", "Probabilidad"};
-		Object[][] datos = new Object [estados*(estados+1)*2][4];
+		String[][] datos = new String [estados*(estados+1)*2][4];
+		NumberFormat form = NumberFormat.getInstance();
+		form.setMinimumFractionDigits(4);
+		form.setMaximumFractionDigits(4);
 		int fila = 0;					
 		for (int i=0; i<transiciones.length; i++) {
 			for (int j=0; j<transiciones[i].length; j++) {
@@ -57,15 +65,15 @@ public class PanelTablaTransiciones extends JPanel{
 				if (t.getProbabilidad0()>0.1) {
 					datos[fila][0] = t.getOrigen().getLabel().getText();
 					datos[fila][1] = t.getDestino().getLabel().getText();
-					datos[fila][2] = 0;
-					datos[fila][3] = t.getProbabilidad0();
+					datos[fila][2] = "0";
+					datos[fila][3] = form.format(t.getProbabilidad0());
 					fila++;
 				}
 				if (t.getProbabilidad1()>0.1) {
 					datos[fila][0] = t.getOrigen().getLabel().getText();
 					datos[fila][1] = t.getDestino().getLabel().getText();
-					datos[fila][2] = 1;
-					datos[fila][3] = t.getProbabilidad1();
+					datos[fila][2] = "1";
+					datos[fila][3] = form.format(t.getProbabilidad1());
 					fila++;
 				}					
 			}

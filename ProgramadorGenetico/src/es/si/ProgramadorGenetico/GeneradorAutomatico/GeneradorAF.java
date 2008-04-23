@@ -3,6 +3,8 @@ package es.si.ProgramadorGenetico.GeneradorAutomatico;
 import java.util.List;
 import java.util.ArrayList;
 
+import es.si.ProgramadorGenetico.Interfaz.componentes.AF;
+
 public class GeneradorAF {
 
 	private class Pareja {
