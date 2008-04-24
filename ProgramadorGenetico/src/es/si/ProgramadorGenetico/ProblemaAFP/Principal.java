@@ -120,7 +120,7 @@ public class Principal {
 				Writer.write("*******************************************\n");
 				Writer.write("Mantener="+i+";Poblacion Max="+j+"\n");
 				Algoritmo.MANTENER = i;
-				Algoritmo.POB_MAX = 1000;
+				Algoritmo.POB_MAX = j;
 				AplicarAlgoritmoAFP.aplicar(i, 50);
 			}
 		}
