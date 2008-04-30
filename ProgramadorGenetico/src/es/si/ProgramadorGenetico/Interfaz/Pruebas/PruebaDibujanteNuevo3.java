@@ -7,7 +7,7 @@ import java.awt.Frame;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import es.si.ProgramadorGenetico.Interfaz.paneles.PanelAF;
+import es.si.ProgramadorGenetico.Interfaz.paneles.SubPanelAF;
 import es.si.ProgramadorGenetico.ProblemaAFP.AFP;
 
 public class PruebaDibujanteNuevo3 {
@@ -15,7 +15,7 @@ public class PruebaDibujanteNuevo3 {
 	private static int estados;
 	private static float[][][] transiciones;
 	private static float[] probabilidadFinal;
-	private static PanelAF dibujante;
+	private static SubPanelAF dibujante;
 	
 	public static void main (String[] args) {
 		JFrame f = new JFrame("Dibujante automatas");		
@@ -40,7 +40,7 @@ public class PruebaDibujanteNuevo3 {
 		mejor = new AFP (estados);
 		mejor.setTransiciones(transiciones);
 		mejor.setProbabilidadFinal(probabilidadFinal);
-		dibujante = new PanelAF(mejor);		
+		dibujante = new SubPanelAF(mejor);		
 	}
 	
 	

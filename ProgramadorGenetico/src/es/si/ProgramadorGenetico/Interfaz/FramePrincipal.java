@@ -14,7 +14,7 @@ import java.util.List;
 import es.si.ProgramadorGenetico.GeneradorAutomatico.GeneradorAF;
 import es.si.ProgramadorGenetico.GeneradorAutomatico.GeneradorCadenas;
 import es.si.ProgramadorGenetico.Interfaz.componentes.AF;
-import es.si.ProgramadorGenetico.Interfaz.paneles.PanelAF;
+import es.si.ProgramadorGenetico.Interfaz.paneles.SubPanelAF;
 import es.si.ProgramadorGenetico.Interfaz.paneles.PanelTablaTransiciones;
 import es.si.ProgramadorGenetico.ProblemaAFP.AFP;
 import es.si.ProgramadorGenetico.ProblemaAFP.Principal;
@@ -26,8 +26,8 @@ public class FramePrincipal extends JFrame implements ActionListener {
 
 	static boolean test;
 	private PanelTablaTransiciones tablaTransiciones;
-	private PanelAF panelAFP;
-	private PanelAF dibujanteAF;
+	private SubPanelAF panelAFP;
+	private SubPanelAF dibujanteAF;
 	private AF afGenetico;
 	private JMenuBar menuBar;
 	private GeneradorCadenas genCadenas;
@@ -43,7 +43,7 @@ public class FramePrincipal extends JFrame implements ActionListener {
 
 	public static AFP creaAFPdeAF(List<String> aceptadas,
 			List<String> rechazadas, int numEstados) {
-		Principal.ejecuta2(aceptadas, rechazadas, numEstados);
+		Principal.ejecuta(aceptadas, rechazadas, numEstados);
 		return Principal.getMejor();
 	}
 
@@ -85,7 +85,7 @@ public class FramePrincipal extends JFrame implements ActionListener {
 					AFP mejor = creaAFPdeAF(genCadenas.getCadenasAceptadas(),
 							genCadenas.getCadenasRechazadas(), afGenetico
 									.getEstados());
-					panelAFP = new PanelAF(mejor);
+					panelAFP = new SubPanelAF(mejor);
 					agregaPanelAFP(panelAFP);
 					agregaTabla(tablaTransiciones);
 				}
@@ -131,7 +131,7 @@ public class FramePrincipal extends JFrame implements ActionListener {
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				borraDibujos();
-				dibujanteAF = new PanelAF();
+				dibujanteAF = new SubPanelAF();
 				agregaPanelAF(dibujanteAF);
 				activarMenusDibujo(true);
 				pintar();
@@ -144,7 +144,7 @@ public class FramePrincipal extends JFrame implements ActionListener {
 		menu.add(menuItem);
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				dibujanteAF.setModo(PanelAF.INSERTAR_ESTADO);
+				dibujanteAF.setModo(SubPanelAF.INSERTAR_ESTADO);
 			}
 		});
 
@@ -154,7 +154,7 @@ public class FramePrincipal extends JFrame implements ActionListener {
 		menu.add(menuItem);
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				dibujanteAF.setModo(PanelAF.INSERTAR_TRANSICION);
+				dibujanteAF.setModo(SubPanelAF.INSERTAR_TRANSICION);
 			}
 		});
 
@@ -165,7 +165,7 @@ public class FramePrincipal extends JFrame implements ActionListener {
 		menu.add(menuItem);
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				dibujanteAF.setModo(PanelAF.SET_FINAL);
+				dibujanteAF.setModo(SubPanelAF.SET_FINAL);
 			}
 		});
 
@@ -175,7 +175,7 @@ public class FramePrincipal extends JFrame implements ActionListener {
 		menu.add(menuItem);
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				dibujanteAF.setModo(PanelAF.EDICION);
+				dibujanteAF.setModo(SubPanelAF.EDICION);
 			}
 		});
 
@@ -270,7 +270,7 @@ public class FramePrincipal extends JFrame implements ActionListener {
 		int numEstados = Integer.valueOf(s);
 		System.out.println("Num estados: " + numEstados);
 		GeneradorAF genAF = new GeneradorAF(numEstados);
-		dibujanteAF = new PanelAF(genAF.getAF());
+		dibujanteAF = new SubPanelAF(genAF.getAF());
 		agregaPanelAF(dibujanteAF);
 		pintar();
 		s = "¿Desea ver cadenas posibles de este automata?";

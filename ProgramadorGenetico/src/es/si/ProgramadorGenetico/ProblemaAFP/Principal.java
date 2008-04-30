@@ -79,13 +79,9 @@ public class Principal {
 			}
 		}
 		mejor = AplicarAlgoritmoAFP.getMejor();
-		
-		
 	}
 	
-	
-	
-	public static void ejecuta2(List<String> aceptadas, List<String> rechazadas, int numEstados) {
+	public static void ejecuta(List<String> aceptadas, List<String> rechazadas, int numEstados) {
 		CruzadorAFPFactory.setTipo(CruzadorAFPFactory.TIPO_1);
 		MutadorAFPFactory.setTipo(MutadorAFPFactory.TIPO_1);
 		ResolverAFPFactory.setTipo(ResolverAFPFactory.VECTORES);

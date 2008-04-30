@@ -10,12 +10,12 @@ import javax.swing.JPanel;
 import es.si.ProgramadorGenetico.GeneradorAutomatico.GeneradorAF;
 import es.si.ProgramadorGenetico.GeneradorAutomatico.GeneradorCadenas;
 import es.si.ProgramadorGenetico.Interfaz.componentes.AF;
-import es.si.ProgramadorGenetico.Interfaz.paneles.PanelAF;
+import es.si.ProgramadorGenetico.Interfaz.paneles.SubPanelAF;
 
 public class PruebaGeneradorCadenas {
 
 	private static int estados;
-	private static PanelAF dibujante;
+	private static SubPanelAF dibujante;
 	private static GeneradorAF generador;
 	
 	public static void main (String[] args) {
@@ -41,7 +41,7 @@ public class PruebaGeneradorCadenas {
 		GeneradorCadenas genCad = new GeneradorCadenas (generador.getAF());
 		System.out.println(genCad.toString());
 		AF mejor = generador.getAF();			
-		dibujante = new PanelAF(mejor);		
+		dibujante = new SubPanelAF(mejor);		
 	}
 		
 }

@@ -18,7 +18,7 @@ import es.si.ProgramadorGenetico.Interfaz.componentes.Transicion;
  */
 public class MIAPanelAF extends MouseInputAdapter {
 
-	private PanelAF panel;
+	private SubPanelAF panel;
 	
 	/**
 	 * Estado que se esta moviendo
@@ -30,7 +30,7 @@ public class MIAPanelAF extends MouseInputAdapter {
 	private Estado estadoInicioTransicion;
 	
 	
-	public MIAPanelAF(PanelAF panel) {
+	public MIAPanelAF(SubPanelAF panel) {
 		this.panel = panel;
 		estadoMovido = null;
 	}
@@ -55,19 +55,19 @@ public class MIAPanelAF extends MouseInputAdapter {
 	public void mousePressed(MouseEvent e) {
 		if (panel.isEditable()) {
 			switch (panel.getModo()) {
-			case PanelAF.INSERTAR_ESTADO: 
+			case SubPanelAF.INSERTAR_ESTADO: 
 				mPInsertarEstado(e);
 				break;
-			case PanelAF.INSERTAR_TRANSICION:
+			case SubPanelAF.INSERTAR_TRANSICION:
 				mPInsertarTransicion(e);
 				break;
-			case PanelAF.FINALIZAR_TRANSICION: 
+			case SubPanelAF.FINALIZAR_TRANSICION: 
 				mPFinalizarTransicion(e);
 				break;
-			case PanelAF.SET_FINAL:
+			case SubPanelAF.SET_FINAL:
 				mPSetFinal(e);
 				break;
-			case PanelAF.EDICION: 
+			case SubPanelAF.EDICION: 
 				mPEdicion(e);
 				break;
 			default:
@@ -99,7 +99,7 @@ public class MIAPanelAF extends MouseInputAdapter {
 		Estado es = panel.buscaEstado(e.getPoint());
 		if (es != null) {
 			estadoInicioTransicion = es;
-			panel.setModo(PanelAF.FINALIZAR_TRANSICION);
+			panel.setModo(SubPanelAF.FINALIZAR_TRANSICION);
 		}
 		panel.paintComponent(panel.getGraphics());
 	}
@@ -158,7 +158,7 @@ public class MIAPanelAF extends MouseInputAdapter {
 			}
 		}
 		estadoInicioTransicion = null;
-		panel.setModo(PanelAF.INSERTAR_TRANSICION);
+		panel.setModo(SubPanelAF.INSERTAR_TRANSICION);
 		panel.paintComponent(panel.getGraphics());
 	}
 	

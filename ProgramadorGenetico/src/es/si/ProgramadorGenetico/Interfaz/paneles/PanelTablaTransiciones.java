@@ -50,7 +50,7 @@ public class PanelTablaTransiciones extends JPanel{
         add(scrollPane);
 	}
 	
-	public PanelTablaTransiciones (PanelAF dibujanteAFP) {				
+	public PanelTablaTransiciones (SubPanelAF dibujanteAFP) {				
 		Transicion [][] transiciones = dibujanteAFP.getTransicionesArray();
 		int estados = dibujanteAFP.getNumEstados();		
 		String [] columnas = {"Origen", "Destino", "Valor", "Probabilidad"};

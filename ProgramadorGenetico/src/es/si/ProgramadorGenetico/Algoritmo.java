@@ -50,6 +50,8 @@ public class Algoritmo {
 		
 		mejores = new ArrayList<Individuo>();
 		
+		mejores.add(mejor);
+		
 		do {
 			Writer.write(",");
 

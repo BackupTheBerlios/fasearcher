@@ -1,12 +1,18 @@
 package es.si.ProgramadorGenetico.ProblemaAFP;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import es.si.ProgramadorGenetico.Algoritmo;
+import es.si.ProgramadorGenetico.Individuo;
 import es.si.ProgramadorGenetico.ProblemaAFP.Factorias.CruzadorAFPFactory;
 import es.si.ProgramadorGenetico.ProblemaAFP.Factorias.MutadorAFPFactory;
 
 public class AplicarAlgoritmoAFP {
 
 	private static AFP mejor;
+	
+	private static List<AFP> mejores = new ArrayList<AFP>();
 	
 	private static int pasos;
 	
@@ -20,6 +26,13 @@ public class AplicarAlgoritmoAFP {
 		alg.run(iteraciones);
 		mejor = (AFP)alg.getMejor();
 		pasos = alg.getPasos();
+		mejores.clear();
+		for (Individuo mejor : alg.getMejores())
+			mejores.add((AFP) mejor);
+	}
+
+	public static List<AFP> getMejores() {
+		return mejores;
 	}
 
 	public static AFP getMejor() {
