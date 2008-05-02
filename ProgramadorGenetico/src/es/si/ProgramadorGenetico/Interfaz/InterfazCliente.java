@@ -2,7 +2,6 @@ package es.si.ProgramadorGenetico.Interfaz;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -15,7 +14,9 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
+import es.si.ProgramadorGenetico.Interfaz.paneles.PanelAF;
 import es.si.ProgramadorGenetico.Interfaz.paneles.PanelAFPs;
+import es.si.ProgramadorGenetico.Interfaz.paneles.PanelInfo;
 import es.si.ProgramadorGenetico.ProblemaAFP.ProblemaAFP;
 import es.si.ProgramadorGenetico.ProblemaAFP.AFP;
 
@@ -28,6 +29,14 @@ public class InterfazCliente extends JFrame {
 	
 	private JMenuBar menuBar;
 	
+	private PanelAFPs panelAFPs = null;
+	
+	private PanelAF panelAF = null;
+	
+	private PanelInfo panelInfo;
+	
+	private ResolverProblemas resolverProblemas = null;
+	
 	private boolean mostrar = true;
 	
 	public InterfazCliente() {
@@ -35,7 +44,10 @@ public class InterfazCliente extends JFrame {
 		crearMenus();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
-		setSize(new Dimension(600,600));
+		panelInfo = new PanelInfo();
+		add(panelInfo, BorderLayout.NORTH);
+		setSize(new Dimension(600,650));
+		validate();
 		setVisible(true);
 	}
 
@@ -111,16 +123,17 @@ public class InterfazCliente extends JFrame {
 
 
 	protected void detenerResolucion() {
-		// TODO Auto-generated method stub
-		
+		if (resolverProblemas != null)
+			resolverProblemas.stop();
+		panelInfo.terminaResolviendo("Terminado");
 	}
-
 
 	protected void resolverProblemas() {
-		// TODO Auto-generated method stub
-		
+		resolverProblemas = new ResolverProblemas(this);
+		Thread thread = new Thread(resolverProblemas);
+		thread.start();
+		panelInfo.resolviendo();
 	}
-
 
 	protected void resolverUnProblema() {
 		Thread thread = new Thread(new Runnable() {
@@ -132,18 +145,49 @@ public class InterfazCliente extends JFrame {
 				} catch (Exception e) {
 					e.printStackTrace();
 					InterfazCliente.this.terminoResolver(false, null);
+					
 				}
 			}
 		});
 		thread.start();
+		panelInfo.resolviendo();
 	}
 	
 	protected void terminoResolver(boolean correcto, List<AFP> mejores) {
 		if (correcto) {
-			PanelAFPs panelAFPs = new PanelAFPs();
+			quitarPaneles();
+			panelAFPs = new PanelAFPs();
 			panelAFPs.setAFPs(mejores);
 			add(panelAFPs, BorderLayout.CENTER);
 			InterfazCliente.this.validate();
+			panelInfo.terminaResolviendo("Terminado");
+		} else {
+			panelInfo.terminaResolviendo("Terminado con errores");
+		}
+	}
+	
+	public void terminoResolverMuchos(boolean correcto, AFP mejor) {
+		if (correcto) {
+			quitarPaneles();
+			if (!mostrar) {
+				panelAF = new PanelAF(mejor);
+				panelAF.getSubPanelAF().setEditable(false);
+				add(panelAF, BorderLayout.CENTER);
+			}
+			InterfazCliente.this.validate();
+		} else {
+			panelInfo.terminaResolviendo("Terminado con errores");
+		}
+	}
+	
+	private void quitarPaneles() {
+		if (panelAFPs != null) {
+			remove(panelAFPs);
+			panelAFPs = null;
+		}
+		if (panelAF != null) {
+			remove(panelAF);
+			panelAF = null;
 		}
 	}
 }
