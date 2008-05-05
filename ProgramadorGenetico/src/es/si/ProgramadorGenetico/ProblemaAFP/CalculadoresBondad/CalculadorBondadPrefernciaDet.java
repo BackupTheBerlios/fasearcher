@@ -56,13 +56,24 @@ public class CalculadorBondadPrefernciaDet extends CalculadorBondad {
 		float suma = 0;
 		for (int i = 0; i < estados; i++) {
 			for (int j = 0; j < estados + 1; j++) {
+				
 				if (trans[i][0][j] > 0.5)
-					suma += trans[i][0][j];
+					suma += trans[i][0][j]*trans[i][0][j];
 				if (trans[i][1][j] > 0.5)
-					suma += trans[i][0][j];
+					suma += trans[i][1][j]*trans[i][1][j];
+				/*
+				float valor0 = (float) Math.abs(0.5-trans[i][0][j]);
+				float valor1 = (float) Math.abs(0.5-trans[i][1][j]);
+				//Esa resta se acerca a 0 si la probabilidad es proxima a 0.5, y se acerca a 0.5 si la probabilidad es próxima a 1 o a 0.
+				//Si el resultado es mayor a 0.25, es que la probabilidad es < 0.25 o > 0.75, más parecida a un AFD
+				if (valor0 > 0.25)
+				  suma+=trans[i][0][j];
+				if (valor1 > 0.25)
+				  suma+=trans[i][1][j];
+				*/
 			}
 		}
 		valor = suma / (estados*2);
 		return valor/2;
-	}
+	}io
 }
