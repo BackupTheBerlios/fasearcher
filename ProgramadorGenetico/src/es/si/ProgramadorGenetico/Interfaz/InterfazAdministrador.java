@@ -16,10 +16,11 @@ import es.si.ProgramadorGenetico.Interfaz.data.Problema;
 import es.si.ProgramadorGenetico.Interfaz.menus.MenuAdministrador;
 import es.si.ProgramadorGenetico.Interfaz.paneles.BarraEdicion;
 import es.si.ProgramadorGenetico.Interfaz.paneles.FrameCadenas;
+import es.si.ProgramadorGenetico.Interfaz.paneles.FrameConfiguraciones;
+import es.si.ProgramadorGenetico.Interfaz.paneles.FrameResolver;
 import es.si.ProgramadorGenetico.Interfaz.paneles.PanelAF;
 import es.si.ProgramadorGenetico.Interfaz.paneles.PanelAFPs;
 import es.si.ProgramadorGenetico.Interfaz.paneles.PanelInfo;
-import es.si.ProgramadorGenetico.ProblemaAFP.ProblemaAFP;
 import es.si.ProgramadorGenetico.ProblemaAFP.AFP;
 
 public class InterfazAdministrador extends JFrame implements InterfazGrafica {
@@ -78,21 +79,14 @@ public class InterfazAdministrador extends JFrame implements InterfazGrafica {
 	}
 
 	public void resolverUnProblema() {
-		Thread thread = new Thread(new Runnable() {
-			public void run() {
-				try{
-					ProblemaAFP problemaAFP = new ProblemaAFP();
-					problemaAFP.ejecutar();
-					InterfazAdministrador.this.terminoResolver(true, problemaAFP.getMejores());
-				} catch (Exception e) {
-					e.printStackTrace();
-					InterfazAdministrador.this.terminoResolver(false, null);
-					
-				}
+		AF af = creadoAutomata();
+		if (af != null) {
+			if (problema.getCadenas().size() > 0)
+				new FrameResolver(af, problema);
+			else {
+				JOptionPane.showMessageDialog(this, "No hay suficientes cadenas");
 			}
-		});
-		thread.start();
-		panelInfo.resolviendo();
+		}
 	}
 	
 	public void terminoResolver(boolean correcto, List<AFP> mejores) {
@@ -158,6 +152,30 @@ public class InterfazAdministrador extends JFrame implements InterfazGrafica {
 	}
 
 	public void generarCadenas() {
+		AF af = creadoAutomata();
+		if (af != null) {
+			GeneradorCadenas genCad = new GeneradorCadenas(af);
+			String message = genCad.toString();
+			JOptionPane.showMessageDialog(this, message);
+			if (problema.getCadenas().size() != 0) {
+				int option = JOptionPane.showOptionDialog(this, "Desea unir las nuevas cadenas a las ya existentes?", "Generacion de cadenas", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+				if (option == JOptionPane.YES_OPTION) {
+					problema.getCadenas().addAll(genCad.getCadenasAceptadas());
+					problema.getCadenas().addAll(genCad.getCadenasRechazadas());
+				} else if (option == JOptionPane.NO_OPTION) {
+					problema.setCadenas(genCad.getCadenasAceptadas());
+					problema.getCadenas().addAll(genCad.getCadenasRechazadas());						
+				}
+			} else {
+				problema.setCadenas(genCad.getCadenasAceptadas());
+				problema.getCadenas().addAll(genCad.getCadenasRechazadas());
+			}
+		}
+		
+
+	}
+
+	private AF creadoAutomata() {
 		if (problema != null && panelAF != null) {
 			AF af = new AF(panelAF.getSubPanelAF().getEstados(),
 					panelAF.getSubPanelAF().getTransicionesList());
@@ -170,47 +188,19 @@ public class InterfazAdministrador extends JFrame implements InterfazGrafica {
 								"Falta completar transiciones en el automata",
 								"", JOptionPane.ERROR_MESSAGE);
 			} else {
-				GeneradorCadenas genCad = new GeneradorCadenas(af);
-				String message = genCad.toString();
-				JOptionPane.showMessageDialog(this, message);
-				if (problema.getCadenas().size() != 0) {
-					int option = JOptionPane.showOptionDialog(this, "Desea unir las nuevas cadenas a las ya existentes?", "Generacion de cadenas", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-					if (option == JOptionPane.YES_OPTION) {
-						problema.getCadenas().addAll(genCad.getCadenasAceptadas());
-						problema.getCadenas().addAll(genCad.getCadenasRechazadas());
-					} else if (option == JOptionPane.NO_OPTION) {
-						problema.setCadenas(genCad.getCadenasAceptadas());
-						problema.getCadenas().addAll(genCad.getCadenasRechazadas());						
-					}
-				} else {
-					problema.setCadenas(genCad.getCadenasAceptadas());
-					problema.getCadenas().addAll(genCad.getCadenasRechazadas());
-				}
+				return af;
 			}
 			
 		} else {
 			JOptionPane.showMessageDialog(this, "Primero debe crear un automata");
 		}
+		return null;
 	}
 
 	public void manipularCadenas() {
-		if (problema != null && panelAF != null) {
-			AF af = new AF(panelAF.getSubPanelAF().getEstados(),
-					panelAF.getSubPanelAF().getTransicionesList());
-
-			boolean esAFD = af.comprobarAFD();
-			if (!esAFD) {
-				JOptionPane
-						.showMessageDialog(
-								this,
-								"Falta completar transiciones en el automata",
-								"", JOptionPane.ERROR_MESSAGE);
-			} else {
+		AF af = creadoAutomata();
+		if (af != null)
 				new FrameCadenas(af, problema);
-			}
-		} else {
-			JOptionPane.showMessageDialog(this, "Primero debe crear un automata");
-		}
 	}
 
 	public void enviarProblema() {
@@ -219,13 +209,12 @@ public class InterfazAdministrador extends JFrame implements InterfazGrafica {
 	}
 
 	public void modificarConfiguraciones() {
-		// TODO Auto-generated method stub
-		
+		if (creadoAutomata() != null)
+			new FrameConfiguraciones(problema);
 	}
 
 	public void buscarSoluciones() {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void resolverUnProblemaDesdeCadenas() {

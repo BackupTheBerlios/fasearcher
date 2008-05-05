@@ -75,5 +75,5 @@ public class CalculadorBondadPrefernciaDet extends CalculadorBondad {
 		}
 		valor = suma / (estados*2);
 		return valor/2;
-	}io
+	}
 }

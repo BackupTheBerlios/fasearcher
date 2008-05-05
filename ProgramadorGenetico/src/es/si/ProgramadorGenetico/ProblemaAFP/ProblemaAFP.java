@@ -2,11 +2,11 @@ package es.si.ProgramadorGenetico.ProblemaAFP;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
 import es.si.ProgramadorGenetico.Algoritmo;
+import es.si.ProgramadorGenetico.ProblemaAFP.CalculadoresBondad.CalculadorBondadPrefernciaDet;
 import es.si.ProgramadorGenetico.ProblemaAFP.Factorias.CalculadorBondadAFPFactory;
 import es.si.ProgramadorGenetico.ProblemaAFP.Factorias.CruzadorAFPFactory;
 import es.si.ProgramadorGenetico.ProblemaAFP.Factorias.MutadorAFPFactory;
@@ -20,33 +20,34 @@ public class ProblemaAFP {
 	
 	private List<AFP> mejores;
 	
+	private boolean local;
+	
 	public ProblemaAFP() {
 		mejores = new ArrayList<AFP>();
-	}
-	
-	public void ejecutar() {
 		CruzadorAFPFactory.setTipo(CruzadorAFPFactory.TIPO_1);
 		MutadorAFPFactory.setTipo(MutadorAFPFactory.TIPO_1);
 		ResolverAFPFactory.setTipo(ResolverAFPFactory.VECTORES);
 		CalculadorBondadAFPFactory.setTipo(CalculadorBondadAFPFactory.PREFERNCIADET);
-		
+		local = false;
+	}
+	
+	public void ejecutar() {
 		Config config = Config.getInstance();
 		
-		if (config.getProperty("usarinternet").equals("true")) {
-		ParametrosAFP.setOrigen(ParametrosAFP.FROM_WEB);
-		ParametrosAFP.recrear();
+		if (!local && config.getProperty("usarinternet").equals("true")) {
+			ParametrosAFP.setOrigen(ParametrosAFP.FROM_WEB);
+			ParametrosAFP.recrear();
 		}
 		
 		for (Integer value : ParametrosAFP.getInstance().getMuestras()) {
 			int i = value.intValue();
-			Iterator<Integer> itpobmax = ParametrosAFP.getInstance().getPobmax().iterator();
-			while(itpobmax.hasNext()) {
-				int j = itpobmax.next().intValue();
+			for (Integer pobmax : ParametrosAFP.getInstance().getPobmax()) {
+				int j = pobmax.intValue();
 				Algoritmo.MANTENER = i;
 				Algoritmo.POB_MAX = j;
 				AplicarAlgoritmoAFP.aplicar(ParametrosAFP.getInstance().getParticiones(), 50);
 				
-				if (config.getProperty("usarinternet").equals("true")) {
+				if (!local && config.getProperty("usarinternet").equals("true")) {
 					SetSolucionWS setSolucionWS = new SetSolucionWS();
 					setSolucionWS.setAFP(AplicarAlgoritmoAFP.getMejor());
 					setSolucionWS.setMuestras(i);
@@ -77,5 +78,49 @@ public class ProblemaAFP {
 
 	public List<AFP> getMejores() {
 		return mejores;
+	}
+	
+	public float getReconocimiento() {
+		double prob = 0;
+		for (String cadena : ParametrosAFP.getInstance().getAceptadas()) {
+			ResolverAFP resolver = ResolverAFPFactory.getResolverAFP();
+			resolver.setAFP(mejor);
+			resolver.setCadena(cadena);
+			resolver.run();
+			prob += resolver.getProbabilidadAceptar();
+		}
+		for (String cadena : ParametrosAFP.getInstance().getRechazadas()) {
+			ResolverAFP resolver = ResolverAFPFactory.getResolverAFP();
+			resolver.setAFP(mejor);
+			resolver.setCadena(cadena);
+			resolver.run();
+			prob += 1 - resolver.getProbabilidadAceptar();
+		}
+		return (float) (prob / (ParametrosAFP.getInstance().getAceptadas().size() +ParametrosAFP.getInstance().getRechazadas().size()) );
+	}
+	
+	public float getParecidoAF() {
+		if (mejor != null) {
+			int estados = mejor.getEstados();
+			float[][][] trans = mejor.getTransiciones();
+			
+			float valor =0;
+			float suma = 0;
+			for (int i = 0; i < estados; i++) {
+				for (int j = 0; j < estados + 1; j++) {
+					if (trans[i][0][j] > 0.5)
+						suma += trans[i][0][j];
+					if (trans[i][1][j] > 0.5)
+						suma += trans[i][1][j];
+				}
+			}
+			valor = suma / (estados*2);
+			return valor;
+		}
+		return 0;
+	}
+
+	public void setLocal(boolean local) {
+		this.local = local;
 	}
 }
