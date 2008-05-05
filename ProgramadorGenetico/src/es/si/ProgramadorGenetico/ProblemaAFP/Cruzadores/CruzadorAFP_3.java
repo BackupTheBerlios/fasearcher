@@ -22,18 +22,15 @@ public class CruzadorAFP_3 implements Cruzador {
 	 */	
 	
 	public Poblacion entrecruzar(int cant, Poblacion mejores) {
-		int tam = mejores.getCantidad();
 		Poblacion nueva = new Poblacion();
-		int cruzados = 0;		
-		for (int i=0; i<mejores.getCantidad()-2; i++) {
-			for (int j=i+1; j<mejores.getCantidad()-1; j++) {
-				nueva.agregarMiembro(cruzar((AFP)mejores.getMiembro(i),(AFP)mejores.getMiembro(j)));
-				cruzados++;
-			}			
-		}
-
-		for (int i = cruzados; i < cant; i++) {
-			nueva.agregarMiembro(cruzar((AFP)mejores.getMiembro(rand.nextInt(tam)), (AFP)mejores.getMiembro(rand.nextInt(tam))));
+		int cruzados = 0;
+		while (cruzados<cant) {
+			for (int i=0; i<mejores.getCantidad()-2; i++) {
+				for (int j=i+1; j<mejores.getCantidad()-1; j++) {
+					nueva.agregarMiembro(cruzar((AFP)mejores.getMiembro(i),(AFP)mejores.getMiembro(j)));
+					cruzados++;
+				}			
+			}
 		}
 		return nueva;
 	}
