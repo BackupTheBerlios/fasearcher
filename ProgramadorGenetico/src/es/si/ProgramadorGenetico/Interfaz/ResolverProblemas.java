@@ -6,9 +6,9 @@ public class ResolverProblemas implements Runnable {
 
 	private boolean stopped = false;
 	
-	private InterfazCliente interfaz;
+	private InterfazGrafica interfaz;
 	
-	public ResolverProblemas(InterfazCliente interfaz) {
+	public ResolverProblemas(InterfazGrafica interfaz) {
 		this.interfaz = interfaz;
 	}
 	

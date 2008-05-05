@@ -1,7 +1,6 @@
 package es.si.ProgramadorGenetico.Interfaz.paneles;
 
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -9,16 +8,12 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import es.si.ProgramadorGenetico.ProblemaAFP.AFP;
 
 public class PanelAFPs  extends JPanel {
-	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 47351154662044707L;
 
 	private List<AFP> afps;
@@ -34,7 +29,6 @@ public class PanelAFPs  extends JPanel {
 		setLayout(new BorderLayout());
 		crearBotones();
 		crearInfo();
-		
 	};
 	
 	private void crearBotones() {
@@ -54,7 +48,6 @@ public class PanelAFPs  extends JPanel {
 			}
 		});
 		panelBotones.add(botonSiguiente);
-
 		
 		add(panelBotones, BorderLayout.NORTH);
 	}
@@ -91,12 +84,10 @@ public class PanelAFPs  extends JPanel {
 		this.revalidate();
 	}
 	
-	
 	public void setAFPs(List<AFP> afps) {
 		this.afps = afps;
 		actual = 0;
 		cambiarPanel();
 	}
-	
 	
 }

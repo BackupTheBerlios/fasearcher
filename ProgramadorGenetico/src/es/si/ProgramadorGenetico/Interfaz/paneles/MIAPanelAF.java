@@ -53,6 +53,7 @@ public class MIAPanelAF extends MouseInputAdapter {
 	}
 
 	public void mousePressed(MouseEvent e) {
+		estadoMovido = null;
 		if (panel.isEditable()) {
 			switch (panel.getModo()) {
 			case SubPanelAF.INSERTAR_ESTADO: 
@@ -107,13 +108,9 @@ public class MIAPanelAF extends MouseInputAdapter {
 	public void mPFinalizarTransicion(MouseEvent e) {
 		Estado estadoFinTransicion = panel.buscaEstado(e.getPoint());
 		if (estadoFinTransicion != null) {
-			String s = new String();
-			do {
-				s = JOptionPane
-				.showInputDialog("Introduzca el nuevo valor de la transicion (0 o 1)");
-			} while (s == null
-					|| !((s.equals("0")) || (s.equals("1"))));
-			int valor = Integer.valueOf(s);
+			String[] opt = {"0", "1"};
+			int valor;
+			valor = JOptionPane.showOptionDialog(null, "Elija el valor de la transicion", "Nueva transicion", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opt, null);
 
 			Transicion t = panel.buscaTransiciones(
 					estadoInicioTransicion, estadoFinTransicion);

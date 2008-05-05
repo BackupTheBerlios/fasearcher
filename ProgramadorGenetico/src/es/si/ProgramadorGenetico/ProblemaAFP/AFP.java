@@ -1,7 +1,6 @@
 package es.si.ProgramadorGenetico.ProblemaAFP;
 
 
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 import es.si.ProgramadorGenetico.Individuo;
@@ -52,14 +51,14 @@ public class AFP implements Individuo {
 		if (otro == this) return true;
 		if (otroafp.estados != estados) return false;
 		for (int i = 0; i < estados; i++) {
-			if (Math.abs(otroafp.probabilidadFinal[i] - probabilidadFinal[i]) > 0.001)
+			if (Math.abs(otroafp.probabilidadFinal[i] - probabilidadFinal[i]) > 0.01)
 				return false;
 		}
 		for (int i = 0; i < estados; i++) {
 			for (int j = 0; j <= estados; j++) {
-				if (Math.abs(otroafp.transiciones[i][0][j] - transiciones[i][0][j]) > 0.001)
+				if (Math.abs(otroafp.transiciones[i][0][j] - transiciones[i][0][j]) > 0.01)
 					return false;
-				if (Math.abs(otroafp.transiciones[i][1][j] - transiciones[i][1][j]) > 0.001)
+				if (Math.abs(otroafp.transiciones[i][1][j] - transiciones[i][1][j]) > 0.01)
 					return false;
 			}
 		}

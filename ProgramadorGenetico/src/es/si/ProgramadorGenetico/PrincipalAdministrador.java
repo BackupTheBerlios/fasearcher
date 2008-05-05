@@ -1,10 +1,10 @@
 package es.si.ProgramadorGenetico;
 
-import es.si.ProgramadorGenetico.Interfaz.InterfazCliente;
+import es.si.ProgramadorGenetico.Interfaz.InterfazAdministrador;
 
-public class PrincipalCliente {
+public class PrincipalAdministrador {
 	private static void createAndShowGUI() {
-		new InterfazCliente();		
+		new InterfazAdministrador();		
 	}
 	
 	public static void main (String[] args) {
