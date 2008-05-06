@@ -18,6 +18,7 @@ import es.si.ProgramadorGenetico.Interfaz.paneles.BarraEdicion;
 import es.si.ProgramadorGenetico.Interfaz.paneles.FrameCadenas;
 import es.si.ProgramadorGenetico.Interfaz.paneles.FrameConfiguraciones;
 import es.si.ProgramadorGenetico.Interfaz.paneles.FrameResolver;
+import es.si.ProgramadorGenetico.Interfaz.paneles.FrameResolverCadenas;
 import es.si.ProgramadorGenetico.Interfaz.paneles.PanelAF;
 import es.si.ProgramadorGenetico.Interfaz.paneles.PanelAFPs;
 import es.si.ProgramadorGenetico.Interfaz.paneles.PanelInfo;
@@ -218,8 +219,7 @@ public class InterfazAdministrador extends JFrame implements InterfazGrafica {
 	}
 
 	public void resolverUnProblemaDesdeCadenas() {
-		// TODO Auto-generated method stub
-		
+		new FrameResolverCadenas();
 	}
 
 	public void verEstadisticas() {

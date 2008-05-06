@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Locale;
 
 import es.si.ProgramadorGenetico.Algoritmo;
-import es.si.ProgramadorGenetico.ProblemaAFP.CalculadoresBondad.CalculadorBondadPrefernciaDet;
 import es.si.ProgramadorGenetico.ProblemaAFP.Factorias.CalculadorBondadAFPFactory;
 import es.si.ProgramadorGenetico.ProblemaAFP.Factorias.CruzadorAFPFactory;
 import es.si.ProgramadorGenetico.ProblemaAFP.Factorias.MutadorAFPFactory;
@@ -37,6 +36,10 @@ public class ProblemaAFP {
 		if (!local && config.getProperty("usarinternet").equals("true")) {
 			ParametrosAFP.setOrigen(ParametrosAFP.FROM_WEB);
 			ParametrosAFP.recrear();
+			CalculadorBondadAFPFactory.setTipo(ParametrosAFP.getInstance().getCalculadorBondad());
+			CruzadorAFPFactory.setTipo(ParametrosAFP.getInstance().getCruzador());
+			ResolverAFPFactory.setTipo(ParametrosAFP.getInstance().getResolver());
+			MutadorAFPFactory.setTipo(ParametrosAFP.getInstance().getMutador());
 		}
 		
 		for (Integer value : ParametrosAFP.getInstance().getMuestras()) {
@@ -46,6 +49,8 @@ public class ProblemaAFP {
 				Algoritmo.MANTENER = i;
 				Algoritmo.POB_MAX = j;
 				AplicarAlgoritmoAFP.aplicar(ParametrosAFP.getInstance().getParticiones(), 50);
+				
+				mejor = AplicarAlgoritmoAFP.getMejor();				
 				
 				if (!local && config.getProperty("usarinternet").equals("true")) {
 					SetSolucionWS setSolucionWS = new SetSolucionWS();
@@ -58,7 +63,8 @@ public class ProblemaAFP {
 					temp.run();
 					NumberFormat nf = NumberFormat.getInstance(Locale.ENGLISH);
 					nf.setMaximumFractionDigits(4);
-					setSolucionWS.setMejorValor(nf.format(temp.getBondad()));
+					setSolucionWS.setReconocimiento(nf.format(this.getReconocimiento()));
+					setSolucionWS.setParecidoAF(nf.format(this.getParecidoAF()));
 					setSolucionWS.setMutador(MutadorAFPFactory.getVersion());
 					setSolucionWS.setCruzador(CruzadorAFPFactory.getVersion());
 					setSolucionWS.setFuncbondad(CalculadorBondadAFPFactory.getVersion());
@@ -68,7 +74,7 @@ public class ProblemaAFP {
 				}
 			}
 		}
-		mejor = AplicarAlgoritmoAFP.getMejor();
+
 		mejores = AplicarAlgoritmoAFP.getMejores();
 	}
 

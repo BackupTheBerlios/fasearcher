@@ -68,7 +68,7 @@ public class Principal {
 					temp.run();
 					NumberFormat nf = NumberFormat.getInstance(Locale.ENGLISH);
 					nf.setMaximumFractionDigits(4);
-					setSolucionWS.setMejorValor(nf.format(temp.getBondad()));
+					//setSolucionWS.setMejorValor(nf.format(temp.getBondad()));
 					setSolucionWS.setMutador(MutadorAFPFactory.getVersion());
 					setSolucionWS.setCruzador(CruzadorAFPFactory.getVersion());
 					setSolucionWS.setFuncbondad(CalculadorBondadAFPFactory.getVersion());

@@ -23,6 +23,14 @@ public class GetProblemaWS {
 	
 	private Integer muestras;
 	
+	private Integer calculadorBondad;
+	
+	private Integer cruzador;
+	
+	private Integer mutador;
+	
+	private Integer resolver;
+	
 	private String id;
 	
 	private List<String> aceptadas;
@@ -62,7 +70,10 @@ public class GetProblemaWS {
 			muestras = gpresponse.getMuestras();
 			pobMax = gpresponse.getPobMax();
 			tipoAutomata = gpresponse.getTipoAutomata();
-			
+			calculadorBondad = gpresponse.getCalculadorBondad();
+			cruzador = gpresponse.getCruzador();
+			mutador = gpresponse.getMutador();
+			resolver = gpresponse.getResolver();
 		}  catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -106,6 +117,22 @@ public class GetProblemaWS {
 
 	public Integer getMuestras() {
 		return muestras;
+	}
+
+	public Integer getCalculadorBondad() {
+		return calculadorBondad;
+	}
+
+	public Integer getCruzador() {
+		return cruzador;
+	}
+
+	public Integer getMutador() {
+		return mutador;
+	}
+
+	public Integer getResolver() {
+		return resolver;
 	}
 	
 }

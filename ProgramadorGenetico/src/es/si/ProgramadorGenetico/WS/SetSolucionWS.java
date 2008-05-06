@@ -16,7 +16,9 @@ public class SetSolucionWS {
 
 	private String id;
 	
-	private String mejorValor;
+	private String reconocimiento;
+	
+	private String parecidoAF;
 	
 	private Afp afp;
 	
@@ -52,7 +54,8 @@ public class SetSolucionWS {
 			SetSolucionRequest ssr = new SetSolucionRequest();
 
 			ssr.setId(id);
-			ssr.setMejorValor(mejorValor);
+			ssr.setReconocimiento(reconocimiento);
+			ssr.setParecidoAF(parecidoAF);
 			ssr.setAfp(afp);
 			ssr.setPasos(pasos);
 			ssr.setMutador(mutador);
@@ -81,10 +84,14 @@ public class SetSolucionWS {
 		this.id = id;
 	}
 
-	public void setMejorValor(String mejorValor) {
-		this.mejorValor = mejorValor;
+	public void setReconocimiento(String reconocimiento) {
+		this.reconocimiento = reconocimiento;
 	}
 
+	public void setParecidoAF(String parecidoAF) {
+		this.parecidoAF = parecidoAF;
+	}
+	
 	public void setAfp(Afp afp) {
 		this.afp = afp;
 	}

@@ -73,9 +73,7 @@ public class AddProblemaWS {
 				apr.setAfp(afp);
 				apr.setEstados(estados);
 				apr.setPobMax(pobMax);
-				Iterator<Configuracion> it2 = configs.iterator();
-				while(it2.hasNext())
-					apr.getConfiguraciones().add(it2.next());
+				apr.getConfiguraciones().addAll(configs);
 				
 				
 				AddProblemaResponse gpresponse = fas.addProblema(apr);
@@ -149,11 +147,15 @@ public class AddProblemaWS {
 		this.pobMax = pobMax;
 	}
 	
-	public void addConfiguracion(int estados, int muestras, int pobMax) {
+	public void addConfiguracion(int muestras, int pobMax, int estados, int calculadorBondad, int cruzador, int mutador, int resolver) {
 		Configuracion conf = new Configuracion();
-		conf.setEstados(estados);
 		conf.setMuestras(muestras);
 		conf.setPobMax(pobMax);
+		conf.setEstados(estados);
+		conf.setCalculadorBondad(calculadorBondad);
+		conf.setCruzador(cruzador);
+		conf.setMutador(mutador);
+		conf.setResolver(resolver);
 		configs.add(conf);
 	}
 	

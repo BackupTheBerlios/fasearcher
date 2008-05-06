@@ -3,7 +3,6 @@ package es.si.ProgramadorGenetico.Interfaz.paneles;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JLabel;
 import javax.swing.table.AbstractTableModel;
 
 import es.si.ProgramadorGenetico.Interfaz.data.Configuracion;

@@ -41,10 +41,18 @@ public class ParametrosAFP {
 	
 	private int estados = 5;
 	
-	private int particiones = 200;
+	private int particiones = 100;
 	
 	private int numeroMuestras = 0;
 	
+	private int calculadorBondad = 3;
+	
+	private int mutador = 1;
+	
+	private int cruzador = 1;
+	
+	private int resolver = 0;
+
 	private ParametrosAFP() {
 		if (origen == FROM_WEB)
 			deWeb();
@@ -73,6 +81,11 @@ public class ParametrosAFP {
 			pobmax.add(new Integer(getProblemaWS.getPobMax()));
 			estados = getProblemaWS.getEstados();
 			particiones = 100;
+			calculadorBondad = getProblemaWS.getCalculadorBondad();
+			cruzador = getProblemaWS.getCruzador();
+			mutador = getProblemaWS.getMutador();
+			resolver = getProblemaWS.getResolver();
+			
 			numeroMuestras = aceptadas.size() + rechazadas.size();
 			id = getProblemaWS.getId();
 		}
@@ -187,6 +200,22 @@ public class ParametrosAFP {
 		return id;
 	}
 
+	public int getCalculadorBondad() {
+		return calculadorBondad;
+	}
+
+	public int getMutador() {
+		return mutador;
+	}
+
+	public int getCruzador() {
+		return cruzador;
+	}
+
+	public int getResolver() {
+		return resolver;
+	}
+	
 	/**
 	 * @param origen the origen to set
 	 */
