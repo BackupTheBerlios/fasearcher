@@ -2,6 +2,7 @@ package es.si.ProgramadorGenetico.Interfaz;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -12,6 +13,7 @@ import javax.swing.JToolBar;
 import es.si.ProgramadorGenetico.GeneradorAutomatico.GeneradorAF;
 import es.si.ProgramadorGenetico.GeneradorAutomatico.GeneradorCadenas;
 import es.si.ProgramadorGenetico.Interfaz.componentes.AF;
+import es.si.ProgramadorGenetico.Interfaz.data.Configuracion;
 import es.si.ProgramadorGenetico.Interfaz.data.Problema;
 import es.si.ProgramadorGenetico.Interfaz.menus.MenuAdministrador;
 import es.si.ProgramadorGenetico.Interfaz.paneles.BarraEdicion;
@@ -19,10 +21,12 @@ import es.si.ProgramadorGenetico.Interfaz.paneles.FrameCadenas;
 import es.si.ProgramadorGenetico.Interfaz.paneles.FrameConfiguraciones;
 import es.si.ProgramadorGenetico.Interfaz.paneles.FrameResolver;
 import es.si.ProgramadorGenetico.Interfaz.paneles.FrameResolverCadenas;
+import es.si.ProgramadorGenetico.Interfaz.paneles.FrameStats;
 import es.si.ProgramadorGenetico.Interfaz.paneles.PanelAF;
 import es.si.ProgramadorGenetico.Interfaz.paneles.PanelAFPs;
 import es.si.ProgramadorGenetico.Interfaz.paneles.PanelInfo;
 import es.si.ProgramadorGenetico.ProblemaAFP.AFP;
+import es.si.ProgramadorGenetico.WS.AddProblemaWS;
 
 public class InterfazAdministrador extends JFrame implements InterfazGrafica {
 
@@ -180,7 +184,6 @@ public class InterfazAdministrador extends JFrame implements InterfazGrafica {
 		if (problema != null && panelAF != null) {
 			AF af = new AF(panelAF.getSubPanelAF().getEstados(),
 					panelAF.getSubPanelAF().getTransicionesList());
-
 			boolean esAFD = af.comprobarAFD();
 			if (!esAFD) {
 				JOptionPane
@@ -191,7 +194,6 @@ public class InterfazAdministrador extends JFrame implements InterfazGrafica {
 			} else {
 				return af;
 			}
-			
 		} else {
 			JOptionPane.showMessageDialog(this, "Primero debe crear un automata");
 		}
@@ -205,8 +207,47 @@ public class InterfazAdministrador extends JFrame implements InterfazGrafica {
 	}
 
 	public void enviarProblema() {
-		// TODO Auto-generated method stub
-		
+		AF af = creadoAutomata();
+		if (af != null) {
+			if (problema.getCadenas().size() > 0) {
+				int s = JOptionPane.YES_OPTION;
+				if (problema.getConfiguraciones().size() == 0) 
+					s = JOptionPane.showOptionDialog(this, "Seguro que no quiere añadir configuraciones?", "Sin configuraciones", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+				if (s == JOptionPane.YES_OPTION) {
+					String id = "-1";
+					String descripcion = "";
+					descripcion = JOptionPane.showInputDialog(this, "Escriba la descripción para el problema");
+					try {
+						AddProblemaWS problemaWS = new AddProblemaWS();
+						List<String> aceptadas = new ArrayList<String>();
+						List<String> rechazadas = new ArrayList<String>();
+						for (String cadena : problema.getCadenas()) {
+							if (af.acepta(cadena))
+								aceptadas.add(cadena);
+							else
+								rechazadas.add(cadena);
+						}
+						problemaWS.setAceptadas(aceptadas);
+						problemaWS.setRechazadas(rechazadas);
+						problemaWS.setAFP(new AFP(af));
+						problemaWS.setTipoAutomata("AFP");
+						problemaWS.setDescripcion(descripcion);
+						for (Configuracion config : problema.getConfiguraciones()) 
+							problemaWS.addConfiguracion(config.getMuestras(), config.getPobMax(), config.getEstados(), config.getCalculadorBondad(), config.getCruzador(), config.getMutador(), config.getResolver());
+						problemaWS.ejecutar();
+						id = problemaWS.getId();
+					} catch (Exception e) {
+						id = "-1";
+					}
+					if (id.equals("-1"))
+						JOptionPane.showMessageDialog(this, "Error al enviar problema");
+					else
+						JOptionPane.showMessageDialog(this, "El problema se envio correctamente, id: " + id);
+				}
+			} else 
+				JOptionPane.showMessageDialog(this, "Primero debe añadir cadenas");
+		} else 
+			JOptionPane.showMessageDialog(this, "Primero debe crear un automata");
 	}
 
 	public void modificarConfiguraciones() {
@@ -223,8 +264,7 @@ public class InterfazAdministrador extends JFrame implements InterfazGrafica {
 	}
 
 	public void verEstadisticas() {
-		// TODO Auto-generated method stub
-		
+		new FrameStats();
 	}
 	
 	public PanelAF getPanelAF() {

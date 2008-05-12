@@ -48,6 +48,8 @@ public class AddProblemaWS {
 	
 	private String id;
 	
+	private String descripcion;
+	
 	public AddProblemaWS() {
 		configs = new ArrayList<Configuracion>();
 	}
@@ -74,7 +76,7 @@ public class AddProblemaWS {
 				apr.setEstados(estados);
 				apr.setPobMax(pobMax);
 				apr.getConfiguraciones().addAll(configs);
-				
+				apr.setDescripcion(descripcion);
 				
 				AddProblemaResponse gpresponse = fas.addProblema(apr);
 
@@ -145,6 +147,10 @@ public class AddProblemaWS {
 
 	public void setPobMax(Integer pobMax) {
 		this.pobMax = pobMax;
+	}
+	
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
 	
 	public void addConfiguracion(int muestras, int pobMax, int estados, int calculadorBondad, int cruzador, int mutador, int resolver) {
