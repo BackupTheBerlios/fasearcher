@@ -7,7 +7,9 @@ public class SetSolucionRequest {
 
 	private String id;
 	
-	private String mejorValor;
+	private String reconocimiento;
+	
+	private String parecidoAF;
 	
 	private AFP afp;
 	
@@ -101,20 +103,28 @@ public class SetSolucionRequest {
 		this.id = id;
 	}
 
-	public String getMejorValor() {
-		return mejorValor;
-	}
-
-	public void setMejorValor(String mejorValor) {
-		this.mejorValor = mejorValor;
-	}
-
 	public AFP getAfp() {
 		return afp;
 	}
 
 	public void setAfp(AFP afp) {
 		this.afp = afp;
+	}
+
+	public String getReconocimiento() {
+		return reconocimiento;
+	}
+
+	public void setReconocimiento(String reconocimiento) {
+		this.reconocimiento = reconocimiento;
+	}
+
+	public String getParecidoAF() {
+		return parecidoAF;
+	}
+
+	public void setParecidoAF(String parecidoAF) {
+		this.parecidoAF = parecidoAF;
 	}
 
 	

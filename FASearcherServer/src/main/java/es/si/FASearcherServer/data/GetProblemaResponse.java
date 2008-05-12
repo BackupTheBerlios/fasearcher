@@ -13,6 +13,14 @@ public class GetProblemaResponse {
 	
 	private Integer estados;
 	
+	private Integer calculadorBondad;
+	
+	private Integer cruzador;
+	
+	private Integer mutador;
+	
+	private Integer resolver;
+	
 	// enum?
 	private String tipoAutomata;
 	
@@ -76,6 +84,38 @@ public class GetProblemaResponse {
 
 	public void setMuestras(Integer muestras) {
 		this.muestras = muestras;
+	}
+
+	public Integer getCalculadorBondad() {
+		return calculadorBondad;
+	}
+
+	public void setCalculadorBondad(Integer calculadorBondad) {
+		this.calculadorBondad = calculadorBondad;
+	}
+
+	public Integer getCruzador() {
+		return cruzador;
+	}
+
+	public void setCruzador(Integer cruzador) {
+		this.cruzador = cruzador;
+	}
+
+	public Integer getMutador() {
+		return mutador;
+	}
+
+	public void setMutador(Integer mutador) {
+		this.mutador = mutador;
+	}
+
+	public Integer getResolver() {
+		return resolver;
+	}
+
+	public void setResolver(Integer resolver) {
+		this.resolver = resolver;
 	}
 	
 	

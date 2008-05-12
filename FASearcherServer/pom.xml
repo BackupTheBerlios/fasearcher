@@ -21,6 +21,7 @@
           <source>1.5</source>
           <target>1.5</target>
           <includes>
+            <include>es/si/FASearcherServer/data/stats/*.java</include>
             <include>es/si/FASearcherServer/data/*.java</include>
             <include>es/si/FASearcherServer/ejb/*.java</include>
           </includes>

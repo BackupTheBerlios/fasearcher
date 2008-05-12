@@ -84,14 +84,22 @@ public class FASearcherBean implements FASearcher {
 			Statement stmtConfig1 = connection.createStatement();
 			ResultSet rsConfig1 = stmtConfig1.executeQuery("SELECT configuraciones.Estados as \"Estados\", " +
 																  "configuraciones.PobMax as \"PobMax\", " +
-																  "configuraciones.Muestras as \"Muestras\" " +
+																  "configuraciones.Muestras as \"Muestras\", " +
+																  "configuraciones.calculadorBondad as \"calculadorBondad\", " +
+																  "configuraciones.cruzador as \"cruzador\", " +
+																  "configuraciones.mutador as \"mutador\", " +
+																  "configuraciones.resolver as \"resolver\" " + 
 														   "FROM configuraciones " +
 														   "WHERE configuraciones.id = \"" + id + "\"");
 
 			if (!rsConfig1.next()) {
 				rsConfig1 = stmtConfig1.executeQuery("SELECT configuraciones.Estados as \"Estados\", " +
 						  "configuraciones.PobMax as \"PobMax\", " +
-						  "configuraciones.Muestras as \"Muestras\" " +
+						  "configuraciones.Muestras as \"Muestras\", " +
+						  "configuraciones.calculadorBondad as \"calculadorBondad\"," +
+						  "configuraciones.cruzador as \"cruzador\", " +
+						  "configuraciones.mutador as \"mutador\", " +
+						  "configuraciones.resolver as \"resolver\" " + 
 				   "FROM configuraciones " +
 				   "WHERE configuraciones.id = \"-1\"");
 				rsConfig1.next();
@@ -103,7 +111,11 @@ public class FASearcherBean implements FASearcher {
 				int muestras = rsConfig1.getInt("Muestras");
 				int estados = rsConfig1.getInt("Estados");
 				int pobMax = rsConfig1.getInt("PobMax");
-				configs.add(new Configuracion(muestras, pobMax, estados));
+				int calculadorBondad = rsConfig1.getInt("calculadorBondad");
+				int cruzador = rsConfig1.getInt("cruzador");
+				int mutador = rsConfig1.getInt("mutador");
+				int resolver = rsConfig1.getInt("resolver");
+				configs.add(new Configuracion(muestras, pobMax, estados, calculadorBondad, cruzador, mutador, resolver));
 			} while (rsConfig1.next()); 
 			
 			Random rand = new Random();
@@ -111,6 +123,10 @@ public class FASearcherBean implements FASearcher {
 			response.setMuestras(configs.get(i).getMuestras());
 			response.setPobMax(configs.get(i).getPobMax());
 			response.setEstados(configs.get(i).getEstados());
+			response.setCalculadorBondad(configs.get(i).getCalculadorBondad());
+			response.setCruzador(configs.get(i).getCruzador());
+			response.setMutador(configs.get(i).getMutador());
+			response.setResolver(configs.get(i).getResolver());
 			
 			response.setAceptadas(aceptadas);
 			response.setRechazadas(rechazadas);
@@ -192,7 +208,7 @@ public class FASearcherBean implements FASearcher {
 			
 			String sql = "INSERT INTO Solucion" +
 						 " VALUES(null,'" + id + "'," + request.getAfp().getEstados() + "," +
-						 request.getMejorValor() + ",'" + 
+						 request.getReconocimiento() + "," + request.getParecidoAF() +",'" + 
 						 request.getAfp().getTipo() + "',?," +
 						 request.getPasos() + ",'" + request.getMutador() + "','" + request.getFuncbondad() +
 						 "','" + request.getCruzador() + "','" + request.getMetodoRes() + "'," + 

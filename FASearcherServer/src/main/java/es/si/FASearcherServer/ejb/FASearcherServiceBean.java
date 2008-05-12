@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
@@ -38,13 +39,35 @@ public class FASearcherServiceBean implements FASearcherService {
 		AddProblemaResponse respuesta = new AddProblemaResponse();
 
 		Random random = new Random();
-		String id = "" + random.nextInt(10000000);
-
+		String id = "-1";
 		try {
 
 			Connection connection = ds.getConnection();
-			String sql = "INSERT INTO Problema VALUES('" + id + "',0)";
-			PreparedStatement pstmt = connection.prepareStatement(sql);
+			
+			
+			id = "" + random.nextInt(10000000);
+
+			ResultSet rs = null;
+			String sql;
+			PreparedStatement pstmt = null;
+			do {
+				id = "" + random.nextInt(10000000);
+				if (rs != null)
+					rs.close();
+				if (pstmt != null)
+					pstmt.close();
+				sql = "SELECT id FROM Problema WHERE id = " + id;
+				pstmt = connection.prepareStatement(sql);
+				rs = pstmt.executeQuery();
+			} while (rs.next());
+			rs.close();
+			pstmt.close();
+			
+			if (request.getDescripcion() != null)
+				sql = "INSERT INTO Problema VALUES('" + id + "',0,'" + request.getDescripcion()  + "')";
+			else
+				sql = "INSERT INTO Problema VALUES('" + id + "',0)";
+			pstmt = connection.prepareStatement(sql);
 			pstmt.executeUpdate();
 			pstmt.close();
 
@@ -115,10 +138,11 @@ public class FASearcherServiceBean implements FASearcherService {
 			pstmt.close();
 
 			if (request.getConfiguraciones() != null) {
-				Iterator<Configuracion> it2 = request.getConfiguraciones().iterator();
-				while(it2.hasNext()) {
-					sql = "INSERT INTO configuraciones VALUES('" + id + "','" + it2.next().getEstados() +"'," +
-															  "'" + it2.next().getPobMax() + "','" + it2.next().getMuestras() + "')";
+				for(Configuracion config : request.getConfiguraciones()) {
+					sql = "INSERT INTO configuraciones VALUES('" + id + "'," + config.getEstados() +"," +
+															  config.getPobMax() + "," + config.getMuestras() + "," +
+															  config.getCalculadorBondad() + "," + config.getCruzador() +
+															  "," + config.getMutador() + "," + config.getResolver() +")";
 					pstmt = connection.prepareStatement(sql);
 					pstmt.executeUpdate();
 					pstmt.close();			
