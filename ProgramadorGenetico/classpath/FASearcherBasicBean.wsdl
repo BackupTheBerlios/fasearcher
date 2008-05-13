@@ -1,0 +1,131 @@
+<definitions name='FASearcherBasicBeanService' targetNamespace='http://ejb.FASearcherServer.si.es/' xmlns='http://schemas.xmlsoap.org/wsdl/' xmlns:ns1='http://FASearcherServer.si.es/' xmlns:soap='http://schemas.xmlsoap.org/wsdl/soap/' xmlns:tns='http://ejb.FASearcherServer.si.es/' xmlns:xsd='http://www.w3.org/2001/XMLSchema'>
+ <types>
+  <xs:schema targetNamespace='http://FASearcherServer.si.es/' version='1.0' xmlns:ns1='http://ejb.FASearcherServer.si.es/' xmlns:xs='http://www.w3.org/2001/XMLSchema'>
+   <xs:import namespace='http://ejb.FASearcherServer.si.es/'/>
+   <xs:complexType name='getProblemaBasicRequest'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='tamano' type='xs:int'/>
+     <xs:element minOccurs='0' name='tipoAutomata' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='getProblemaBasicResponse'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='aceptadas' type='xs:string'/>
+     <xs:element minOccurs='0' name='calculadorBondad' type='xs:int'/>
+     <xs:element minOccurs='0' name='cruzador' type='xs:int'/>
+     <xs:element minOccurs='0' name='estados' type='xs:int'/>
+     <xs:element minOccurs='0' name='id' type='xs:string'/>
+     <xs:element minOccurs='0' name='muestras' type='xs:int'/>
+     <xs:element minOccurs='0' name='mutador' type='xs:int'/>
+     <xs:element minOccurs='0' name='pobMax' type='xs:int'/>
+     <xs:element minOccurs='0' name='rechazadas' type='xs:string'/>
+     <xs:element minOccurs='0' name='resolver' type='xs:int'/>
+     <xs:element minOccurs='0' name='tipoAutomata' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='setSolucionRequest'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='afp' type='ns1:afp'/>
+     <xs:element minOccurs='0' name='cruzador' type='xs:string'/>
+     <xs:element minOccurs='0' name='funcbondad' type='xs:string'/>
+     <xs:element minOccurs='0' name='id' type='xs:string'/>
+     <xs:element minOccurs='0' name='metodoRes' type='xs:string'/>
+     <xs:element minOccurs='0' name='muestras' type='xs:int'/>
+     <xs:element minOccurs='0' name='mutador' type='xs:string'/>
+     <xs:element minOccurs='0' name='parecidoAF' type='xs:string'/>
+     <xs:element minOccurs='0' name='particiones' type='xs:int'/>
+     <xs:element minOccurs='0' name='pasos' type='xs:int'/>
+     <xs:element minOccurs='0' name='pobmax' type='xs:int'/>
+     <xs:element minOccurs='0' name='reconocimiento' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='setSolucionResponse'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='result' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+  </xs:schema>
+  <xs:schema targetNamespace='http://ejb.FASearcherServer.si.es/' version='1.0' xmlns:ns1='http://FASearcherServer.si.es/' xmlns:tns='http://ejb.FASearcherServer.si.es/' xmlns:xs='http://www.w3.org/2001/XMLSchema'>
+   <xs:import namespace='http://FASearcherServer.si.es/'/>
+   <xs:element name='getProblemaBasic' type='tns:getProblemaBasic'/>
+   <xs:element name='getProblemaBasicResponse' type='tns:getProblemaBasicResponse'/>
+   <xs:element name='setSolucion' type='tns:setSolucion'/>
+   <xs:element name='setSolucionResponse' type='tns:setSolucionResponse'/>
+   <xs:complexType name='getProblemaBasic'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='getProblemaBasicRequest' type='ns1:getProblemaBasicRequest'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='getProblemaBasicResponse'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='getProblemBasicResponse' type='ns1:getProblemaBasicResponse'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='setSolucion'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='setSolucionRequest' type='ns1:setSolucionRequest'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='afp'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='estados' type='xs:int'/>
+     <xs:element minOccurs='0' name='probFinales' type='xs:string'/>
+     <xs:element maxOccurs='unbounded' minOccurs='0' name='transiciones' nillable='true' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='setSolucionResponse'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='setSolucionResponse' type='ns1:setSolucionResponse'/>
+    </xs:sequence>
+   </xs:complexType>
+  </xs:schema>
+ </types>
+ <message name='FASearcherBasic_setSolucionResponse'>
+  <part element='tns:setSolucionResponse' name='setSolucionResponse'></part>
+ </message>
+ <message name='FASearcherBasic_setSolucion'>
+  <part element='tns:setSolucion' name='setSolucion'></part>
+ </message>
+ <message name='FASearcherBasic_getProblemaBasic'>
+  <part element='tns:getProblemaBasic' name='getProblemaBasic'></part>
+ </message>
+ <message name='FASearcherBasic_getProblemaBasicResponse'>
+  <part element='tns:getProblemaBasicResponse' name='getProblemaBasicResponse'></part>
+ </message>
+ <portType name='FASearcherBasic'>
+  <operation name='getProblemaBasic' parameterOrder='getProblemaBasic'>
+   <input message='tns:FASearcherBasic_getProblemaBasic'></input>
+   <output message='tns:FASearcherBasic_getProblemaBasicResponse'></output>
+  </operation>
+  <operation name='setSolucion' parameterOrder='setSolucion'>
+   <input message='tns:FASearcherBasic_setSolucion'></input>
+   <output message='tns:FASearcherBasic_setSolucionResponse'></output>
+  </operation>
+ </portType>
+ <binding name='FASearcherBasicBinding' type='tns:FASearcherBasic'>
+  <soap:binding style='document' transport='http://schemas.xmlsoap.org/soap/http'/>
+  <operation name='getProblemaBasic'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body use='literal'/>
+   </input>
+   <output>
+    <soap:body use='literal'/>
+   </output>
+  </operation>
+  <operation name='setSolucion'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body use='literal'/>
+   </input>
+   <output>
+    <soap:body use='literal'/>
+   </output>
+  </operation>
+ </binding>
+ <service name='FASearcherBasicBeanService'>
+  <port binding='tns:FASearcherBasicBinding' name='FASearcherBasicBeanPort'>
+   <soap:address location='http://fasearcher.selfip.info:18080/fasearcher/FASearcherBasicBean'/>
+  </port>
+ </service>
+</definitions>

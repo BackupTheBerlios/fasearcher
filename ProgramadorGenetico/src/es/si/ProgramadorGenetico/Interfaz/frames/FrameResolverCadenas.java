@@ -1,4 +1,4 @@
-package es.si.ProgramadorGenetico.Interfaz.paneles;
+package es.si.ProgramadorGenetico.Interfaz.frames;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -13,6 +13,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import es.si.ProgramadorGenetico.Interfaz.paneles.PanelAF;
+import es.si.ProgramadorGenetico.Interfaz.paneles.PanelConfiguracion;
 import es.si.ProgramadorGenetico.ProblemaAFP.ParametrosAFP;
 import es.si.ProgramadorGenetico.ProblemaAFP.ProblemaAFP;
 import es.si.ProgramadorGenetico.ProblemaAFP.Factorias.CalculadorBondadAFPFactory;

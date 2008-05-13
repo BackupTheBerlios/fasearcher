@@ -104,6 +104,17 @@ public class MenuAdministrador extends JMenuBar {
 				.setAccessibleDescription("Menu para la creación de problemas");
 		add(menu);
 
+		
+		menuItem = crearItem("Cargar Problema",KeyEvent.VK_D,"Permite recuperar un problema de la base de datos");
+		menu.add(menuItem);
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MenuAdministrador.this.interfaz.cargarProblema();
+			}
+		});
+		
+		menu.addSeparator();
+		
 		menuItem = crearItem("Dibujar autómata",KeyEvent.VK_D,"Permite la creación de un autómata");
 		menu.add(menuItem);
 		menuItem.addActionListener(new ActionListener() {

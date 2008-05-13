@@ -9,6 +9,10 @@ public class Problema {
 	
 	private List<String> cadenas;
 	
+	private String id = null;
+	
+	private String descripcion = null;
+	
 	public Problema() {
 		configuraciones = new ArrayList<Configuracion>();
 		
@@ -29,6 +33,22 @@ public class Problema {
 
 	public void setCadenas(List<String> cadenas) {
 		this.cadenas = cadenas;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
 
 	

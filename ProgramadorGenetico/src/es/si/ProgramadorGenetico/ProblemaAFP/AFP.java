@@ -1,12 +1,15 @@
 package es.si.ProgramadorGenetico.ProblemaAFP;
 
 
+import java.io.Serializable;
 import java.text.NumberFormat;
 
 import es.si.ProgramadorGenetico.Individuo;
 import es.si.ProgramadorGenetico.Interfaz.componentes.AF;
 
-public class AFP implements Individuo {
+public class AFP implements Individuo, Serializable {
+
+	private static final long serialVersionUID = 3297149789558393107L;
 
 	private int estados;
 	

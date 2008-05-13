@@ -5,10 +5,10 @@ import java.net.URL;
 
 import javax.xml.namespace.QName;
 
-import es.si.ProgramadorGenetico.WS.FASearcher;
-import es.si.ProgramadorGenetico.WS.FASearcherBeanService;
-import es.si.fasearcherserver.GetProblemaRequest;
-import es.si.fasearcherserver.GetProblemaResponse;
+import es.si.ProgramadorGenetico.BasicWS.FASearcherBasic;
+import es.si.ProgramadorGenetico.BasicWS.FASearcherBasicBeanService;
+import es.si.fasearcherserver.GetProblemaBasicRequest;
+import es.si.fasearcherserver.GetProblemaBasicResponse;
 
 
 public class PruebaWS1 {
@@ -21,14 +21,14 @@ public class PruebaWS1 {
 		
 		try {
 			QName service = new QName("http://ejb.FASearcherServer.si.es/", "FASearcherBeanService");
-			FASearcherBeanService fasbs = new FASearcherBeanService(new URL("http://169.254.140.126:18080/fasearcher/FASearcherBean"), service);
-			FASearcher fas = fasbs.getFASearcherBeanPort();
+			FASearcherBasicBeanService fasbs = new FASearcherBasicBeanService(new URL("http://169.254.140.126:18080/fasearcher/FASearcherBean"), service);
+			FASearcherBasic fas = fasbs.getFASearcherBasicBeanPort();
 			
-			GetProblemaRequest gpr = new GetProblemaRequest();
+			GetProblemaBasicRequest gpr = new GetProblemaBasicRequest();
 			gpr.setTamano(0);
 			gpr.setTipoAutomata("AFP");
 			
-			GetProblemaResponse gpresponse = fas.getProblema(gpr);
+			GetProblemaBasicResponse gpresponse = fas.getProblemaBasic(gpr);
 			
 			System.out.println(gpresponse.getAceptadas());
 			System.out.println(gpresponse.getRechazadas());

@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
-import es.si.ProgramadorGenetico.WS.GetProblemaWS;
+import es.si.ProgramadorGenetico.WS.GetProblemaBasicWS;
 
 /**
  * Clase Singelton que mantiene los valores específicos del problema que se quieres solucionar.<p>
@@ -67,7 +67,7 @@ public class ParametrosAFP {
 	}
 	
 	private void deWeb() {
-		GetProblemaWS getProblemaWS = new GetProblemaWS();
+		GetProblemaBasicWS getProblemaWS = new GetProblemaBasicWS();
 		if (!getProblemaWS.ejecutar()) {
 			System.out.println("Error al buscar información de web");
 			deFichero();

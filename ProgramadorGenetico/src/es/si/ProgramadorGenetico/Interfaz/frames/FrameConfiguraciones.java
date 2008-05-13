@@ -1,4 +1,4 @@
-package es.si.ProgramadorGenetico.Interfaz.paneles;
+package es.si.ProgramadorGenetico.Interfaz.frames;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -11,6 +11,8 @@ import javax.swing.JTable;
 
 import es.si.ProgramadorGenetico.Interfaz.data.Configuracion;
 import es.si.ProgramadorGenetico.Interfaz.data.Problema;
+import es.si.ProgramadorGenetico.Interfaz.paneles.ConfiguracionesTableModel;
+import es.si.ProgramadorGenetico.Interfaz.paneles.PanelConfiguracion;
 
 public class FrameConfiguraciones extends JFrame {
 
@@ -77,8 +79,12 @@ public class FrameConfiguraciones extends JFrame {
 	}
 
 	protected void quitarConfiguracion() {
-		// TODO Auto-generated method stub
-		
+		if (panelConfiguracion.getConfiguracion() != null && tabla.getSelectedRow() != -1) {
+			problema.getConfiguraciones().remove(tabla.getSelectedRow());
+			model.removeConfig(tabla.getSelectedRow());
+			tabla.revalidate();
+			tabla.repaint();
+		}
 	}
 
 	private void llenarTabla() {

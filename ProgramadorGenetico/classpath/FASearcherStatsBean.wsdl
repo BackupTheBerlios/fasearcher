@@ -1,0 +1,61 @@
+<definitions name='FASearcherStatsBeanService' targetNamespace='http://ejb.FASearcherServer.si.es/' xmlns='http://schemas.xmlsoap.org/wsdl/' xmlns:ns1='http://FASearcherServer.si.es/' xmlns:soap='http://schemas.xmlsoap.org/wsdl/soap/' xmlns:tns='http://ejb.FASearcherServer.si.es/' xmlns:xsd='http://www.w3.org/2001/XMLSchema'>
+ <types>
+  <xs:schema targetNamespace='http://ejb.FASearcherServer.si.es/' version='1.0' xmlns:ns1='http://FASearcherServer.si.es/' xmlns:tns='http://ejb.FASearcherServer.si.es/' xmlns:xs='http://www.w3.org/2001/XMLSchema'>
+   <xs:import namespace='http://FASearcherServer.si.es/'/>
+   <xs:element name='getBasicStats' type='tns:getBasicStats'/>
+   <xs:element name='getBasicStatsResponse' type='tns:getBasicStatsResponse'/>
+   <xs:complexType name='getBasicStats'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='getBasicStatsRequest' type='ns1:getBasicStatsRequest'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='getBasicStatsResponse'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='getBasicStatsResponse' type='ns1:getBasicStatsResponse'/>
+    </xs:sequence>
+   </xs:complexType>
+  </xs:schema>
+  <xs:schema targetNamespace='http://FASearcherServer.si.es/' version='1.0' xmlns:xs='http://www.w3.org/2001/XMLSchema'>
+   <xs:complexType name='getBasicStatsRequest'>
+    <xs:sequence/>
+   </xs:complexType>
+   <xs:complexType name='getBasicStatsResponse'>
+    <xs:sequence>
+     <xs:element maxOccurs='unbounded' minOccurs='0' name='histParecido' nillable='true' type='xs:double'/>
+     <xs:element maxOccurs='unbounded' minOccurs='0' name='histReconocimiento' nillable='true' type='xs:double'/>
+     <xs:element minOccurs='0' name='mediaSoluciones' type='xs:float'/>
+     <xs:element minOccurs='0' name='numProblemas' type='xs:int'/>
+    </xs:sequence>
+   </xs:complexType>
+  </xs:schema>
+ </types>
+ <message name='FASearcherStats_getBasicStatsResponse'>
+  <part element='tns:getBasicStatsResponse' name='getBasicStatsResponse'></part>
+ </message>
+ <message name='FASearcherStats_getBasicStats'>
+  <part element='tns:getBasicStats' name='getBasicStats'></part>
+ </message>
+ <portType name='FASearcherStats'>
+  <operation name='getBasicStats' parameterOrder='getBasicStats'>
+   <input message='tns:FASearcherStats_getBasicStats'></input>
+   <output message='tns:FASearcherStats_getBasicStatsResponse'></output>
+  </operation>
+ </portType>
+ <binding name='FASearcherStatsBinding' type='tns:FASearcherStats'>
+  <soap:binding style='document' transport='http://schemas.xmlsoap.org/soap/http'/>
+  <operation name='getBasicStats'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body use='literal'/>
+   </input>
+   <output>
+    <soap:body use='literal'/>
+   </output>
+  </operation>
+ </binding>
+ <service name='FASearcherStatsBeanService'>
+  <port binding='tns:FASearcherStatsBinding' name='FASearcherStatsBeanPort'>
+   <soap:address location='http://fasearcher.selfip.info:18080/fasearcher/FASearcherStatsBean'/>
+  </port>
+ </service>
+</definitions>

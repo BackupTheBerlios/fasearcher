@@ -58,8 +58,12 @@ public class AddProblemaWS {
 			try {
 				
 				QName service = new QName("http://ejb.FASearcherServer.si.es/", "FASearcherServiceBeanService");
-				URL server = new URL(Config.getInstance().getProperty("FASearcherServiceServer"));
-
+				URL server;
+				if (!Config.getInstance().getProperty("FASearcherServiceServer").equals("classpath"))
+					server = new URL(Config.getInstance().getProperty("FASearcherServiceServer"));
+				else
+					server = ClassLoader.getSystemResource("FASearcherServiceBean.wsdl");
+				
 				FASearcherServiceBeanService fasbs = new FASearcherServiceBeanService(server, service);
 				FASearcherService fas = fasbs.getFASearcherServiceBeanPort();
 				

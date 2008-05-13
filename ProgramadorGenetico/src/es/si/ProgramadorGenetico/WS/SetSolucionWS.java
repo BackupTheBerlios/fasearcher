@@ -7,6 +7,9 @@ import java.util.Locale;
 
 import javax.xml.namespace.QName;
 
+import es.si.ProgramadorGenetico.BasicWS.Afp;
+import es.si.ProgramadorGenetico.BasicWS.FASearcherBasic;
+import es.si.ProgramadorGenetico.BasicWS.FASearcherBasicBeanService;
 import es.si.ProgramadorGenetico.util.Config;
 import es.si.fasearcherserver.SetSolucionRequest;
 import es.si.fasearcherserver.SetSolucionResponse;
@@ -45,11 +48,15 @@ public class SetSolucionWS {
 	public boolean ejecutar() {
 		
 		try {
-			QName service = new QName("http://ejb.FASearcherServer.si.es/", "FASearcherBeanService");
-			URL server = new URL(Config.getInstance().getProperty("FASearcherServer"));
+			QName service = new QName("http://ejb.FASearcherServer.si.es/", "FASearcherBasicBeanService");
+			URL server;
+			if (!Config.getInstance().getProperty("FASearcherBasicServer").equals("classpath"))
+				server = new URL(Config.getInstance().getProperty("FASearcherBasicServer"));
+			else
+				server = ClassLoader.getSystemResource("FASearcherBasicBean.wsdl");
 
-			FASearcherBeanService fasbs = new FASearcherBeanService(server, service);
-			FASearcher fas = fasbs.getFASearcherBeanPort();
+			FASearcherBasicBeanService fasbs = new FASearcherBasicBeanService(server, service);
+			FASearcherBasic fas = fasbs.getFASearcherBasicBeanPort();
 			
 			SetSolucionRequest ssr = new SetSolucionRequest();
 

@@ -1,4 +1,4 @@
-package es.si.ProgramadorGenetico.Interfaz.paneles;
+package es.si.ProgramadorGenetico.Interfaz.frames;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;

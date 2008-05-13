@@ -1,0 +1,218 @@
+<definitions name='FASearcherServiceBeanService' targetNamespace='http://ejb.FASearcherServer.si.es/' xmlns='http://schemas.xmlsoap.org/wsdl/' xmlns:ns1='http://FASearcherServer.si.es/' xmlns:soap='http://schemas.xmlsoap.org/wsdl/soap/' xmlns:tns='http://ejb.FASearcherServer.si.es/' xmlns:xsd='http://www.w3.org/2001/XMLSchema'>
+ <types>
+  <xs:schema targetNamespace='http://FASearcherServer.si.es/' version='1.0' xmlns:ns1='http://ejb.FASearcherServer.si.es/' xmlns:xs='http://www.w3.org/2001/XMLSchema'>
+   <xs:import namespace='http://ejb.FASearcherServer.si.es/'/>
+   <xs:complexType name='addProblemaRequest'>
+    <xs:sequence>
+     <xs:element maxOccurs='unbounded' minOccurs='0' name='aceptadas' nillable='true' type='xs:string'/>
+     <xs:element minOccurs='0' name='afp' type='ns1:afp'/>
+     <xs:element maxOccurs='unbounded' minOccurs='0' name='configuraciones' nillable='true' type='ns1:configuracion'/>
+     <xs:element minOccurs='0' name='descripcion' type='xs:string'/>
+     <xs:element minOccurs='0' name='estados' type='xs:int'/>
+     <xs:element minOccurs='0' name='pobMax' type='xs:int'/>
+     <xs:element maxOccurs='unbounded' minOccurs='0' name='rechazadas' nillable='true' type='xs:string'/>
+     <xs:element minOccurs='0' name='tipoAutomata' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='addProblemaResponse'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='id' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='getProblemaRequest'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='id' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='getProblemaResponse'>
+    <xs:sequence>
+     <xs:element maxOccurs='unbounded' minOccurs='0' name='aceptadas' nillable='true' type='xs:string'/>
+     <xs:element minOccurs='0' name='afp' type='ns1:afp'/>
+     <xs:element maxOccurs='unbounded' minOccurs='0' name='configuraciones' nillable='true' type='ns1:configuracion'/>
+     <xs:element minOccurs='0' name='descripcion' type='xs:string'/>
+     <xs:element minOccurs='0' name='estados' type='xs:int'/>
+     <xs:element minOccurs='0' name='pobMax' type='xs:int'/>
+     <xs:element maxOccurs='unbounded' minOccurs='0' name='rechazadas' nillable='true' type='xs:string'/>
+     <xs:element minOccurs='0' name='tipoAutomata' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='getProblemasRequest'>
+    <xs:sequence/>
+   </xs:complexType>
+   <xs:complexType name='getProblemasResponse'>
+    <xs:sequence>
+     <xs:element maxOccurs='unbounded' minOccurs='0' name='problemas' nillable='true' type='ns1:problema'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='removeProblemaRequest'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='id' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='removeProblemaResponse'>
+    <xs:sequence/>
+   </xs:complexType>
+  </xs:schema>
+  <xs:schema targetNamespace='http://ejb.FASearcherServer.si.es/' version='1.0' xmlns:ns1='http://FASearcherServer.si.es/' xmlns:tns='http://ejb.FASearcherServer.si.es/' xmlns:xs='http://www.w3.org/2001/XMLSchema'>
+   <xs:import namespace='http://FASearcherServer.si.es/'/>
+   <xs:element name='addProblema' type='tns:addProblema'/>
+   <xs:element name='addProblemaResponse' type='tns:addProblemaResponse'/>
+   <xs:element name='getProblema' type='tns:getProblema'/>
+   <xs:element name='getProblemaResponse' type='tns:getProblemaResponse'/>
+   <xs:element name='getProblemas' type='tns:getProblemas'/>
+   <xs:element name='getProblemasResponse' type='tns:getProblemasResponse'/>
+   <xs:element name='removeProblema' type='tns:removeProblema'/>
+   <xs:element name='removeProblemaResponse' type='tns:removeProblemaResponse'/>
+   <xs:complexType name='addProblema'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='addProblemaRequest' type='ns1:addProblemaRequest'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='afp'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='estados' type='xs:int'/>
+     <xs:element minOccurs='0' name='probFinales' type='xs:string'/>
+     <xs:element maxOccurs='unbounded' minOccurs='0' name='transiciones' nillable='true' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='configuracion'>
+    <xs:sequence>
+     <xs:element name='calculadorBondad' type='xs:int'/>
+     <xs:element name='cruzador' type='xs:int'/>
+     <xs:element name='estados' type='xs:int'/>
+     <xs:element name='muestras' type='xs:int'/>
+     <xs:element name='mutador' type='xs:int'/>
+     <xs:element name='pobMax' type='xs:int'/>
+     <xs:element name='resolver' type='xs:int'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='addProblemaResponse'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='addProblemaResponse' type='ns1:addProblemaResponse'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='getProblema'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='getProblemaRequest' type='ns1:getProblemaRequest'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='getProblemaResponse'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='getProblemaResponse' type='ns1:getProblemaResponse'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='getProblemas'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='getProblemasRequest' type='ns1:getProblemasRequest'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='getProblemasResponse'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='getProblemasResponse' type='ns1:getProblemasResponse'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='problema'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='descripcion' type='xs:string'/>
+     <xs:element minOccurs='0' name='id' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='removeProblema'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='removeProblemaRequest' type='ns1:removeProblemaRequest'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='removeProblemaResponse'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='removeProblemaResponse' type='ns1:removeProblemaResponse'/>
+    </xs:sequence>
+   </xs:complexType>
+  </xs:schema>
+ </types>
+ <message name='FASearcherService_getProblemas'>
+  <part element='tns:getProblemas' name='getProblemas'></part>
+ </message>
+ <message name='FASearcherService_getProblemaResponse'>
+  <part element='tns:getProblemaResponse' name='getProblemaResponse'></part>
+ </message>
+ <message name='FASearcherService_addProblemaResponse'>
+  <part element='tns:addProblemaResponse' name='addProblemaResponse'></part>
+ </message>
+ <message name='FASearcherService_removeProblema'>
+  <part element='tns:removeProblema' name='removeProblema'></part>
+ </message>
+ <message name='FASearcherService_getProblema'>
+  <part element='tns:getProblema' name='getProblema'></part>
+ </message>
+ <message name='FASearcherService_removeProblemaResponse'>
+  <part element='tns:removeProblemaResponse' name='removeProblemaResponse'></part>
+ </message>
+ <message name='FASearcherService_getProblemasResponse'>
+  <part element='tns:getProblemasResponse' name='getProblemasResponse'></part>
+ </message>
+ <message name='FASearcherService_addProblema'>
+  <part element='tns:addProblema' name='addProblema'></part>
+ </message>
+ <portType name='FASearcherService'>
+  <operation name='addProblema' parameterOrder='addProblema'>
+   <input message='tns:FASearcherService_addProblema'></input>
+   <output message='tns:FASearcherService_addProblemaResponse'></output>
+  </operation>
+  <operation name='getProblema' parameterOrder='getProblema'>
+   <input message='tns:FASearcherService_getProblema'></input>
+   <output message='tns:FASearcherService_getProblemaResponse'></output>
+  </operation>
+  <operation name='getProblemas' parameterOrder='getProblemas'>
+   <input message='tns:FASearcherService_getProblemas'></input>
+   <output message='tns:FASearcherService_getProblemasResponse'></output>
+  </operation>
+  <operation name='removeProblema' parameterOrder='removeProblema'>
+   <input message='tns:FASearcherService_removeProblema'></input>
+   <output message='tns:FASearcherService_removeProblemaResponse'></output>
+  </operation>
+ </portType>
+ <binding name='FASearcherServiceBinding' type='tns:FASearcherService'>
+  <soap:binding style='document' transport='http://schemas.xmlsoap.org/soap/http'/>
+  <operation name='addProblema'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body use='literal'/>
+   </input>
+   <output>
+    <soap:body use='literal'/>
+   </output>
+  </operation>
+  <operation name='getProblema'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body use='literal'/>
+   </input>
+   <output>
+    <soap:body use='literal'/>
+   </output>
+  </operation>
+  <operation name='getProblemas'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body use='literal'/>
+   </input>
+   <output>
+    <soap:body use='literal'/>
+   </output>
+  </operation>
+  <operation name='removeProblema'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body use='literal'/>
+   </input>
+   <output>
+    <soap:body use='literal'/>
+   </output>
+  </operation>
+ </binding>
+ <service name='FASearcherServiceBeanService'>
+  <port binding='tns:FASearcherServiceBinding' name='FASearcherServiceBeanPort'>
+   <soap:address location='http://fasearcher.selfip.info:18080/fasearcher/FASearcherServiceBean'/>
+  </port>
+ </service>
+</definitions>

@@ -46,6 +46,10 @@ public class ConfiguracionesTableModel extends AbstractTableModel {
 		filas.add(new FilaString(config));
 	}
 	
+	public void removeConfig(int index) {
+		filas.remove(index);
+	}
+	
 	private class FilaString {
 		
 		String[] labels;

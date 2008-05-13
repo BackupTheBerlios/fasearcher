@@ -1,11 +1,11 @@
 package es.si.ProgramadorGenetico.WS.Pruebas;
 
-import es.si.ProgramadorGenetico.WS.GetProblemaWS;
+import es.si.ProgramadorGenetico.WS.GetProblemaBasicWS;
 
 public class PruebaWS2 {
 
 	public static void main(String[] args) {
-		GetProblemaWS gpWS = new GetProblemaWS();
+		GetProblemaBasicWS gpWS = new GetProblemaBasicWS();
 		gpWS.ejecutar();
 		
 		System.out.println(gpWS.getId());

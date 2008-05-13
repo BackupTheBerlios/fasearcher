@@ -15,18 +15,20 @@ import es.si.ProgramadorGenetico.GeneradorAutomatico.GeneradorCadenas;
 import es.si.ProgramadorGenetico.Interfaz.componentes.AF;
 import es.si.ProgramadorGenetico.Interfaz.data.Configuracion;
 import es.si.ProgramadorGenetico.Interfaz.data.Problema;
+import es.si.ProgramadorGenetico.Interfaz.frames.FrameCadenas;
+import es.si.ProgramadorGenetico.Interfaz.frames.FrameCargarProblema;
+import es.si.ProgramadorGenetico.Interfaz.frames.FrameConfiguraciones;
+import es.si.ProgramadorGenetico.Interfaz.frames.FrameResolver;
+import es.si.ProgramadorGenetico.Interfaz.frames.FrameResolverCadenas;
+import es.si.ProgramadorGenetico.Interfaz.frames.FrameStats;
 import es.si.ProgramadorGenetico.Interfaz.menus.MenuAdministrador;
 import es.si.ProgramadorGenetico.Interfaz.paneles.BarraEdicion;
-import es.si.ProgramadorGenetico.Interfaz.paneles.FrameCadenas;
-import es.si.ProgramadorGenetico.Interfaz.paneles.FrameConfiguraciones;
-import es.si.ProgramadorGenetico.Interfaz.paneles.FrameResolver;
-import es.si.ProgramadorGenetico.Interfaz.paneles.FrameResolverCadenas;
-import es.si.ProgramadorGenetico.Interfaz.paneles.FrameStats;
 import es.si.ProgramadorGenetico.Interfaz.paneles.PanelAF;
 import es.si.ProgramadorGenetico.Interfaz.paneles.PanelAFPs;
 import es.si.ProgramadorGenetico.Interfaz.paneles.PanelInfo;
 import es.si.ProgramadorGenetico.ProblemaAFP.AFP;
 import es.si.ProgramadorGenetico.WS.AddProblemaWS;
+import es.si.ProgramadorGenetico.WS.RemoveProblemaWS;
 
 public class InterfazAdministrador extends JFrame implements InterfazGrafica {
 
@@ -214,9 +216,21 @@ public class InterfazAdministrador extends JFrame implements InterfazGrafica {
 				if (problema.getConfiguraciones().size() == 0) 
 					s = JOptionPane.showOptionDialog(this, "Seguro que no quiere añadir configuraciones?", "Sin configuraciones", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 				if (s == JOptionPane.YES_OPTION) {
+					if (problema.getId() != null) {
+						s = JOptionPane.showOptionDialog(this, "Desea reemplazar el problema que esta en la base de datos?\n(De lo contrario se añade como uno nuevo)","Problema ya en base de datos", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+						if (s == JOptionPane.YES_OPTION) {
+							RemoveProblemaWS removeProblemaWS = new RemoveProblemaWS();
+							removeProblemaWS.setId(problema.getId());
+							removeProblemaWS.ejecutar();
+						}
+					}
+					
 					String id = "-1";
 					String descripcion = "";
-					descripcion = JOptionPane.showInputDialog(this, "Escriba la descripción para el problema");
+					if (problema.getDescripcion() == null)
+						descripcion = JOptionPane.showInputDialog(this, "Escriba la descripción para el problema");
+					else
+						descripcion = JOptionPane.showInputDialog(this, "Escriba la descripción para el problema", problema.getDescripcion());
 					try {
 						AddProblemaWS problemaWS = new AddProblemaWS();
 						List<String> aceptadas = new ArrayList<String>();
@@ -256,7 +270,7 @@ public class InterfazAdministrador extends JFrame implements InterfazGrafica {
 	}
 
 	public void buscarSoluciones() {
-
+		// TODO Funcionalidad de buscar soluciones
 	}
 
 	public void resolverUnProblemaDesdeCadenas() {
@@ -269,5 +283,18 @@ public class InterfazAdministrador extends JFrame implements InterfazGrafica {
 	
 	public PanelAF getPanelAF() {
 		return panelAF;
+	}
+
+	public void cargarProblema() {
+		new FrameCargarProblema(this);
+	}
+	
+	public void terminoCargar(AFP afp, Problema problema) {
+		quitarPaneles();
+		this.problema = problema;
+		panelAF = new PanelAF(afp);
+		panelAF.getSubPanelAF().setEditable(true);
+		add(panelAF, BorderLayout.CENTER);
+		validate();
 	}
 }

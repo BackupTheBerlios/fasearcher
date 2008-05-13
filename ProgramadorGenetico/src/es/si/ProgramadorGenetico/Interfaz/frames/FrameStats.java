@@ -1,4 +1,4 @@
-package es.si.ProgramadorGenetico.Interfaz.paneles;
+package es.si.ProgramadorGenetico.Interfaz.frames;
 
 import java.awt.BorderLayout;
 import java.net.MalformedURLException;
@@ -33,8 +33,12 @@ public class FrameStats extends JFrame {
 		super("Estadisticas");
 		try {
 			QName service = new QName("http://ejb.FASearcherServer.si.es/", "FASearcherStatsBeanService");
-			URL server = new URL(Config.getInstance().getProperty("FASearcherStatsServer"));
-
+			URL server;
+			if (!Config.getInstance().getProperty("FASearcherStatsServer").equals("classpath"))
+				server = new URL(Config.getInstance().getProperty("FASearcherStatsServer"));
+			else
+				server = ClassLoader.getSystemResource("FASearcherStatsBean.wsdl");
+			
 			FASearcherStatsBeanService fasbs = new FASearcherStatsBeanService(server, service);
 			FASearcherStats fas = fasbs.getFASearcherStatsBeanPort();
 			
