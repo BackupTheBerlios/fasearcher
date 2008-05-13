@@ -1,5 +1,70 @@
 <definitions name='FASearcherServiceBeanService' targetNamespace='http://ejb.FASearcherServer.si.es/' xmlns='http://schemas.xmlsoap.org/wsdl/' xmlns:ns1='http://FASearcherServer.si.es/' xmlns:soap='http://schemas.xmlsoap.org/wsdl/soap/' xmlns:tns='http://ejb.FASearcherServer.si.es/' xmlns:xsd='http://www.w3.org/2001/XMLSchema'>
  <types>
+  <xs:schema targetNamespace='http://FASearcherServer.si.es/' version='1.0' xmlns:ns1='http://ejb.FASearcherServer.si.es/' xmlns:xs='http://www.w3.org/2001/XMLSchema'>
+   <xs:import namespace='http://ejb.FASearcherServer.si.es/'/>
+   <xs:complexType name='addProblemaRequest'>
+    <xs:sequence>
+     <xs:element maxOccurs='unbounded' minOccurs='0' name='aceptadas' nillable='true' type='xs:string'/>
+     <xs:element minOccurs='0' name='afp' type='ns1:afp'/>
+     <xs:element maxOccurs='unbounded' minOccurs='0' name='configuraciones' nillable='true' type='ns1:configuracion'/>
+     <xs:element minOccurs='0' name='descripcion' type='xs:string'/>
+     <xs:element minOccurs='0' name='estados' type='xs:int'/>
+     <xs:element minOccurs='0' name='pobMax' type='xs:int'/>
+     <xs:element maxOccurs='unbounded' minOccurs='0' name='rechazadas' nillable='true' type='xs:string'/>
+     <xs:element minOccurs='0' name='tipoAutomata' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='addProblemaResponse'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='id' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='getProblemaRequest'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='id' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='getProblemaResponse'>
+    <xs:sequence>
+     <xs:element maxOccurs='unbounded' minOccurs='0' name='aceptadas' nillable='true' type='xs:string'/>
+     <xs:element minOccurs='0' name='afp' type='ns1:afp'/>
+     <xs:element maxOccurs='unbounded' minOccurs='0' name='configuraciones' nillable='true' type='ns1:configuracion'/>
+     <xs:element minOccurs='0' name='descripcion' type='xs:string'/>
+     <xs:element minOccurs='0' name='estados' type='xs:int'/>
+     <xs:element minOccurs='0' name='pobMax' type='xs:int'/>
+     <xs:element maxOccurs='unbounded' minOccurs='0' name='rechazadas' nillable='true' type='xs:string'/>
+     <xs:element minOccurs='0' name='tipoAutomata' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='getProblemasRequest'>
+    <xs:sequence/>
+   </xs:complexType>
+   <xs:complexType name='getProblemasResponse'>
+    <xs:sequence>
+     <xs:element maxOccurs='unbounded' minOccurs='0' name='problemas' nillable='true' type='ns1:problema'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='removeProblemaRequest'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='id' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='removeProblemaResponse'>
+    <xs:sequence/>
+   </xs:complexType>
+   <xs:complexType name='getSolucionesRequest'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='id' type='xs:string'/>
+     <xs:element minOccurs='0' name='id_config' type='xs:int'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='getSolucionesResponse'>
+    <xs:sequence>
+     <xs:element maxOccurs='unbounded' minOccurs='0' name='configuraciones' nillable='true' type='ns1:configuracion'/>
+     <xs:element maxOccurs='unbounded' minOccurs='0' name='soluciones' nillable='true' type='ns1:solucion'/>
+    </xs:sequence>
+   </xs:complexType>
+  </xs:schema>
   <xs:schema targetNamespace='http://ejb.FASearcherServer.si.es/' version='1.0' xmlns:ns1='http://FASearcherServer.si.es/' xmlns:tns='http://ejb.FASearcherServer.si.es/' xmlns:xs='http://www.w3.org/2001/XMLSchema'>
    <xs:import namespace='http://FASearcherServer.si.es/'/>
    <xs:element name='addProblema' type='tns:addProblema'/>
@@ -94,6 +159,7 @@
      <xs:element minOccurs='0' name='estados' type='xs:int'/>
      <xs:element minOccurs='0' name='funcBondad' type='xs:string'/>
      <xs:element minOccurs='0' name='id' type='xs:string'/>
+     <xs:element minOccurs='0' name='id_configuracion' type='xs:int'/>
      <xs:element minOccurs='0' name='muestras' type='xs:string'/>
      <xs:element minOccurs='0' name='mutador' type='xs:string'/>
      <xs:element minOccurs='0' name='parecidoAF' type='xs:double'/>
@@ -101,71 +167,6 @@
      <xs:element minOccurs='0' name='pobMax' type='xs:int'/>
      <xs:element minOccurs='0' name='reconocimiento' type='xs:double'/>
      <xs:element minOccurs='0' name='tipoAutomata' type='xs:string'/>
-    </xs:sequence>
-   </xs:complexType>
-  </xs:schema>
-  <xs:schema targetNamespace='http://FASearcherServer.si.es/' version='1.0' xmlns:ns1='http://ejb.FASearcherServer.si.es/' xmlns:xs='http://www.w3.org/2001/XMLSchema'>
-   <xs:import namespace='http://ejb.FASearcherServer.si.es/'/>
-   <xs:complexType name='addProblemaRequest'>
-    <xs:sequence>
-     <xs:element maxOccurs='unbounded' minOccurs='0' name='aceptadas' nillable='true' type='xs:string'/>
-     <xs:element minOccurs='0' name='afp' type='ns1:afp'/>
-     <xs:element maxOccurs='unbounded' minOccurs='0' name='configuraciones' nillable='true' type='ns1:configuracion'/>
-     <xs:element minOccurs='0' name='descripcion' type='xs:string'/>
-     <xs:element minOccurs='0' name='estados' type='xs:int'/>
-     <xs:element minOccurs='0' name='pobMax' type='xs:int'/>
-     <xs:element maxOccurs='unbounded' minOccurs='0' name='rechazadas' nillable='true' type='xs:string'/>
-     <xs:element minOccurs='0' name='tipoAutomata' type='xs:string'/>
-    </xs:sequence>
-   </xs:complexType>
-   <xs:complexType name='addProblemaResponse'>
-    <xs:sequence>
-     <xs:element minOccurs='0' name='id' type='xs:string'/>
-    </xs:sequence>
-   </xs:complexType>
-   <xs:complexType name='getProblemaRequest'>
-    <xs:sequence>
-     <xs:element minOccurs='0' name='id' type='xs:string'/>
-    </xs:sequence>
-   </xs:complexType>
-   <xs:complexType name='getProblemaResponse'>
-    <xs:sequence>
-     <xs:element maxOccurs='unbounded' minOccurs='0' name='aceptadas' nillable='true' type='xs:string'/>
-     <xs:element minOccurs='0' name='afp' type='ns1:afp'/>
-     <xs:element maxOccurs='unbounded' minOccurs='0' name='configuraciones' nillable='true' type='ns1:configuracion'/>
-     <xs:element minOccurs='0' name='descripcion' type='xs:string'/>
-     <xs:element minOccurs='0' name='estados' type='xs:int'/>
-     <xs:element minOccurs='0' name='pobMax' type='xs:int'/>
-     <xs:element maxOccurs='unbounded' minOccurs='0' name='rechazadas' nillable='true' type='xs:string'/>
-     <xs:element minOccurs='0' name='tipoAutomata' type='xs:string'/>
-    </xs:sequence>
-   </xs:complexType>
-   <xs:complexType name='getProblemasRequest'>
-    <xs:sequence/>
-   </xs:complexType>
-   <xs:complexType name='getProblemasResponse'>
-    <xs:sequence>
-     <xs:element maxOccurs='unbounded' minOccurs='0' name='problemas' nillable='true' type='ns1:problema'/>
-    </xs:sequence>
-   </xs:complexType>
-   <xs:complexType name='removeProblemaRequest'>
-    <xs:sequence>
-     <xs:element minOccurs='0' name='id' type='xs:string'/>
-    </xs:sequence>
-   </xs:complexType>
-   <xs:complexType name='removeProblemaResponse'>
-    <xs:sequence/>
-   </xs:complexType>
-   <xs:complexType name='getSolucionesRequest'>
-    <xs:sequence>
-     <xs:element minOccurs='0' name='id' type='xs:string'/>
-     <xs:element minOccurs='0' name='id_config' type='xs:int'/>
-    </xs:sequence>
-   </xs:complexType>
-   <xs:complexType name='getSolucionesResponse'>
-    <xs:sequence>
-     <xs:element maxOccurs='unbounded' minOccurs='0' name='configuraciones' nillable='true' type='ns1:configuracion'/>
-     <xs:element maxOccurs='unbounded' minOccurs='0' name='soluciones' nillable='true' type='ns1:solucion'/>
     </xs:sequence>
    </xs:complexType>
   </xs:schema>

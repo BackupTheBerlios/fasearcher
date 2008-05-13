@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -19,6 +20,7 @@ import es.si.ProgramadorGenetico.Interfaz.paneles.PanelConfiguracion;
 import es.si.ProgramadorGenetico.Interfaz.paneles.ProblemasTableModel;
 import es.si.ProgramadorGenetico.Interfaz.paneles.SolucionesTableModel;
 import es.si.ProgramadorGenetico.WS.GetProblemasWS;
+import es.si.ProgramadorGenetico.WS.GetSolucionesWS;
 
 public class FrameSoluciones extends JFrame {
 
@@ -44,11 +46,23 @@ public class FrameSoluciones extends JFrame {
 		super("Explorar soluciones");
 		setLayout(new BorderLayout());
 		
+		JPanel temp = new JPanel();
+		temp.setLayout(new BorderLayout());
 		model_problemas = new ProblemasTableModel();
 		tabla_problemas = new JTable(model_problemas);
 		JScrollPane panelTabla = new JScrollPane(tabla_problemas);
 		panelTabla.setSize(400, 100);
-		add(panelTabla, BorderLayout.WEST);
+		temp.add(panelTabla, BorderLayout.CENTER);
+		
+		JButton boton = new JButton("Mostrar soluciones del problema seleccionado");
+		boton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				FrameSoluciones.this.mostrarSolucionesProblema();
+			}
+		});
+		temp.add(boton, BorderLayout.SOUTH);
+
+		add(temp, BorderLayout.WEST);
 		
 		JPanel panel_configuraciones = new JPanel();
 		panel_configuraciones.setLayout(new BorderLayout());
@@ -58,7 +72,7 @@ public class FrameSoluciones extends JFrame {
 		panelTabla.setSize(400, 200);
 		panel_configuraciones.add(panelTabla, BorderLayout.CENTER);
 		
-		JButton boton = new JButton("Mostrar soluciones con la configuracion seleccionada");
+		boton = new JButton("Mostrar soluciones con la configuracion seleccionada");
 		boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				FrameSoluciones.this.mostrarSolucionesSeleccion();
@@ -93,9 +107,25 @@ public class FrameSoluciones extends JFrame {
 		
 		setSize(600,600);
 		setVisible(true);
-		//inicializar();
+		inicializar();
 	}
 	
+	protected void mostrarSolucionesProblema() {
+		if (tabla_problemas.getSelectedRow() != -1) {
+			model_configuraciones = new ConfiguracionesTableModel();
+			tabla_configuraciones.setModel(model_configuraciones);
+			model_soluciones = new SolucionesTableModel();
+			tabla_soluciones.setModel(model_soluciones);
+			getInfoProblema((String) tabla_problemas.getValueAt(tabla_problemas.getSelectedRow(), 0), null);
+			llenarTablaConfiguraciones();
+			llenarTablaSoluciones();
+			tabla_configuraciones.revalidate();
+			tabla_configuraciones.repaint();
+			tabla_soluciones.revalidate();
+			tabla_soluciones.repaint();
+		}
+	}
+
 	protected void mostrarAFSeleccion() {
 		// TODO Auto-generated method stub
 		
@@ -108,19 +138,61 @@ public class FrameSoluciones extends JFrame {
 
 	private void inicializar() {
 		llenarTabla();
-		getInfoProblema((String) tabla_problemas.getValueAt(1, 1));
+		getInfoProblema((String) tabla_problemas.getValueAt(1, 0), null);
 		llenarTablaConfiguraciones();
 		llenarTablaSoluciones();
+		validate();
 	}
 
-	private void getInfoProblema(String id) {
-		// TODO Auto-generated method stub
+	private void getInfoProblema(String id, Integer id_configuracion) {
+		GetSolucionesWS getSolucionesWS = new GetSolucionesWS();
+		getSolucionesWS.setId(id);
+		getSolucionesWS.setId_configuracion(id_configuracion);
+		getSolucionesWS.ejecutar();
+		
+		if (getSolucionesWS.getConfiguraciones() != null && getSolucionesWS.getConfiguraciones().size() > 0) {
+			configuraciones = new ArrayList<Configuracion>();
+			for (int i = 0; i < getSolucionesWS.getConfiguraciones().size(); i++) {
+				Configuracion config = new Configuracion();
+				config.setCalculadorBondad(getSolucionesWS.getConfiguraciones().get(i).getCalculadorBondad());
+				config.setCruzador(getSolucionesWS.getConfiguraciones().get(i).getCruzador());
+				config.setEstados(getSolucionesWS.getConfiguraciones().get(i).getEstados());
+				config.setId(getSolucionesWS.getConfiguraciones().get(i).getId());
+				config.setMuestras(getSolucionesWS.getConfiguraciones().get(i).getMuestras());
+				config.setMutador(getSolucionesWS.getConfiguraciones().get(i).getMutador());
+				config.setPobMax(getSolucionesWS.getConfiguraciones().get(i).getPobMax());
+				config.setResolver(getSolucionesWS.getConfiguraciones().get(i).getResolver());
+				configuraciones.add(config);
+			}
+		}
+		
+		soluciones = new ArrayList<Solucion>();
+		for (int i = 0; i < getSolucionesWS.getSoluciones().size(); i++) {
+			Solucion sol = new Solucion();
+			sol.setCalculadorBondad(getSolucionesWS.getSoluciones().get(i).getCalculadorBondad());
+			sol.setCruzador(getSolucionesWS.getSoluciones().get(i).getCruzador());
+			sol.setEstados(getSolucionesWS.getSoluciones().get(i).getEstados());
+			sol.setId(Integer.parseInt(getSolucionesWS.getSoluciones().get(i).getId()));
+			sol.setMuestras(getSolucionesWS.getSoluciones().get(i).getMuestras());
+			sol.setMutador(getSolucionesWS.getSoluciones().get(i).getMutador());
+			sol.setParecidoAF(getSolucionesWS.getSoluciones().get(i).getParecidoAF());
+			sol.setPasos(getSolucionesWS.getSoluciones().get(i).getPasos());
+			sol.setPobMax(""+getSolucionesWS.getSoluciones().get(i).getPobMax());
+			sol.setReconocmiento(getSolucionesWS.getSoluciones().get(i).getReconocimiento());
+			sol.setTipoAutomata(getSolucionesWS.getSoluciones().get(i).getTipoAutomata());
+			soluciones.add(sol);
+		}
 		
 	}
 
 	private void llenarTablaSoluciones() {
-		// TODO Auto-generated method stub
-		
+		for (int i = 0; i < model_soluciones.getColumnCount(); i++)
+			tabla_soluciones.getColumnModel().getColumn(i).setHeaderValue(model_soluciones.getColumnName(i));
+		tabla_soluciones.getTableHeader().resizeAndRepaint();
+		if (soluciones != null) {
+			for (Solucion sol : soluciones)
+				model_soluciones.addSolucion(sol);
+		}
 	}
 
 	private void llenarTabla() {
@@ -137,7 +209,6 @@ public class FrameSoluciones extends JFrame {
 		for (int i = 0; i < model_configuraciones.getColumnCount(); i++)
 			tabla_configuraciones.getColumnModel().getColumn(i).setHeaderValue(model_configuraciones.getColumnName(i));
 		tabla_configuraciones.getTableHeader().resizeAndRepaint();
-		
 		if (configuraciones != null) {
 			for (Configuracion config : configuraciones)
 				model_configuraciones.addConfig(config);
