@@ -15,6 +15,7 @@
      <xs:element minOccurs='0' name='cruzador' type='xs:int'/>
      <xs:element minOccurs='0' name='estados' type='xs:int'/>
      <xs:element minOccurs='0' name='id' type='xs:string'/>
+     <xs:element minOccurs='0' name='id_configuracion' type='xs:int'/>
      <xs:element minOccurs='0' name='muestras' type='xs:int'/>
      <xs:element minOccurs='0' name='mutador' type='xs:int'/>
      <xs:element minOccurs='0' name='pobMax' type='xs:int'/>
@@ -29,6 +30,7 @@
      <xs:element minOccurs='0' name='cruzador' type='xs:string'/>
      <xs:element minOccurs='0' name='funcbondad' type='xs:string'/>
      <xs:element minOccurs='0' name='id' type='xs:string'/>
+     <xs:element minOccurs='0' name='id_configuracion' type='xs:int'/>
      <xs:element minOccurs='0' name='metodoRes' type='xs:string'/>
      <xs:element minOccurs='0' name='muestras' type='xs:int'/>
      <xs:element minOccurs='0' name='mutador' type='xs:string'/>

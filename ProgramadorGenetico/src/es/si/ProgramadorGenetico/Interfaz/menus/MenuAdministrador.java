@@ -85,7 +85,7 @@ public class MenuAdministrador extends JMenuBar {
 				.setAccessibleDescription("Menu para analisis de soluciones");
 		add(menu);
 
-		menuItem = crearItem("Buscar soluciones por problema",KeyEvent.VK_B,"Buscar soluciones encontradas para un problema determinado");
+		menuItem = crearItem("Explorar soluciones",KeyEvent.VK_B,"Buscar soluciones encontradas para un problema determinado");
 		menu.add(menuItem);
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -105,7 +105,7 @@ public class MenuAdministrador extends JMenuBar {
 		add(menu);
 
 		
-		menuItem = crearItem("Cargar Problema",KeyEvent.VK_D,"Permite recuperar un problema de la base de datos");
+		menuItem = crearItem("Gestionar Problemas",KeyEvent.VK_D,"Permite recuperar o eliminar un problema de la base de datos");
 		menu.add(menuItem);
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -149,8 +149,6 @@ public class MenuAdministrador extends JMenuBar {
 			}
 		});
 
-		menu.addSeparator();
-		
 		menuItem = crearItem("Modificar configuraciones",KeyEvent.VK_F,"Modificar configuraciones para la resolución");
 		menu.add(menuItem);
 		menuItem.addActionListener(new ActionListener() {
@@ -158,7 +156,9 @@ public class MenuAdministrador extends JMenuBar {
 				MenuAdministrador.this.interfaz.modificarConfiguraciones();
 			}
 		});
-
+		
+		menu.addSeparator();
+		
 		menuItem = crearItem("Enviar problema",KeyEvent.VK_E,"Enviar problema al servidor para la resolución");
 		menu.add(menuItem);
 		menuItem.addActionListener(new ActionListener() {

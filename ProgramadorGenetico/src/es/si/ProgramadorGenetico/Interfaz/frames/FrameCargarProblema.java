@@ -7,6 +7,8 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
@@ -15,6 +17,7 @@ import es.si.ProgramadorGenetico.Interfaz.data.Problema;
 import es.si.ProgramadorGenetico.Interfaz.paneles.ProblemasTableModel;
 import es.si.ProgramadorGenetico.WS.GetProblemaWS;
 import es.si.ProgramadorGenetico.WS.GetProblemasWS;
+import es.si.ProgramadorGenetico.WS.RemoveProblemaWS;
 
 public class FrameCargarProblema extends JFrame {
 
@@ -43,19 +46,43 @@ public class FrameCargarProblema extends JFrame {
 		panelTabla.setSize(400, 200);
 		add(panelTabla, BorderLayout.CENTER);
 		
+		JPanel panel = new JPanel();
 		JButton boton = new JButton("Abrir Problema");
 		boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				FrameCargarProblema.this.abrirProblema();
 			}
 		});
-		add(boton, BorderLayout.SOUTH);
+		panel.add(boton);
+		
+		boton = new JButton("Quitar Problema");
+		boton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				FrameCargarProblema.this.quitarProblema();
+			}
+		});
+		panel.add(boton);
+		
+		add(panel, BorderLayout.SOUTH);
 		
 		pack();
 		setSize(500, 500);
 		setVisible(true);
-		
-		
+	}
+
+	protected void quitarProblema() {
+		if (tabla.getSelectedRow() != -1) {
+			int s = JOptionPane.showConfirmDialog(this, "Seguro que desea quitar el problema?", "Quitar Problema", JOptionPane.YES_NO_OPTION);
+			if (s == JOptionPane.NO_OPTION)
+				return;
+			RemoveProblemaWS removeProblemaWS = new RemoveProblemaWS();
+			removeProblemaWS.setId((String) tabla.getValueAt(tabla.getSelectedRow(), 0));
+			removeProblemaWS.ejecutar();
+			
+			model.removeProblema(tabla.getSelectedRow());
+			tabla.revalidate();
+			tabla.repaint();
+		}
 	}
 
 	protected void abrirProblema() {
@@ -89,7 +116,7 @@ public class FrameCargarProblema extends JFrame {
 		GetProblemasWS getProblemasWS = new GetProblemasWS();
 		getProblemasWS.ejecutar();
 		for (GetProblemasWS.Problema problema : getProblemasWS.getProblemas())
-			model.addProblema(problema.getId(), problema.getDescripcion());
+			model.addProblema(problema.getId(), problema.getDescripcion(), problema.getSoluciones());
 	}
 	
 }

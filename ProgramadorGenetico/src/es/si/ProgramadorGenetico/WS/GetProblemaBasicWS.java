@@ -35,6 +35,8 @@ public class GetProblemaBasicWS {
 	
 	private String id;
 	
+	private Integer id_config;
+	
 	private List<String> aceptadas;
 	
 	private List<String> rechazadas;
@@ -80,6 +82,7 @@ public class GetProblemaBasicWS {
 			cruzador = gpresponse.getCruzador();
 			mutador = gpresponse.getMutador();
 			resolver = gpresponse.getResolver();
+			id_config = gpresponse.getIdConfiguracion();
 		}  catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -139,6 +142,10 @@ public class GetProblemaBasicWS {
 
 	public Integer getResolver() {
 		return resolver;
+	}
+
+	public Integer getId_config() {
+		return id_config;
 	}
 	
 }

@@ -12,6 +12,8 @@ import es.si.FASearcherServer.data.service.GetProblemaRequest;
 import es.si.FASearcherServer.data.service.GetProblemaResponse;
 import es.si.FASearcherServer.data.service.GetProblemasRequest;
 import es.si.FASearcherServer.data.service.GetProblemasResponse;
+import es.si.FASearcherServer.data.service.GetSolucionesRequest;
+import es.si.FASearcherServer.data.service.GetSolucionesResponse;
 import es.si.FASearcherServer.data.service.RemoveProblemaRequest;
 import es.si.FASearcherServer.data.service.RemoveProblemaResponse;
 
@@ -31,6 +33,10 @@ public interface FASearcherService {
     @WebMethod
     @WebResult(name="getProblemasResponse")
     public GetProblemasResponse getProblemas(@WebParam(name="getProblemasRequest") GetProblemasRequest request);
+
+    @WebMethod
+    @WebResult(name="getSolucionesResponse")
+    public GetSolucionesResponse getSoluciones(@WebParam(name="getSolucionesRequest") GetSolucionesRequest request);
 
     @WebMethod
     @WebResult(name="removeProblemaResponse")

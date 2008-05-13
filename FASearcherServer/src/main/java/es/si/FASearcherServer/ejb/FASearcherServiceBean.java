@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
+import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
 import javax.jws.WebService;
@@ -28,12 +29,15 @@ import org.jboss.ws.annotation.EndpointConfig;
 import es.si.FASearcherServer.data.AFP;
 import es.si.FASearcherServer.data.Configuracion;
 import es.si.FASearcherServer.data.Problema;
+import es.si.FASearcherServer.data.Solucion;
 import es.si.FASearcherServer.data.service.AddProblemaRequest;
 import es.si.FASearcherServer.data.service.AddProblemaResponse;
 import es.si.FASearcherServer.data.service.GetProblemaRequest;
 import es.si.FASearcherServer.data.service.GetProblemaResponse;
 import es.si.FASearcherServer.data.service.GetProblemasRequest;
 import es.si.FASearcherServer.data.service.GetProblemasResponse;
+import es.si.FASearcherServer.data.service.GetSolucionesRequest;
+import es.si.FASearcherServer.data.service.GetSolucionesResponse;
 import es.si.FASearcherServer.data.service.RemoveProblemaRequest;
 import es.si.FASearcherServer.data.service.RemoveProblemaResponse;
 
@@ -204,11 +208,12 @@ public class FASearcherServiceBean implements FASearcherService {
 			rs.close();
 			pstmt.close();
 			
-			sql = "SELECT Estados, PobMax, Muestras, calculadorBondad, cruzador, mutador, resolver FROM Configuraciones WHERE id = '" + id + "'";
+			sql = "SELECT id_configuracion, Estados, PobMax, Muestras, calculadorBondad, cruzador, mutador, resolver FROM Configuraciones WHERE id = '" + id + "'";
 			pstmt = connection.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				Configuracion config = new Configuracion();
+				config.setId(rs.getInt("id_configuracion"));
 				config.setEstados(rs.getInt("Estados"));
 				config.setPobMax(rs.getInt("PobMax"));
 				config.setMuestras(rs.getInt("Muestras"));
@@ -299,7 +304,7 @@ public class FASearcherServiceBean implements FASearcherService {
 			ResultSet rs = null;
 			
 			PreparedStatement pstmt = null;
-			String sql = "SELECT id, Descripcion FROM Problema";
+			String sql = "SELECT id, Soluciones, Descripcion FROM Problema";
 			pstmt = connection.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			
@@ -307,6 +312,7 @@ public class FASearcherServiceBean implements FASearcherService {
 				Problema problema = new Problema();
 				problema.setId(rs.getString("id"));
 				problema.setDescripcion(rs.getString("Descripcion"));
+				problema.setSoluciones(rs.getInt("Soluciones"));
 				response.getProblemas().add(problema);
 			}
 			
@@ -321,6 +327,85 @@ public class FASearcherServiceBean implements FASearcherService {
 		return response;
 	}
 
+    @WebResult(name="getSolucionesResponse")
+    public GetSolucionesResponse getSoluciones(@WebParam(name="getSolucionesRequest") GetSolucionesRequest request) {
+    	GetSolucionesResponse response = new GetSolucionesResponse();
+    	
+		try {
+
+			Connection connection = ds.getConnection();
+
+			ResultSet rs = null;
+			
+			PreparedStatement pstmt = null;
+			String sql = "SELECT * FROM Soluciones WHERE id = " + request.getId();
+			if (request.getId_config() != null)
+				sql += ", id_config = " + request.getId_config();
+			pstmt = connection.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+
+			while(rs.next()) {
+				Solucion sol = new Solucion();
+				sol.setCruzador(rs.getString("cruzador"));
+				sol.setEstados(rs.getInt("Estados"));
+				sol.setFuncBondad(rs.getString("FuncBondad"));
+				sol.setId(rs.getString("id_solucion"));
+				sol.setMuestras(rs.getString("muestras"));
+				sol.setMutador(rs.getString("mutador"));
+				sol.setParecidoAF(rs.getDouble("ParecidoAF"));
+				sol.setPasos(rs.getInt("pasos"));
+				sol.setPobMax(rs.getInt("PobMax"));
+				sol.setReconocimiento(rs.getDouble("Reconocimiento"));
+				sol.setTipoAutomata(rs.getString("TipoAutomata"));
+				response.getSoluciones().add(sol);
+			}
+			
+			rs.close();
+			pstmt.close();
+			
+			if (request.getId_config() == null) {
+				response.setConfiguraciones(new ArrayList<Configuracion>());
+				sql = "SELECT * FROM configuraciones WHERE id = " + request.getId();
+				pstmt = connection.prepareStatement(sql);
+				rs = pstmt.executeQuery();
+				
+				if (!rs.next()) {
+					rs.close();
+					pstmt.close();
+
+					sql = "SELECT * FROM configuraciones WHERE id = -1";
+					pstmt = connection.prepareStatement(sql);
+					rs = pstmt.executeQuery();
+					
+					rs.next();
+				}
+	
+				do {
+					Configuracion config = new Configuracion();
+					config.setCalculadorBondad(rs.getInt("calculadorBondad"));
+					config.setCruzador(rs.getInt("cruzador"));
+					config.setEstados(rs.getInt("Estados"));
+					config.setId(rs.getInt("id_configuracion"));
+					config.setMuestras(rs.getInt("Muestras"));
+					config.setMutador(rs.getInt("mutador"));
+					config.setPobMax(rs.getInt("PobMax"));
+					config.setResolver(rs.getInt("resolver"));
+					response.getConfiguraciones().add(config);
+				} while(rs.next());
+				
+				rs.close();
+				pstmt.close();
+			}
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+    	
+    	
+    	return response;
+    }
+
+    
     @WebResult(name="removeProblemaResponse")
     public RemoveProblemaResponse removeProblema(@WebParam(name="removeProblemaRequest") RemoveProblemaRequest request)  {
 		try {

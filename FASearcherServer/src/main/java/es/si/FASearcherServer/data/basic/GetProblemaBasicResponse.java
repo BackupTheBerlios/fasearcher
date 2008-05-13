@@ -21,6 +21,8 @@ public class GetProblemaBasicResponse {
 	
 	private Integer resolver;
 	
+	private Integer id_configuracion;
+	
 	// enum?
 	private String tipoAutomata;
 	
@@ -116,6 +118,14 @@ public class GetProblemaBasicResponse {
 
 	public void setResolver(Integer resolver) {
 		this.resolver = resolver;
+	}
+
+	public Integer getId_configuracion() {
+		return id_configuracion;
+	}
+
+	public void setId_configuracion(Integer id_configuracion) {
+		this.id_configuracion = id_configuracion;
 	}
 	
 	

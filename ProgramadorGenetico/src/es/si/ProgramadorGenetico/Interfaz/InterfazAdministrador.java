@@ -20,6 +20,7 @@ import es.si.ProgramadorGenetico.Interfaz.frames.FrameCargarProblema;
 import es.si.ProgramadorGenetico.Interfaz.frames.FrameConfiguraciones;
 import es.si.ProgramadorGenetico.Interfaz.frames.FrameResolver;
 import es.si.ProgramadorGenetico.Interfaz.frames.FrameResolverCadenas;
+import es.si.ProgramadorGenetico.Interfaz.frames.FrameSoluciones;
 import es.si.ProgramadorGenetico.Interfaz.frames.FrameStats;
 import es.si.ProgramadorGenetico.Interfaz.menus.MenuAdministrador;
 import es.si.ProgramadorGenetico.Interfaz.paneles.BarraEdicion;
@@ -270,7 +271,7 @@ public class InterfazAdministrador extends JFrame implements InterfazGrafica {
 	}
 
 	public void buscarSoluciones() {
-		// TODO Funcionalidad de buscar soluciones
+		new FrameSoluciones();
 	}
 
 	public void resolverUnProblemaDesdeCadenas() {

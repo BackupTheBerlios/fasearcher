@@ -1,11 +1,13 @@
 package es.si.ProgramadorGenetico.Interfaz.frames;
 
+import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
@@ -33,14 +35,17 @@ public class FrameConfiguraciones extends JFrame {
 		super("Modificar configuraciones");
 		this.problema = problema;
 		
-		setLayout(new GridLayout(4,1));
+		JPanel panel = new JPanel();
+		JPanel panel2 = new JPanel();
+		panel.setLayout(new GridLayout(2,1));
 		
+		setLayout(new BorderLayout());
 		model = new ConfiguracionesTableModel();
 		tabla = new JTable(model);
 		llenarTabla();
 		JScrollPane panelTabla = new JScrollPane(tabla);
 		panelTabla.setSize(400, 200);
-		add(panelTabla);
+		add(panelTabla, BorderLayout.CENTER);
 		
 		JButton boton = new JButton("Quitar configuracion");
 		boton.addActionListener(new ActionListener() {
@@ -48,11 +53,11 @@ public class FrameConfiguraciones extends JFrame {
 				FrameConfiguraciones.this.quitarConfiguracion();
 			}
 		});
-		add(boton);
+		panel2.add(boton);
 		
 		panelConfiguracion = new PanelConfiguracion();
 		
-		add(panelConfiguracion);
+		panel.add(panelConfiguracion);
 		
 		boton = new JButton("Añadir configuracion");
 		boton.addActionListener(new ActionListener() {
@@ -60,7 +65,9 @@ public class FrameConfiguraciones extends JFrame {
 				FrameConfiguraciones.this.agregarConfiguracion();
 			}
 		});
-		add(boton);
+		panel2.add(boton);
+		panel.add(panel2); 
+		add(panel, BorderLayout.SOUTH);
 		
 		pack();
 		setSize(500, 500);

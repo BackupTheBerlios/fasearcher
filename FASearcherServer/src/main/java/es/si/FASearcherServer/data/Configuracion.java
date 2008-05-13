@@ -8,7 +8,16 @@ public class Configuracion {
 	private int cruzador;
 	private int mutador;
 	private int resolver;
+	private int id;
 	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public int getCalculadorBondad() {
 		return calculadorBondad;
 	}
@@ -75,8 +84,9 @@ public class Configuracion {
 		this.estados = estados;
 	}
 	
-	public Configuracion(int muestras, int pobMax, int estados, int calculadorBondad, int cruzador, int mutador, int resolver) {
+	public Configuracion(int id, int muestras, int pobMax, int estados, int calculadorBondad, int cruzador, int mutador, int resolver) {
 		this(muestras,pobMax,estados);
+		this.id = id;
 		this.calculadorBondad = calculadorBondad;
 		this.cruzador = cruzador;
 		this.mutador = mutador;

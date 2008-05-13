@@ -52,6 +52,8 @@ public class ParametrosAFP {
 	private int cruzador = 1;
 	
 	private int resolver = 0;
+	
+	private Integer id_config;
 
 	private ParametrosAFP() {
 		if (origen == FROM_WEB)
@@ -85,6 +87,7 @@ public class ParametrosAFP {
 			cruzador = getProblemaWS.getCruzador();
 			mutador = getProblemaWS.getMutador();
 			resolver = getProblemaWS.getResolver();
+			id_config = getProblemaWS.getId_config();
 			
 			numeroMuestras = aceptadas.size() + rechazadas.size();
 			id = getProblemaWS.getId();
@@ -221,5 +224,9 @@ public class ParametrosAFP {
 	 */
 	public static void setOrigen(int origen) {
 		ParametrosAFP.origen = origen;
+	}
+
+	public Integer getId_config() {
+		return id_config;
 	}
 }

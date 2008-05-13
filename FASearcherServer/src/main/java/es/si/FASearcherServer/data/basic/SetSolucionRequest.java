@@ -30,6 +30,16 @@ public class SetSolucionRequest {
 	private Integer muestras;
 	
 	private Integer particiones;
+	
+	private Integer id_configuracion;
+
+	public Integer getId_configuracion() {
+		return id_configuracion;
+	}
+
+	public void setId_configuracion(Integer id_configuracion) {
+		this.id_configuracion = id_configuracion;
+	}
 
 	public Integer getParticiones() {
 		return particiones;

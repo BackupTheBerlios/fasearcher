@@ -38,6 +38,7 @@ public class GetProblemasWS {
 				Problema problema = new Problema();
 				problema.setId(gpresponse.getProblemas().get(i).getId());
 				problema.setDescripcion(gpresponse.getProblemas().get(i).getDescripcion());
+				problema.setSoluciones(gpresponse.getProblemas().get(i).getSoluciones());
 				problemas.add(problema);
 			}
 		}  catch (MalformedURLException e) {
@@ -51,10 +52,12 @@ public class GetProblemasWS {
 
 	public class Problema {
 		
-		String id;
+		private String id;
 		
-		String descripcion;
+		private String descripcion;
 
+		private Integer soluciones;
+		
 		public String getId() {
 			return id;
 		}
@@ -69,6 +72,14 @@ public class GetProblemasWS {
 
 		public void setDescripcion(String descripcion) {
 			this.descripcion = descripcion;
+		}
+
+		public Integer getSoluciones() {
+			return soluciones;
+		}
+
+		public void setSoluciones(Integer soluciones) {
+			this.soluciones = soluciones;
 		}
 		
 		

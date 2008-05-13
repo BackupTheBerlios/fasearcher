@@ -41,6 +41,12 @@ public class SetSolucionWS {
 	
 	private Integer particiones;
 	
+	private Integer id_config;
+	
+	public void setId_config(Integer id_config) {
+		this.id_config = id_config;
+	}
+
 	public void setParticiones(Integer particiones) {
 		this.particiones = particiones;
 	}
@@ -72,6 +78,7 @@ public class SetSolucionWS {
 			ssr.setPobmax(pobmax);
 			ssr.setMuestras(muestras);
 			ssr.setParticiones(particiones);
+			ssr.setIdConfiguracion(id_config);
 			
 			SetSolucionResponse ssresponse = fas.setSolucion(ssr);
 

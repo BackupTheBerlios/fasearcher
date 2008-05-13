@@ -7,12 +7,9 @@ import javax.swing.table.AbstractTableModel;
 
 public class ProblemasTableModel extends AbstractTableModel {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -2586674768039821010L;
 
-	private String[] columnas = {"Id", "Descripcion"};
+	private String[] columnas = {"Id", "Descripcion", "No. Soluciones"};
 
 	private List<FilaString> filas;
 	
@@ -23,7 +20,7 @@ public class ProblemasTableModel extends AbstractTableModel {
 	
 	@Override
 	public int getColumnCount() {
-		return 2;
+		return 3;
 	}
 
 	@Override
@@ -40,18 +37,23 @@ public class ProblemasTableModel extends AbstractTableModel {
 		return columnas[col];
 	}
 	
-	public void addProblema(String id, String descripcion) {
-		filas.add(new FilaString(id, descripcion));
+	public void addProblema(String id, String descripcion, Integer soluciones) {
+		filas.add(new FilaString(id, descripcion, soluciones));
 	}
 	
 	private class FilaString {
 		
 		String[] labels;
 		
-		public FilaString(String id, String descripcion) {
-			labels = new String[2];
+		public FilaString(String id, String descripcion, Integer soluciones) {
+			labels = new String[3];
 			labels[0] = id;
 			labels[1] = descripcion;
+			labels[2] = "" + soluciones;
 		}
+	}
+
+	public void removeProblema(int selectedRow) {
+		filas.remove(selectedRow);
 	}
 }

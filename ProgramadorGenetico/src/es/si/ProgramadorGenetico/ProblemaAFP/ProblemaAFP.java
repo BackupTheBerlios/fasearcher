@@ -70,6 +70,7 @@ public class ProblemaAFP {
 					setSolucionWS.setFuncbondad(CalculadorBondadAFPFactory.getVersion());
 					setSolucionWS.setMetodoRes(ResolverAFPFactory.getVersion());
 					setSolucionWS.setParticiones(new Integer(ParametrosAFP.getInstance().getParticiones()));
+					setSolucionWS.setId_config(ParametrosAFP.getInstance().getId_config());
 					setSolucionWS.ejecutar();
 				}
 			}
