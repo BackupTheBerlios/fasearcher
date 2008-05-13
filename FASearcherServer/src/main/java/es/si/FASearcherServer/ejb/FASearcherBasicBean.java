@@ -26,19 +26,23 @@ import javax.sql.DataSource;
 import org.jboss.wsf.spi.annotation.WebContext;
 
 import es.si.FASearcherServer.data.*;
+import es.si.FASearcherServer.data.basic.GetProblemaBasicRequest;
+import es.si.FASearcherServer.data.basic.GetProblemaBasicResponse;
+import es.si.FASearcherServer.data.basic.SetSolucionRequest;
+import es.si.FASearcherServer.data.basic.SetSolucionResponse;
 
 @Stateless
-@WebService(endpointInterface="es.si.FASearcherServer.ejb.FASearcher")
+@WebService(endpointInterface="es.si.FASearcherServer.ejb.FASearcherBasic")
 @WebContext(contextRoot="/fasearcher")
-public class FASearcherBean implements FASearcher {
+public class FASearcherBasicBean implements FASearcherBasic {
 	
 	@Resource(mappedName="java:/MySqlDS")
 	DataSource ds;
 	
     @WebMethod
-    @WebResult(name="getProblemResponse")
-	public GetProblemaResponse getProblema(@WebParam(name="getProblemaRequest") GetProblemaRequest request) {
-		GetProblemaResponse response = new GetProblemaResponse();
+    @WebResult(name="getProblemBasicResponse")
+	public GetProblemaBasicResponse getProblemaBasic(@WebParam(name="getProblemaBasicRequest") GetProblemaBasicRequest request) {
+		GetProblemaBasicResponse response = new GetProblemaBasicResponse();
 
 		try {
 			String id = "0";
@@ -171,7 +175,7 @@ public class FASearcherBean implements FASearcher {
 			
 			es.si.ProgramadorGenetico.ProblemaAFP.AFP automata = new es.si.ProgramadorGenetico.ProblemaAFP.AFP(request.getAfp().getEstados().intValue());
 			
-			double[][][] transiciones = automata.getTransiciones();
+			float[][][] transiciones = automata.getTransiciones();
 			
 			List<String> lista = request.getAfp().getTransiciones();
 			Iterator<String> it = lista.iterator();
@@ -184,15 +188,15 @@ public class FASearcherBean implements FASearcher {
 				String[] valores = partes[2].split(";");
 				for (int i = 0; i < valores.length; i++) {
 					System.out.println("Entrada: " + entrada + " Estado: " + estado + " Valor: " + valores[i]);
-					transiciones[estado][entrada][i] = Double.parseDouble(valores[i]);
+					transiciones[estado][entrada][i] = Float.parseFloat(valores[i]);
 				}
 			}
 			automata.setTransiciones(transiciones);
 			
-			double[] finales = automata.getProbabilidadesFinal();
+			float[] finales = automata.getProbabilidadesFinal();
 			String[] probs = request.getAfp().getProbFinales().split(";");
 			for (int i = 0; i < probs.length; i++) {
-				finales[i] = Double.parseDouble(probs[i]);
+				finales[i] = Float.parseFloat(probs[i]);
 			}
 			automata.setProbabilidadFinal(finales);
 			

@@ -29,7 +29,6 @@ import es.si.FASearcherServer.data.stats.GetBasicStatsResponse;
 @Stateless
 @WebService(endpointInterface="es.si.FASearcherServer.ejb.FASearcherStats")
 @WebContext(contextRoot="/fasearcher")
-@EndpointConfig(configName="Standard WSSecurity Endpoint")
 public class FASearcherStatsBean implements FASearcherStats {
 
 	@Resource(mappedName="java:/MySqlDS")

@@ -22,6 +22,8 @@
           <target>1.5</target>
           <includes>
             <include>es/si/FASearcherServer/data/stats/*.java</include>
+            <include>es/si/FASearcherServer/data/service/*.java</include>
+            <include>es/si/FASearcherServer/data/basic/*.java</include>
             <include>es/si/FASearcherServer/data/*.java</include>
             <include>es/si/FASearcherServer/ejb/*.java</include>
           </includes>
@@ -90,7 +92,7 @@
     <dependency>
       <groupId>es.si</groupId>
       <artifactId>ProgramadorGenetico</artifactId>
-      <version>0.1</version>
+      <version>0.3</version>
     </dependency>
   </dependencies>
 </project>

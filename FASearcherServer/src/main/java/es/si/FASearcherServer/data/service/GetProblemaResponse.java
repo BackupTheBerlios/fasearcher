@@ -1,12 +1,15 @@
-package es.si.FASearcherServer.data;
+package es.si.FASearcherServer.data.service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlType;
 
+import es.si.FASearcherServer.data.AFP;
+import es.si.FASearcherServer.data.Configuracion;
+
 @XmlType(namespace="http://FASearcherServer.si.es/")
-public class AddProblemaRequest {
+public class GetProblemaResponse {
 
 	private List<String> aceptadas;
 	
@@ -32,9 +35,10 @@ public class AddProblemaRequest {
 		this.descripcion = descripcion;
 	}
 
-	public AddProblemaRequest() {
+	public GetProblemaResponse() {
 		aceptadas = new ArrayList<String>();
 		rechazadas = new ArrayList<String>();
+		configuraciones = new ArrayList<Configuracion>();
 	}
 	
 	public List<String> getAceptadas() {

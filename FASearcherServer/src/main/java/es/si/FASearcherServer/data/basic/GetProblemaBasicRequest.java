@@ -1,9 +1,9 @@
-package es.si.FASearcherServer.data;
+package es.si.FASearcherServer.data.basic;
 
 import javax.xml.bind.annotation.XmlType;
 
 @XmlType(namespace="http://FASearcherServer.si.es/")
-public class GetProblemaRequest {
+public class GetProblemaBasicRequest {
 
 	private String tipoAutomata;
 	

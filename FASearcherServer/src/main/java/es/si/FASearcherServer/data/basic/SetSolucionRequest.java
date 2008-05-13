@@ -1,6 +1,8 @@
-package es.si.FASearcherServer.data;
+package es.si.FASearcherServer.data.basic;
 
 import javax.xml.bind.annotation.XmlType;
+
+import es.si.FASearcherServer.data.AFP;
 
 @XmlType(namespace="http://FASearcherServer.si.es/")
 public class SetSolucionRequest {

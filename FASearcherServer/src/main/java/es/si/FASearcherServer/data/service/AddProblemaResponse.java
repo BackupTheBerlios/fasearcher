@@ -1,4 +1,4 @@
-package es.si.FASearcherServer.data;
+package es.si.FASearcherServer.data.service;
 
 import javax.xml.bind.annotation.XmlType;
 

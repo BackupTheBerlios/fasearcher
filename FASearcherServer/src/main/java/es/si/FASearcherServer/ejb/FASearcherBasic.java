@@ -7,15 +7,19 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
 import es.si.FASearcherServer.data.*;
+import es.si.FASearcherServer.data.basic.GetProblemaBasicRequest;
+import es.si.FASearcherServer.data.basic.GetProblemaBasicResponse;
+import es.si.FASearcherServer.data.basic.SetSolucionRequest;
+import es.si.FASearcherServer.data.basic.SetSolucionResponse;
 
 @WebService
 @SOAPBinding(style=SOAPBinding.Style.DOCUMENT,
 			 use=SOAPBinding.Use.LITERAL,
 			 parameterStyle=SOAPBinding.ParameterStyle.WRAPPED)
-public interface FASearcher {
+public interface FASearcherBasic {
     @WebMethod
-    @WebResult(name="getProblemResponse")
-    public GetProblemaResponse getProblema(@WebParam(name="getProblemaRequest") GetProblemaRequest request);
+    @WebResult(name="getProblemBasicResponse")
+    public GetProblemaBasicResponse getProblemaBasic(@WebParam(name="getProblemaBasicRequest") GetProblemaBasicRequest request);
     
     @WebMethod
     @WebResult(name="setSolucionResponse")
