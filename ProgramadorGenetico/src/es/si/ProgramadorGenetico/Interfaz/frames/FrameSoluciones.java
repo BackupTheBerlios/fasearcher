@@ -16,10 +16,11 @@ import javax.swing.JTable;
 import es.si.ProgramadorGenetico.Interfaz.data.Configuracion;
 import es.si.ProgramadorGenetico.Interfaz.data.Solucion;
 import es.si.ProgramadorGenetico.Interfaz.paneles.ConfiguracionesTableModel;
-import es.si.ProgramadorGenetico.Interfaz.paneles.PanelConfiguracion;
+import es.si.ProgramadorGenetico.Interfaz.paneles.PanelAF;
 import es.si.ProgramadorGenetico.Interfaz.paneles.ProblemasTableModel;
 import es.si.ProgramadorGenetico.Interfaz.paneles.SolucionesTableModel;
 import es.si.ProgramadorGenetico.WS.GetProblemasWS;
+import es.si.ProgramadorGenetico.WS.GetSolucionWS;
 import es.si.ProgramadorGenetico.WS.GetSolucionesWS;
 
 public class FrameSoluciones extends JFrame {
@@ -62,7 +63,7 @@ public class FrameSoluciones extends JFrame {
 		});
 		temp.add(boton, BorderLayout.SOUTH);
 
-		add(temp, BorderLayout.WEST);
+		add(temp, BorderLayout.CENTER);
 		
 		JPanel panel_configuraciones = new JPanel();
 		panel_configuraciones.setLayout(new BorderLayout());
@@ -103,7 +104,7 @@ public class FrameSoluciones extends JFrame {
 		panel.add(panel_configuraciones);
 		panel.add(panel_soluciones);
 		
-		add(panel, BorderLayout.CENTER);
+		add(panel, BorderLayout.EAST);
 		
 		setSize(600,600);
 		setVisible(true);
@@ -127,13 +128,29 @@ public class FrameSoluciones extends JFrame {
 	}
 
 	protected void mostrarAFSeleccion() {
-		// TODO Auto-generated method stub
-		
+		if (tabla_soluciones.getSelectedRow() != -1) {
+			GetSolucionWS getSolucionWS = new GetSolucionWS();
+			String id = "" + soluciones.get(tabla_soluciones.getSelectedRow()).getId();
+			getSolucionWS.setId(id);
+			getSolucionWS.ejecutar();
+			JFrame frame = new JFrame("Solucion");
+			frame.add(new PanelAF(getSolucionWS.getAfp()));
+			frame.setSize(600,600);
+			frame.setVisible(true);
+			frame.validate();
+		}
 	}
 
 	protected void mostrarSolucionesSeleccion() {
-		// TODO Auto-generated method stub
-		
+		if (tabla_configuraciones.getSelectedRow() != -1) {
+			Integer id_config = configuraciones.get(tabla_configuraciones.getSelectedRow()).getId();
+			model_soluciones = new SolucionesTableModel();
+			tabla_soluciones.setModel(model_soluciones);
+			getInfoProblema((String) tabla_problemas.getValueAt(1, 0), id_config);
+			llenarTablaSoluciones();
+			tabla_soluciones.revalidate();
+			tabla_soluciones.repaint();
+		}
 	}
 
 	private void inicializar() {

@@ -96,7 +96,7 @@ public class InterfazCliente extends JFrame implements InterfazGrafica {
 	public void terminoResolverMuchos(boolean correcto, AFP mejor) {
 		if (correcto) {
 			quitarPaneles();
-			if (!mostrar) {
+			if (mostrar) {
 				panelAF = new PanelAF(mejor);
 				panelAF.getSubPanelAF().setEditable(false);
 				add(panelAF, BorderLayout.CENTER);
