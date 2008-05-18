@@ -23,6 +23,7 @@ public class MutadorAFP_1 implements Mutador {
 		}
 		return poblacion;
 	}
+	
 	private void mutarAFP(AFP afp) {
 		int estados = ParametrosAFP.getInstance().getEstados();
 		float[][][] transiciones = afp.getTransiciones();
@@ -33,7 +34,7 @@ public class MutadorAFP_1 implements Mutador {
 				for (int j = 0; j < estados + 1; j++) {
 					transiciones[i][valor][j] = transiciones[i][valor][j]*transiciones[i][valor][j];
 					suma += transiciones[i][valor][j];
-				}	
+				}
 				if (suma < 0.0001) {
 					transiciones[i][valor][rand.nextInt(estados+1)] = 1;
 				}

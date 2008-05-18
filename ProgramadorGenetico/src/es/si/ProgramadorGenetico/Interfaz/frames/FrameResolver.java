@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import es.si.ProgramadorGenetico.Interfaz.componentes.AF;
 import es.si.ProgramadorGenetico.Interfaz.data.Problema;
 import es.si.ProgramadorGenetico.Interfaz.paneles.PanelAF;
+import es.si.ProgramadorGenetico.Interfaz.paneles.PanelAFPs;
 import es.si.ProgramadorGenetico.Interfaz.paneles.PanelConfiguracion;
 import es.si.ProgramadorGenetico.ProblemaAFP.ParametrosAFP;
 import es.si.ProgramadorGenetico.ProblemaAFP.ProblemaAFP;
@@ -36,6 +37,8 @@ public class FrameResolver extends JFrame {
 	private PanelConfiguracion panelConfiguracion;
 	
 	private PanelAF panelAF;
+	
+	private PanelAFPs panelAFPs = null;
 	
 	private JPanel panelInfo;
 	
@@ -92,9 +95,16 @@ public class FrameResolver extends JFrame {
 		
 		problemaAFP.ejecutar();
 		
-		remove(panelAF);
-		panelAF = new PanelAF(problemaAFP.getMejor());
-		add(panelAF, BorderLayout.CENTER);
+		if (panelAF != null) {
+			remove(panelAF);
+			panelAF = null;
+		}
+		if (panelAFPs != null)  {
+			remove(panelAFPs);
+		}
+		panelAFPs = new PanelAFPs();
+		panelAFPs.setAFPs(problemaAFP.getMejores());
+		add(panelAFPs, BorderLayout.CENTER);
 		
 		if (panelInfo != null)
 			remove(panelInfo);

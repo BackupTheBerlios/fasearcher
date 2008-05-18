@@ -79,10 +79,12 @@ public class PanelConfiguracion extends JPanel {
 		cruzador.addItem("TIPO_1");
 		cruzador.addItem("TIPO_2");
 		cruzador.addItem("TIPO_3");
+		cruzador.addItem("TIPO_4");
 
 		mutador.addItem("NULO");
 		mutador.addItem("TIPO_1");
 		mutador.addItem("TIPO_2");
+		mutador.addItem("TIPO_3");
 	}
 
 	public Configuracion getConfiguracion() {

@@ -5,12 +5,12 @@ import java.util.Random;
 
 public class GeneradorAleatorioAFP {
 
-	public static int PARTICIONES = 200;
+	public static int PARTICIONES = 50;
 	
 	private static Random rand = new Random();
 	
 	public static AFP nuevo(int estados) {
-		float[][][] transiciones = new float[estados][2][estados +1];
+		float[][][] transiciones = new float[estados][2][estados+1];
 		float[] probfinal = new float[estados];
 		//Random rand = new Random();
 		//rand.setSeed(System.currentTimeMillis());
@@ -24,7 +24,7 @@ public class GeneradorAleatorioAFP {
 				total0 += valores0[j];
 				valores1[j] = rand.nextInt(PARTICIONES);
 				total1 += valores1[j];
-			}
+			}			
 			for (int j = 0; j < estados + 1; j++) {
 				if (total0 == 0)
 					transiciones[i][0][j] = 1.0f/estados;

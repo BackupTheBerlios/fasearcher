@@ -13,6 +13,8 @@ public class MutadorAFPFactory {
 	
 	public static final int TIPO_2 = 2;
 	
+	public static final int TIPO_3 = 3;
+	
 	private static int tipo = 1;
 	
 	public static Mutador getMutadorAFP() {
@@ -22,6 +24,8 @@ public class MutadorAFPFactory {
 			return new MutadorAFP_1();
 		if (tipo == TIPO_2)
 			return new MutadorAFP_2();
+		if (tipo == TIPO_3)
+			return new MutadorAFP_3();
 		return new MutadorAFP_1();
 	}
 	
@@ -36,6 +40,8 @@ public class MutadorAFPFactory {
 			return "TIPO_1 " + (new DecimalFormat("0.00")).format(MutadorAFP_1.VERSION);
 		if (tipo == TIPO_2)
 			return "TIPO_2 " + (new DecimalFormat("0.00")).format(MutadorAFP_2.VERSION);
+		if (tipo == TIPO_3)
+			return "TIPO_3 " + (new DecimalFormat("0.00")).format(MutadorAFP_3.VERSION);
 		return "TIPO_1 " + (new DecimalFormat("0.00")).format(MutadorAFP_1.VERSION);
 
 	}

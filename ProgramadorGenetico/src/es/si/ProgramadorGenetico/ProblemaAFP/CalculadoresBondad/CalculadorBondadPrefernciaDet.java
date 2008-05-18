@@ -12,8 +12,10 @@ import es.si.ProgramadorGenetico.ProblemaAFP.CalculadorBondad;
  */
 public class CalculadorBondadPrefernciaDet extends CalculadorBondad {
 
-	public static final double VERSION = 2.0f;
+	public static final double VERSION = 2.1f;
 
+	private float pesoCadenas = 0.8f;
+	
 	private double bondadAceptadas;
 	
 	private double bondadRechazadas;
@@ -39,7 +41,7 @@ public class CalculadorBondadPrefernciaDet extends CalculadorBondad {
 		bondad = bondadAceptadas / cantAceptadas;
 		if (cantRechazadas != 0)
 			bondad = (bondad/2) + (bondadRechazadas / (cantRechazadas*2));
-		bondad = bondad/2 + bondadUnos;
+		bondad = bondad * pesoCadenas + bondadUnos;
 	}
 
 	@Override
@@ -48,7 +50,7 @@ public class CalculadorBondadPrefernciaDet extends CalculadorBondad {
 		bondad = bondadRechazadas / cantRechazadas;
 		if (cantAceptadas != 0)
 			bondad = (bondad/2) + (bondadAceptadas / (cantAceptadas*2));
-		bondad = bondad/2 + bondadUnos;
+		bondad = bondad * pesoCadenas + bondadUnos;
 	}
 
 	private float calcularPorcentajeUnos(int estados, float[][][] trans) {
@@ -74,6 +76,6 @@ public class CalculadorBondadPrefernciaDet extends CalculadorBondad {
 			}
 		}
 		valor = suma / (estados*2);
-		return valor/2;
+		return valor * (1.0f - pesoCadenas);
 	}
 }

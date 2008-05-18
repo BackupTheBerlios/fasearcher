@@ -15,6 +15,8 @@ public class CruzadorAFPFactory {
 	
 	public static final int TIPO_3 = 3;
 	
+	public static final int TIPO_4 = 4;
+	
 	private static int tipo = 1;
 	
 	public static Cruzador getCruzadorAFP() {
@@ -26,6 +28,8 @@ public class CruzadorAFPFactory {
 			return new CruzadorAFP_2();
 		if (tipo == TIPO_3)
 			return new CruzadorAFP_3();
+		if (tipo == TIPO_4)
+			return new CruzadorAFP_4();
 		return new CruzadorAFP_1();
 	}
 	
@@ -42,6 +46,8 @@ public class CruzadorAFPFactory {
 			return "TIPO_2 " + (new DecimalFormat("0.00")).format(CruzadorAFP_2.VERSION);
 		if (tipo == TIPO_3)
 			return "TIPO_3" +  (new DecimalFormat("0.00")).format(CruzadorAFP_3.VERSION);
+		if (tipo == TIPO_4)
+			return "TIPO_4" +  (new DecimalFormat("0.00")).format(CruzadorAFP_4.VERSION);
 		return "TIPO_1 " + (new DecimalFormat("0.00")).format(CruzadorAFP_1.VERSION);
 	}
 	
