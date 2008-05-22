@@ -18,6 +18,7 @@ import es.si.ProgramadorGenetico.Interfaz.data.Problema;
 import es.si.ProgramadorGenetico.Interfaz.frames.FrameCadenas;
 import es.si.ProgramadorGenetico.Interfaz.frames.FrameCargarProblema;
 import es.si.ProgramadorGenetico.Interfaz.frames.FrameConfiguraciones;
+import es.si.ProgramadorGenetico.Interfaz.frames.FrameEstadisticasAvanzadas;
 import es.si.ProgramadorGenetico.Interfaz.frames.FrameResolver;
 import es.si.ProgramadorGenetico.Interfaz.frames.FrameResolverCadenas;
 import es.si.ProgramadorGenetico.Interfaz.frames.FrameSoluciones;
@@ -297,5 +298,9 @@ public class InterfazAdministrador extends JFrame implements InterfazGrafica {
 		panelAF.getSubPanelAF().setEditable(true);
 		add(panelAF, BorderLayout.CENTER);
 		validate();
+	}
+
+	public void verEstadisticasAvanzadas() {
+		new FrameEstadisticasAvanzadas();
 	}
 }

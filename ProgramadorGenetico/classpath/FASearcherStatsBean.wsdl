@@ -1,20 +1,5 @@
 <definitions name='FASearcherStatsBeanService' targetNamespace='http://ejb.FASearcherServer.si.es/' xmlns='http://schemas.xmlsoap.org/wsdl/' xmlns:ns1='http://FASearcherServer.si.es/' xmlns:soap='http://schemas.xmlsoap.org/wsdl/soap/' xmlns:tns='http://ejb.FASearcherServer.si.es/' xmlns:xsd='http://www.w3.org/2001/XMLSchema'>
  <types>
-  <xs:schema targetNamespace='http://ejb.FASearcherServer.si.es/' version='1.0' xmlns:ns1='http://FASearcherServer.si.es/' xmlns:tns='http://ejb.FASearcherServer.si.es/' xmlns:xs='http://www.w3.org/2001/XMLSchema'>
-   <xs:import namespace='http://FASearcherServer.si.es/'/>
-   <xs:element name='getBasicStats' type='tns:getBasicStats'/>
-   <xs:element name='getBasicStatsResponse' type='tns:getBasicStatsResponse'/>
-   <xs:complexType name='getBasicStats'>
-    <xs:sequence>
-     <xs:element minOccurs='0' name='getBasicStatsRequest' type='ns1:getBasicStatsRequest'/>
-    </xs:sequence>
-   </xs:complexType>
-   <xs:complexType name='getBasicStatsResponse'>
-    <xs:sequence>
-     <xs:element minOccurs='0' name='getBasicStatsResponse' type='ns1:getBasicStatsResponse'/>
-    </xs:sequence>
-   </xs:complexType>
-  </xs:schema>
   <xs:schema targetNamespace='http://FASearcherServer.si.es/' version='1.0' xmlns:xs='http://www.w3.org/2001/XMLSchema'>
    <xs:complexType name='getBasicStatsRequest'>
     <xs:sequence/>
@@ -27,23 +12,138 @@
      <xs:element minOccurs='0' name='numProblemas' type='xs:int'/>
     </xs:sequence>
    </xs:complexType>
+   <xs:complexType name='getValidValuesRequest'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='id_config' type='xs:int'/>
+     <xs:element maxOccurs='unbounded' minOccurs='0' name='id_problemas' nillable='true' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='getValidValuesResponse'>
+    <xs:sequence>
+     <xs:element maxOccurs='unbounded' minOccurs='0' name='cruzadores' nillable='true' type='xs:string'/>
+     <xs:element maxOccurs='unbounded' minOccurs='0' name='estados' nillable='true' type='xs:int'/>
+     <xs:element maxOccurs='unbounded' minOccurs='0' name='funcBondad' nillable='true' type='xs:string'/>
+     <xs:element maxOccurs='unbounded' minOccurs='0' name='muestras' nillable='true' type='xs:int'/>
+     <xs:element maxOccurs='unbounded' minOccurs='0' name='mutadores' nillable='true' type='xs:string'/>
+     <xs:element maxOccurs='unbounded' minOccurs='0' name='pasos' nillable='true' type='xs:int'/>
+     <xs:element maxOccurs='unbounded' minOccurs='0' name='pobMax' nillable='true' type='xs:int'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='getAdvancedStatsRequest'>
+    <xs:sequence>
+     <xs:element maxOccurs='unbounded' minOccurs='0' name='cruzadores' nillable='true' type='xs:string'/>
+     <xs:element maxOccurs='unbounded' minOccurs='0' name='estados' nillable='true' type='xs:int'/>
+     <xs:element maxOccurs='unbounded' minOccurs='0' name='funcBondad' nillable='true' type='xs:string'/>
+     <xs:element maxOccurs='unbounded' minOccurs='0' name='id_config' nillable='true' type='xs:int'/>
+     <xs:element maxOccurs='unbounded' minOccurs='0' name='id_problemas' nillable='true' type='xs:string'/>
+     <xs:element maxOccurs='unbounded' minOccurs='0' name='muestras' nillable='true' type='xs:int'/>
+     <xs:element maxOccurs='unbounded' minOccurs='0' name='mutadores' nillable='true' type='xs:string'/>
+     <xs:element maxOccurs='unbounded' minOccurs='0' name='pasos' nillable='true' type='xs:int'/>
+     <xs:element maxOccurs='unbounded' minOccurs='0' name='pobmax' nillable='true' type='xs:int'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='getAdvancedStatsResponse'>
+    <xs:sequence>
+     <xs:element maxOccurs='unbounded' minOccurs='0' name='histParecido' nillable='true' type='xs:double'/>
+     <xs:element maxOccurs='unbounded' minOccurs='0' name='histReconocimiento' nillable='true' type='xs:double'/>
+     <xs:element minOccurs='0' name='mediaSoluciones' type='xs:float'/>
+     <xs:element minOccurs='0' name='numProblemas' type='xs:int'/>
+    </xs:sequence>
+   </xs:complexType>
+  </xs:schema>
+  <xs:schema targetNamespace='http://ejb.FASearcherServer.si.es/' version='1.0' xmlns:ns1='http://FASearcherServer.si.es/' xmlns:tns='http://ejb.FASearcherServer.si.es/' xmlns:xs='http://www.w3.org/2001/XMLSchema'>
+   <xs:import namespace='http://FASearcherServer.si.es/'/>
+   <xs:element name='getAdvancedStats' type='tns:getAdvancedStats'/>
+   <xs:element name='getAdvancedStatsResponse' type='tns:getAdvancedStatsResponse'/>
+   <xs:element name='getBasicStats' type='tns:getBasicStats'/>
+   <xs:element name='getBasicStatsResponse' type='tns:getBasicStatsResponse'/>
+   <xs:element name='getValidValues' type='tns:getValidValues'/>
+   <xs:element name='getValidValuesResponse' type='tns:getValidValuesResponse'/>
+   <xs:complexType name='getBasicStats'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='getBasicStatsRequest' type='ns1:getBasicStatsRequest'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='getBasicStatsResponse'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='getBasicStatsResponse' type='ns1:getBasicStatsResponse'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='getValidValues'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='getValidValuesRequest' type='ns1:getValidValuesRequest'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='getValidValuesResponse'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='getValidValuesResponse' type='ns1:getValidValuesResponse'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='getAdvancedStats'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='getAdvancedStatsRequest' type='ns1:getAdvancedStatsRequest'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='getAdvancedStatsResponse'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='getAdvancedStatsResponse' type='ns1:getAdvancedStatsResponse'/>
+    </xs:sequence>
+   </xs:complexType>
   </xs:schema>
  </types>
+ <message name='FASearcherStats_getAdvancedStats'>
+  <part element='tns:getAdvancedStats' name='getAdvancedStats'></part>
+ </message>
+ <message name='FASearcherStats_getValidValues'>
+  <part element='tns:getValidValues' name='getValidValues'></part>
+ </message>
+ <message name='FASearcherStats_getValidValuesResponse'>
+  <part element='tns:getValidValuesResponse' name='getValidValuesResponse'></part>
+ </message>
  <message name='FASearcherStats_getBasicStatsResponse'>
   <part element='tns:getBasicStatsResponse' name='getBasicStatsResponse'></part>
  </message>
  <message name='FASearcherStats_getBasicStats'>
   <part element='tns:getBasicStats' name='getBasicStats'></part>
  </message>
+ <message name='FASearcherStats_getAdvancedStatsResponse'>
+  <part element='tns:getAdvancedStatsResponse' name='getAdvancedStatsResponse'></part>
+ </message>
  <portType name='FASearcherStats'>
+  <operation name='getAdvancedStats' parameterOrder='getAdvancedStats'>
+   <input message='tns:FASearcherStats_getAdvancedStats'></input>
+   <output message='tns:FASearcherStats_getAdvancedStatsResponse'></output>
+  </operation>
   <operation name='getBasicStats' parameterOrder='getBasicStats'>
    <input message='tns:FASearcherStats_getBasicStats'></input>
    <output message='tns:FASearcherStats_getBasicStatsResponse'></output>
   </operation>
+  <operation name='getValidValues' parameterOrder='getValidValues'>
+   <input message='tns:FASearcherStats_getValidValues'></input>
+   <output message='tns:FASearcherStats_getValidValuesResponse'></output>
+  </operation>
  </portType>
  <binding name='FASearcherStatsBinding' type='tns:FASearcherStats'>
   <soap:binding style='document' transport='http://schemas.xmlsoap.org/soap/http'/>
+  <operation name='getAdvancedStats'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body use='literal'/>
+   </input>
+   <output>
+    <soap:body use='literal'/>
+   </output>
+  </operation>
   <operation name='getBasicStats'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body use='literal'/>
+   </input>
+   <output>
+    <soap:body use='literal'/>
+   </output>
+  </operation>
+  <operation name='getValidValues'>
    <soap:operation soapAction=''/>
    <input>
     <soap:body use='literal'/>

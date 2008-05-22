@@ -44,14 +44,6 @@
      <xs:element maxOccurs='unbounded' minOccurs='0' name='problemas' nillable='true' type='ns1:problema'/>
     </xs:sequence>
    </xs:complexType>
-   <xs:complexType name='removeProblemaRequest'>
-    <xs:sequence>
-     <xs:element minOccurs='0' name='id' type='xs:string'/>
-    </xs:sequence>
-   </xs:complexType>
-   <xs:complexType name='removeProblemaResponse'>
-    <xs:sequence/>
-   </xs:complexType>
    <xs:complexType name='getSolucionesRequest'>
     <xs:sequence>
      <xs:element minOccurs='0' name='id' type='xs:string'/>
@@ -74,6 +66,14 @@
      <xs:element minOccurs='0' name='afp' type='ns1:afp'/>
      <xs:element minOccurs='0' name='tipoAutomata' type='xs:string'/>
     </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='removeProblemaRequest'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='id' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='removeProblemaResponse'>
+    <xs:sequence/>
    </xs:complexType>
   </xs:schema>
   <xs:schema targetNamespace='http://ejb.FASearcherServer.si.es/' version='1.0' xmlns:ns1='http://FASearcherServer.si.es/' xmlns:tns='http://ejb.FASearcherServer.si.es/' xmlns:xs='http://www.w3.org/2001/XMLSchema'>
@@ -146,16 +146,6 @@
      <xs:element minOccurs='0' name='soluciones' type='xs:int'/>
     </xs:sequence>
    </xs:complexType>
-   <xs:complexType name='removeProblema'>
-    <xs:sequence>
-     <xs:element minOccurs='0' name='removeProblemaRequest' type='ns1:removeProblemaRequest'/>
-    </xs:sequence>
-   </xs:complexType>
-   <xs:complexType name='removeProblemaResponse'>
-    <xs:sequence>
-     <xs:element minOccurs='0' name='removeProblemaResponse' type='ns1:removeProblemaResponse'/>
-    </xs:sequence>
-   </xs:complexType>
    <xs:complexType name='getSoluciones'>
     <xs:sequence>
      <xs:element minOccurs='0' name='getSolucionesRequest' type='ns1:getSolucionesRequest'/>
@@ -190,6 +180,16 @@
    <xs:complexType name='getSolucionResponse'>
     <xs:sequence>
      <xs:element minOccurs='0' name='getSolucionResponse' type='ns1:getSolucionResponse'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='removeProblema'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='removeProblemaRequest' type='ns1:removeProblemaRequest'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='removeProblemaResponse'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='removeProblemaResponse' type='ns1:removeProblemaResponse'/>
     </xs:sequence>
    </xs:complexType>
   </xs:schema>

@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
+import es.si.ProgramadorGenetico.Interfaz.data.Problema;
+
 public class ProblemasTableModel extends AbstractTableModel {
 
 	private static final long serialVersionUID = -2586674768039821010L;
@@ -41,6 +43,10 @@ public class ProblemasTableModel extends AbstractTableModel {
 		filas.add(new FilaString(id, descripcion, soluciones));
 	}
 	
+	public void addProblema(Problema problema) {
+		filas.add(new FilaString(problema.getId(), problema.getDescripcion(), null));
+	}
+	
 	private class FilaString {
 		
 		String[] labels;
@@ -49,11 +55,15 @@ public class ProblemasTableModel extends AbstractTableModel {
 			labels = new String[3];
 			labels[0] = id;
 			labels[1] = descripcion;
-			labels[2] = "" + soluciones;
+			labels[2] = (soluciones != null ? "" + soluciones : "-");
 		}
 	}
 
 	public void removeProblema(int selectedRow) {
 		filas.remove(selectedRow);
+	}
+
+	public void clear() {
+		filas = new ArrayList<FilaString>();
 	}
 }

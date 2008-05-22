@@ -39,13 +39,22 @@ public class MenuAdministrador extends JMenuBar {
 				.setAccessibleDescription("Menu de estadisticas");
 		add(menu);
 
-		menuItem = crearItem("Ver estadisticas",KeyEvent.VK_V,"Muestra estadísticas desde el servidor");
+		menuItem = crearItem("Ver estadisticas basicas",KeyEvent.VK_V,"Muestra estadísticas desde el servidor");
 		menu.add(menuItem);
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				MenuAdministrador.this.interfaz.verEstadisticas();
 			}
 		});
+
+		menuItem = crearItem("Ver estadisticas avanzadas",KeyEvent.VK_V,"Muestra estadísticas desde el servidor");
+		menu.add(menuItem);
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MenuAdministrador.this.interfaz.verEstadisticasAvanzadas();
+			}
+		});
+
 	}
 
 	private void crearMenuAcciones() {

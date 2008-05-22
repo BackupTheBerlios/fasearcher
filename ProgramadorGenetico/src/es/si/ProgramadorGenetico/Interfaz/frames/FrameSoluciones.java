@@ -42,6 +42,8 @@ public class FrameSoluciones extends JFrame {
 	private List<Solucion> soluciones;
 	
 	private List<Configuracion> configuraciones;
+
+	private int problema_select;
 	
 	public FrameSoluciones() {
 		super("Explorar soluciones");
@@ -113,6 +115,7 @@ public class FrameSoluciones extends JFrame {
 	
 	protected void mostrarSolucionesProblema() {
 		if (tabla_problemas.getSelectedRow() != -1) {
+			problema_select = tabla_problemas.getSelectedRow();
 			model_configuraciones = new ConfiguracionesTableModel();
 			tabla_configuraciones.setModel(model_configuraciones);
 			model_soluciones = new SolucionesTableModel();
@@ -146,7 +149,7 @@ public class FrameSoluciones extends JFrame {
 			Integer id_config = configuraciones.get(tabla_configuraciones.getSelectedRow()).getId();
 			model_soluciones = new SolucionesTableModel();
 			tabla_soluciones.setModel(model_soluciones);
-			getInfoProblema((String) tabla_problemas.getValueAt(1, 0), id_config);
+			getInfoProblema((String) tabla_problemas.getValueAt(problema_select, 0), id_config);
 			llenarTablaSoluciones();
 			tabla_soluciones.revalidate();
 			tabla_soluciones.repaint();
@@ -155,7 +158,8 @@ public class FrameSoluciones extends JFrame {
 
 	private void inicializar() {
 		llenarTabla();
-		getInfoProblema((String) tabla_problemas.getValueAt(1, 0), null);
+		getInfoProblema((String) tabla_problemas.getValueAt(0, 0), null);
+		problema_select = 0;
 		llenarTablaConfiguraciones();
 		llenarTablaSoluciones();
 		validate();
