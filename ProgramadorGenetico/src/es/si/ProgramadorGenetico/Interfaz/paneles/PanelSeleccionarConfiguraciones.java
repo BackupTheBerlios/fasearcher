@@ -12,44 +12,48 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import es.si.ProgramadorGenetico.Interfaz.data.Configuracion;
 import es.si.ProgramadorGenetico.Interfaz.data.Problema;
 import es.si.ProgramadorGenetico.Interfaz.frames.FrameEstadisticasAvanzadas;
+import es.si.ProgramadorGenetico.WS.GetProblemaWS;
 import es.si.ProgramadorGenetico.WS.GetProblemasWS;
 
 public class PanelSeleccionarConfiguraciones extends JPanel {
 
 	private static final long serialVersionUID = -2750855309074355489L;
 
-	private JTable tabla_problemas;
+	private JTable tabla_configs;
 
-	private ProblemasTableModel model_problemas;
+	private ConfiguracionesTableModel model_configs;
 
 	private JTable tabla_seleccionados;
 	
-	private ProblemasTableModel model_seleccionados;
+	private ConfiguracionesTableModel model_seleccionados;
 	
-	private List<Problema> problemas;
+	private List<Configuracion> configs;
 
-	private List<Problema> seleccionados = new ArrayList<Problema>();
+	private List<Configuracion> seleccionados = new ArrayList<Configuracion>();
+	
+	private String id_problema;
 	
 	private FrameEstadisticasAvanzadas frame;
 	public PanelSeleccionarConfiguraciones(FrameEstadisticasAvanzadas frameEstadisticasAvanzadas, Problema problema) {
-		
 		frame = frameEstadisticasAvanzadas;
+		id_problema = problema.getId();
 		
 		setLayout(new BorderLayout());
 		
 		JPanel temp = new JPanel();
 		temp.setLayout(new GridLayout(2,1));
 		
-		model_problemas = new ProblemasTableModel();
-		tabla_problemas = new JTable(model_problemas);
-		JScrollPane panelTabla = new JScrollPane(tabla_problemas);
+		model_configs = new ConfiguracionesTableModel();
+		tabla_configs = new JTable(model_configs);
+		JScrollPane panelTabla = new JScrollPane(tabla_configs);
 		panelTabla.setSize(400, 100);
 		llenarTabla();
 		temp.add(panelTabla);
 		
-		model_seleccionados = new ProblemasTableModel();
+		model_seleccionados = new ConfiguracionesTableModel();
 		tabla_seleccionados = new JTable(model_seleccionados);
 		panelTabla = new JScrollPane(tabla_seleccionados);
 		panelTabla.setSize(400, 100);
@@ -60,15 +64,15 @@ public class PanelSeleccionarConfiguraciones extends JPanel {
 		
 		temp = new JPanel();
 		
-		JButton boton = new JButton("Añadir problema");
+		JButton boton = new JButton("Añadir configuracion");
 		boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				PanelSeleccionarConfiguraciones.this.agergarProblema();
+				PanelSeleccionarConfiguraciones.this.agergarConfig();
 			}
 		});
 		temp.add(boton);
 		
-		boton = new JButton("Usar seleccionados");
+		boton = new JButton("Usar seleccionas");
 		boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PanelSeleccionarConfiguraciones.this.usarSeleccionados();
@@ -87,9 +91,9 @@ public class PanelSeleccionarConfiguraciones extends JPanel {
 		add(temp, BorderLayout.SOUTH);
 	}
 	
-	protected void agergarProblema() {
-		if (tabla_problemas.getSelectedRow() != -1) {
-			seleccionados.add(problemas.get(tabla_problemas.getSelectedRow()));
+	protected void agergarConfig() {
+		if (tabla_configs.getSelectedRow() != -1) {
+			seleccionados.add(configs.get(tabla_configs.getSelectedRow()));
 		}
 		llenarTablaSeleccionado();
 		revalidate();
@@ -97,36 +101,34 @@ public class PanelSeleccionarConfiguraciones extends JPanel {
 	}
 
 	protected void usarSeleccionados() {
-		frame.problemasElegidos(seleccionados);
+		frame.configuracionesElegidas(seleccionados);
 	}
 
 	protected void usarTodos() {
-		frame.problemasElegidos(null);
+		frame.configuracionesElegidas(null);
 	}
 
 	private void llenarTabla() {
-		for (int i = 0; i < model_problemas.getColumnCount(); i++)
-			tabla_problemas.getColumnModel().getColumn(i).setHeaderValue(model_problemas.getColumnName(i));
-		tabla_problemas.getTableHeader().resizeAndRepaint();
-		GetProblemasWS getProblemasWS = new GetProblemasWS();
-		getProblemasWS.ejecutar();
-		problemas = new ArrayList<Problema>();
-		for (GetProblemasWS.Problema problema : getProblemasWS.getProblemas()) {
-			model_problemas.addProblema(problema.getId(), problema.getDescripcion(), problema.getSoluciones());
-			Problema prob = new Problema();
-			prob.setId(problema.getId());
-			prob.setDescripcion(problema.getDescripcion());
-			problemas.add(prob);
+		for (int i = 0; i < model_configs.getColumnCount(); i++)
+			tabla_configs.getColumnModel().getColumn(i).setHeaderValue(model_configs.getColumnName(i));
+		tabla_configs.getTableHeader().resizeAndRepaint();
+		GetProblemaWS getProblemaWS = new GetProblemaWS();
+		getProblemaWS.setId(id_problema);
+		getProblemaWS.ejecutar();
+		configs = new ArrayList<Configuracion>();
+		for (Configuracion config : getProblemaWS.getConfiguraciones()) {
+			model_configs.addConfig(config);
+			configs.add(config);
 		}
 	}
 	
 	private void llenarTablaSeleccionado() {
 		for (int i = 0; i < model_seleccionados.getColumnCount(); i++)
-			tabla_seleccionados.getColumnModel().getColumn(i).setHeaderValue(model_problemas.getColumnName(i));
+			tabla_seleccionados.getColumnModel().getColumn(i).setHeaderValue(model_configs.getColumnName(i));
 		tabla_seleccionados.getTableHeader().resizeAndRepaint();
 		model_seleccionados.clear();
-		for (Problema problema : seleccionados) {
-			model_seleccionados.addProblema(problema);
+		for (Configuracion config : seleccionados) {
+			model_seleccionados.addConfig(config);
 		}
 	}
 }

@@ -48,7 +48,7 @@ public class FrameEstadisticasAvanzadas extends JFrame {
 		panelSeleccionarProblemas = new PanelSeleccionarProblemas(this);
 		add(panelSeleccionarProblemas);
 		setVisible(true);
-		setSize(400,400);
+		setSize(600,600);
 	}
 
 	public void problemasElegidos(List<Problema> seleccionados) {
@@ -70,8 +70,11 @@ public class FrameEstadisticasAvanzadas extends JFrame {
 		repaint();
 	}
 		
-	private void configuracionesElegidas(List<Configuracion> configuraciones) {
+	public void configuracionesElegidas(List<Configuracion> configuraciones) {
 		this.configuraciones = configuraciones;
+		
+		if (panelSeleccionarConfiguraciones != null)
+			remove(panelSeleccionarConfiguraciones);
 		GetValidValuesWS ws = new GetValidValuesWS();
 		
 		if (configuraciones != null && configuraciones.size() == 1)
@@ -132,7 +135,6 @@ public class FrameEstadisticasAvanzadas extends JFrame {
 	protected void buscar() {
 		GetAdvancedStatsWS ws = new GetAdvancedStatsWS();
 		
-		ws.setCalculadoresBondad(funcBondad.getSeleccion_string());
 		if (configuraciones != null && configuraciones.size() > 0) {
 			List<Integer> temp = new ArrayList<Integer>();
 			for (Configuracion conf : configuraciones)
@@ -145,6 +147,7 @@ public class FrameEstadisticasAvanzadas extends JFrame {
 				temp.add(prob.getId());
 			ws.setProblemas(temp);
 		}
+		ws.setCalculadoresBondad(funcBondad.getSeleccion_string());
 		ws.setCruzadores(curzadores.getSeleccion_string());
 		ws.setEstados(estados.getSeleccion_integer());
 		ws.setMuestras(muestras.getSeleccion_integer());

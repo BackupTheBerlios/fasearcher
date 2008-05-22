@@ -1,8 +1,10 @@
 package es.si.ProgramadorGenetico.Interfaz.frames;
 
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.NumberFormat;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
@@ -11,6 +13,7 @@ import javax.swing.JLabel;
 import javax.xml.namespace.QName;
 
 import es.si.ProgramadorGenetico.Interfaz.data.Stats;
+import es.si.ProgramadorGenetico.Interfaz.paneles.PanelHistograma;
 import es.si.ProgramadorGenetico.StatsWS.FASearcherStats;
 import es.si.ProgramadorGenetico.StatsWS.FASearcherStatsBeanService;
 import es.si.ProgramadorGenetico.util.Config;
@@ -27,46 +30,23 @@ public class FrameStats extends JFrame {
 		this(null);
 	}
 	
-	public FrameStats(Stats stats) {
+	public FrameStats(Stats stats2) {
 		super("Estadisticas");
 		
-		this.stats = stats;
+		this.stats = stats2;
 
 		if (stats == null)
 			getStats();
 		
 			
-			//HistPanel parecidoAF = crearHistPane("Parecidos a AF", histParecidoAF);
-			JPanel parecidoAF = new JPanel();
-			parecidoAF.setLayout(new BoxLayout(parecidoAF, BoxLayout.PAGE_AXIS));
-			
-			int cont = 0;
-			
-			parecidoAF.add(new JLabel("Parecido AF"));
-			
-			for (Double d : stats.getHistParecido()) {
-				parecidoAF.add(new JLabel("" + ((float) cont / 20) + " - " + ((float) (cont+ 1) / 20) + " : " + d + "      "));
-				cont++;
-			}
-			//HistPanel reconocido = crearHistPane("Reconocimiento", histReconocido);
-			JPanel reconocido = new JPanel();
-			reconocido.setLayout(new BoxLayout(reconocido, BoxLayout.PAGE_AXIS));
-			
-			reconocido.add(new JLabel("Reconocimiento"));
-			
-			cont = 0;
-			for (Double d : stats.getHistReconocimiento()) {
-				reconocido.add(new JLabel("" + ((float) cont / 20) + " - " + ((float) (cont+ 1) / 20) + " : " + d));
-				cont++;
-			}
-			
 			JPanel panel = new JPanel();
+			panel.setLayout(new GridLayout(2,1));
 
 			setLayout(new BorderLayout());
 			
-			panel.add(parecidoAF);
-			
-			panel.add(reconocido);
+			panel.add(new PanelHistograma(stats.getHistReconocimiento(), "Reconocimiento"), BorderLayout.CENTER);
+
+			panel.add(new PanelHistograma(stats.getHistParecido(), "Parecido"), BorderLayout.CENTER);
 			
 			add(panel, BorderLayout.CENTER);
 			
@@ -82,7 +62,7 @@ public class FrameStats extends JFrame {
 			
 			add(panel, BorderLayout.NORTH);
 			
-			setSize(500,500);
+			setSize(600,600);
 			
 			setVisible(true);
 	}

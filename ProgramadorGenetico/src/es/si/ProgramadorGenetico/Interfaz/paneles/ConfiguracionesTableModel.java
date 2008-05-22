@@ -65,4 +65,8 @@ public class ConfiguracionesTableModel extends AbstractTableModel {
 			labels[6] = ""+config.getResolver();
 		}
 	}
+
+	public void clear() {
+		filas = new ArrayList<FilaString>();
+	}
 }
