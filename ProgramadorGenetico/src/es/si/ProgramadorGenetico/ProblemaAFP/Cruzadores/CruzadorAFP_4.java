@@ -10,7 +10,7 @@ import es.si.ProgramadorGenetico.ProblemaAFP.ParametrosAFP;
 
 public class CruzadorAFP_4 implements Cruzador {
 
-	public static final double VERSION = 1.0f;
+	public static final double VERSION = 2.0f;
 
 	private static Random rand = new Random();
 	
@@ -18,9 +18,18 @@ public class CruzadorAFP_4 implements Cruzador {
 	public Poblacion entrecruzar(int cant, Poblacion mejores) {
 		int tam = mejores.getCantidad();
 		Poblacion nueva = new Poblacion();
-		for (int i = 0; i < cant; i++) {
-			nueva.agregarMiembro(cruzar((AFP)mejores.getMiembro(rand.nextInt(tam)), (AFP)mejores.getMiembro(rand.nextInt(tam))));
+		int cont = 0;
+		for (int i = 0; i < tam; i++) {
+			for (int j = 0; j < cant / tam; j++) {
+				nueva.agregarMiembro(cruzar((AFP) mejores.getMiembro(i), (AFP) mejores.getMiembro(j % tam)));
+				cont++;
+			}
 		}
+		while (cont < cant) {
+			nueva.agregarMiembro(cruzar((AFP)mejores.getMiembro(rand.nextInt(tam)), (AFP)mejores.getMiembro(rand.nextInt(tam))));
+			cont++;
+		}
+		
 		return nueva;
 	}
 	
@@ -29,22 +38,19 @@ public class CruzadorAFP_4 implements Cruzador {
 		AFP nuevo = new AFP(estados);
 		float[][][] transiciones = new float[estados][2][estados +1];
 		float[] finales = new float[estados];
-
-		int estado = rand.nextInt(estados);
-		
+		float peso1 = 0.1f * (float) rand.nextInt(11);
+		float peso2 = 0.1f * (float) rand.nextInt(11);
 		for (int i = 0; i < estados; i++) {
-			if (estado == i) {
-				for (int j = 0; j < estados + 1; j++) {
-					transiciones[i][0][j] = a.getProbabilidad(i+1, 0, j);
-					transiciones[i][1][j] = a.getProbabilidad(i+1, 1, j);
-				}
-			} else {
-				for (int j = 0; j < estados + 1; j++) {
-					transiciones[i][0][j] = b.getProbabilidad(i+1, 0, j);
-					transiciones[i][1][j] = b.getProbabilidad(i+1, 1, j);
-				}
+			for (int j = 0; j < estados + 1; j++) {
+				transiciones[i][0][j] = a.getProbabilidad(i+1, 0, j)*peso1
+										+ b.getProbabilidad(i+1, 0, j)*(1-peso1);
+				transiciones[i][1][j] = a.getProbabilidad(i+1, 1, j)*peso2
+										+ b.getProbabilidad(i+1, 1, j)*(1-peso2);
 			}
-			finales[i] = a.getProbabilidadFinal(i+1);
+			if (peso1 >= peso2)
+				finales[i] = a.getProbabilidadFinal(i+1);
+			else
+				finales[i] = b.getProbabilidadFinal(i+1);
 		}
 		nuevo.setTransiciones(transiciones);
 		nuevo.setProbabilidadFinal(finales);

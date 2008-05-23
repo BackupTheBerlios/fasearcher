@@ -4,9 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.NumberFormat;
 
-import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;

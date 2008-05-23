@@ -44,27 +44,17 @@ public class SelectorAFP implements Selector {
 		for (int i = 0; i < cantidad; i++) bondades[i] = 0;
 		AFP[] afps = new AFP[cantidad];
 		
-		Iterator<CalculadorBondad> it = calculadores.iterator();
-		while (it.hasNext()) {
-			CalculadorBondad temp = it.next();
+		for (CalculadorBondad temp : calculadores) {
 			for (int i = 0; i < cantidad; i++){
 				if (bondades[i] < temp.getBondad()) {
-					if (i == cantidad - 1) {
-						for (int j = 0; j < cantidad -1; j++) {
-							bondades[j] = bondades[j+1];
-							afps[j] = afps[j+1];
-						}
-						bondades[i] = temp.getBondad();
-						afps[i] = temp.getAFP();
+					for (int j = i; j < cantidad -1; j++) {
+						bondades[j] = bondades[j+1];
+						afps[j] = afps[j+1];
 					}
-				}
-				else if (i > 0) {
-					bondades[i - 1] = temp.getBondad();
-					afps[i-1] = temp.getAFP();
+					bondades[i] = temp.getBondad();
+					afps[i] = temp.getAFP();
 					break;
 				}
-				else
-					break;
 			}
 		}
 		Poblacion pob = new Poblacion();

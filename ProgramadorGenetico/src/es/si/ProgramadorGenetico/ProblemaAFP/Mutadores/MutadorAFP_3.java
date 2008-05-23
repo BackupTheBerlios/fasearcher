@@ -27,44 +27,33 @@ public class MutadorAFP_3 implements Mutador {
 	private void mutarAFP(AFP afp) {
 		int estados = ParametrosAFP.getInstance().getEstados();
 		float[][][] transiciones = afp.getTransiciones();
-		int cuantos = rand.nextInt(estados*2);
-		for (int j = 0; j < cuantos;j++) {
-			int estado = rand.nextInt(estados);
-			int valor = rand.nextInt(2);
-			int max = 0;
-			float maxval = 0;
-			for (int i = 0; i < estados; i++) {
-				if (transiciones[estado][valor][i] > maxval) {
-					maxval = transiciones[estado][valor][i];
-					max = i;
+		for (int i = 0; i < estados; i ++) {
+			if (rand.nextInt((estados+1)/2) == 0) {
+				int valor = rand.nextInt(2);
+				float suma = 0;
+				for (int j = 0; j < estados + 1; j++) {
+					transiciones[i][valor][j] = transiciones[i][valor][j]*transiciones[i][valor][j];
+					if (transiciones[i][valor][j] < 0.01)
+						transiciones[i][valor][j] = 0;
+					suma += transiciones[i][valor][j];
 				}
-			}
-			int signo = rand.nextInt(2) - 1;
-			float suma = 0.5f;
-			if (transiciones[estado][valor][max] + signo*suma > 1) {
-				suma = 1.0f - transiciones[estado][valor][max];
-			}		
-			if (transiciones[estado][valor][max] + signo*suma < 0) {
-				suma = transiciones[estado][valor][max];
-			}
-			float quitado = 0.0f;
-			for (int i = 0; i < estados; i++) {
-				float temp = quitado;
-				if (i != max) {
-					if (transiciones[estado][valor][i] - signo*suma < 0) {
-						quitado += transiciones[estado][valor][i];
-						transiciones[estado][valor][i] = 0;
-					} else {
-						transiciones[estado][valor][i] -= signo*suma;
-						quitado += suma;
-					}
+				if (suma < 0.01) {
+					for (int j = 0; j< estados + 1;j++)
+						transiciones[i][valor][j] = 0;
+					transiciones[i][valor][rand.nextInt(estados+1)] = 1;
 				}
-				if (quitado > suma) {
-					transiciones[estado][valor][i] += signo*(quitado - temp);
-					quitado = temp;
+				else {
+					float div = 1.0f / suma;
+					for (int j = 0; j < estados + 1; j++)
+						transiciones[i][valor][j] = transiciones[i][valor][j] * div;
 				}
+			} 
+			if (rand.nextInt((int)(estados*1.5)) == 0) {
+				int valor = rand.nextInt(2);
+				for (int j = 0; j< estados + 1;j++)
+					transiciones[i][valor][j] = 0;
+				transiciones[i][valor][rand.nextInt(estados+1)] = 1;
 			}
-			transiciones[estado][valor][max] += signo*quitado;
 		}
 		afp.setTransiciones(transiciones);	
 	}

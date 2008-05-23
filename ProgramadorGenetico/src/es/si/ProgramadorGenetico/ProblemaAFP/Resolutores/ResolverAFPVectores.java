@@ -67,16 +67,7 @@ public class ResolverAFPVectores implements ResolverAFP {
 		while(cadena!=null && !cadena.equals("")) {
 			simbolo = obtenerSimbolo(cadena);
 			cadena = actualizarCadena(cadena);
-			for (int i = 0; i < estados; i++) {
-				for (int j = 0; j < estados; j++) {
-					if (i == 0) probstemp[j] = 0;
-					probstemp[j] += probabilidades[i]*trans[i][simbolo][j+1];
-				}
-			}
-			// posiblemente se puede usar System.arrayCopy() pero no es bueno para
-			// arrays pequeños
-			for (int i = 0; i < estados; i++)
-				probabilidades[i] = probstemp[i];
+			procesarSimbolo(simbolo);
 		}
 		
 		probabilidadAceptar = 0;
@@ -86,6 +77,19 @@ public class ResolverAFPVectores implements ResolverAFP {
 		
 		this.procesando = false;
 		termino = true;
+	}
+	
+	private void procesarSimbolo(int simbolo) {
+		for (int i = 0; i < estados; i++) {
+			for (int j = 0; j < estados; j++) {
+				if (i == 0) probstemp[j] = 0;
+				probstemp[j] += probabilidades[i]*trans[i][simbolo][j+1];
+			}
+		}
+		// posiblemente se puede usar System.arrayCopy() pero no es bueno para
+		// arrays pequeños
+		for (int i = 0; i < estados; i++)
+			probabilidades[i] = probstemp[i];
 	}
 	
 	private int obtenerSimbolo(String cadena) {

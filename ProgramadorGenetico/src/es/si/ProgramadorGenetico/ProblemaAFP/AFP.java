@@ -48,16 +48,13 @@ public class AFP implements Individuo, Serializable {
 	
 	@Override
 	public boolean equals(Individuo otro) {
-		if (otro == null || otro.getClass() != this.getClass())
+		if (otro == null || otro.getClass() != this.getClass() || otro == this)
 			return false;
 		AFP otroafp = (AFP) otro;
-		if (otro == this) return true;
 		if (otroafp.estados != estados) return false;
 		for (int i = 0; i < estados; i++) {
 			if (Math.abs(otroafp.probabilidadFinal[i] - probabilidadFinal[i]) > 0.01)
 				return false;
-		}
-		for (int i = 0; i < estados; i++) {
 			for (int j = 0; j <= estados; j++) {
 				if (Math.abs(otroafp.transiciones[i][0][j] - transiciones[i][0][j]) > 0.01)
 					return false;

@@ -11,7 +11,7 @@ import es.si.ProgramadorGenetico.ProblemaAFP.ParametrosAFP;
 
 public class MutadorAFP_1 implements Mutador {
 
-	public static final double VERSION = 1.0f;
+	public static final double VERSION = 1.1f;
 
 	private static Random rand = new Random();
 
@@ -33,22 +33,24 @@ public class MutadorAFP_1 implements Mutador {
 				float suma = 0;
 				for (int j = 0; j < estados + 1; j++) {
 					transiciones[i][valor][j] = transiciones[i][valor][j]*transiciones[i][valor][j];
+					if (transiciones[i][valor][j] < 0.01)
+						transiciones[i][valor][j] = 0;
 					suma += transiciones[i][valor][j];
 				}
-				if (suma < 0.0001) {
+				if (suma < 0.01) {
+					for (int j = 0; j< estados + 1;j++)
+						transiciones[i][valor][j] = 0;
 					transiciones[i][valor][rand.nextInt(estados+1)] = 1;
 				}
 				else {
 					float div = 1.0f / suma;
-					for (int j = 0; j < estados + 1; j++) {
+					for (int j = 0; j < estados + 1; j++)
 						transiciones[i][valor][j] = transiciones[i][valor][j] * div;
-					}
 				}
 			} else if (rand.nextInt(estados*2) == 0) {
 				int valor = rand.nextInt(2);
-				for (int j = 0; j< estados + 1;j++) {
+				for (int j = 0; j< estados + 1;j++)
 					transiciones[i][valor][j] = 0;
-				}
 				transiciones[i][valor][rand.nextInt(estados+1)] = 1;
 			}
 		}
