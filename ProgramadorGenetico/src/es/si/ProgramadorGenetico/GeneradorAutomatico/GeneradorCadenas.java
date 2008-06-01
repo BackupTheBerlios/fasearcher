@@ -41,12 +41,13 @@ public class GeneradorCadenas {
 		else
 			cadenasRechazadas.add(new String("1"));
 
+		/*
 		String cadenaActual = "";
-		for (int i = 0; i < estados - 1; i++) {
+		for (int i = 0; i < estados - 1; i++) {											
 			if (transiciones[i][0][i + 1] == 1) {
 				cadenaActual += '0';
 			} else if (transiciones[i][1][i + 1] == 1) {
-				cadenaActual += '1';
+				cadenaActual += '1';		
 
 			}
 			String clonCadena = new String(cadenaActual);
@@ -56,6 +57,7 @@ public class GeneradorCadenas {
 			} else if (!cadenasRechazadas.contains(clonCadena))
 				cadenasRechazadas.add(clonCadena);
 		}
+		*/
 	}
 
 	public void generaCadenasAleatorias() {
