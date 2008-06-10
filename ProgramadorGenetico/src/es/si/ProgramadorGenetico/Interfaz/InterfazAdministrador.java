@@ -33,26 +33,51 @@ import es.si.ProgramadorGenetico.ProblemaAFP.AFP;
 import es.si.ProgramadorGenetico.WS.AddProblemaWS;
 import es.si.ProgramadorGenetico.WS.RemoveProblemaWS;
 
+/**
+ * Clase principal de la aplicación del administrador
+ */
 public class InterfazAdministrador extends JFrame implements InterfazGrafica {
 
 	private static final long serialVersionUID = 315808382302135788L;
-	
+	/**
+	 * Menu principal
+	 */
 	private JMenuBar menuBar;
-	
+	/**
+	 * Panel de los AFPs 
+	 */
 	private PanelAFPs panelAFPs = null;
-	
-	private PanelAF panelAF = null;
-	
+	/**
+	 * Panel de los AF que dibuja el usuario
+	 */
+	private PanelAF panelAF = null;	
+	/**
+	 * Panel de informacion sobre el estado de la ejecucion
+	 */
 	private PanelInfo panelInfo;
-	
+	/**
+	 * Atributo que se encarga de poner en marcha
+	 * la ejecucion de resolver problemas
+	 */
 	private ResolverProblemas resolverProblemas = null;
-	
+	/**
+	 * Valor booleano que indica si se debe mostrar el frame
+	 */
 	private boolean mostrar = true;
-	
+	/**
+	 * Guarda el problema actual
+	 */
 	private Problema problema;
-	
+	/**
+	 * Barra de edicion que contiene los elementos de dibujo
+	 */
 	private BarraEdicion barraEdicion;
 	
+
+	/**
+	 * Constructora principal. Construye los menus y los paneles
+	 * y hace las inicializaciones necesarias
+	 */
 	public InterfazAdministrador() {
 		super("FASearcher");
 		menuBar = new MenuAdministrador(this);
@@ -70,17 +95,27 @@ public class InterfazAdministrador extends JFrame implements InterfazGrafica {
 		setVisible(true);
 	}
 
+	/**
+	 * Actualiza el valor del atributo mostrar a selected
+	 * @param selected
+	 */
 	public void setMostrar(boolean selected) {
 		mostrar = selected;
 	}
 
 
+	/**
+	 * Detiene la resolucion de problemas
+	 */
 	public void detenerResolucion() {
 		if (resolverProblemas != null)
 			resolverProblemas.stop();
 		panelInfo.terminaResolviendo("Terminado");
 	}
 
+	/**
+	 * Inicia la resolucion de problemas
+	 */
 	public void resolverProblemas() {
 		resolverProblemas = new ResolverProblemas(this);
 		Thread thread = new Thread(resolverProblemas);
@@ -88,6 +123,9 @@ public class InterfazAdministrador extends JFrame implements InterfazGrafica {
 		panelInfo.resolviendo();
 	}
 
+	/**
+	 * Inicia la resolucion de un problema
+	 */
 	public void resolverUnProblema() {
 		AF af = creadoAutomata();
 		if (af != null) {
@@ -99,6 +137,9 @@ public class InterfazAdministrador extends JFrame implements InterfazGrafica {
 		}
 	}
 	
+	/**
+	 * Actualiza los paneles necesarios cuando ha terminado de resolver un problema 
+	 */
 	public void terminoResolver(boolean correcto, List<AFP> mejores) {
 		if (correcto) {
 			quitarPaneles();
@@ -111,7 +152,13 @@ public class InterfazAdministrador extends JFrame implements InterfazGrafica {
 			panelInfo.terminaResolviendo("Terminado con errores");
 		}
 	}
+
+
 	
+
+	/**
+	 * Actualiza los paneles necesarios cuando ha terminado de resolver muchos problemas
+	 */
 	public void terminoResolverMuchos(boolean correcto, AFP mejor) {
 		if (correcto) {
 			quitarPaneles();
@@ -125,7 +172,10 @@ public class InterfazAdministrador extends JFrame implements InterfazGrafica {
 			panelInfo.terminaResolviendo("Terminado con errores");
 		}
 	}
-	
+
+	/**
+	 * Quita paneles
+	 */
 	private void quitarPaneles() {
 		if (panelAFPs != null) {
 			remove(panelAFPs);
@@ -137,6 +187,9 @@ public class InterfazAdministrador extends JFrame implements InterfazGrafica {
 		}
 	}
 
+	/**
+	 * Dibuja un automata
+	 */
 	public void dibujarAutomata() {
 		quitarPaneles();
 		problema = new Problema();
@@ -146,6 +199,9 @@ public class InterfazAdministrador extends JFrame implements InterfazGrafica {
 		validate();
 	}
 
+	/**
+	 * Genera un automata aleatorio
+	 */
 	public void generarAleatorio() {
 		String s = (String) JOptionPane.showInputDialog(
 				"Introduzca el número de estados del automáta a generar",
@@ -161,6 +217,9 @@ public class InterfazAdministrador extends JFrame implements InterfazGrafica {
 		} catch(Exception e) {}
 	}
 
+	/**
+	 * Genera cadenas aleatorias para el problema
+	 */
 	public void generarCadenas() {
 		AF af = creadoAutomata();
 		if (af != null) {
@@ -185,6 +244,10 @@ public class InterfazAdministrador extends JFrame implements InterfazGrafica {
 
 	}
 
+	/**
+	 * Crea un automata
+	 * @return automata creado
+	 */
 	private AF creadoAutomata() {
 		if (problema != null && panelAF != null) {
 			AF af = new AF(panelAF.getSubPanelAF().getEstados(),
@@ -205,12 +268,18 @@ public class InterfazAdministrador extends JFrame implements InterfazGrafica {
 		return null;
 	}
 
+	/**
+	 * Crea un frame para manipular cadenas
+	 */	
 	public void manipularCadenas() {
 		AF af = creadoAutomata();
 		if (af != null)
 				new FrameCadenas(af, problema);
 	}
 
+	/**
+	 * Envia el problema a la base de datos
+	 */
 	public void enviarProblema() {
 		AF af = creadoAutomata();
 		if (af != null) {
@@ -267,31 +336,55 @@ public class InterfazAdministrador extends JFrame implements InterfazGrafica {
 			JOptionPane.showMessageDialog(this, "Primero debe crear un automata");
 	}
 
+	/**
+	 * Muestra el frame para modificar configuraciones
+	 */
 	public void modificarConfiguraciones() {
 		if (creadoAutomata() != null)
 			new FrameConfiguraciones(problema);
 	}
 
+	/**
+	 * Muestra el frame de las soluciones de la base de datos
+	 */
 	public void buscarSoluciones() {
 		new FrameSoluciones();
 	}
 
+	/**
+	 * Muestra el frame para resolver un problema desde cadenas 
+	 */
 	public void resolverUnProblemaDesdeCadenas() {
 		new FrameResolverCadenas();
 	}
 
+	/**
+	 * Muestra el frame de las estadisticas
+	 */
 	public void verEstadisticas() {
 		new FrameStats();
 	}
 	
+	/**
+	 * Devuelve el panel del automata
+	 * @return el panel del automata
+	 */
 	public PanelAF getPanelAF() {
 		return panelAF;
 	}
 
+	/**
+	 * Muestra el frame de cargar problemas
+	 */
 	public void cargarProblema() {
 		new FrameCargarProblema(this);
 	}
 	
+	/**
+	 * Dibuja el automata afp y guarda el problema
+	 * @param afp
+	 * @param problema
+	 */
 	public void terminoCargar(AFP afp, Problema problema) {
 		quitarPaneles();
 		this.problema = problema;
@@ -301,10 +394,16 @@ public class InterfazAdministrador extends JFrame implements InterfazGrafica {
 		validate();
 	}
 
+	/**
+	 * Muestra el frame de estadisticas avanzadas
+	 */
 	public void verEstadisticasAvanzadas() {
 		new FrameEstadisticasAvanzadas();
 	}
 
+	/**
+	 * Muestra el frame sobre la aplicacion
+	 */
 	public void sobreAplicacion() {
 		new FrameSobreAplicacion();
 	}
