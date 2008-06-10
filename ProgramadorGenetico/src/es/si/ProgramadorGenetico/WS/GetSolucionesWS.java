@@ -13,14 +13,35 @@ import es.si.ProgramadorGenetico.util.Config;
 import es.si.fasearcherserver.GetSolucionesRequest;
 import es.si.fasearcherserver.GetSolucionesResponse;
 
+/**
+ * Esta clase es utilizada para obtener soluciones de un problema
+ * desde la base de datos.<p>
+ * 
+ * Para usar el método correspondiente hay que crear una instacia,
+ * luego dar valores a los distintos parámetos y por ultimo, al
+ * llamar al método "ejecutar" se envía la información al servidor.
+ * El servidor devuelve una lista de las soluciones del problema.
+ */
 public class GetSolucionesWS {
 
+	/**
+	 * Lista de las soluciones del problema
+	 */
 	private List<Solucion> soluciones;
 	
+	/**
+	 * Lista de las configuraciones del problema
+	 */
 	private List<Configuracion> configuraciones;
 	
+	/**
+	 * Id del problema del que se quiere obtener información
+	 */
 	private String id;
 	
+	/**
+	 * Id de la configuracion de la que se quieren obtener las soluciones
+	 */
 	private Integer id_configuracion;
 	
 	public void setId(String id) {
@@ -31,6 +52,12 @@ public class GetSolucionesWS {
 		this.id_configuracion = id_configuracion;
 	}
 
+	/**
+	 * Ejecutar la llamada al método del servidor.
+	 * 
+	 * @return
+	 * Devuevle un booleano indicando si la ejecución del método fue satisfactoria
+	 */
 	public boolean ejecutar() {
 		try {
 			QName service = new QName("http://ejb.FASearcherServer.si.es/", "FASearcherServiceBeanService");

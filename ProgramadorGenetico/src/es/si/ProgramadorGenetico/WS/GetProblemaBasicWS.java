@@ -13,34 +13,89 @@ import es.si.ProgramadorGenetico.util.Config;
 import es.si.fasearcherserver.GetProblemaBasicRequest;
 import es.si.fasearcherserver.GetProblemaBasicResponse;
 
+/**
+ * Esta clase es utilizada para obtener un problema para resolver
+ * desde el servidor.<p>
+ * 
+ * Para usar el método correspondiente hay que crear una instacia,
+ * luego dar valores a los distintos parámetos y por ultimo, al
+ * llamar al método "ejecutar" se envía la información al servidor.
+ * El servidor devuelve la información necesaria para resolver un
+ * problema con las palabaras aceptadas, rechazadas y la configuración.
+ */
 public class GetProblemaBasicWS {
 
+	/**
+	 * Tamaño, en forma de numero de estados, del automata que se desa obtener
+	 */
 	private Integer tamano;
 	
+	/**
+	 * Tipo del automata que se pretende obtener
+	 */
 	private String tipoAutomata;
 	
+	/**
+	 * Numero de estados del automata que se desea generar
+	 */
 	private Integer estados;
 	
+	/**
+	 * Poblacion maxima que se debe utilizar para generar el problema
+	 */
 	private Integer pobMax;
 	
+	/**
+	 * Número de muestras que se deben utilizar para generar el problema
+	 */
 	private Integer muestras;
 	
+	/**
+	 * Identificador para calculador de bondad que se debe utilizar
+	 */
 	private Integer calculadorBondad;
 	
+	/**
+	 * Identificador para el curzador que se debe utilizar
+	 */
 	private Integer cruzador;
 	
+	/**
+	 * Identificador para el mutador que se debe utilizar
+	 */
 	private Integer mutador;
 	
+	/**
+	 * Identificador para el metodo resolutor que se debe utilizar
+	 */
 	private Integer resolver;
 	
+	/**
+	 * Id del problema que se debe resolver
+	 */
 	private String id;
 	
+	/**
+	 * Id de la configuracion que se esta utilizando para resolver el problema
+	 */
 	private Integer id_config;
 	
+	/**
+	 * Lista de cadenas aceptadas por el problema
+	 */
 	private List<String> aceptadas;
 	
+	/**
+	 * Lista de cadenas rechazadas por el problema
+	 */
 	private List<String> rechazadas;
 	
+	/**
+	 * Ejecutar la llamada al método del servidor.
+	 * 
+	 * @return
+	 * Devuevle un booleano indicando si la ejecución del método fue satisfactoria
+	 */
 	public boolean ejecutar() {
 		try {
 			QName service = new QName("http://ejb.FASearcherServer.si.es/", "FASearcherBasicBeanService");

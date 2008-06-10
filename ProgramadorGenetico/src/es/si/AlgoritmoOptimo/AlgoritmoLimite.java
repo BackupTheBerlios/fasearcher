@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Algoritmo {
+public class AlgoritmoLimite {
 
 	private List<String> aceptadas;
 	
@@ -13,8 +13,13 @@ public class Algoritmo {
 	
 	private Map<Integer, List<AF>> pasados;
 	
+	private int k;
+	
+	public void setK(int k) {
+		this.k = k;
+	}
 
-	public Algoritmo() {
+	public AlgoritmoLimite() {
 		aceptadas = new ArrayList<String>();
 		rechazadas = new ArrayList<String>();
 	}
@@ -38,20 +43,16 @@ public class Algoritmo {
 		
 		AF mejor = null;
 		
-		while (lista.size() > 0) {
+		while (lista.size() > 0 && (mejor == null || mejor.getCont() > k)) {
 			AF actual = lista.get(lista.size() - 1);
 			lista.remove(actual);
-			actual.ponerSubCadenas(aceptadas, rechazadas);
+			//actual.ponerSubCadenas(aceptadas, rechazadas);
 			System.out.println("Lista -> " + lista.size() + " Tamaño -> " + actual.getCont() + " Mejor -> " + (mejor != null ? mejor.getCont() : "-"));
 			
 			AF nuevo = new AF(actual);
 			for (Estado temp1 : actual.getEstados()) {
-			//for (int i = actual.getEstados().size() - 1; i >= 0; i--) {
-				//Estado temp1 = actual.getEstados().get(i);
 				for (Estado temp2 : actual.getEstados()) {
-				//for (int j = actual.getEstados().size() - 1; j >= 0; j--) {
-					//Estado temp2 = actual.getEstados().get(j);
-					if (temp1 != temp2 && compatibles(temp1, temp2)) {
+					if (temp1 != temp2) {
 						nuevo.reemplazar(temp1.getNum(), temp2.getNum());
 						if (nuevo.validate(aceptadas, rechazadas)) {
 							if (mejor == null || nuevo.getCont() < mejor.getCont()) {

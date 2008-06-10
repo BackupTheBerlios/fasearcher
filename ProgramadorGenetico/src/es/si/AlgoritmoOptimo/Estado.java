@@ -13,6 +13,10 @@ public class Estado {
 	
 	private List<String> subRechazadas;
 	
+	private List<String> totalSubAceptadas;
+	
+	private List<String> totalSubRechazadas;
+	
 	private List<String> tempSubAceptadas;
 	
 	private List<String> tempSubRechazadas;
@@ -112,12 +116,16 @@ public class Estado {
 				if (cadena.length() > 0 && cadena.startsWith("" + i)) {
 					aceptadas.add(cadena.substring(1));
 					temp1.add(cadena);
+					if (cadena.length() == 1)
+						temp1.add("");
 				}
 			}
 			for (String cadena : tempSubRechazadas) {
 				if (cadena.length() > 0 && cadena.startsWith("" + i)) {
 					rechazadas.add(cadena.substring(1));
 					temp2.add(cadena);
+					if (cadena.length() == 1)
+						temp2.add("");
 				}
 			}
 			for (String cadena : temp1) {
@@ -150,5 +158,36 @@ public class Estado {
 
 	public List<String> getTempSubRechazadas() {
 		return tempSubRechazadas;
+	}
+
+	public void calcularSubs() {
+		totalSubAceptadas = new ArrayList<String>();
+		totalSubRechazadas = new ArrayList<String>();
+		for (String temp : tempSubAceptadas) {
+			if (this.acepta(temp.toCharArray(), 0))
+				totalSubAceptadas.add(temp);
+		}
+		tempSubAceptadas.clear();
+		for (String temp : tempSubRechazadas) {
+			if (!this.acepta(temp.toCharArray(), 0))
+				totalSubRechazadas.add(temp);
+		}
+		tempSubRechazadas.clear();		
+	}
+
+	public List<String> getTotalSubAceptadas() {
+		return totalSubAceptadas;
+	}
+
+	public void setTotalSubAceptadas(List<String> totalSubAceptadas) {
+		this.totalSubAceptadas = totalSubAceptadas;
+	}
+
+	public List<String> getTotalSubRechazadas() {
+		return totalSubRechazadas;
+	}
+
+	public void setTotalSubRechazadas(List<String> totalSubRechazadas) {
+		this.totalSubRechazadas = totalSubRechazadas;
 	}
 }

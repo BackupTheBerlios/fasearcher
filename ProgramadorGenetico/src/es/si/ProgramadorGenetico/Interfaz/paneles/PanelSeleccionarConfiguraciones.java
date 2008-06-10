@@ -16,7 +16,6 @@ import es.si.ProgramadorGenetico.Interfaz.data.Configuracion;
 import es.si.ProgramadorGenetico.Interfaz.data.Problema;
 import es.si.ProgramadorGenetico.Interfaz.frames.FrameEstadisticasAvanzadas;
 import es.si.ProgramadorGenetico.WS.GetProblemaWS;
-import es.si.ProgramadorGenetico.WS.GetProblemasWS;
 
 public class PanelSeleccionarConfiguraciones extends JPanel {
 

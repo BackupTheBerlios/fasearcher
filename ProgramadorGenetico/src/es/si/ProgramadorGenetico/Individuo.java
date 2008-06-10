@@ -12,6 +12,13 @@ package es.si.ProgramadorGenetico;
  */
 public interface Individuo {
 	
+	/**
+	 * Función que determina si el individuo es igual a otro
+	 * @param otro
+	 * Otro inidviduo con el que comparar
+	 * @return
+	 * Booleano que inidica si el individuo es igual a otro
+	 */
 	public boolean equals(Individuo otro);
 	
 }

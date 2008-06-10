@@ -1,10 +1,13 @@
 package es.si.AlgoritmoOptimo;
 
+import es.si.ProgramadorGenetico.WS.GetProblemaWS;
+
 public class Principal {
 
 	public static void main(String[] args) {
-		Algoritmo alg = new Algoritmo();
-				
+		AlgoritmoLimite alg = new AlgoritmoLimite();
+		alg.setK(8);
+		/*
 		alg.addAceptada("1");
 		alg.addAceptada("01");
 		alg.addAceptada("10");
@@ -26,7 +29,18 @@ public class Principal {
 		alg.addRechazada("000");
 		alg.addRechazada("0000");
 		alg.addRechazada("00000");
-		
+*/
+	
+		GetProblemaWS gpws = new GetProblemaWS();
+//		gpws.setId("9777918");
+//		gpws.setId("4723571");
+		gpws.setId("6327041");
+		gpws.ejecutar();
+ 		for (String cadena : gpws.getAceptadas())
+ 			alg.addAceptada(cadena);
+ 		for (String cadena : gpws.getRechazadas())
+ 			alg.addRechazada(cadena);
+ 		
 		alg.ejecutar();
 	}
 	

@@ -4,6 +4,11 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * Clase utilizada para mostrar texto en la pantalla o en un fichero
+ * de texo.
+ *
+ */
 public class Writer {
 	private static BufferedWriter bw;
 	

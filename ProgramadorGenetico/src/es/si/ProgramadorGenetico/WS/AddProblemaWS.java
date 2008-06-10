@@ -24,39 +24,68 @@ import es.si.fasearcherserver.AddProblemaResponse;
  * Esta clase es utilizada para contactar al serividor y añadir
  * un nuevo problema en la BBDD.<p>
  * 
- * Para usar este método hay que crear una instacia, luego dar
- * valores a los distintos parámetos y por ultimo, al llamar
- * al método "ejecutar" se envía la información al servidor.
+ * Para usar el método correspondiente hay que crear una instacia,
+ * luego dar valores a los distintos parámetos y por ultimo, al
+ * llamar al método "ejecutar" se envía la información al servidor.
  * Una vez enviada la información al servidor este devuevle
  * el id del problema, que se puede obtener de la instacia.
  */
 public class AddProblemaWS {
 
+	/**
+	 * Lista de palabras aceptadas por el problema
+	 */
 	private List<String> aceptadas;
 	
+	/**
+	 * Lista de palabras rechazadaas por el problema
+	 */
 	private List<String> rechazadas;
 	
+	/**
+	 * Lista de configuraciones para resolver el problema
+	 */
 	private List<Configuracion> configs;
 	
+	/**
+	 * Tipo del automata para el que fue creado el problema
+	 */
 	private String tipoAutomata;
 	
+	/**
+	 * Automata original con el que se creo el lenguaje
+	 */
 	private Afp afp;
 	
+	/**
+	 * Numero de estados que tenia el automata original
+	 */
 	private Integer estados;
 	
 	private Integer pobMax;
 	
-	private String id;
-	
+	/**
+	 * Descripción del problema que se esta subiendo a la base de datos
+	 */
 	private String descripcion;
-	
+
+	/**
+	 * Id del nuevo problema añadido a la base de datos
+	 */
+	private String id;
+
 	public AddProblemaWS() {
 		configs = new ArrayList<Configuracion>();
 	}
 	
+	/**
+	 * Ejecutar la llamada al método del servidor.
+	 * 
+	 * @return
+	 * Devuevle un booleano indicando si la ejecución del método fue satisfactoria
+	 */
 	public boolean ejecutar() {
 			try {
-				
 				QName service = new QName("http://ejb.FASearcherServer.si.es/", "FASearcherServiceBeanService");
 				URL server;
 				if (!Config.getInstance().getProperty("FASearcherServiceServer").equals("classpath"))

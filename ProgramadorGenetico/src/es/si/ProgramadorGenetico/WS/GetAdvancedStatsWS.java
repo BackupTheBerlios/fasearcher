@@ -6,42 +6,94 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
-import es.si.ProgramadorGenetico.Interfaz.data.Problema;
 import es.si.ProgramadorGenetico.StatsWS.FASearcherStats;
 import es.si.ProgramadorGenetico.StatsWS.FASearcherStatsBeanService;
 import es.si.ProgramadorGenetico.util.Config;
 import es.si.fasearcherserver.GetAdvancedStatsRequest;
 import es.si.fasearcherserver.GetAdvancedStatsResponse;
-import es.si.fasearcherserver.GetValidValuesRequest;
-import es.si.fasearcherserver.GetValidValuesResponse;
 
+/**
+ * Esta clase es utilizada para obtener estadisticas avanzadas
+ * desde el servidor.<p>
+ * 
+ * Para usar el método correspondiente hay que crear una instacia,
+ * luego dar valores a los distintos parámetos y por ultimo, al
+ * llamar al método "ejecutar" se envía la información al servidor.
+ * Una vez enviada la información al servidor este consulta la base
+ * de dato y devuelve las estadísticas correspondientes.
+ */
 public class GetAdvancedStatsWS {
 
+	/**
+	 * Lista de los problemas sobre los que se desean estadísticas
+	 */
 	private List<String> problemas;
 	
+	/**
+	 * Lista de configuraciones que se desan incluir al realizar estadísticas
+	 */
 	private List<Integer> configuraciones; 
 	
+	/**
+	 * Lista de los mutadores que se desean incluir para las estadisticas
+	 * (por el nombre con la version)
+	 */
 	private List<String> mutadores;
 	
+	/**
+	 * Lista de los cruzadores que se desean incluir para las estadísticas
+	 * (por el nombre con la version)
+	 */
 	private List<String> cruzadores;
 	
+	/**
+	 * Lista de los calculadores de bondad (funciones de bondad) que se desean
+	 * incluir para las estadísticas (por el nombre con la version)
+	 */
 	private List<String> calculadoresBondad;
 	
+	/**
+	 * Lista de los numeros de estados que se desean incluir en las estadísticas
+	 */
 	private List<Integer> estados;
 	
+	/**
+	 * Lista de los numeros de muestras qu ese desean incluir en las estadísticas
+	 */
 	private List<Integer> muestras;
 	
+	/**
+	 * Lista de los valores de poblacion maxima que se desean incluir en las
+	 * estadísticas
+	 */
 	private List<Integer> pobMax;
 	
+	/**
+	 * Lista de los numeros de pasos que se desean incluir en las estadísticas
+	 */
 	private List<Integer> pasos;
 	
 	
+	/**
+	 * Número de problemas que cumplen las restricciones 
+	 */
 	private Integer numProblemas;
 	
+	/**
+	 * Media de soluciones por problemas que cumplen las restricciones
+	 */
 	private Float mediaSoluciones;
 	
+	/**
+	 * Lista de valores que representan un histograma de la distribuición
+	 * del reconocimiento de los autómatas
+	 */
 	private List<Double> histReconocimiento;
 	
+	/**
+	 * Lista de valores que representan un histograma de la distribución
+	 * del parecido de los AFPs con AFs
+	 */
 	private List<Double> histParecido;
 	
 	public Integer getNumProblemas() {
@@ -60,6 +112,12 @@ public class GetAdvancedStatsWS {
 		return histParecido;
 	}
 
+	/**
+	 * Ejecutar la llamada al método del servidor.
+	 * 
+	 * @return
+	 * Devuevle un booleano indicando si la ejecución del método fue satisfactoria
+	 */
 	public boolean ejecutar() {
 		try {
 			QName service = new QName("http://ejb.FASearcherServer.si.es/", "FASearcherStatsBeanService");

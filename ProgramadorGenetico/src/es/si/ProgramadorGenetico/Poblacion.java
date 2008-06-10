@@ -5,15 +5,22 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Clase que amacena el conjunto de individuos que componen una población para el algoritmo.
+ * Clase que amacena el conjunto de individuos que componen una población.<p>
  * 
- * @author Eugenio Jorge Marchiori
- *
+ * Esta clase es utilizada por el algoritmo para almacenar los individuos
+ * en cada iteración del algoritmo genético.
+ * 
  */
 public class Poblacion {
 
+	/**
+	 * Lista de miembros (individuos) de la poblacion
+	 */
 	private ArrayList<Individuo> miembros;
 	
+	/**
+	 * Constructor por defecto de la población
+	 */
 	public Poblacion() {
 		miembros = new ArrayList<Individuo>();
 	}

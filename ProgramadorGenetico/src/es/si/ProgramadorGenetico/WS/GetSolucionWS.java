@@ -14,18 +14,43 @@ import es.si.ProgramadorGenetico.util.Config;
 import es.si.fasearcherserver.GetSolucionRequest;
 import es.si.fasearcherserver.GetSolucionResponse;
 
+/**
+ * Esta clase es utilizada para obtener toda la información de
+ * una solución desde la base de datos.<p>
+ * 
+ * Para usar el método correspondiente hay que crear una instacia,
+ * luego dar valores a los distintos parámetos y por ultimo, al
+ * llamar al método "ejecutar" se envía la información al servidor.
+ * El servidor devuelve toda la información pertinente a la solución
+ * solicitada desde la base de datos.
+ */
 public class GetSolucionWS {
 
+	/**
+	 * Tipo de autómata de la solución
+	 */
 	private String tipoAutomata;
 	
+	/**
+	 * AFP creado como solución al problema
+	 */
 	private AFP afp;
 	
+	/**
+	 * Id del problema al que pertenece la solución
+	 */
 	private String id;
 	
 	public void setId(String id) {
 		this.id = id;
 	}
 
+	/**
+	 * Ejecutar la llamada al método del servidor.
+	 * 
+	 * @return
+	 * Devuevle un booleano indicando si la ejecución del método fue satisfactoria
+	 */
 	public boolean ejecutar() {
 		try {
 			QName service = new QName("http://ejb.FASearcherServer.si.es/", "FASearcherServiceBeanService");

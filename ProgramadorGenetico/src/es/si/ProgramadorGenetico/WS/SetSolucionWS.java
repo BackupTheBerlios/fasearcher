@@ -14,33 +14,79 @@ import es.si.ProgramadorGenetico.util.Config;
 import es.si.fasearcherserver.SetSolucionRequest;
 import es.si.fasearcherserver.SetSolucionResponse;
 
-
+/**
+ * Esta clase es utilizada para añadir una nueva solución a un problema.<p>
+ * 
+ * Para usar el método correspondiente hay que crear una instacia,
+ * luego dar valores a los distintos parámetos y por ultimo, al
+ * llamar al método "ejecutar" se envía la información al servidor.
+ * El servidor almacena la información de la solución en al base de datos.
+ */
 public class SetSolucionWS {
 
+	/**
+	 * Id del problema
+	 */
 	private String id;
 	
+	/**
+	 * Valor de reconocimento de la solución
+	 */
 	private String reconocimiento;
 	
+	/**
+	 * Valor de parecido con un AF de la solución
+	 */
 	private String parecidoAF;
 	
+	/**
+	 * AFP resultante de la resolución del problmea
+	 */
 	private Afp afp;
 	
+	/**
+	 * Numero de pasos utilizados para llegar al AFP
+	 */
 	private Integer pasos;
 	
+	/**
+	 * Mutador utilizado, incluyendo la version
+	 */
 	private String mutador;
 	
+	/**
+	 * Método resolutor utilizado, incluyendo la version
+	 */
 	private String metodoRes;
 	
+	/**
+	 * Funcion de bondad utilizada, incluyendo la version
+	 */
 	private String funcbondad;
 	
+	/**
+	 * Cruzador utilizado, incluyendo la versión
+	 */
 	private String cruzador;
 	
+	/**
+	 * Población máxima utilizada
+	 */
 	private Integer pobmax;
 	
+	/**
+	 * Número de muestras  utilizadas
+	 */
 	private Integer muestras;
 	
+	/**
+	 * Particiones utilizadas para generar el automata original
+	 */
 	private Integer particiones;
 	
+	/**
+	 * Identificador de la configuración pasada como parámetro 
+	 */
 	private Integer id_config;
 	
 	public void setId_config(Integer id_config) {
@@ -51,8 +97,13 @@ public class SetSolucionWS {
 		this.particiones = particiones;
 	}
 
+	/**
+	 * Ejecutar la llamada al método del servidor.
+	 * 
+	 * @return
+	 * Devuevle un booleano indicando si la ejecución del método fue satisfactoria
+	 */
 	public boolean ejecutar() {
-		
 		try {
 			QName service = new QName("http://ejb.FASearcherServer.si.es/", "FASearcherBasicBeanService");
 			URL server;
@@ -88,7 +139,6 @@ public class SetSolucionWS {
 				return false;
 			
 		}  catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return false;

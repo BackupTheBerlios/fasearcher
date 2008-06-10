@@ -13,10 +13,29 @@ import es.si.ProgramadorGenetico.util.Config;
 import es.si.fasearcherserver.GetProblemasRequest;
 import es.si.fasearcherserver.GetProblemasResponse;
 
+/**
+ * Esta clase es utilizada para obtener una lista de los problemas
+ * que estan en la base de datos.<p>
+ * 
+ * Para usar el método correspondiente hay que crear una instacia,
+ * luego dar valores a los distintos parámetos y por ultimo, al
+ * llamar al método "ejecutar" se envía la información al servidor.
+ * El servidor devuelve una lista con todos los problemas que estan
+ * en la base de datos.
+ */
 public class GetProblemasWS {
 
+	/**
+	 * Lista de los problemas de la bae de datos
+	 */
 	private List<Problema> problemas;
 	
+	/**
+	 * Ejecutar la llamada al método del servidor.
+	 * 
+	 * @return
+	 * Devuevle un booleano indicando si la ejecución del método fue satisfactoria
+	 */
 	public boolean ejecutar() {
 		try {
 			QName service = new QName("http://ejb.FASearcherServer.si.es/", "FASearcherServiceBeanService");
@@ -50,12 +69,25 @@ public class GetProblemasWS {
 		return true;
 	}
 
+	/**
+	 * Clase interna que incluye la infromación que describe un
+	 * problema en la base de datos.
+	 */
 	public class Problema {
 		
+		/**
+		 * Id del problema
+		 */
 		private String id;
 		
+		/**
+		 * Descripción del problema
+		 */
 		private String descripcion;
 
+		/**
+		 * Número de soluciones que tiene el problema en la base de datos
+		 */
 		private Integer soluciones;
 		
 		public String getId() {

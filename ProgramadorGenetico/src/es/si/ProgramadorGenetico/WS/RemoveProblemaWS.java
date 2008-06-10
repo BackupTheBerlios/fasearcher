@@ -9,14 +9,31 @@ import es.si.ProgramadorGenetico.ServiceWS.FASearcherServiceBeanService;
 import es.si.ProgramadorGenetico.util.Config;
 import es.si.fasearcherserver.RemoveProblemaRequest;
 
+/**
+ * Esta clase es utilizada para eliminar un problema de la base de datos.<p>
+ * 
+ * Para usar el método correspondiente hay que crear una instacia,
+ * luego dar valores a los distintos parámetos y por ultimo, al
+ * llamar al método "ejecutar" se envía la información al servidor.
+ * El servidor elimina el problema correspondiente de la base de datos.
+ */
 public class RemoveProblemaWS {
 
+	/**
+	 * Id del problema a eliminar
+	 */
 	private String id;
 	
 	public void setId(String id) {
 		this.id = id;
 	}
 
+	/**
+	 * Ejecutar la llamada al método del servidor.
+	 * 
+	 * @return
+	 * Devuevle un booleano indicando si la ejecución del método fue satisfactoria
+	 */
 	public boolean ejecutar() {
 		try {
 			QName service = new QName("http://ejb.FASearcherServer.si.es/", "FASearcherServiceBeanService");

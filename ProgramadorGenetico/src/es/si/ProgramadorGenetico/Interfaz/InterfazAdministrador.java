@@ -21,6 +21,7 @@ import es.si.ProgramadorGenetico.Interfaz.frames.FrameConfiguraciones;
 import es.si.ProgramadorGenetico.Interfaz.frames.FrameEstadisticasAvanzadas;
 import es.si.ProgramadorGenetico.Interfaz.frames.FrameResolver;
 import es.si.ProgramadorGenetico.Interfaz.frames.FrameResolverCadenas;
+import es.si.ProgramadorGenetico.Interfaz.frames.FrameSobreAplicacion;
 import es.si.ProgramadorGenetico.Interfaz.frames.FrameSoluciones;
 import es.si.ProgramadorGenetico.Interfaz.frames.FrameStats;
 import es.si.ProgramadorGenetico.Interfaz.menus.MenuAdministrador;
@@ -302,5 +303,9 @@ public class InterfazAdministrador extends JFrame implements InterfazGrafica {
 
 	public void verEstadisticasAvanzadas() {
 		new FrameEstadisticasAvanzadas();
+	}
+
+	public void sobreAplicacion() {
+		new FrameSobreAplicacion();
 	}
 }

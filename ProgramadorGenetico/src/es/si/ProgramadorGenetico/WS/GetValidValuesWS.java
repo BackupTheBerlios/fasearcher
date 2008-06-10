@@ -12,26 +12,70 @@ import es.si.ProgramadorGenetico.util.Config;
 import es.si.fasearcherserver.GetValidValuesRequest;
 import es.si.fasearcherserver.GetValidValuesResponse;
 
+/**
+ * Esta clase es utilizada para obtener los valores válidos para
+ * los distintos parámetros de configuración.<p>
+ * 
+ * Para usar el método correspondiente hay que crear una instacia,
+ * luego dar valores a los distintos parámetos y por ultimo, al
+ * llamar al método "ejecutar" se envía la información al servidor.
+ * El servidor devuelve listas de cadenas con los posibles valores
+ * que pueden tomar los distntos parámetros de una solución.
+ */
 public class GetValidValuesWS {
 
+	/**
+	 * Lista de identificadores de los problemas 
+	 */
 	private List<String> problemas;
 	
+	/**
+	 * Configuración específica sobre la que se quieren
+	 * conocer los parámetros válidos (opcional)
+	 */
 	private Integer configuracion;
 	
+	/**
+	 * Lista de mutadores válidos como parámetros
+	 */
 	private List<String> mutadores;
 	
+	/**
+	 * Lista de cruzadores válidos como parámetros
+	 */
 	private List<String> cruzadores;
 	
+	/**
+	 * Lista de funciones de bondad válidas como parámetros
+	 */
 	private List<String> funcBondad;
 	
+	/**
+	 * Lista de valores de población máxima válidos como parámetros
+	 */
 	private List<Integer> pobMax;
 	
+	/**
+	 * Lista de valores de muestras válidos como parámetros
+	 */
 	private List<Integer> muestras;
 	
+	/**
+	 * Lista de números de estados válidos como parámetros
+	 */
 	private List<Integer> estados;
 	
+	/**
+	 * Lista de números de pasos como parámetros
+	 */
 	private List<Integer> pasos;
 	
+	/**
+	 * Ejecutar la llamada al método del servidor.
+	 * 
+	 * @return
+	 * Devuevle un booleano indicando si la ejecución del método fue satisfactoria
+	 */
 	public boolean ejecutar() {
 		try {
 			QName service = new QName("http://ejb.FASearcherServer.si.es/", "FASearcherStatsBeanService");

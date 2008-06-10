@@ -16,26 +16,67 @@ import es.si.ProgramadorGenetico.util.Config;
 import es.si.fasearcherserver.GetProblemaRequest;
 import es.si.fasearcherserver.GetProblemaResponse;
 
+/**
+ * Esta clase es utilizada para obtener un problema completo de
+ * la base de datos, incluidas sus configuraciones y el automata
+ * original con el que se creo.<p>
+ * 
+ * Para usar el método correspondiente hay que crear una instacia,
+ * luego dar valores a los distintos parámetos y por ultimo, al
+ * llamar al método "ejecutar" se envía la información al servidor.
+ * El servidor devuelve toda la información pertinente del problema
+ * desde la base de datos.
+ */
 public class GetProblemaWS {
 
+	/**
+	 * Id del problema
+	 */
 	private String id;
 	
+	/**
+	 * Lista de las cadenas aceptadas por el problema
+	 */
 	private List<String> aceptadas;
 	
+	/**
+	 * Lista de las cadenas rechazadas por el problema
+	 */
 	private List<String> rechazadas;
 	
+	/**
+	 * Descripción del problema en la base de datos
+	 */
 	private String descripcion;
 	
+	/**
+	 * Numero de estados del automata original
+	 */
 	private Integer estados;
 	
 	private Integer pobMax;
 	
+	/**
+	 * Tipo del automata original con el que se creo el problema
+	 */
 	private String tipoAutomata;
 	
+	/**
+	 * Lista de las configuraciones con las que se debe resolver el problema
+	 */
 	private List<Configuracion> configuraciones;
 	
+	/**
+	 * Automata con el que se creo el problema
+	 */
 	private AFP afp;
 	
+	/**
+	 * Ejecutar la llamada al método del servidor.
+	 * 
+	 * @return
+	 * Devuevle un booleano indicando si la ejecución del método fue satisfactoria
+	 */
 	public boolean ejecutar() {
 		try {
 			QName service = new QName("http://ejb.FASearcherServer.si.es/", "FASearcherServiceBeanService");
@@ -124,8 +165,6 @@ public class GetProblemaWS {
 			e.printStackTrace();
 			id = "-1";
 		}
-	
-		
 		return true;
 	}
 
@@ -168,6 +207,4 @@ public class GetProblemaWS {
 	public String getId() {
 		return id;
 	}
-
-	
 }

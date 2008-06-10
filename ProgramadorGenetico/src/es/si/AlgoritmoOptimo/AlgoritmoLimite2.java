@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Algoritmo {
+public class AlgoritmoLimite2 {
 
 	private List<String> aceptadas;
 	
@@ -13,8 +13,13 @@ public class Algoritmo {
 	
 	private Map<Integer, List<AF>> pasados;
 	
+	private int k;
+	
+	public void setK(int k) {
+		this.k = k;
+	}
 
-	public Algoritmo() {
+	public AlgoritmoLimite2() {
 		aceptadas = new ArrayList<String>();
 		rechazadas = new ArrayList<String>();
 	}
@@ -34,49 +39,43 @@ public class Algoritmo {
 		
 		List<AF> lista = new ArrayList<AF>();
 		pasados = new HashMap<Integer, List<AF>>();
-		lista.add(af);
 		
-		AF mejor = null;
-		
-		while (lista.size() > 0) {
-			AF actual = lista.get(lista.size() - 1);
-			lista.remove(actual);
-			actual.ponerSubCadenas(aceptadas, rechazadas);
-			System.out.println("Lista -> " + lista.size() + " Tamaño -> " + actual.getCont() + " Mejor -> " + (mejor != null ? mejor.getCont() : "-"));
-			
-			AF nuevo = new AF(actual);
-			for (Estado temp1 : actual.getEstados()) {
-			//for (int i = actual.getEstados().size() - 1; i >= 0; i--) {
-				//Estado temp1 = actual.getEstados().get(i);
-				for (Estado temp2 : actual.getEstados()) {
-				//for (int j = actual.getEstados().size() - 1; j >= 0; j--) {
-					//Estado temp2 = actual.getEstados().get(j);
-					if (temp1 != temp2 && compatibles(temp1, temp2)) {
-						nuevo.reemplazar(temp1.getNum(), temp2.getNum());
-						if (nuevo.validate(aceptadas, rechazadas)) {
-							if (mejor == null || nuevo.getCont() < mejor.getCont()) {
-								mejor = nuevo;
-								System.out.println("Automata");
-								System.out.println(nuevo);
-							}
-							if (!lista.contains(nuevo) && !estaPasados(nuevo)) {
-								lista.add(nuevo);
-							}
-						}
-						nuevo = new AF(actual);
-					}
-				}
-			}
-			agregarPasados(actual);
-		}
-		mejor.recreateSubs();
-		mejor.ponerSubCadenas(aceptadas, rechazadas);
-		System.out.println("Mejor: " + mejor.getCont());
+		af = recursive(af);
+
+		//mejor.recreateSubs();
+		//mejor.ponerSubCadenas(aceptadas, rechazadas);
+		System.out.println("Mejor: " + af.getCont());
 		System.out.println("Automta");
-		System.out.println(mejor);
+		System.out.println(af);
 		System.out.println("Tiempo: " + (System.currentTimeMillis() - time));
 		return af;
 	}
+	
+	
+	private AF recursive(AF actual) {
+		AF nuevo = new AF(actual);
+		for (Estado temp1 : actual.getEstados()) {
+			for (Estado temp2 : actual.getEstados()) {
+				if (temp1 != temp2) {
+					nuevo.reemplazar(temp1.getNum(), temp2.getNum());
+					if (nuevo.validate(aceptadas, rechazadas)) {
+						System.out.println("estados: " + nuevo.getCont());
+						if (nuevo.getCont() <= k)
+							return nuevo;
+						if (!estaPasados(nuevo)) {
+							AF vuelta = recursive(nuevo);
+							if (vuelta != null)
+								return vuelta;
+						}
+					}
+					nuevo = new AF(actual);
+				}
+			}
+		}
+		agregarPasados(actual);
+		return null;
+	}
+	
 	
 	private void agregarPasados(AF actual) {
 		actual.clearSubs();

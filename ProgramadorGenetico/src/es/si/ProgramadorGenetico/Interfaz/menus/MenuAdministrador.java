@@ -27,6 +27,24 @@ public class MenuAdministrador extends JMenuBar {
 		crearMenuAcciones();
 		
 		crearMenuEstadisticas();
+		
+		crearMenuAyuda();
+	}
+
+	private void crearMenuAyuda() {
+		JMenu menu;
+		JMenuItem menuItem;
+		
+		menu = new JMenu("Ayuda");
+		add(menu);
+		
+		menuItem = crearItem("Sobre la aplicación",KeyEvent.VK_S,"Muestra información sobre la aplicación");
+		menu.add(menuItem);
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MenuAdministrador.this.interfaz.sobreAplicacion();
+			}
+		});
 	}
 
 	private void crearMenuEstadisticas() {
