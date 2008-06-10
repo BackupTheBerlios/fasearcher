@@ -10,24 +10,59 @@ import java.awt.geom.QuadCurve2D;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 
-
+/**
+ * Clase que representa graficamente una transicion de un automata
+ *
+ */
 public class Transicion extends JComponent {
 
 	private static final long serialVersionUID = -3482013995586640495L;
-
+	/**
+	 * El estado orgien de la transicion
+	 */
 	public Estado origen;
+	/**
+	 * El estado destino de la transicion
+	 */
 	public Estado destino;
+	/**
+	 * Probabilidad de que el 0 vaya de origen a destino
+	 */
 	public float probabilidad0;
+	/**
+	 * Probabilidad de que el 1 vaya de origen a destino
+	 */
 	public float probabilidad1;
+	/**
+	 * Label que pinta el 0
+	 */
 	public JLabel label0;
+	/**
+	 * Label que pinta el 1
+	 */
 	public JLabel label1;
+	/**
+	 * Valor que indica si se pinta el 0
+	 */
 	private boolean pintar0;
+	/**
+	 * Valor que indica si se pinta el 1
+	 */
 	private boolean pintar1;
 
+	/**
+	 * Constructora por defecto
+	 */
 	public Transicion() {
 
 	}
-
+	/**
+	 * Constructora que actualiza los valores a los pasados por parametro
+	 * @param origen
+	 * @param destino
+	 * @param probabilidad0
+	 * @param probabilidad1
+	 */
 	public Transicion(Estado origen, Estado destino, float probabilidad0,
 			float probabilidad1) {
 		this.origen = origen;
@@ -37,39 +72,65 @@ public class Transicion extends JComponent {
 		label0 = new JLabel();
 		label1 = new JLabel();
 	}
-
+	/**
+	 * Devuelve el estado origen de la transicion
+	 * @return
+	 */
 	public Estado getOrigen() {
 		return origen;
 	}
-
+	/**
+	 * Devuelve el estado destino de la transicion
+	 * @return
+	 */
 	public Estado getDestino() {
 		return destino;
 	}
-
+	/**
+	 * Devuelve la probabilidad de que este la transicion del 0
+	 * @return
+	 */
 	public float getProbabilidad0() {
 		return probabilidad0;
 	}
-
+	/**
+	 * Devuelve la probabilidad de que este la transicion del 1
+	 * @return
+	 */
 	public float getProbabilidad1() {
 		return probabilidad1;
 	}
-
+	/**
+	 * Devuelve la label del 0 
+	 * @return
+	 */
 	public JLabel getLabel0() {
 		return label0;
 	}
-
+	/**
+	 * Devuelve la label del 1
+	 * @return
+	 */
 	public JLabel getLabel1() {
 		return label1;
 	}
-
+	/**
+	 * Actualiza el valor de la label0
+	 * @param l
+	 */
 	public void setLabel0(JLabel l) {
 		label0 = l;
 	}
-
+	/**
+	 * Actualiza el valor de la label1
+	 * @param l
+	 */
 	public void setLabel1(JLabel l) {
 		label1 = l;
 	}
-
+	/**
+	 * Metodo paintComponent que pinta la transicion
+	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		double radio = origen.getRadio();
@@ -80,7 +141,12 @@ public class Transicion extends JComponent {
 			pintarOrigenIgualDestino(g, radio, ang);
 		}
 	}
-	
+	/**
+	 * Pinta las transiciones cuando el origen es distinto del destino
+	 * @param g
+	 * @param radio
+	 * @param ang
+	 */
 	private void pintarOringenDistintoDestino (Graphics g, double radio, double ang) {
 		Point origenArco = new Point(
 				(int) (origen.getCentro().getX() + Math.cos(Math
@@ -137,7 +203,12 @@ public class Transicion extends JComponent {
 		}
 	}
 
-	
+	/**
+	 * Pinta las transiciones cuando el origen es igual al destino
+	 * @param g
+	 * @param radio
+	 * @param ang
+	 */
 	private void pintarOrigenIgualDestino(Graphics g, double radio, double ang) {
 		double recto = Math.toRadians(90);
 		if (pintar0) {
@@ -170,7 +241,10 @@ public class Transicion extends JComponent {
 							20);
 		}
 	}
-	
+	/**
+	 * Devuelve el angulo que forman los estados
+	 * @return
+	 */
 	private double getAnguloEstados() {
 		double xOrigen = origen.getCentro().getX();
 		double yOrigen = origen.getCentro().getY();
@@ -190,13 +264,26 @@ public class Transicion extends JComponent {
 			return (360 + Math.toDegrees((Math.atan(tgAng))));
 		}		
 	}
-
+	/**
+	 * Devuelve el punto medio de los puntos pasados por parametro
+	 * @param p1
+	 * @param p2
+	 * @return
+	 */
 	private Point getPuntoMedio(Point p1, Point p2) {
 		int xMedio = (int) (p1.getX() + p2.getX()) / 2;
 		int yMedio = (int) (p1.getY() + p2.getY()) / 2;
 		return new Point(xMedio, yMedio);
 	}
-
+	/**
+	 * Devuelve un punto para trazar el arco que representa la transicion del 0 del 
+	 * estado origen al destino, dado por los parametros 
+	 * @param origenArco
+	 * @param destinoArco
+	 * @param puntoMedio
+	 * @param angulo
+	 * @return
+	 */
 	private Point getPuntoControlCurva0(Point origenArco, Point destinoArco,
 			Point puntoMedio, double angulo) {
 		double xPuntoControl;
@@ -228,7 +315,15 @@ public class Transicion extends JComponent {
 		yPuntoControl = puntoMedio.getY() + ajusteY;
 		return new Point((int) xPuntoControl, (int) yPuntoControl);
 	}
-
+	/**
+	 * Devuelve un punto para trazar el arco que representa la transicion del 1 del 
+	 * estado origen al destino, dado por los parametros 
+	 * @param origenArco
+	 * @param destinoArco
+	 * @param puntoMedio
+	 * @param angulo
+	 * @return
+	 */
 	public Point getPuntoControlCurva1(Point origenArco, Point destinoArco,
 			Point puntoMedio, double angulo) {
 		double xPuntoControl;
@@ -261,7 +356,15 @@ public class Transicion extends JComponent {
 
 		return new Point((int) xPuntoControl, (int) yPuntoControl);
 	}
-
+	/**
+	 * Devuelve el punto donde se representa el valor para la transicion del 0,
+	 * dado por los parametros
+	 * @param origenArco
+	 * @param destinoArco
+	 * @param puntoMedio
+	 * @param angulo
+	 * @return
+	 */
 	public Point getPuntoValorCurva0(Point origenArco, Point destinoArco,
 			Point puntoMedio, double angulo) {
 
@@ -297,7 +400,15 @@ public class Transicion extends JComponent {
 		return new Point((int) xPuntoValor, (int) yPuntoValor);
 
 	}
-
+	/**
+	 * Devuelve el punto donde se representa el valor para la transicion del 1,
+	 * dado por los parametros
+	 * @param origenArco
+	 * @param destinoArco
+	 * @param puntoMedio
+	 * @param angulo
+	 * @return
+	 */
 	public Point getPuntoValorCurva1(Point origenArco, Point destinoArco,
 			Point puntoMedio, double angulo) {
 
@@ -333,19 +444,29 @@ public class Transicion extends JComponent {
 		return new Point((int) xPuntoValor, (int) yPuntoValor);
 
 	}
-
+	/**
+	 * Devuelve el color del arco que representa al 0
+	 * 
+	 */
 	public Color getColorArco0() {
 		int valorGris = (int) ((1 - probabilidad0) * 255);
 		Color c = new Color(valorGris, valorGris, valorGris);
 		return c;
 	}
-
+	/**
+	 * Devuelve el color del arco que representa al 1
+	 * @return
+	 */
 	public Color getColorArco1() {
 		int valorGris = (int) ((1 - probabilidad1) * 255);
 		Color c = new Color(valorGris, valorGris, valorGris);
 		return c;
 	}
-
+	/**
+	 * Devuelve el cuadrante en el que se encuentra el segundo estado
+	 * Esto facilita las opciones de dibujo
+	 * @return
+	 */
 	public int getCuadrante() {
 		if (origen.getCentro().getX() <= destino.getCentro().getX()
 				&& origen.getCentro().getY() >= destino.getCentro().getY())
@@ -359,7 +480,13 @@ public class Transicion extends JComponent {
 		else
 			return 4;
 	}
-
+	/**
+	 * Devuelve el cuadrante en el que esta el segundo punto pasado por parametro
+	 * con respecto al primero pasado por parametro
+	 * @param pOrigen
+	 * @param pDestino
+	 * @return
+	 */
 	public int getCuadrantePuntos(Point pOrigen, Point pDestino) {
 		if (pOrigen.getX() <= pDestino.getX()
 				&& pOrigen.getY() >= pDestino.getY())
@@ -373,7 +500,12 @@ public class Transicion extends JComponent {
 		else
 			return 4;
 	}
-
+	/**
+	 * Devuelve el angulo que forman los puntos pasados por parametro
+	 * @param pOrigen
+	 * @param pDestino
+	 * @return
+	 */
 	public double getAnguloPuntos(Point pOrigen, Point pDestino) {
 		double xOrigen = pOrigen.getX();
 		double yOrigen = pOrigen.getY();
@@ -394,7 +526,12 @@ public class Transicion extends JComponent {
 			return (360 + Math.toDegrees((Math.atan(tgAng))));
 		}
 	}
-
+	/**
+	 * Metodo que crea el triangulo de la flecha de la transicion
+	 * @param destinoArco
+	 * @param puntoControl
+	 * @return
+	 */
 	public Polygon calculaFlecha(Point destinoArco, Point puntoControl) {
 		double largoFlecha = 15;
 		double angPunta = 15;
@@ -418,7 +555,11 @@ public class Transicion extends JComponent {
 		Polygon triangulo = new Polygon(xTriangulo, yTriangulo, 3);
 		return triangulo;
 	}
-
+	/**
+	 * Otro metodo que calcula la flecha de la transicion
+	 * @param destinoArco
+	 * @return
+	 */
 	public Polygon calculaFlecha2(Point destinoArco) {
 		double angulo = getAnguloPuntos(destino.getCentro(), destinoArco);
 		double p1x = destinoArco.getX() + 12
@@ -440,7 +581,12 @@ public class Transicion extends JComponent {
 		Polygon triangulo = new Polygon(xTriangulo, yTriangulo, 3);
 		return triangulo;
 	}
-
+	/**
+	 * Metodo que se encarga de llamar a los metodos de pintar correspondientes
+	 * @param trans0
+	 * @param trans1
+	 * @param g
+	 */
 	public void pinta(boolean trans0, boolean trans1, Graphics g) {
 		pintar0 = trans0;
 		pintar1 = trans1;
@@ -448,7 +594,11 @@ public class Transicion extends JComponent {
 		label0.repaint();
 		label1.repaint();
 	}
-
+	/**
+	 * Metodo equals que comprueba si dos transiciones son iguales
+	 * @param t
+	 * @return
+	 */
 	public boolean equals(Transicion t) {
 		if ((origen == t.origen) && (destino == t.destino)) {
 			if (probabilidad0 == t.getProbabilidad0()
@@ -457,29 +607,48 @@ public class Transicion extends JComponent {
 		}
 		return false;
 	}
-
+	/**
+	 * Actualiza la probabilidad de que se de la transicion 0
+	 * @param probabilidad0
+	 */
 	public void setProbabilidad0(float probabilidad0) {
 		this.probabilidad0 = probabilidad0;
 	}
-
+	/**
+	 * Actualiza la probabilidad de que se de la transicion 1
+	 * @param probabilidad1
+	 */
 	public void setProbabilidad1(float probabilidad1) {
 		this.probabilidad1 = probabilidad1;
 	}
-
+	/**
+	 * Actualiza la probabilidad del valor dado por parametro a la
+	 * probabilidad que tambien viene por parametro
+	 * @param valor
+	 * @param probabilidad
+	 */
 	public void setProbabilidad(int valor, float probabilidad) {
 		if (valor == 0)
 			probabilidad0 = probabilidad;
 		if (valor == 1)
 			probabilidad1 = probabilidad;
 	}
-
+	/**
+	 * Actualiza la label al valor indicado
+	 * @param valor
+	 * @param label
+	 */
 	public void setLabel(int valor, JLabel label) {
 		if (valor == 0)
 			label0 = label;
 		if (valor == 1)
 			label1 = label;
 	}
-
+	/**
+	 * Devuelve la label pedida
+	 * @param valor
+	 * @return
+	 */
 	public JLabel getLabel(int valor) {
 		return (valor == 0 ? label0 : label1);
 	}
