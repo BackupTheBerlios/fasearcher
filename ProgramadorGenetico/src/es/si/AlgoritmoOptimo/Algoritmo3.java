@@ -5,17 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Algoritmo3 {
-
-	private List<String> aceptadas;
-	
-	private List<String> rechazadas;
+public class Algoritmo3 extends Algoritmo {
 	
 	private List<Estado> principales;
 	
 	private Map<Estado, List<Estado>> grupos;
-	
-	private Map<Integer, List<AF>> pasados;
 	
 	public Algoritmo3() {
 		aceptadas = new ArrayList<String>();
@@ -150,20 +144,7 @@ public class Algoritmo3 {
 		}
 		return -1;
 	}
-
-	private void agregarPasados(AF actual) {
-		actual.clearSubs();
-		if (pasados.get(actual.getCont()) == null)
-			pasados.put(new Integer(actual.getCont()), new ArrayList<AF>());
-		pasados.get(actual.getCont()).add(actual);
-	}
-
-	private boolean estaPasados(AF nuevo) {
-		if (pasados.get(nuevo.getCont()) == null)
-			return false;
-		return pasados.get(nuevo.getCont()).contains(nuevo);
-	}
-
+	
 	/**
 	 * Comprueba que las aceptadas por el primer estado no tengan ninguna
 	 * cadena en comun con las rechazadas por el segundo estado
@@ -185,14 +166,6 @@ public class Algoritmo3 {
 				return false;
 		}
 		return true;
-	}
-	
-	public void addAceptada(String cadena) {
-		aceptadas.add(cadena);
-	}
-	
-	public void addRechazada(String cadena) {
-		rechazadas.add(cadena);
 	}
 	
 }

@@ -5,20 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AlgoritmoLimite2 {
-
-	private List<String> aceptadas;
-	
-	private List<String> rechazadas;
-	
-	private Map<Integer, List<AF>> pasados;
-	
-	private int k;
-	
-	public void setK(int k) {
-		this.k = k;
-	}
-
+/**
+ * Algorimto "voraz" recursivo con límite (busca un automata de mínimo k estados)
+ *
+ */
+public class AlgoritmoLimite2 extends Algoritmo {
 	public AlgoritmoLimite2() {
 		aceptadas = new ArrayList<String>();
 		rechazadas = new ArrayList<String>();
@@ -34,7 +25,6 @@ public class AlgoritmoLimite2 {
 		//	af.agregar(cadena.toCharArray(), false);
 		//}
 
-	
 		af.ponerSubCadenas(aceptadas, rechazadas);
 		
 		List<AF> lista = new ArrayList<AF>();
@@ -74,51 +64,5 @@ public class AlgoritmoLimite2 {
 		}
 		agregarPasados(actual);
 		return null;
-	}
-	
-	
-	private void agregarPasados(AF actual) {
-		actual.clearSubs();
-		if (pasados.get(actual.getCont()) == null)
-			pasados.put(new Integer(actual.getCont()), new ArrayList<AF>());
-		pasados.get(actual.getCont()).add(actual);
-	}
-
-	private boolean estaPasados(AF nuevo) {
-		if (pasados.get(nuevo.getCont()) == null)
-			return false;
-		return pasados.get(nuevo.getCont()).contains(nuevo);
-	}
-
-	/**
-	 * Comprueba que las aceptadas por el primer estado no tengan ninguna
-	 * cadena en comun con las rechazadas por el segundo estado
-	 * Comprueba que las aceptadas por el primer estado incluya todas aquellas
-	 * aceptadas por el segundo estado
-	 * @param temp1
-	 * @param temp2
-	 * @return
-	 */
-	public boolean compatibles(Estado temp1, Estado temp2) { 
-		for (String a : temp1.getTotalSubAceptadas()) {
-			if (temp2.getSubRechazadas().contains(a))
-					return false;
-		}
-		
-		boolean temp = !temp1.getSubRechazadas().contains("");
-		for (String a : temp2.getSubAceptadas()) {
-			if (!(temp1.getTotalSubAceptadas().contains(a) || (temp && a.equals(""))))
-				return false;
-		}
-		return true;
-	}
-	
-	public void addAceptada(String cadena) {
-		aceptadas.add(cadena);
-	}
-	
-	public void addRechazada(String cadena) {
-		rechazadas.add(cadena);
-	}
-	
+	}	
 }

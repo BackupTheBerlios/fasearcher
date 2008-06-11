@@ -5,8 +5,8 @@ import es.si.ProgramadorGenetico.WS.GetProblemaWS;
 public class Principal {
 
 	public static void main(String[] args) {
-		AlgoritmoLimite alg = new AlgoritmoLimite();
-		alg.setK(8);
+		Algoritmo alg = new AlgoritmoLimite();
+		alg.setK(20);
 		/*
 		alg.addAceptada("1");
 		alg.addAceptada("01");
@@ -32,9 +32,14 @@ public class Principal {
 */
 	
 		GetProblemaWS gpws = new GetProblemaWS();
-//		gpws.setId("9777918");
-//		gpws.setId("4723571");
-		gpws.setId("6327041");
+		gpws.setId("9777918"); //15 
+		// Algoritmo1 -> k=20 -> 215276 ms
+		// AlgoritmoLimite -> k=20 -> 845696 ms
+		
+		
+		
+//		gpws.setId("4723571"); //5
+//		gpws.setId("6327041"); //6
 		gpws.ejecutar();
  		for (String cadena : gpws.getAceptadas())
  			alg.addAceptada(cadena);
