@@ -10,13 +10,22 @@ import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
 import es.si.ProgramadorGenetico.Interfaz.InterfazAdministrador;
-
+/**
+ * Menu que se muestra en la interfaz del administrador
+ *
+ */
 public class MenuAdministrador extends JMenuBar {
 
 	private static final long serialVersionUID = -5755409743938361853L;
-	
+	/**
+	 * Interfaz del administrador
+	 */
 	private InterfazAdministrador interfaz;
-	
+	/**
+	 * Constructora del menu del administrador
+	 * Crea los menus correspondientes 
+	 * @param interfaz
+	 */
 	public MenuAdministrador(InterfazAdministrador interfaz) {
 		this.interfaz = interfaz;
 		
@@ -30,7 +39,9 @@ public class MenuAdministrador extends JMenuBar {
 		
 		crearMenuAyuda();
 	}
-
+	/**
+	 * Crea el menu de ayuda
+	 */
 	private void crearMenuAyuda() {
 		JMenu menu;
 		JMenuItem menuItem;
@@ -46,7 +57,9 @@ public class MenuAdministrador extends JMenuBar {
 			}
 		});
 	}
-
+	/**
+	 * Crea el menu de estadisticas
+	 */
 	private void crearMenuEstadisticas() {
 		JMenu menu;
 		JMenuItem menuItem;
@@ -74,7 +87,9 @@ public class MenuAdministrador extends JMenuBar {
 		});
 
 	}
-
+	/**
+	 * Crea el menu de acciones
+	 */
 	private void crearMenuAcciones() {
 		JMenu menu;
 		JMenuItem menuItem;
@@ -101,7 +116,9 @@ public class MenuAdministrador extends JMenuBar {
 			}
 		});		
 	}
-
+	/**
+	 * Crea el menu de soluciones
+	 */
 	private void crearMenuSoluciones() {
 		JMenu menu;
 		JMenuItem menuItem;
@@ -120,7 +137,9 @@ public class MenuAdministrador extends JMenuBar {
 			}
 		});
 	}
-
+	/**
+	 * Crea el menu de las opciones del problema
+	 */
 	private void crearMenuProblema() {
 		JMenu menu;
 		JMenuItem menuItem;
@@ -194,7 +213,13 @@ public class MenuAdministrador extends JMenuBar {
 			}
 		});
 	}
-
+	/**
+	 * Crea un item para el menu a partir de los parametros
+	 * @param titulo
+	 * @param keyEvent
+	 * @param explicacion
+	 * @return
+	 */
 	private JMenuItem crearItem(String titulo, int keyEvent, String explicacion) {
 		JMenuItem menuItem = new JMenuItem(titulo, keyEvent);
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(keyEvent, ActionEvent.ALT_MASK));

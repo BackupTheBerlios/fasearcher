@@ -11,13 +11,22 @@ import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
 import es.si.ProgramadorGenetico.Interfaz.InterfazCliente;
-
+/**
+ * Menu de la interfaz del cliente
+ *
+ */
 public class MenuCliente extends JMenuBar {
 
 	private static final long serialVersionUID = 4082314033249181875L;
-	
+	/**
+	 * Interfaz del cliente
+	 */
 	InterfazCliente interfaz;
-	
+	/**
+	 * Constructora que toma la interfaz y crea
+	 * los menus necesarios
+	 * @param interfaz
+	 */
 	public MenuCliente(InterfazCliente interfaz) {
 		this.interfaz = interfaz;
 		
@@ -71,7 +80,13 @@ public class MenuCliente extends JMenuBar {
 			}
 		});
 	}
-
+	/**
+	 * Crea un item del menu a partir de los parametros 
+	 * @param titulo
+	 * @param keyEvent
+	 * @param explicacion
+	 * @return
+	 */
 	private JMenuItem crearItem(String titulo, int keyEvent, String explicacion) {
 		JMenuItem menuItem = new JMenuItem(titulo, keyEvent);
 		menuItem.setAccelerator(KeyStroke.getKeyStroke(keyEvent, ActionEvent.ALT_MASK));
