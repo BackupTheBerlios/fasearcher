@@ -15,24 +15,46 @@ import javax.swing.JTable;
 import es.si.ProgramadorGenetico.Interfaz.data.Problema;
 import es.si.ProgramadorGenetico.Interfaz.frames.FrameEstadisticasAvanzadas;
 import es.si.ProgramadorGenetico.WS.GetProblemasWS;
-
+/**
+ * Panel en el que se pueden seleccionar los problemas a tratar
+ * con las estadisticas
+ *
+ */
 public class PanelSeleccionarProblemas extends JPanel {
 
 	private static final long serialVersionUID = -2750855309074355489L;
-
+	/**
+	 * Tabla de problemas
+	 */
 	private JTable tabla_problemas;
-
+	/**
+	 * Modelo de la tabla de los problemas
+	 */
 	private ProblemasTableModel model_problemas;
-
+	/**
+	 * Tabla de problemas seleccionados
+	 */
 	private JTable tabla_seleccionados;
-	
+	/**
+	 * Modelo de la tabla de problemas seleccionados
+	 */
 	private ProblemasTableModel model_seleccionados;
-	
+	/**
+	 * Lista de problemas
+	 */
 	private List<Problema> problemas;
-
+	/**
+	 * Lista de problemas seleccionados
+	 */
 	private List<Problema> seleccionados = new ArrayList<Problema>();
-	
+	/**
+	 * Frame de estadisticas avanzadas
+	 */
 	private FrameEstadisticasAvanzadas frame;
+	/**
+	 * Constructora que inicializa los frames, paneles y tablas
+	 * @param frameEstadisticasAvanzadas
+	 */
 	public PanelSeleccionarProblemas(FrameEstadisticasAvanzadas frameEstadisticasAvanzadas) {
 		
 		frame = frameEstadisticasAvanzadas;
@@ -86,7 +108,10 @@ public class PanelSeleccionarProblemas extends JPanel {
 
 		add(temp, BorderLayout.SOUTH);
 	}
-	
+	/**
+	 * Agrega el problema seleccionado a la lista de problemas
+	 * seleccionados
+	 */
 	protected void agergarProblema() {
 		if (tabla_problemas.getSelectedRow() != -1) {
 			seleccionados.add(problemas.get(tabla_problemas.getSelectedRow()));
@@ -95,15 +120,24 @@ public class PanelSeleccionarProblemas extends JPanel {
 		revalidate();
 		repaint();
 	}
-
+	/**
+	 * Indica que se deben usar los problemas seleccionados
+	 * para mostrar las estadisticas
+	 */
 	protected void usarSeleccionados() {
 		frame.problemasElegidos(seleccionados);
 	}
-
+	/**
+	 * Indica que se usaran todos los problemas para mostrar
+	 * las estadisticas
+	 */
 	protected void usarTodos() {
 		frame.problemasElegidos(null);
 	}
-
+	/**
+	 * Llena la tabla de problemas con los datos de
+	 * la base de datos
+	 */
 	private void llenarTabla() {
 		for (int i = 0; i < model_problemas.getColumnCount(); i++)
 			tabla_problemas.getColumnModel().getColumn(i).setHeaderValue(model_problemas.getColumnName(i));
@@ -119,7 +153,9 @@ public class PanelSeleccionarProblemas extends JPanel {
 			problemas.add(prob);
 		}
 	}
-	
+	/**
+	 * Llena la tabla de los problemas seleccionados
+	 */
 	private void llenarTablaSeleccionado() {
 		for (int i = 0; i < model_seleccionados.getColumnCount(); i++)
 			tabla_seleccionados.getColumnModel().getColumn(i).setHeaderValue(model_problemas.getColumnName(i));

@@ -8,20 +8,34 @@ import java.text.NumberFormat;
 import java.util.List;
 
 import javax.swing.JPanel;
-
+/**
+ * Panel que muestra un histograma con los datos
+ * de las soluciones de los problemas
+ *
+ */
 public class PanelHistograma extends JPanel {
-
+	
 	private static final long serialVersionUID = -4630247306064571085L;
-
+	/**
+	 * Lista de los valores a representar
+	 */
 	private List<Double> valores;
-	
+	/**
+	 * Titulo del grafico
+	 */
 	private String titulo;
-	
+	/**
+	 * Constructora que inicializa los atributos
+	 * @param valores
+	 * @param titulo
+	 */
 	public PanelHistograma(List<Double> valores, String titulo) {
 		this.valores = valores;
 		this.titulo = titulo;
 	}
-	
+	/**
+	 * Se encarga de pintar el grafico
+	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
@@ -62,7 +76,11 @@ public class PanelHistograma extends JPanel {
 		g2.setColor(Color.BLACK);
 		g2.drawString(nf.format(1.0f), (int) (paso*valores.size() - 8), height -2);
 	}
-	
+	/**
+	 * Devuelve el maximo de la lista
+	 * @param valores
+	 * @return
+	 */
 	private double getMax(List<Double> valores) {
 		double temp = 0;
 		for (Double d : valores) {
@@ -71,7 +89,11 @@ public class PanelHistograma extends JPanel {
 		}
 		return temp;
 	}
-	
+	/**
+	 * Suma todos los valores de la lista y devuelve el valor
+	 * @param valores
+	 * @return
+	 */
 	private double suma(List<Double> valores) {
 		double temp = 0;
 		for (Double d : valores) {

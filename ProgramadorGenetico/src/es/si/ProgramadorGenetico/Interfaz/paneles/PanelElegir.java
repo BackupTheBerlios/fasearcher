@@ -14,25 +14,38 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-
+/**
+ * Panel que se muestra en las estadisticas avanzadas que permite 
+ * elegir determinadas opciones
+ *
+ */
 public class PanelElegir extends JPanel {
 
 	private static final long serialVersionUID = -9053446529236927066L;
-
+	/**
+	 * Lista de String
+	 */
 	private List<String> lista_string;
-	
+	/**
+	 * Lista de Integer
+	 */
 	private List<Integer> lista_integer;
-	
+	/**
+	 * Lista de los String seleccionados
+	 */
 	private List<String> seleccion_string;
-	
+	/**
+	 * Lista de los Integer seleccionados
+	 */
 	private List<Integer> seleccion_integer;
 	
 	private JTable tabla;
-	
 	private DefaultTableModel model;
-	
 	private JComboBox combo;
-	
+	/**
+	 * Constructora que crea botones y paneles
+	 * @param titulo
+	 */
 	public PanelElegir(String titulo) {
 		JPanel temp = new JPanel();
 		temp.setLayout(new GridLayout(2,1));
@@ -63,7 +76,9 @@ public class PanelElegir extends JPanel {
 		
 	}
 	
-	
+	/**
+	 * Agrega una fila a la tabla
+	 */
 	protected void agregar() {
 		String[] fila = new String[1];
 		boolean poner = true;
@@ -91,7 +106,9 @@ public class PanelElegir extends JPanel {
 		revalidate();
 	}
 
-
+	/**
+	 * Rellena la lista de combos
+	 */
 	private void llenarCombo() {
 		if (lista_string != null) {
 			for (String el : lista_string) 
@@ -105,23 +122,35 @@ public class PanelElegir extends JPanel {
 		}
 	}
 
-
+	/**
+	 * Devuelve los String seleccionados
+	 * @return
+	 */
 	public List<String> getSeleccion_string() {
 		return seleccion_string;
 	}
-
-
+	
+	/**
+	 * Devuelve los Integer seleccionados
+	 * @return
+	 */
 	public List<Integer> getSeleccion_integer() {
 		return seleccion_integer;
 	}
 
-
+	/**
+	 * Actualiza la lista de String
+	 * @param lista_string
+	 */
 	public void setLista_string(List<String> lista_string) {
 		this.lista_string = lista_string;
 		llenarCombo();
 	}
 
-
+	/**
+	 * Actualiza la lista de Integer
+	 * @param lista_integer
+	 */
 	public void setLista_integer(List<Integer> lista_integer) {
 		this.lista_integer = lista_integer;
 		llenarCombo();

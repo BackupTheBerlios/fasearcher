@@ -11,20 +11,33 @@ import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 
 import es.si.ProgramadorGenetico.Interfaz.componentes.Transicion;
-
+/**
+ * Panel que muestra la tabla con los detalles de las transiciones
+ *
+ */
 public class PanelTablaTransiciones extends JPanel{
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 2349064315517135706L;
-	
+	/**
+	 * Tabla que muestra los datos
+	 */
 	JTable tabla;
-	
+	/**
+	 * Constructora que inicializa la tabla
+	 */
 	public PanelTablaTransiciones () {
 		tabla = new JTable();
 	}
-	
+	/**
+	 * Constructora que inicializa la tabla a los valores
+	 * pasados por defecto
+	 * @param transiciones
+	 * @param probabilidadFinal
+	 * @param estados
+	 */
 	public PanelTablaTransiciones (float[][][] transiciones, float[] probabilidadFinal, int estados) {
 		String [] columnas = {"Origen", "Destino", "Valor", "Probabilidad"};
 		Object[][] datos = new Object [estados*(estados+1)*2][4];
@@ -49,7 +62,10 @@ public class PanelTablaTransiciones extends JPanel{
         //Add the scroll pane to this panel.
         add(scrollPane);
 	}
-	
+	/**
+	 * Constructora que toma un panel y coge los datos a partir de el
+	 * @param dibujanteAFP
+	 */
 	public PanelTablaTransiciones (SubPanelAF dibujanteAFP) {				
 		Transicion [][] transiciones = dibujanteAFP.getTransicionesArray();
 		int estados = dibujanteAFP.getNumEstados();		

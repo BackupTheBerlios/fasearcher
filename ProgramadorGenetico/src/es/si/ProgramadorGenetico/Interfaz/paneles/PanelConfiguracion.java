@@ -8,28 +8,50 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import es.si.ProgramadorGenetico.Interfaz.data.Configuracion;
-
+/**
+ * Panel que muestra las configuraciones de un problema
+ * Mediante este panel se seleccionara una configuracion
+ * para resolver un problema
+ *
+ */
 public class PanelConfiguracion extends JPanel {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 3342808888708261661L;
-	
+	/**
+	 * Numero de muestras 
+	 */
 	JTextField muestras;
-	
+	/**
+	 * Numero de estados
+	 */
 	JTextField estados;
-	
+	/**
+	 * Poblacion maxima
+	 */
 	JTextField pobMax;
-	
+	/**
+	 * Calculador de bondad elegido
+	 */
 	JComboBox calculadorBondad;
-	
+	/**
+	 * Resolutor escogido
+	 */
 	JComboBox resolver;
-	
+	/**
+	 * Cruzador escogido
+	 */
 	JComboBox cruzador;
-	
+	/**
+	 * Mutador elegido
+	 */
 	JComboBox mutador;
-	
+	/**
+	 * Constructora que crea las labels necesarias y
+	 * construye los atributos
+	 */
 	public PanelConfiguracion() {
 		setLayout(new GridLayout(2,7));
 		
@@ -65,7 +87,9 @@ public class PanelConfiguracion extends JPanel {
 		llenarCombos();
 		
 	}
-
+	/**
+	 * Añade los items a los atributos de tipo Combobox
+	 */
 	private void llenarCombos() {
 		calculadorBondad.addItem("SIMPLE");
 		calculadorBondad.addItem("CUADRATICO");
@@ -86,7 +110,10 @@ public class PanelConfiguracion extends JPanel {
 		mutador.addItem("TIPO_2");
 		mutador.addItem("TIPO_3");
 	}
-
+	/**
+	 * Devuelve la configuracion
+	 * @return
+	 */
 	public Configuracion getConfiguracion() {
 		try {
 			Configuracion config = new Configuracion();

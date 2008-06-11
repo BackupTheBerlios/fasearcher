@@ -417,7 +417,7 @@ public class SubPanelAF extends JPanel {
 	
 
 	/**
-	 * Devulve el estado que esta en el punto dado como parámetro.
+	 * Devuelve el estado que esta en el punto dado como parámetro.
 	 * 
 	 * @param puntoClick Punto donde se debe buscar el estado
 	 * @return El estado en el punto, o null si no hay estado en dicho punto.

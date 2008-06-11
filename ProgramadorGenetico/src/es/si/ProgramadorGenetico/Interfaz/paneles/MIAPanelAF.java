@@ -17,31 +17,41 @@ import es.si.ProgramadorGenetico.Interfaz.componentes.Transicion;
  * 
  */
 public class MIAPanelAF extends MouseInputAdapter {
-
+	/**
+	 * Panel que esta dentro sobre el que se dibuja
+	 */
 	private SubPanelAF panel;
 	
 	/**
 	 * Estado que se esta moviendo
 	 * 
 	 */
-	private Estado estadoMovido;
-	
-
+	private Estado estadoMovido;	
+	/**
+	 * Estado de inicio cuando se crea una transicion
+	 */
 	private Estado estadoInicioTransicion;
-	
-	
+	/**
+	 * COnstructora que toma el subpanel de dibujo
+	 * @param panel
+	 */
 	public MIAPanelAF(SubPanelAF panel) {
 		this.panel = panel;
 		estadoMovido = null;
 	}
-
+	/**
+	 * Metodo que actualiza la posicion del estado
+	 * cuando se esta arrastrando un estado
+	 */
 	public void mouseDragged(MouseEvent e) {
 		if (estadoMovido != null) {
 			estadoMovido.actualizaPosicion(e.getPoint());
 			actualizaDibujo();
 		}
 	}
-
+	/**
+	 * Repinta el panel
+	 */
 	public void actualizaDibujo() {
 		panel.repaint();
 	}
@@ -51,7 +61,11 @@ public class MIAPanelAF extends MouseInputAdapter {
 
 	public void mouseExited(MouseEvent e) {
 	}
-
+	/**
+	 * Cuando se hace clic en el panel, segun el modo
+	 * del panel, se debe insertar un estado, una transicion,
+	 * activar como final un estado, o simplemente editar
+	 */
 	public void mousePressed(MouseEvent e) {
 		estadoMovido = null;
 		if (panel.isEditable()) {
@@ -78,7 +92,10 @@ public class MIAPanelAF extends MouseInputAdapter {
 		else
 			mPEdicion(e);
 	}
-	
+	/**
+	 * Inserta un estado el punto del panel sobre el que se ha hecho clic
+	 * @param e
+	 */
 	public void mPInsertarEstado(MouseEvent e) {
 		Point puntoClick;
 		puntoClick = e.getPoint();
@@ -95,7 +112,11 @@ public class MIAPanelAF extends MouseInputAdapter {
 		panel.paintComponent(panel.getGraphics());
 	}
 	
-	
+	/**
+	 * Inserta una transicion si hay un estado que sea origen 
+	 * en el punto donde se ha hecho clic
+	 * @param e
+	 */
 	public void mPInsertarTransicion(MouseEvent e) {
 		Estado es = panel.buscaEstado(e.getPoint());
 		if (es != null) {
@@ -104,7 +125,10 @@ public class MIAPanelAF extends MouseInputAdapter {
 		}
 		panel.paintComponent(panel.getGraphics());
 	}
-	
+	/**
+	 * Finaliza la transicion sobre un estado destino
+	 * @param e
+	 */
 	public void mPFinalizarTransicion(MouseEvent e) {
 		Estado estadoFinTransicion = panel.buscaEstado(e.getPoint());
 		if (estadoFinTransicion != null) {
@@ -158,7 +182,11 @@ public class MIAPanelAF extends MouseInputAdapter {
 		panel.setModo(SubPanelAF.INSERTAR_TRANSICION);
 		panel.paintComponent(panel.getGraphics());
 	}
-	
+	/**
+	 * Activa como final un estado si se ha hecho clic
+	 * sober algun estado
+	 * @param e
+	 */
 	public void mPSetFinal(MouseEvent e) {
 		Estado es = panel.buscaEstado(e.getPoint());
 		if (es != null) {
@@ -167,7 +195,10 @@ public class MIAPanelAF extends MouseInputAdapter {
 		}
 		panel.paintComponent(panel.getGraphics());
 	}
-	
+	/**
+	 * Si hay un estado, lo mueve
+	 * @param e
+	 */
 	public void mPEdicion(MouseEvent e) {
 		estadoMovido = panel.buscaEstado(e.getPoint());
 		panel.paintComponent(panel.getGraphics());
