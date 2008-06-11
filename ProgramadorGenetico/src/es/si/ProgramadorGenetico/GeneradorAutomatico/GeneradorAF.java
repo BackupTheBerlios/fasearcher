@@ -4,35 +4,73 @@ import java.util.List;
 import java.util.ArrayList;
 
 import es.si.ProgramadorGenetico.Interfaz.componentes.AF;
-
+/**
+ * Clase que genera un AF aleatorio a partir de un
+ * numero de estados fijado
+ *
+ */
 public class GeneradorAF {
-
+	/**
+	 * Clase que contiene una pareja
+	 * con los valores de dos transiciones
+	 * @author Pablo
+	 *
+	 */
 	private class Pareja {
-		
+		/**
+		 * Array de transiciones
+		 */
 		int []trans;		
-		
+		/**
+		 * Constructora que construye el array de tamaño 2
+		 * e inicializa los valores a los pasados por parametro 
+		 * @param val0
+		 * @param val1
+		 */
 		public Pareja(int val0, int val1) {
 			trans = new int[2];
 			trans[0]=val0;
 			trans[1]=val1;
 		}
-		
+		/**
+		 * Actualiza el valor de la transicion
+		 * @param valor
+		 */
 		public void setTrans (int valor) { 
 			trans[valor]=1;					
 		}
-		
+		/**
+		 * Devuelve el valor de la transicion
+		 * @param valor
+		 * @return
+		 */
 		public int getTrans (int valor) {
 			return trans[valor];
 		}
 	};
+	/**
+	 * Automata generado
+	 */
 	AF aut;
+	/**
+	 * Lista de parejas que indica las transiciones ya existentes
+	 */
 	List<Pareja> transicionesExistentes;
-	
+	/**
+	 * Constructora que genera un AF a partir de un numero
+	 * de estados
+	 * @param numEstados
+	 */
 	public GeneradorAF (int numEstados) {
 		aut = new AF(numEstados);		
 		generarAutomata();
 	}
-	
+	/**
+	 * Genera un automata de forma aleatoria. Va añadiendo
+	 * todas las transiciones que son necesarias hasta que se
+	 * obtiene un AFD. Hay un numero aleatorio de estados finales, pero
+	 * con un minimo de 1
+	 */
 	public void generarAutomata () {
 		transicionesExistentes = new ArrayList<Pareja>();
 		for (int i=0; i<aut.getEstados()-1; i++) {
@@ -75,7 +113,10 @@ public class GeneradorAF {
 				aut.setFinal(i);							
 		}		
 	}
-	
+	/**
+	 * Devuelve el automata
+	 * @return
+	 */
 	public AF getAF () {
 		return aut;
 	}

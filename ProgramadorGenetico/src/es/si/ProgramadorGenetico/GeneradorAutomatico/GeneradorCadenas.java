@@ -5,22 +5,49 @@ import java.util.Iterator;
 import java.util.List;
 
 import es.si.ProgramadorGenetico.Interfaz.componentes.AF;
-
+/**
+ * Clase que genera cadenas aleatorias para un automata dado
+ * Genera tanto cadenas que se aceptan como cadenas que se
+ * rechazan
+ *
+ */
 public class GeneradorCadenas {
-
+	/**
+	 * Automata
+	 */
 	private AF af;
+	/**
+	 * Lista de cadenas aceptadas
+	 */
 	private List<String> cadenasAceptadas;
+	/**
+	 * Lista de cadenas rechazadas
+	 */
 	private List<String> cadenasRechazadas;
+	/**
+	 * Numero de estados
+	 */
 	private int estados;
+	/**
+	 * Array de transiciones
+	 */
 	private float[][][] transiciones;
-
+	/**
+	 * Generador de cadenas que pide el automata para
+	 * el que tiene que generar las cadenas
+	 * Se encarga de generar las cadenas
+	 * @param af
+	 */
 	public GeneradorCadenas(AF af) {
 		this.af = af;
 		cadenasAceptadas = new ArrayList<String>();
 		cadenasRechazadas = new ArrayList<String>();
 		generaCadenas();
 	}
-
+	/**
+	 * Inicializa valores y llama a otros metodos para
+	 * generar las cadenas
+	 */
 	public void generaCadenas() {
 		estados = af.getEstados();
 		transiciones = af.getTransiciones();
@@ -28,7 +55,9 @@ public class GeneradorCadenas {
 		generaCadenasAleatorias();
 
 	}
-
+	/**
+	 * Se generan unas cadenas iniciales que solo son 0 o 1
+	 */
 	public void generaCadenasIniciales() {
 		int destinoCadena0 = buscaDestino(transiciones, 0, 0);
 		int destinoCadena1 = buscaDestino(transiciones, 1, 0);
@@ -40,26 +69,12 @@ public class GeneradorCadenas {
 			cadenasAceptadas.add(new String("1"));
 		else
 			cadenasRechazadas.add(new String("1"));
-
-		/*
-		String cadenaActual = "";
-		for (int i = 0; i < estados - 1; i++) {											
-			if (transiciones[i][0][i + 1] == 1) {
-				cadenaActual += '0';
-			} else if (transiciones[i][1][i + 1] == 1) {
-				cadenaActual += '1';		
-
-			}
-			String clonCadena = new String(cadenaActual);
-			if (af.esFinal(i + 1)) {
-				if (!cadenasAceptadas.contains(clonCadena))
-					cadenasAceptadas.add(clonCadena);
-			} else if (!cadenasRechazadas.contains(clonCadena))
-				cadenasRechazadas.add(clonCadena);
-		}
-		*/
 	}
-
+	/**
+	 * Genera mas cadenas aleatorias
+	 * Genera todas las palabras de longitud 2, y genera
+	 * cadenas de longitudes aleatorias en varios bucles 
+	 */
 	public void generaCadenasAleatorias() {
 		String cadena = new String();
 		nuevaCadena(af.acepta("00"), "00");
@@ -86,7 +101,15 @@ public class GeneradorCadenas {
 			nuevaCadena(af.acepta(cadena), cadena);
 		}
 	}
-
+	/**
+	 * Busca el destino de una transicion en un automata
+	 * Parte del estado origen, y tomando el valor, busca
+	 * el estado destino
+	 * @param trans
+	 * @param valor
+	 * @param origen
+	 * @return
+	 */
 	public int buscaDestino(float[][][] trans, int valor, int origen) {
 		for (int i = 0; i < trans[origen][valor].length; i++) {
 			if (trans[origen][valor][i] == 1)
@@ -94,7 +117,9 @@ public class GeneradorCadenas {
 		}
 		return -1;
 	}
-
+	/**
+	 * Pasa a String las cadenas
+	 */
 	public String toString() {
 		String cadenas = new String();
 		cadenas = "Cadenas aceptadas:" + "\n";
@@ -111,7 +136,12 @@ public class GeneradorCadenas {
 		}
 		return cadenas;
 	}
-
+	/**
+	 * Añade una cadena a la lista de aceptadas si el valor aceptada
+	 * es true y la añade a la lista de rechazadas si el valor es false
+	 * @param aceptada
+	 * @param cadena
+	 */
 	public void nuevaCadena(boolean aceptada, String cadena) {
 		if (aceptada) {
 			if (!cadenasAceptadas.contains(cadena))
@@ -119,11 +149,17 @@ public class GeneradorCadenas {
 		} else if (!cadenasRechazadas.contains(cadena))
 			cadenasRechazadas.add(cadena);
 	}
-
+	/**
+	 * Devuelve las cadenas aceptadas
+	 * @return
+	 */
 	public List<String> getCadenasAceptadas() {
 		return cadenasAceptadas;
 	}
-
+	/**
+	 * Devuelve las cadenas rechazadas
+	 * @return
+	 */
 	public List<String> getCadenasRechazadas() {
 		return cadenasRechazadas;
 	}
