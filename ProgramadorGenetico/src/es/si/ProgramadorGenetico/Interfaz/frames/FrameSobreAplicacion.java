@@ -5,11 +5,17 @@ import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextPane;
-
+/**
+ * Frame que muestra informacion sobre la aplicacion
+ *
+ */
 public class FrameSobreAplicacion extends JFrame {
 
 	private static final long serialVersionUID = -5085114999247625745L;
-	
+	/**
+	 * Constructora que muestra informacion sobre la aplicacion
+	 * en un JTextPane
+	 */
 	public FrameSobreAplicacion() {
 		super("Sobre la aplicación");
 

@@ -18,21 +18,27 @@ import es.si.ProgramadorGenetico.Interfaz.paneles.ProblemasTableModel;
 import es.si.ProgramadorGenetico.WS.GetProblemaWS;
 import es.si.ProgramadorGenetico.WS.GetProblemasWS;
 import es.si.ProgramadorGenetico.WS.RemoveProblemaWS;
-
+/**
+ * Frame que se muestra al hacer clic en 
+ * Gestionar Problemas 
+ *
+ */
 public class FrameCargarProblema extends JFrame {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 5084997267681444349L;
-
-	
+	/**
+	 * Muestra la tabla de problemas
+	 */
 	private ProblemasTableModel model;
-	
 	private JTable tabla;
-	
+	/**
+	 * Interfaz del administrador
+	 */
 	private InterfazAdministrador interfaz;
-	
+	/**
+	 * Constructora que crea el panel a partir del interfaz
+	 * @param interfaz
+	 */
 	public FrameCargarProblema(InterfazAdministrador interfaz) {
 		super("Cargar Problema");
 		this.interfaz = interfaz;
@@ -69,7 +75,9 @@ public class FrameCargarProblema extends JFrame {
 		setSize(500, 500);
 		setVisible(true);
 	}
-
+	/**
+	 * Elimina un problema de la base de datos
+	 */
 	protected void quitarProblema() {
 		if (tabla.getSelectedRow() != -1) {
 			int s = JOptionPane.showConfirmDialog(this, "Seguro que desea quitar el problema?", "Quitar Problema", JOptionPane.YES_NO_OPTION);
@@ -84,7 +92,9 @@ public class FrameCargarProblema extends JFrame {
 			tabla.repaint();
 		}
 	}
-
+	/**
+	 * Abre un problema de la base de datos
+	 */
 	protected void abrirProblema() {
 		if (tabla.getSelectedRow() != -1) {
 			GetProblemaWS getProblemaWS = new GetProblemaWS();
@@ -108,7 +118,9 @@ public class FrameCargarProblema extends JFrame {
 			}
 		}
 	}
-
+	/**
+	 * Llena la tabla con los problemas correspondientes
+	 */
 	private void llenarTabla() {
 		for (int i = 0; i < model.getColumnCount(); i++)
 			tabla.getColumnModel().getColumn(i).setHeaderValue(model.getColumnName(i));

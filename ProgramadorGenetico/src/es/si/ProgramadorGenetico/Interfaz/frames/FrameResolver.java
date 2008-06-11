@@ -22,26 +22,46 @@ import es.si.ProgramadorGenetico.ProblemaAFP.Factorias.CalculadorBondadAFPFactor
 import es.si.ProgramadorGenetico.ProblemaAFP.Factorias.CruzadorAFPFactory;
 import es.si.ProgramadorGenetico.ProblemaAFP.Factorias.MutadorAFPFactory;
 import es.si.ProgramadorGenetico.ProblemaAFP.Factorias.ResolverAFPFactory;
-
+/**
+ * Frame que se muestra cuando se pide resolver el problema
+ * actual
+ */
 public class FrameResolver extends JFrame {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -6110427997886352665L;
-
+	/**
+	 * Automata que representa el problema
+	 */
 	private AF af;
-	
+	/**
+	 * Datos del problema a resolver
+	 */
 	private Problema problema;
-	
+	/**
+	 * Panel de las configuraciones
+	 */
 	private PanelConfiguracion panelConfiguracion;
-	
+	/**
+	 * Panel del AF
+	 */
 	private PanelAF panelAF;
-	
+	/**
+	 * Panel de los AFPs
+	 */
 	private PanelAFPs panelAFPs = null;
-	
+	/**
+	 * Panel de informacion del estado de la ejecucion
+	 */
 	private JPanel panelInfo;
-	
+	/**
+	 * Constructora que guarda el AF y el problema
+	 * y hae las inicializaciones necesarias
+	 * @param af
+	 * @param problema
+	 */
 	public FrameResolver(AF af, Problema problema) {
 		this.af = af;
 		this.problema = problema;
@@ -68,7 +88,10 @@ public class FrameResolver extends JFrame {
 		setSize(950,600);
 		setVisible(true);
 	}
-
+	/**
+	 * Metodo que llama al algoritmo para resolver el problema
+	 * y muestra la solucion
+	 */
 	protected void resolver() {
 		ProblemaAFP problemaAFP = new ProblemaAFP();
 		problemaAFP.setLocal(true);

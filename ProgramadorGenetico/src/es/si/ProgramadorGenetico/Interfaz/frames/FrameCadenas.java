@@ -17,23 +17,44 @@ import javax.swing.JScrollPane;
 
 import es.si.ProgramadorGenetico.Interfaz.componentes.AF;
 import es.si.ProgramadorGenetico.Interfaz.data.Problema;
-
+/**
+ * Clase que extiende de JFrame
+ * Muestra el frame donde se manipulan las cadenas para el problema
+ *
+ */
 public class FrameCadenas extends JFrame {
 
 	private static final long serialVersionUID = -5265797306677288029L;
-	
+	/**
+	 * Lista para mostrar de cadenas aceptadas
+	 */
 	private JList aceptadas;
-	
+	/**
+	 * Lista para mostrar de cadenas rechazadas
+	 */
 	private JList rechazadas;
-	
+	/**
+	 * Representacion del problema
+	 */
 	private Problema problema;
-	
+	/**
+	 * Lista para almacenar las cadenas aceptadas
+	 */
 	private List<String> listAceptadas;
-	
+	/**
+	 * Lista para almacenar las cadenas rechazadas
+	 */
 	private List<String> listRechazadas;
-	
+	/**
+	 * Automata que representa el problema
+	 */
 	private AF af;
-	
+	/**
+	 * Constructora que hace las inicializaciones necesarias
+	 * tomando por parametro el AF y el problema correspondientes
+	 * @param af
+	 * @param problema
+	 */
 	public FrameCadenas(AF af, Problema problema) {
 		super("Manipular cadenas");
 		this.problema = problema;
@@ -71,7 +92,12 @@ public class FrameCadenas extends JFrame {
 		validate();
 		setSize(400,400);
 	}
-
+	/**
+	 * Constructora que toma dos listas de cadenas:
+	 * las aceptadas y las rechazadas
+	 * @param listAceptadas
+	 * @param listRechazadas
+	 */
 	public FrameCadenas(List<String> listAceptadas, List<String> listRechazadas) {
 		super("Manipular cadenas");
 		this.listAceptadas = listAceptadas;
@@ -121,7 +147,9 @@ public class FrameCadenas extends JFrame {
 		validate();
 		setSize(400,400);
 	}
-	
+	/**
+	 * Metodo que agrega una cadena rechazada a la lista
+	 */
 	protected void agregarRechazada() {
 		String cadena = obtenerCadena();
 		if (cadena != null && !listAceptadas.contains(cadena)) {
@@ -131,7 +159,9 @@ public class FrameCadenas extends JFrame {
 			JOptionPane.showMessageDialog(this, "Cadena no valida");
 		}
 	}
-
+	/**
+	 * Metodo que agrega una cadena aceptada a la lista
+	 */
 	protected void agregarAceptada() {
 		String cadena = obtenerCadena();
 		if (cadena != null && !listRechazadas.contains(cadena)) {
@@ -141,7 +171,10 @@ public class FrameCadenas extends JFrame {
 			JOptionPane.showMessageDialog(this, "Cadena no valida");
 		}
 	}
-
+	/**
+	 * Crea el panel de palabras rechazadas
+	 * @return
+	 */
 	private JPanel crearPanelRechazadas() {
 		JPanel temp = new JPanel();
 		temp.setLayout(new BoxLayout(temp, BoxLayout.PAGE_AXIS));
@@ -158,7 +191,10 @@ public class FrameCadenas extends JFrame {
 		temp.add(quitar);
 		return temp;
 	}
-
+	/**
+	 * Crea el panel de palabras aceptadas
+	 * @return
+	 */
 	private JPanel crearPanelAceptadas() {
 		JPanel temp = new JPanel();
 		temp.setLayout(new BoxLayout(temp, BoxLayout.PAGE_AXIS));
@@ -174,7 +210,9 @@ public class FrameCadenas extends JFrame {
 		temp.add(quitar);
 		return temp;
 	}
-
+	/**
+	 * Se encarga de actualizar las listas de palabras 
+	 */
 	private void llenarListas() {
 		if (problema != null) {
 			List<String> listaAceptadas = new ArrayList<String>();
@@ -195,7 +233,9 @@ public class FrameCadenas extends JFrame {
 
 		validate();
 	}
-
+	/**
+	 * Elimina una cadena rechazada
+	 */
 	protected void quitarRechazada() {
 		if (rechazadas.getSelectedValue() != null) {
 			if (problema != null)
@@ -205,7 +245,9 @@ public class FrameCadenas extends JFrame {
 			llenarListas();
 		}
 	}
-
+	/**
+	 * Elimina una cadena aceptada
+	 */
 	protected void quitarAceptada() {
 		if (aceptadas.getSelectedValue() != null) {
 			if (problema != null)
@@ -215,11 +257,16 @@ public class FrameCadenas extends JFrame {
 			llenarListas();
 		}
 	}
-
+	/**
+	 * Cierra el panel
+	 */
 	protected void cerrar() {
 		setVisible(false);
 	}
-
+	/**
+	 * Agrega una cadena a la lista correspondiente
+	 * dependiendo de si es aceptada o rechazada
+	 */
 	protected void agregarCadena() {
 		String cadena = obtenerCadena();
 		if (cadena != null) {
@@ -229,7 +276,10 @@ public class FrameCadenas extends JFrame {
 			JOptionPane.showMessageDialog(this, "Cadena no valida");
 		}
 	}
-
+	/**
+	 * Devuelve la cadena seleccionada
+	 * @return
+	 */
 	private String obtenerCadena() {
 		String temp = JOptionPane.showInputDialog("Cadena");
 		if (temp.matches("[01]+"))

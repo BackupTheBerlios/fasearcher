@@ -17,17 +17,28 @@ import es.si.ProgramadorGenetico.StatsWS.FASearcherStatsBeanService;
 import es.si.ProgramadorGenetico.util.Config;
 import es.si.fasearcherserver.GetBasicStatsRequest;
 import es.si.fasearcherserver.GetBasicStatsResponse;
-
+/**
+ * Frame que muestra las estadisticas de los problemas
+ * de la base de datos 
+ *
+ */
 public class FrameStats extends JFrame {
 
 	private static final long serialVersionUID = -5085114999247625745L;
-	
+	/**
+	 * Almacena las estadisticas
+	 */
 	Stats stats;
-	
+	/**
+	 * Constructora
+	 */
 	public FrameStats() {
 		this(null);
 	}
-	
+	/**
+	 * Constructora que a partir de unas estadisticas construye los paneles necesarios
+	 * @param stats2
+	 */
 	public FrameStats(Stats stats2) {
 		super("Estadisticas");
 		
@@ -64,7 +75,9 @@ public class FrameStats extends JFrame {
 			
 			setVisible(true);
 	}
-
+	/**
+	 * Devuelve las estadisticas a partir de la base de datos 
+	 */
 	private void getStats() {
 		try {
 			QName service = new QName("http://ejb.FASearcherServer.si.es/", "FASearcherStatsBeanService");

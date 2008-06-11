@@ -22,29 +22,55 @@ import es.si.ProgramadorGenetico.Interfaz.paneles.SolucionesTableModel;
 import es.si.ProgramadorGenetico.WS.GetProblemasWS;
 import es.si.ProgramadorGenetico.WS.GetSolucionWS;
 import es.si.ProgramadorGenetico.WS.GetSolucionesWS;
-
+/**
+ * Frame que muestra las soluciones a los problemas
+ * de la base de datos  
+ *
+ */
 public class FrameSoluciones extends JFrame {
 
 	private static final long serialVersionUID = 3652374573223865373L;
-
+	/**
+	 * Modelo de la tabla en la que se muestran los problemas
+	 */
 	private ProblemasTableModel model_problemas;
-	
+	/**
+	 * Tabla de los problemas
+	 */
 	private JTable tabla_problemas;
-		
+	/**
+	 * Modelo de la tabla de configuraciones
+	 */
 	private ConfiguracionesTableModel model_configuraciones;
-	
+	/**
+	 * Tabla donde se muestran las configuraciones
+	 */
 	private JTable tabla_configuraciones;
-	
+	/**
+	 * Modelo de la tabla donde se muestran las soluciones
+	 */
 	private SolucionesTableModel model_soluciones;
-	
+	/**
+	 * Tabla que muestra las soluciones
+	 */
 	private JTable tabla_soluciones;
-	
+	/**
+	 * Lista que almacena las soluciones
+	 */
 	private List<Solucion> soluciones;
-	
+	/**
+	 * Lista que almacena las configuraciones
+	 */
 	private List<Configuracion> configuraciones;
-
+	/**
+	 * Indica el problema seleccionado
+	 */
 	private int problema_select;
-	
+	/**
+	 * Constructora que incializa y construye las tablas
+	 * a partir de los modelos y muestra botones y
+	 * otros componentes
+	 */
 	public FrameSoluciones() {
 		super("Explorar soluciones");
 		setLayout(new BorderLayout());
@@ -112,7 +138,9 @@ public class FrameSoluciones extends JFrame {
 		setVisible(true);
 		inicializar();
 	}
-	
+	/**
+	 * Muestra las soluciones del problema seleccionado
+	 */
 	protected void mostrarSolucionesProblema() {
 		if (tabla_problemas.getSelectedRow() != -1) {
 			problema_select = tabla_problemas.getSelectedRow();
@@ -129,7 +157,9 @@ public class FrameSoluciones extends JFrame {
 			tabla_soluciones.repaint();
 		}
 	}
-
+	/**
+	 * Muestra el AF del problema seleccionado
+	 */
 	protected void mostrarAFSeleccion() {
 		if (tabla_soluciones.getSelectedRow() != -1) {
 			GetSolucionWS getSolucionWS = new GetSolucionWS();
@@ -143,7 +173,9 @@ public class FrameSoluciones extends JFrame {
 			frame.validate();
 		}
 	}
-
+	/**
+	 * Muestra las soluciones de los problemas seleccionados
+	 */
 	protected void mostrarSolucionesSeleccion() {
 		if (tabla_configuraciones.getSelectedRow() != -1) {
 			Integer id_config = configuraciones.get(tabla_configuraciones.getSelectedRow()).getId();
@@ -155,7 +187,9 @@ public class FrameSoluciones extends JFrame {
 			tabla_soluciones.repaint();
 		}
 	}
-
+	/**
+	 * Inicializa las tabas
+	 */
 	private void inicializar() {
 		llenarTabla();
 		getInfoProblema((String) tabla_problemas.getValueAt(0, 0), null);
@@ -164,7 +198,12 @@ public class FrameSoluciones extends JFrame {
 		llenarTablaSoluciones();
 		validate();
 	}
-
+	/**
+	 * Obtiene la informacion de un problema a partir de los
+	 * identificadores de problema y de configuracion
+	 * @param id
+	 * @param id_configuracion
+	 */
 	private void getInfoProblema(String id, Integer id_configuracion) {
 		GetSolucionesWS getSolucionesWS = new GetSolucionesWS();
 		getSolucionesWS.setId(id);
@@ -205,7 +244,9 @@ public class FrameSoluciones extends JFrame {
 		}
 		
 	}
-
+	/**
+	 * Llena la tabla de soluciones
+	 */
 	private void llenarTablaSoluciones() {
 		for (int i = 0; i < model_soluciones.getColumnCount(); i++)
 			tabla_soluciones.getColumnModel().getColumn(i).setHeaderValue(model_soluciones.getColumnName(i));
@@ -215,7 +256,9 @@ public class FrameSoluciones extends JFrame {
 				model_soluciones.addSolucion(sol);
 		}
 	}
-
+	/**
+	 * Llena la tabla de problemas
+	 */
 	private void llenarTabla() {
 		for (int i = 0; i < model_problemas.getColumnCount(); i++)
 			tabla_problemas.getColumnModel().getColumn(i).setHeaderValue(model_problemas.getColumnName(i));
@@ -225,7 +268,9 @@ public class FrameSoluciones extends JFrame {
 		for (GetProblemasWS.Problema problema : getProblemasWS.getProblemas())
 			model_problemas.addProblema(problema.getId(), problema.getDescripcion(), problema.getSoluciones());
 	}
-	
+	/**
+	 * Llena la tabla de configuraciones
+	 */
 	private void llenarTablaConfiguraciones() {
 		for (int i = 0; i < model_configuraciones.getColumnCount(); i++)
 			tabla_configuraciones.getColumnModel().getColumn(i).setHeaderValue(model_configuraciones.getColumnName(i));

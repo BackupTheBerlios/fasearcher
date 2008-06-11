@@ -21,21 +21,37 @@ import es.si.ProgramadorGenetico.ProblemaAFP.Factorias.CalculadorBondadAFPFactor
 import es.si.ProgramadorGenetico.ProblemaAFP.Factorias.CruzadorAFPFactory;
 import es.si.ProgramadorGenetico.ProblemaAFP.Factorias.MutadorAFPFactory;
 import es.si.ProgramadorGenetico.ProblemaAFP.Factorias.ResolverAFPFactory;
-
+/**
+ * Frame que resuelve el problema desde las cadenas
+ *
+ */
 public class FrameResolverCadenas extends JFrame {
 
 	private static final long serialVersionUID = -6110427997886352665L;
-	
+	/**
+	 * Panel de configuraciones
+	 */
 	private PanelConfiguracion panelConfiguracion;
-	
+	/**
+	 * Panel en el que se dibuja el AF
+	 */
 	private PanelAF panelAF;
-	
+	/**
+	 * Panel de informacion de la ejecucion
+	 */
 	private JPanel panelInfo;
-	
+	/**
+	 * Lista de cadenas aceptadas
+	 */
 	List<String> aceptadas;
-	
+	/**
+	 * Lista de cadenas rechazadas
+	 */
 	List<String> rechazadas;
-	
+	/**
+	 * Constructora que incializa las listas y añade los
+	 * paneles
+	 */
 	public FrameResolverCadenas() {
 		panelConfiguracion = new PanelConfiguracion();
 		add(panelConfiguracion);
@@ -70,11 +86,16 @@ public class FrameResolverCadenas extends JFrame {
 		setSize(950,600);
 		setVisible(true);
 	}
-
+	/**
+	 * Modifica las cadenas reconstruyendo el frame
+	 */
 	protected void modificarCadenas() {
 		new FrameCadenas(aceptadas, rechazadas);
 	}
-
+	/**
+	 * Resuelve el problema mediante el algoritmo 
+	 * y muestra los datos
+	 */
 	protected void resolver() {
 		if (aceptadas.size() != 0 && rechazadas.size() != 0) {
 			ProblemaAFP problemaAFP = new ProblemaAFP();

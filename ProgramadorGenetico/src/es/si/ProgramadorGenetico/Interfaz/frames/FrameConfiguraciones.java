@@ -15,22 +15,33 @@ import es.si.ProgramadorGenetico.Interfaz.data.Configuracion;
 import es.si.ProgramadorGenetico.Interfaz.data.Problema;
 import es.si.ProgramadorGenetico.Interfaz.paneles.ConfiguracionesTableModel;
 import es.si.ProgramadorGenetico.Interfaz.paneles.PanelConfiguracion;
-
+/**
+ * Frame que muestra la lista de configuraciones
+ * asociadas al problema actual 
+ *
+ */
 public class FrameConfiguraciones extends JFrame {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 5084997267681444349L;
-	
+	/**
+	 * Problema al que estan asociadas las configuraciones
+	 */
 	private Problema problema;
-	
+	/**
+	 * Panel de las configuraciones
+	 */
 	private PanelConfiguracion panelConfiguracion;
-	
+	/**
+	 * TableModel de las configuraciones
+	 */
 	private ConfiguracionesTableModel model;
 	
 	private JTable tabla;
-	
+	/**
+	 * Constructora que construye el panel a partir de los datos
+	 * del problema
+	 * @param problema
+	 */
 	public FrameConfiguraciones(Problema problema) {
 		super("Modificar configuraciones");
 		this.problema = problema;
@@ -75,7 +86,9 @@ public class FrameConfiguraciones extends JFrame {
 		
 		
 	}
-
+	/**
+	 * Agrega una configuracion a la lista de configuraciones
+	 */
 	protected void agregarConfiguracion() {
 		if (panelConfiguracion.getConfiguracion() != null) {
 			problema.getConfiguraciones().add(panelConfiguracion.getConfiguracion());
@@ -84,7 +97,9 @@ public class FrameConfiguraciones extends JFrame {
 			tabla.repaint();
 		}
 	}
-
+	/**
+	 * Elimina una configuracion
+	 */
 	protected void quitarConfiguracion() {
 		if (panelConfiguracion.getConfiguracion() != null && tabla.getSelectedRow() != -1) {
 			problema.getConfiguraciones().remove(tabla.getSelectedRow());
@@ -93,7 +108,9 @@ public class FrameConfiguraciones extends JFrame {
 			tabla.repaint();
 		}
 	}
-
+	/**
+	 * Llena la tabla con las configuraciones
+	 */
 	private void llenarTabla() {
 		for (int i = 0; i < model.getColumnCount(); i++)
 			tabla.getColumnModel().getColumn(i).setHeaderValue(model.getColumnName(i));

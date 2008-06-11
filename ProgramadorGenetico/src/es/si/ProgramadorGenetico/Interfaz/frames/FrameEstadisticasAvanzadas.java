@@ -17,40 +17,72 @@ import es.si.ProgramadorGenetico.Interfaz.paneles.PanelSeleccionarConfiguracione
 import es.si.ProgramadorGenetico.Interfaz.paneles.PanelSeleccionarProblemas;
 import es.si.ProgramadorGenetico.WS.GetAdvancedStatsWS;
 import es.si.ProgramadorGenetico.WS.GetValidValuesWS;
-
+/**
+ * Frame que muestra las estadisticas avanzadas de los
+ * problemas de la base de datos
+ *
+ */
 public class FrameEstadisticasAvanzadas extends JFrame {
-
+	
 	private static final long serialVersionUID = -4916806235119316525L;
-
+	/**
+	 * Lista de todos los problemas
+	 */
 	private List<Problema> problemas;
-
+	/**
+	 * Lista de todas las configuraciones
+	 */
 	private List<Configuracion> configuraciones;
-	
+	/**
+	 * Panel en el que seleccionan los problemas
+	 */
 	private PanelSeleccionarProblemas panelSeleccionarProblemas;
-	
+	/**
+	 * Panel en el que se seleccionan las configuraciones
+	 */
 	private PanelSeleccionarConfiguraciones panelSeleccionarConfiguraciones;
-	
+	/**
+	 * Panel para elegir los cruzadores
+	 */
 	private PanelElegir curzadores;
-	
+	/**
+	 * Panel para elegir los mutadores
+	 */
 	private PanelElegir mutadores;
-	
+	/**
+	 * Panel para elegir la fucnion de bondad
+	 */
 	private PanelElegir funcBondad;
-	
+	/**
+	 * Panel para elegir el numero de estado
+	 */
 	private PanelElegir estados;
-	
+	/**
+	 * Panel para elegir la poblacion maxima
+	 */
 	private PanelElegir pobMax;
-	
+	/**
+	 * Panel para elegir las muestras
+	 */
 	private PanelElegir muestras;
-	
+	/**
+	 * Panel para elegir el numero de pasos
+	 */
 	private PanelElegir pasos;
 	
+	/**
+	 * Constructora que inicializa el panel
+	 */
 	public FrameEstadisticasAvanzadas() {
 		panelSeleccionarProblemas = new PanelSeleccionarProblemas(this);
 		add(panelSeleccionarProblemas);
 		setVisible(true);
 		setSize(600,600);
 	}
-
+	/**
+	 * Guarda los problemas seleccionados
+	 * @param seleccionados
+	 */
 	public void problemasElegidos(List<Problema> seleccionados) {
 		problemas = seleccionados;
 		remove(panelSeleccionarProblemas);
@@ -62,14 +94,19 @@ public class FrameEstadisticasAvanzadas extends JFrame {
 		else
 			configuracionesElegidas(null);
 	}
-
+	/**
+	 * Muestra el panel de seleccionar configuraciones 
+	 */
 	private void elegirConfiguracion() {
 		panelSeleccionarConfiguraciones = new PanelSeleccionarConfiguraciones(this, problemas.get(0));
 		add(panelSeleccionarConfiguraciones);
 		validate();
 		repaint();
 	}
-		
+	/**
+	 * Se guardan las configuraciones elegidas
+	 * @param configuraciones
+	 */
 	public void configuracionesElegidas(List<Configuracion> configuraciones) {
 		this.configuraciones = configuraciones;
 		
@@ -131,7 +168,9 @@ public class FrameEstadisticasAvanzadas extends JFrame {
 		
 		
 	}
-
+	/**
+	 * Busca los datos correspondientes a los datos seleccionados 
+	 */
 	protected void buscar() {
 		GetAdvancedStatsWS ws = new GetAdvancedStatsWS();
 		
