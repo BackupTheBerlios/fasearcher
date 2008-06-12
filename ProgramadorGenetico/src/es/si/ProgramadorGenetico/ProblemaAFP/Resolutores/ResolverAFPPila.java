@@ -3,7 +3,6 @@ package es.si.ProgramadorGenetico.ProblemaAFP.Resolutores;
 import java.util.ArrayList;
 
 import es.si.ProgramadorGenetico.ProblemaAFP.AFP;
-import es.si.ProgramadorGenetico.ProblemaAFP.Estado;
 import es.si.ProgramadorGenetico.ProblemaAFP.ResolverAFP;
 
 /**

@@ -1,12 +1,38 @@
-package es.si.ProgramadorGenetico.ProblemaAFP;
+package es.si.ProgramadorGenetico.ProblemaAFP.Resolutores;
 
+/**
+ * Clase que representa el estado de la pila para el resolutor de
+ * AFP que utiliza dicho método.<P>
+ *
+ */
 public class Estado {
+	
+	/**
+	 * El estado en el que esta el AFP
+	 */
 	private int estadoAF;
 	
+	/**
+	 * Cadena que queda por reconocer
+	 */
 	private String cadena;
 	
+	/**
+	 * Probabilidad de que el AFP se encuentre en esta situación
+	 */
 	private double prob;
 	
+	/**
+	 * Constructor de un nuevo estado de la pila.
+	 * 
+	 * @param estadoAF
+	 * Estado en el que se encuentra el AFP
+	 * @param cadena
+	 * Cadena que queda por reconocer
+	 * @param prob
+	 * Probabilidad de que el AFP se encuentre en esta situación
+	 * 
+	 */
 	public Estado(int estadoAF, String cadena, double prob) {
 		this.estadoAF = estadoAF;
 		this.cadena = cadena;

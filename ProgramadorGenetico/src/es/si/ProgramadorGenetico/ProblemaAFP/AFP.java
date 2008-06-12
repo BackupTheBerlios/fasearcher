@@ -7,10 +7,23 @@ import java.text.NumberFormat;
 import es.si.ProgramadorGenetico.Individuo;
 import es.si.ProgramadorGenetico.Interfaz.componentes.AF;
 
+/**
+ * Clase que implementa un AFP (Autómata Finito Probabilista) como
+ * individuo de una población para el algoritmo genético.<p>
+ * 
+ * Este AFP tiene las transiciones representadas como una matriz
+ * tridimensional, con el estado inicial, la entrada y el estado
+ * final como coordenadas y la probabilidad de dicha transición
+ * como valor. 
+ *
+ */
 public class AFP implements Individuo, Serializable {
 
 	private static final long serialVersionUID = 3297149789558393107L;
 
+	/**
+	 * Número de estados del autómata
+	 */
 	private int estados;
 	
 	/**
@@ -24,12 +37,24 @@ public class AFP implements Individuo, Serializable {
 	 */
 	private float[] probabilidadFinal;
 		
+	/**
+	 * Construye un AFP con el núermo de estados dado
+	 * @param estados
+	 * Número de estados del autómata a construir.
+	 */
 	public AFP(int estados) {
 		this.estados = estados;
 		transiciones = new float[estados][2][estados + 1];
 		probabilidadFinal = new float[estados];
 	}
 	
+	/**
+	 * Crea un AFP a partir del AF (Autómata Finito) pasado
+	 * como parámetro, con los mismos valores para las transiciones.
+	 * 
+	 * @param automataFinito
+	 * AF utilizado para crear el AFP
+	 */
 	public AFP (AF automataFinito) {
 		estados = automataFinito.getEstados();
 		transiciones = new float[estados][2][estados + 1];
