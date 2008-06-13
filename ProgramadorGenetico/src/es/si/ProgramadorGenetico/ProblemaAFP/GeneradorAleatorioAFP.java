@@ -2,13 +2,28 @@ package es.si.ProgramadorGenetico.ProblemaAFP;
 
 import java.util.Random;
 
-
+/**
+ * Clase que genera un AFP aleatorio
+ * Esto se hará cada vez que se genere una poblacion
+ * inicial para el algoritmo 
+ */
 public class GeneradorAleatorioAFP {
 
+	/**
+	 * Numero de iteraciones o particiones por defecto
+	 * del algoritmo
+	 */
 	public static int PARTICIONES = 50;
-	
+	/**
+	 * Numero aleatorio
+	 */
 	private static Random rand = new Random();
-	
+	/**
+	 * Se le pasa un numero de estados
+	 * y crea un AFP con transiciones aleatorias
+	 * @param estados
+	 * @return
+	 */
 	public static AFP nuevo(int estados) {
 		float[][][] transiciones = new float[estados][2][estados+1];
 		float[] probfinal = new float[estados];

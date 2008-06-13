@@ -12,15 +12,28 @@ import es.si.ProgramadorGenetico.ProblemaAFP.Factorias.MutadorAFPFactory;
 import es.si.ProgramadorGenetico.ProblemaAFP.Factorias.ResolverAFPFactory;
 import es.si.ProgramadorGenetico.WS.SetSolucionWS;
 import es.si.ProgramadorGenetico.util.Config;
-
+/**
+ * Clase que representa un problema
+ * para el algoritmo genetico
+ *
+ */
 public class ProblemaAFP {
-	
+	/**
+	 * El mejor AFP
+	 */
 	private AFP mejor;
-	
+	/**
+	 * Lista de mejores AFPs
+	 */
 	private List<AFP> mejores;
-	
+	/**
+	 * Indica si el problema se debe buscar en un
+	 * archivo local o en internet
+	 */
 	private boolean local;
-	
+	/**
+	 * Constructora que inicializa los atributos
+	 */
 	public ProblemaAFP() {
 		mejores = new ArrayList<AFP>();
 		CruzadorAFPFactory.setTipo(CruzadorAFPFactory.TIPO_1);
@@ -29,7 +42,10 @@ public class ProblemaAFP {
 		CalculadorBondadAFPFactory.setTipo(CalculadorBondadAFPFactory.PREFERNCIADET);
 		local = false;
 	}
-	
+	/**
+	 * Metodo que inicializa los valores del algoritmo y los parametrosAFP
+	 * a partir de los datos de Internet
+	 */
 	public void ejecutar() {
 		Config config = Config.getInstance();
 		
@@ -78,15 +94,25 @@ public class ProblemaAFP {
 
 		mejores = AplicarAlgoritmoAFP.getMejores();
 	}
-
+	/**
+	 * Devuelve el mejor AFP
+	 * @return
+	 */
 	public AFP getMejor() {
 		return mejor;
 	}
-
+	/**
+	 * Devuelve los mejores
+	 * @return
+	 */
 	public List<AFP> getMejores() {
 		return mejores;
 	}
-	
+	/**
+	 * Devuelve el porcentaje de acierto
+	 * en el reconocimiento de cadenas
+	 * @return
+	 */
 	public float getReconocimiento() {
 		double prob = 0;
 		for (String cadena : ParametrosAFP.getInstance().getAceptadas()) {
@@ -105,7 +131,11 @@ public class ProblemaAFP {
 		}
 		return (float) (prob / (ParametrosAFP.getInstance().getAceptadas().size() +ParametrosAFP.getInstance().getRechazadas().size()) );
 	}
-	
+	/**
+	 * Devuelve el porcentaje de parecido
+	 * con un AF
+	 * @return
+	 */
 	public float getParecidoAF() {
 		if (mejor != null) {
 			int estados = mejor.getEstados();
@@ -126,7 +156,10 @@ public class ProblemaAFP {
 		}
 		return 0;
 	}
-
+	/**
+	 * Actualiza el valor local
+	 * @param local
+	 */
 	public void setLocal(boolean local) {
 		this.local = local;
 	}

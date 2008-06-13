@@ -10,10 +10,20 @@ import es.si.ProgramadorGenetico.Writer;
 import es.si.ProgramadorGenetico.ProblemaAFP.Factorias.*;
 import es.si.ProgramadorGenetico.WS.SetSolucionWS;
 import es.si.ProgramadorGenetico.util.Config;
-
+/**
+ * Clase principal alternativa que ejecuta el algoritmo
+ * genetico 
+ */
 public class Principal {
-
+	/**
+	 * Mejor AFP
+	 */
 	static AFP mejor;
+	/**
+	 * Main que ejecuta el algoritmo genetico leyendo el problema
+	 * de Internet
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		CruzadorAFPFactory.setTipo(CruzadorAFPFactory.TIPO_1);
 		MutadorAFPFactory.setTipo(MutadorAFPFactory.TIPO_1);
@@ -80,7 +90,13 @@ public class Principal {
 		}
 		mejor = AplicarAlgoritmoAFP.getMejor();
 	}
-	
+	/**
+	 * Ejecuta el algorimto genetico a partir de las cadenas y el numero de estados
+	 * Toma los parametros de ParametrosAFP 
+	 * @param aceptadas
+	 * @param rechazadas
+	 * @param numEstados
+	 */
 	public static void ejecuta(List<String> aceptadas, List<String> rechazadas, int numEstados) {
 		CruzadorAFPFactory.setTipo(CruzadorAFPFactory.TIPO_1);
 		MutadorAFPFactory.setTipo(MutadorAFPFactory.TIPO_1);
@@ -122,7 +138,10 @@ public class Principal {
 		}
 		mejor = AplicarAlgoritmoAFP.getMejor();		
 	}
-	
+	/**
+	 * Devuelve el mejor
+	 * @return
+	 */
 	public static AFP getMejor() {
 		return mejor;
 	}

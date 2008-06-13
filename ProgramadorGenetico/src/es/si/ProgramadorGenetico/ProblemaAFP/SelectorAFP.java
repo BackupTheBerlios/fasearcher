@@ -8,18 +8,34 @@ import es.si.ProgramadorGenetico.Poblacion;
 import es.si.ProgramadorGenetico.Selector;
 import es.si.ProgramadorGenetico.Writer;
 import es.si.ProgramadorGenetico.ProblemaAFP.Factorias.CalculadorBondadAFPFactory;
-
+/**
+ * Clase que implementa el Selector del algoritmo genetico
+ * Selecciona los AFPs teniendo un calculador de bondad,
+ * cadenas aceptadas y rechazadas y una poblacion de 
+ * donde elegir los AFPs
+ *
+ */
 public class SelectorAFP implements Selector {
-
+	/**
+	 * Calculadores de bondad
+	 */
 	static ArrayList<CalculadorBondad> calculadores;
-	
+	/**
+	 * Poblacion de AFPs
+	 */
 	static Poblacion poblacion;
-	
+	/**
+	 * Lista de cadenas aceptadas
+	 */
 	static List<String> aceptadas;
-	
+	/**
+	 * Lista de cadenas rechazadas
+	 */
 	static List<String> rechazadas;
 	
-	@Override
+	/**
+	 * Devuelve el mejor individuo de la poblacion
+	 */
 	public Individuo mejor(Poblacion poblacionParam) {
 		calcularBondades(poblacionParam);
 		Iterator<CalculadorBondad> it = calculadores.iterator();
@@ -37,7 +53,10 @@ public class SelectorAFP implements Selector {
 		return mejor;
 	}
 
-	@Override
+	/**
+	 * Selecciona la poblacion escogida a partir de una poblacion
+	 * que se pasa por parametro 
+	 */
 	public Poblacion seleccionar(int cantidad, Poblacion poblacionParam) {
 		calcularBondades(poblacionParam);
 		double[] bondades = new double[cantidad];
