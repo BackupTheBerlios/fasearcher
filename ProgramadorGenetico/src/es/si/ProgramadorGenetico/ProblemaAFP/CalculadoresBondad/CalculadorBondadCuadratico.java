@@ -15,9 +15,21 @@ import es.si.ProgramadorGenetico.ProblemaAFP.CalculadorBondad;
 public class CalculadorBondadCuadratico extends CalculadorBondad {
 
 	public static final double VERSION = 1.0f;
-
+	/**
+	 * Contador
+	 */
 	private int cont;
+	/**
+	 * Bondad temporal
+	 */
 	private double bondadTemp;
+	/**
+	 * Constructora que toma un afp, cadenas aceptadas
+	 * y cadenas rechazadas y construye el calculador
+	 * @param afp
+	 * @param cadenasAceptadas
+	 * @param cadenasRechazadas
+	 */
 	public CalculadorBondadCuadratico(AFP afp,
 			List<String> cadenasAceptadas,
 			List<String> cadenasRechazadas) {
@@ -26,14 +38,18 @@ public class CalculadorBondadCuadratico extends CalculadorBondad {
 		bondadTemp = 0;
 	}
 	
-	@Override
+	/**
+	 * Actualiza la bondad de las palabras aceptadas
+	 */
 	public void actualizarBondadAceptada(double probabilidad) {
 		bondadTemp += probabilidad*probabilidad;
 		cont++;
 		bondad = bondadTemp / cont;
 	}
 
-	@Override
+	/**
+	 * Actualiza la bondad de las palabras rechazadas 
+	 */
 	public void actualizarBondadRechazada(double probabilidad) {
 		bondadTemp += probabilidad*probabilidad;
 		cont++;

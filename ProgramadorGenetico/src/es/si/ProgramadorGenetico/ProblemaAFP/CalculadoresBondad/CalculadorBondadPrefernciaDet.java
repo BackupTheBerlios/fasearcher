@@ -13,17 +13,39 @@ import es.si.ProgramadorGenetico.ProblemaAFP.CalculadorBondad;
 public class CalculadorBondadPrefernciaDet extends CalculadorBondad {
 
 	public static final double VERSION = 2.1f;
-
+	/**
+	 * Porcentaje de importancia que se da al reconocimiento de las cadenas
+	 */
 	private float pesoCadenas = 0.8f;
-	
+	/**
+	 * Bondad de las palabras aceptadas
+	 */
 	private double bondadAceptadas;
-	
+	/**
+	 * Bondad de las palabras rechazadas
+	 */
 	private double bondadRechazadas;
+	/**
+	 * Bondad de la cantidad de unos que hay entre
+	 * las transiciones
+	 * Cuantos mas unos haya, mas se parecera a un AF
+	 */
 	private double bondadUnos;
+	/**
+	 * Cantidad de palabras aceptadas
+	 */
 	private int cantAceptadas;
-	
+	/**
+	 * Cantidad de palabras rechazadas
+	 */
 	private int cantRechazadas;
-
+	/**
+	 * Constructora que a partir de los parametros construye
+	 * el calculador
+	 * @param afp
+	 * @param cadenasAceptadas
+	 * @param cadenasRechazadas
+	 */
 	public CalculadorBondadPrefernciaDet(AFP afp,
 			List<String> cadenasAceptadas,
 			List<String> cadenasRechazadas) {
@@ -35,7 +57,9 @@ public class CalculadorBondadPrefernciaDet extends CalculadorBondad {
 		cantRechazadas = cadenasRechazadas.size();
 	}
 	
-	@Override
+	/**
+	 * Actualiza la bondad de las palabras aceptadas
+	 */
 	public void actualizarBondadAceptada(double probabilidad) {
 		bondadAceptadas+=probabilidad;
 		bondad = bondadAceptadas / cantAceptadas;
@@ -44,7 +68,9 @@ public class CalculadorBondadPrefernciaDet extends CalculadorBondad {
 		bondad = bondad * pesoCadenas + bondadUnos;
 	}
 
-	@Override
+	/**
+	 * Actualiza la bondad de las palabras rechazadas
+	 */
 	public void actualizarBondadRechazada(double probabilidad) {
 		bondadRechazadas+=probabilidad;
 		bondad = bondadRechazadas / cantRechazadas;
@@ -52,7 +78,15 @@ public class CalculadorBondadPrefernciaDet extends CalculadorBondad {
 			bondad = (bondad/2) + (bondadAceptadas / (cantAceptadas*2));
 		bondad = bondad * pesoCadenas + bondadUnos;
 	}
-
+	/**
+	 * Calcula el porcentaje de unos
+	 * Cuando se actualiza la bondad general, se le suma el valor devuelto por
+	 * este metodo. Este valor cuenta como una parte de la bondad total. El resto
+	 * de la bondad se obtiene a partir de la bondad de las cadenas
+	 * @param estados
+	 * @param trans
+	 * @return
+	 */
 	private float calcularPorcentajeUnos(int estados, float[][][] trans) {
 		float valor =0;
 		float suma = 0;

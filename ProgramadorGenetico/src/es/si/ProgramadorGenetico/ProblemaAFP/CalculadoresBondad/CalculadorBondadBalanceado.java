@@ -11,17 +11,31 @@ import es.si.ProgramadorGenetico.ProblemaAFP.CalculadorBondad;
  * ellas.
  */
 public class CalculadorBondadBalanceado extends CalculadorBondad {
-
+	
 	public static final double VERSION = 1.0f;
-	
+	/**
+	 * Bondad de las palabras aceptadas
+	 */
 	private double bondadAceptadas;
-	
+	/**
+	 * Bondad de las palabras rechazadas
+	 */
 	private double bondadRechazadas;
-	
+	/**
+	 * Cantidad de palabras aceptadas
+	 */
 	private int cantAceptadas;
-	
+	/**
+	 * Cantidad de palabras rechazadas
+	 */
 	private int cantRechazadas;
-	
+	/**
+	 * Constructora que a partir de un afp, cadenas aceptadas
+	 * y cadenas rechazadas, construye el calculador de bondad balanceado
+	 * @param afp
+	 * @param cadenasAceptadas
+	 * @param cadenasRechazadas
+	 */
 	public CalculadorBondadBalanceado(AFP afp,
 			List<String> cadenasAceptadas,
 			List<String> cadenasRechazadas) {
@@ -33,7 +47,9 @@ public class CalculadorBondadBalanceado extends CalculadorBondad {
 	}
 
 
-	@Override
+	/**
+	 * Actualiza la bondad de palabra aceptada
+	 */
 	public void actualizarBondadAceptada(double probabilidad) {
 		bondadAceptadas+=probabilidad;
 		bondad = bondadAceptadas / cantAceptadas;
@@ -42,7 +58,9 @@ public class CalculadorBondadBalanceado extends CalculadorBondad {
 	}
 
 
-	@Override
+	/**
+	 * Actualiza la bondad de palabra rechazada
+	 */
 	public void actualizarBondadRechazada(double probabilidad) {
 		bondadRechazadas+=probabilidad;
 		bondad = bondadRechazadas / cantRechazadas;
