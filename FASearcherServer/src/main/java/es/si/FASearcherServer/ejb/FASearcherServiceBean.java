@@ -36,6 +36,8 @@ import es.si.FASearcherServer.data.service.GetProblemaRequest;
 import es.si.FASearcherServer.data.service.GetProblemaResponse;
 import es.si.FASearcherServer.data.service.GetProblemasRequest;
 import es.si.FASearcherServer.data.service.GetProblemasResponse;
+import es.si.FASearcherServer.data.service.GetSolucionRequest;
+import es.si.FASearcherServer.data.service.GetSolucionResponse;
 import es.si.FASearcherServer.data.service.GetSolucionesRequest;
 import es.si.FASearcherServer.data.service.GetSolucionesResponse;
 import es.si.FASearcherServer.data.service.RemoveProblemaRequest;
@@ -240,35 +242,7 @@ public class FASearcherServiceBean implements FASearcherService {
    				ObjectInputStream ois = new ObjectInputStream(baip);
    				automata = (es.si.ProgramadorGenetico.ProblemaAFP.AFP)ois.readObject();
    			
-	   			AFP afp = new AFP();
-	   			afp.setEstados(automata.getEstados());
-	   			int estados = automata.getEstados();
-	   			
-				String probFinales = "";
-				float[] prob = automata.getProbabilidadesFinal();
-				for (int i = 0; i < estados; i ++)
-					probFinales += (probFinales.equals("") ? prob[i] : ";" + prob[i]);
-				afp.setProbFinales(probFinales);
-				
-				String[] trans = new String[estados*2];
-				float[][][] transiciones = automata.getTransiciones();
-				for (int i = 0; i < estados; i ++) {
-					for (int j = 0; j < 2; j ++) {
-						trans[i*2 +j] = "" + i + ":" + j + ":";
-						for (int k = 0; k < estados+1; k++) {
-							float temp = (transiciones[i][j][k] < 0.0001 ? 0 : transiciones[i][j][k]);
-							temp = (temp > 0.9999 ? 1 : temp);
-							NumberFormat format = NumberFormat.getInstance(Locale.ENGLISH);
-							format.setMaximumFractionDigits(4);
-							String temp2 = format.format(temp);
-							trans[i*2+j] += (k == 0 ? temp2 : ";" + temp2);
-						}
-					}
-				}
-				if (afp.getTransiciones() == null)
-					afp.setTransiciones(new ArrayList<String>());
-				for (int i = 0; i < trans.length; i++)
-					afp.getTransiciones().add(trans[i]);
+	   			AFP afp = AFPfromAutomata(automata);
 	   			
 				response.setAfp(afp);
    			} catch (IOException e) {
@@ -277,8 +251,6 @@ public class FASearcherServiceBean implements FASearcherService {
    				e.printStackTrace();
    			}
    			
-   			
-			
 			rs.close();
 			pstmt.close();
 			
@@ -291,7 +263,39 @@ public class FASearcherServiceBean implements FASearcherService {
     	return response;
     }
 
-	
+	private AFP AFPfromAutomata(es.si.ProgramadorGenetico.ProblemaAFP.AFP automata) {
+			AFP afp = new AFP();
+   			afp.setEstados(automata.getEstados());
+   			int estados = automata.getEstados();
+   			
+			String probFinales = "";
+			float[] prob = automata.getProbabilidadesFinal();
+			for (int i = 0; i < estados; i ++)
+				probFinales += (probFinales.equals("") ? prob[i] : ";" + prob[i]);
+			afp.setProbFinales(probFinales);
+			
+			String[] trans = new String[estados*2];
+			float[][][] transiciones = automata.getTransiciones();
+			for (int i = 0; i < estados; i ++) {
+				for (int j = 0; j < 2; j ++) {
+					trans[i*2 +j] = "" + i + ":" + j + ":";
+					for (int k = 0; k < estados+1; k++) {
+						float temp = (transiciones[i][j][k] < 0.0001 ? 0 : transiciones[i][j][k]);
+						temp = (temp > 0.9999 ? 1 : temp);
+						NumberFormat format = NumberFormat.getInstance(Locale.ENGLISH);
+						format.setMaximumFractionDigits(4);
+						String temp2 = format.format(temp);
+						trans[i*2+j] += (k == 0 ? temp2 : ";" + temp2);
+					}
+				}
+			}
+			if (afp.getTransiciones() == null)
+				afp.setTransiciones(new ArrayList<String>());
+			for (int i = 0; i < trans.length; i++)
+				afp.getTransiciones().add(trans[i]);
+			
+			return afp;
+	}
 
 	@WebResult(name="getProblemasResponse")
 	public GetProblemasResponse getProblemas(@WebParam(name="getProblemasRequest") GetProblemasRequest request) {
@@ -338,9 +342,10 @@ public class FASearcherServiceBean implements FASearcherService {
 			ResultSet rs = null;
 			
 			PreparedStatement pstmt = null;
-			String sql = "SELECT * FROM Soluciones WHERE id = " + request.getId();
+			String sql = "SELECT * FROM Solucion WHERE id = " + request.getId();
 			if (request.getId_config() != null)
-				sql += ", id_config = " + request.getId_config();
+				sql += " AND id_configuracion = " + request.getId_config();
+			System.out.println("Get soluciones " + sql );
 			pstmt = connection.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 
@@ -357,6 +362,7 @@ public class FASearcherServiceBean implements FASearcherService {
 				sol.setPobMax(rs.getInt("PobMax"));
 				sol.setReconocimiento(rs.getDouble("Reconocimiento"));
 				sol.setTipoAutomata(rs.getString("TipoAutomata"));
+				sol.setId_configuracion(rs.getInt("id_configuracion"));
 				response.getSoluciones().add(sol);
 			}
 			
@@ -396,6 +402,53 @@ public class FASearcherServiceBean implements FASearcherService {
 				rs.close();
 				pstmt.close();
 			}
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+    	
+    	
+    	return response;
+    }
+
+    @WebResult(name="getSolucionResponse")
+    public GetSolucionResponse getSolucion(@WebParam(name="getSolucionRequest") GetSolucionRequest request)  {
+    	GetSolucionResponse response = new GetSolucionResponse();
+    	
+    	
+    	String id = request.getId();
+    	
+		try {
+			Connection connection = ds.getConnection();
+			ResultSet rs = null;
+			PreparedStatement pstmt = null;
+				
+			String sql = "SELECT TipoAutomata, Automata FROM Solucion WHERE id_solucion = " + id;
+			pstmt = connection.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			rs.next();
+			response.setTipoAutomata(rs.getString("TipoAutomata"));
+			
+    		es.si.ProgramadorGenetico.ProblemaAFP.AFP automata;
+   			try {
+   				byte[] st = rs.getBytes("Automata");
+   				ByteArrayInputStream baip = new ByteArrayInputStream(st);
+   				ObjectInputStream ois = new ObjectInputStream(baip);
+   				automata = (es.si.ProgramadorGenetico.ProblemaAFP.AFP)ois.readObject();
+   			
+	   			AFP afp = AFPfromAutomata(automata);
+	   			
+				response.setAfp(afp);
+   			} catch (IOException e) {
+   				e.printStackTrace();
+   			} catch (ClassNotFoundException e) {
+   				e.printStackTrace();
+   			}
+   			
+			rs.close();
+			pstmt.close();
+			
+			
 			connection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();

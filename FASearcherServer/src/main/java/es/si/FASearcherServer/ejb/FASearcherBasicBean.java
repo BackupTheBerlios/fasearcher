@@ -85,6 +85,26 @@ public class FASearcherBasicBean implements FASearcherBasic {
 			}
 
 			
+			Statement stmtConfig0 = connection.createStatement();
+			ResultSet rsConfig0 = stmtConfig0.executeQuery("SELECT configuraciones.id_configuracion, " +
+														   "IFNULL((SELECT COUNT(*) FROM solucion WHERE solucion.id_configuracion = configuraciones.id_configuracion),0) AS cuenta " +
+														   "FROM  configuraciones WHERE configuraciones.id = \"" + id + "\" " +
+														   "GROUP BY configuraciones.id_configuracion ORDER BY cuenta");
+
+			Integer id_config = -1;
+			List<Integer> ids = new ArrayList<Integer>();
+			int min = -1;
+			int cuenta = -1;
+			while (rsConfig0.next() && (min == -1 || cuenta <= min)) {
+				if (min == -1)
+					min = rsConfig0.getInt("cuenta");
+				cuenta = rsConfig0.getInt("cuenta");
+				ids.add(rsConfig0.getInt("id_configuracion"));
+			}
+			Random rand = new Random();
+			id_config = ids.get(rand.nextInt(ids.size() - 1));
+			
+			
 			Statement stmtConfig1 = connection.createStatement();
 			ResultSet rsConfig1 = stmtConfig1.executeQuery("SELECT configuraciones.id_configuracion as \"id\", " +
 																  "configuraciones.Estados as \"Estados\", " +
@@ -95,25 +115,11 @@ public class FASearcherBasicBean implements FASearcherBasic {
 																  "configuraciones.mutador as \"mutador\", " +
 																  "configuraciones.resolver as \"resolver\" " + 
 														   "FROM configuraciones " +
-														   "WHERE configuraciones.id = \"" + id + "\"");
+														   "WHERE configuraciones.id = \"" + id + "\"" +
+														   		" AND configuraciones.id_configuracion = " + id_config);
 
-			if (!rsConfig1.next()) {
-				rsConfig1 = stmtConfig1.executeQuery("SELECT configuraciones.id_configuracion as \"id\", " +
-																  "configuraciones.Estados as \"Estados\", " +
-						  "configuraciones.PobMax as \"PobMax\", " +
-						  "configuraciones.Muestras as \"Muestras\", " +
-						  "configuraciones.calculadorBondad as \"calculadorBondad\"," +
-						  "configuraciones.cruzador as \"cruzador\", " +
-						  "configuraciones.mutador as \"mutador\", " +
-						  "configuraciones.resolver as \"resolver\" " + 
-				   "FROM configuraciones " +
-				   "WHERE configuraciones.id = \"-1\"");
-				rsConfig1.next();
-			}
-			
-			List<Configuracion> configs = new ArrayList<Configuracion>();
-			
-			do {
+			Configuracion config = null;
+			while (rsConfig1.next()) {
 				int muestras = rsConfig1.getInt("Muestras");
 				int estados = rsConfig1.getInt("Estados");
 				int pobMax = rsConfig1.getInt("PobMax");
@@ -121,20 +127,18 @@ public class FASearcherBasicBean implements FASearcherBasic {
 				int cruzador = rsConfig1.getInt("cruzador");
 				int mutador = rsConfig1.getInt("mutador");
 				int resolver = rsConfig1.getInt("resolver");
-				int id_config = rsConfig1.getInt("id");
-				configs.add(new Configuracion(id_config, muestras, pobMax, estados, calculadorBondad, cruzador, mutador, resolver));
-			} while (rsConfig1.next()); 
+				int id_config2 = rsConfig1.getInt("id");
+				config = new Configuracion(id_config2, muestras, pobMax, estados, calculadorBondad, cruzador, mutador, resolver);
+			} 
 			
-			Random rand = new Random();
-			int i = rand.nextInt(configs.size());
-			response.setMuestras(configs.get(i).getMuestras());
-			response.setPobMax(configs.get(i).getPobMax());
-			response.setEstados(configs.get(i).getEstados());
-			response.setCalculadorBondad(configs.get(i).getCalculadorBondad());
-			response.setCruzador(configs.get(i).getCruzador());
-			response.setMutador(configs.get(i).getMutador());
-			response.setResolver(configs.get(i).getResolver());
-			response.setId_configuracion(configs.get(i).getId());
+			response.setMuestras(config.getMuestras());
+			response.setPobMax(config.getPobMax());
+			response.setEstados(config.getEstados());
+			response.setCalculadorBondad(config.getCalculadorBondad());
+			response.setCruzador(config.getCruzador());
+			response.setMutador(config.getMutador());
+			response.setResolver(config.getResolver());
+			response.setId_configuracion(config.getId());
 			
 			response.setAceptadas(aceptadas);
 			response.setRechazadas(rechazadas);
@@ -221,7 +225,7 @@ public class FASearcherBasicBean implements FASearcherBasic {
 						 request.getPasos() + ",'" + request.getMutador() + "','" + request.getFuncbondad() +
 						 "','" + request.getCruzador() + "','" + request.getMetodoRes() + "'," + 
 						 request.getPobmax() + "," + request.getMuestras() + "," + request.getParticiones() + ", "+
-						 request.getId_configuracion() + ")";
+						 request.getId_configuracion() + ",null)";
 			System.out.println(sql);
 			byte[] automataAsBytes = baos.toByteArray();
 			ByteArrayInputStream bais = new ByteArrayInputStream(automataAsBytes);
