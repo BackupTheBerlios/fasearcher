@@ -208,11 +208,5 @@ public class FrameEstadisticasAvanzadas extends JFrame {
 		stats.setNumProblemas(ws.getNumProblemas());
 		
 		new FrameStats(stats);
-		
-		
 	}
-	
-	
-	
-	
 }

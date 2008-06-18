@@ -15,6 +15,7 @@ import javax.swing.JTable;
 import es.si.ProgramadorGenetico.Interfaz.data.Problema;
 import es.si.ProgramadorGenetico.Interfaz.frames.FrameEstadisticasAvanzadas;
 import es.si.ProgramadorGenetico.WS.GetProblemasWS;
+
 /**
  * Panel en el que se pueden seleccionar los problemas a tratar
  * con las estadisticas
@@ -23,40 +24,47 @@ import es.si.ProgramadorGenetico.WS.GetProblemasWS;
 public class PanelSeleccionarProblemas extends JPanel {
 
 	private static final long serialVersionUID = -2750855309074355489L;
+	
 	/**
 	 * Tabla de problemas
 	 */
 	private JTable tabla_problemas;
+	
 	/**
 	 * Modelo de la tabla de los problemas
 	 */
 	private ProblemasTableModel model_problemas;
+	
 	/**
 	 * Tabla de problemas seleccionados
 	 */
 	private JTable tabla_seleccionados;
+	
 	/**
 	 * Modelo de la tabla de problemas seleccionados
 	 */
 	private ProblemasTableModel model_seleccionados;
+	
 	/**
 	 * Lista de problemas
 	 */
 	private List<Problema> problemas;
+	
 	/**
 	 * Lista de problemas seleccionados
 	 */
 	private List<Problema> seleccionados = new ArrayList<Problema>();
+	
 	/**
 	 * Frame de estadisticas avanzadas
 	 */
 	private FrameEstadisticasAvanzadas frame;
+	
 	/**
 	 * Constructora que inicializa los frames, paneles y tablas
 	 * @param frameEstadisticasAvanzadas
 	 */
 	public PanelSeleccionarProblemas(FrameEstadisticasAvanzadas frameEstadisticasAvanzadas) {
-		
 		frame = frameEstadisticasAvanzadas;
 		
 		setLayout(new BorderLayout());
@@ -78,7 +86,6 @@ public class PanelSeleccionarProblemas extends JPanel {
 		temp.add(panelTabla);
 
 		add(temp, BorderLayout.CENTER);
-		
 		
 		temp = new JPanel();
 		

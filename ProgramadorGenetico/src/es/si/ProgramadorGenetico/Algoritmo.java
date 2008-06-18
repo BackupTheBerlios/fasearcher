@@ -18,42 +18,52 @@ public class Algoritmo {
 	 * de generacion
 	 */
 	private Selector selector;
+	
 	/**
 	 * Cruzador que se selecciona para el algoritmo
 	 */
 	private Cruzador cruzador;
+	
 	/**
 	 * Mutador que se utiliza en el algoritmo
 	 */
 	private Mutador mutador;
+	
 	/**
 	 * Poblacion que manejara los miembros
 	 */
 	private Poblacion poblacion;
+	
 	/**
 	 * Poblacion inicial de la que se dispone
 	 */
 	private PoblacionInicial poblacioninicial;
+	
 	/**
 	 * Mejor individuo al final de la ejecucion
 	 */
 	private Individuo mejor;
+	
 	/**
 	 * Lista de mejores individuos
 	 */
 	private List<Individuo> mejores;
+	
 	/**
 	 * Numero de pasos dados
 	 */
 	private int pasos;
+	
 	/**
 	 * Numero de muestras por defecto
 	 */
 	public static int MANTENER = 10;
+	
 	/**
 	 * Poblacion maxima por defecto
 	 */
 	public static int POB_MAX = 1000;
+	
 	/**
 	 * Este metodo ejecuta el algoritmo
 	 * Se genera una poblacion inicial, se escogen los mejores
