@@ -6,7 +6,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Properties;
-
+/**
+ * Clase que almacena informacion necesario 
+ * del servidor en el atributo properties
+ */
 public class Config {
 
 	private static Config config;
