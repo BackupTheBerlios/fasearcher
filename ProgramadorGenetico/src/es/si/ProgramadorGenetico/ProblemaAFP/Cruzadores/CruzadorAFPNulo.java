@@ -5,11 +5,20 @@ import es.si.ProgramadorGenetico.Poblacion;
 import es.si.ProgramadorGenetico.ProblemaAFP.AFP;
 import es.si.ProgramadorGenetico.ProblemaAFP.ParametrosAFP;
 
+/**
+ * Clase que implementa el cruzador nulo
+ * Este cruzador no cruza los AFPs. Hace clones de los 
+ * mejores AFPs pero no los cruza
+ *
+ */
 public class CruzadorAFPNulo implements Cruzador {
 
 	public static final double VERSION = 1.0f;
 
-	@Override
+	/**
+	 * Crea varios clones de cada miembro del conjunto de mejores
+	 * para la poblacion de la siguiente generacion
+	 */
 	public Poblacion entrecruzar(int cant, Poblacion mejores) {
 		int tam = mejores.getCantidad();
 		Poblacion nueva = new Poblacion();
@@ -24,7 +33,11 @@ public class CruzadorAFPNulo implements Cruzador {
 		}
 		return nueva;
 	}
-	
+	/**
+	 * Hace un clon del AFP a
+	 * @param a
+	 * @return
+	 */
 	private AFP clon(AFP a) {
 		int estados = ParametrosAFP.getInstance().getEstados();
 		AFP nuevo = new AFP(estados);

@@ -8,14 +8,22 @@ import es.si.ProgramadorGenetico.Mutador;
 import es.si.ProgramadorGenetico.Poblacion;
 import es.si.ProgramadorGenetico.ProblemaAFP.AFP;
 import es.si.ProgramadorGenetico.ProblemaAFP.ParametrosAFP;
-
+/**
+ * Clase que implementa el mutador TIPO_2 
+ */
 public class MutadorAFP_2 implements Mutador {
-
+	/**
+	 * Atributo que indica el numero de version
+	 */
 	public static final double VERSION = 1.0f;
-
+	/**
+	 * Atributo que representa un Random para generar numeros aleatorios
+	 */
 	private static Random rand = new Random();
 
-	@Override
+	/**
+	 * Recorre todos los miembros de la poblacion y los muta
+	 */
 	public Poblacion mutar(Poblacion poblacion) {
 		Iterator<Individuo> it = poblacion.getIterator();
 		while(it.hasNext()) {
@@ -23,7 +31,12 @@ public class MutadorAFP_2 implements Mutador {
 		}
 		return poblacion;
 	}
-	
+	/**
+	 * Para mutar un miembro se busca el valor minimo de todas las transiciones de cada estado
+	 * Se resta ese valor a todas las transiciones que salen de ese estado, y luego se multiplican
+	 * las transiciones por un valor para que la suma de todas siga siendo 1
+	 * @param afp
+	 */
 	private void mutarAFP(AFP afp) {
 		int estados = ParametrosAFP.getInstance().getEstados();
 		float[][][] transiciones = afp.getTransiciones();

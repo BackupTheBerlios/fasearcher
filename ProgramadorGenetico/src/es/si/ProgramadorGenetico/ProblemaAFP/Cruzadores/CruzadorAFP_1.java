@@ -7,14 +7,25 @@ import es.si.ProgramadorGenetico.Poblacion;
 import es.si.ProgramadorGenetico.ProblemaAFP.AFP;
 import es.si.ProgramadorGenetico.ProblemaAFP.ParametrosAFP;
 
-
+/**
+ * Implementación de un cruzador de AFPs
+ * Cruza aleatoriamente los miembros de la poblacion
+ * Toma un valor aleatorio entre 0 y 1 para cada estado del automata 
+ * y multiplica todas las transiciones del automata que salen de un estado
+ * por el valor correspondiente. Después suma las probabilidades del segundo
+ * automata multiplicando por 1-el valor anterior, manteniendo la suma 
+ * de todas las probabilidades en 1  
+ *
+ */
 public class CruzadorAFP_1 implements Cruzador {
 
 	public static final double VERSION = 1.0f;
 
 	private static Random rand = new Random();
 	
-	@Override
+	/**
+	 * Entrecruza los miembros aleatoriamente
+	 */
 	public Poblacion entrecruzar(int cant, Poblacion mejores) {
 		int tam = mejores.getCantidad();
 		Poblacion nueva = new Poblacion();
@@ -23,7 +34,13 @@ public class CruzadorAFP_1 implements Cruzador {
 		}
 		return nueva;
 	}
-	
+	/**
+	 * Calcula los valores aleatorios y crea las transiciones
+	 * para el nuevo AFP
+	 * @param a
+	 * @param b
+	 * @return
+	 */
 	private AFP cruzar(AFP a, AFP b) {
 		int estados = ParametrosAFP.getInstance().getEstados();
 		AFP nuevo = new AFP(estados);
