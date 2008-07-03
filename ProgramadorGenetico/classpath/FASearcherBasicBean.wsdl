@@ -127,7 +127,7 @@
  </binding>
  <service name='FASearcherBasicBeanService'>
   <port binding='tns:FASearcherBasicBinding' name='FASearcherBasicBeanPort'>
-   <soap:address location='http://fasearcher.selfip.info:18080/fasearcher/FASearcherBasicBean'/>
+   <soap:address location='http://localhost:18080/fasearcher/FASearcherBasicBean'/>
   </port>
  </service>
 </definitions>

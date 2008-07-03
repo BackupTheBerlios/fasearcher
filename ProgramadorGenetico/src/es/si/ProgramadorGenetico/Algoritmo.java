@@ -113,7 +113,7 @@ public class Algoritmo {
 		
 		pasos = cont;
 		
-		Writer.write("\nTiempo: "+ (System.currentTimeMillis() - tiempo)/1000 + "s\n");
+		Writer.write("\nTiempo: "+ (System.currentTimeMillis() - tiempo) + "s\n");
 		Writer.write("--------------------\n");
 		Writer.write(mejor.toString() + "\n");
 		Writer.write("--------------------\n");
