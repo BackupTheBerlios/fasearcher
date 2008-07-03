@@ -124,9 +124,7 @@ public class FASearcherStatsBean implements FASearcherStats {
 					configuraciones = "id_configuracion=" + request.getId_config();
 			}
 			
-			
 			String where = null;
-			
 			if (problemas != null) {
 				where = " WHERE " + problemas;
 			}
@@ -135,17 +133,11 @@ public class FASearcherStatsBean implements FASearcherStats {
 			}
 			
 			response.setEstados(getIntegers(connection, "Estados", "Solucion", where));
-
 			response.setPobMax(getIntegers(connection, "PobMax", "Solucion", where));
-
 			response.setMuestras(getIntegers(connection, "Muestras", "Solucion", where));
-
 			response.setFuncBondad(getStrings(connection, "FuncBondad", "Solucion", where));
-			
 			response.setCruzadores(getStrings(connection, "Cruzador", "Solucion", where));
-			
 			response.setMutadores(getStrings(connection, "Mutador", "Solucion", where));
-			
 			response.setPasos(getIntegers(connection, "Pasos", "Solucion", where));
 
 			connection.close();
@@ -153,7 +145,6 @@ public class FASearcherStatsBean implements FASearcherStats {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-    	
     	
     	return response;
     }
@@ -169,21 +160,13 @@ public class FASearcherStatsBean implements FASearcherStats {
 	    	String [] condiciones = new String[9];
 	    	
 			condiciones[0] = condiciones_String("id", request.getId_problemas());
-	    	
 			condiciones[1] = condiciones_Integer("id_configuracion", request.getId_config());
-	
 			condiciones[2] = condiciones_String("Mutador", request.getMutadores());
-			
 			condiciones[3] = condiciones_String("Cruzador", request.getCruzadores());
-	
 			condiciones[4] = condiciones_String("FuncBondad", request.getFuncBondad());
-	
 			condiciones[5] = condiciones_Integer("PobMax", request.getPobmax());
-			
 			condiciones[6] = condiciones_Integer("Muestras", request.getMuestras());
-			
 			condiciones[7] = condiciones_Integer("Pasos", request.getPasos());
-	
 			condiciones[8] = condiciones_Integer("Estados", request.getEstados());
 			
 			boolean hay_condiciones = false;
@@ -203,7 +186,6 @@ public class FASearcherStatsBean implements FASearcherStats {
 					}
 				}
 			}
-		
 	
 			Statement stmt0 = connection.createStatement();
 			ResultSet rs0 = stmt0.executeQuery("SELECT id, soluciones" +
@@ -256,7 +238,7 @@ public class FASearcherStatsBean implements FASearcherStats {
     	return response;
     }
 
-    String condiciones_String(String columna, List<String> lista) throws SQLException {
+    private String condiciones_String(String columna, List<String> lista) throws SQLException {
 		String condiciones = null;
 		if (lista != null && lista.size() != 0) {
 			if (lista.size() == 1) {
@@ -276,7 +258,7 @@ public class FASearcherStatsBean implements FASearcherStats {
 		return condiciones;
     }
 
-    String condiciones_Integer(String columna, List<Integer> lista) throws SQLException {
+    private String condiciones_Integer(String columna, List<Integer> lista) throws SQLException {
 		String condiciones = null;
 		if (lista != null && lista.size() != 0) {
 			if (lista.size() == 1) {
@@ -296,7 +278,7 @@ public class FASearcherStatsBean implements FASearcherStats {
 		return condiciones;
     }
 
-    List<Integer> getIntegers(Connection connection, String columna, String tabla, String where) throws SQLException {
+    private List<Integer> getIntegers(Connection connection, String columna, String tabla, String where) throws SQLException {
 		Statement stmt0 = connection.createStatement();
 		ResultSet rs0 = stmt0.executeQuery("SELECT DISTINCTROW " + columna +
 				" FROM " + tabla + (where == null? "" : where) +
@@ -312,7 +294,7 @@ public class FASearcherStatsBean implements FASearcherStats {
 		return respuesta;
     }
     
-    List<String> getStrings(Connection connection, String columna, String tabla, String where) throws SQLException {
+    private List<String> getStrings(Connection connection, String columna, String tabla, String where) throws SQLException {
 		Statement stmt0 = connection.createStatement();
 		ResultSet rs0 = stmt0.executeQuery("SELECT DISTINCTROW " + columna +
 				" FROM " + tabla + (where == null? "" : where) +

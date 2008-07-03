@@ -5,8 +5,14 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(namespace="http://FASearcherServer.si.es/")
 public class GetSolucionesRequest {
 
+	/**
+	 * Identificador de la solución 
+	 */
 	private String id;
 	
+	/**
+	 * Identificador de la configuración
+	 */
 	private Integer id_config;
 	
 	public Integer getId_config() {

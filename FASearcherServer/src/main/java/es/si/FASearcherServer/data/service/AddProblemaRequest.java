@@ -11,20 +11,44 @@ import es.si.FASearcherServer.data.Configuracion;
 @XmlType(namespace="http://FASearcherServer.si.es/")
 public class AddProblemaRequest {
 
+	/**
+	 * Cadenas aceptadas por el problema
+	 */
 	private List<String> aceptadas;
 	
+	/**
+	 * Cadenas rechazadas por el problema
+	 */
 	private List<String> rechazadas;
 	
+	/**
+	 * Lista de las configuraciones para resolver el problema
+	 */
 	private List<Configuracion> configuraciones;
 	
+	/**
+	 * Tipo de automata con el que se creo el problema
+	 */
 	private String tipoAutomata;
 	
+	/**
+	 * AFP con el que se creo el problema
+	 */
 	private AFP afp;
 	
+	/**
+	 * Número de estados
+	 */
 	private Integer estados;
 	
+	/**
+	 * Población máxima para resolver el problema
+	 */
 	private Integer pobMax;
 	
+	/**
+	 * Descripción del problema
+	 */
 	private String descripcion;
 
 	public String getDescripcion() {
@@ -95,6 +119,4 @@ public class AddProblemaRequest {
 	public void setConfiguraciones(List<Configuracion> configuraciones) {
 		this.configuraciones = configuraciones;
 	}
-	
-	
 }

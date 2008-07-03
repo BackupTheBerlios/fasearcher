@@ -10,21 +10,20 @@ import es.si.FASearcherServer.data.Problema;
 @XmlType(namespace="http://FASearcherServer.si.es/")
 public class GetProblemasResponse {
 
+	/**
+	 * Lista de los problemas en la BD
+	 */
 	private List<Problema> problemas;
 	
 	public GetProblemasResponse() {
 		problemas = new ArrayList<Problema>();
 	}
 	
-
 	public List<Problema> getProblemas() {
 		return problemas;
 	}
 
-
-
 	public void setProblemas(List<Problema> problemas) {
 		this.problemas = problemas;
 	}
-
 }

@@ -11,8 +11,14 @@ import es.si.FASearcherServer.data.Solucion;
 @XmlType(namespace="http://FASearcherServer.si.es/")
 public class GetSolucionesResponse {
 
+	/**
+	 * Lista de las soluciones
+	 */
 	private List<Solucion> soluciones;
 
+	/**
+	 * Lista de las configuraciones
+	 */
 	private List<Configuracion> configuraciones;
 	
 	public GetSolucionesResponse() {

@@ -1,13 +1,50 @@
 package es.si.FASearcherServer.data;
 
+/**
+ * Clase que guarda la información de la configuración.<p>
+ * 
+ *
+ */
 public class Configuracion {
+	
+	/**
+	 * Número de muestras
+	 */
 	private int muestras;
+	
+	/**
+	 * Población máxima
+	 */
 	private int pobMax;
+	
+	/**
+	 * Número de estados
+	 */
 	private int estados;
+	
+	/**
+	 * Calculador de bondad
+	 */
 	private int calculadorBondad;
+	
+	/**
+	 * Cruzador
+	 */
 	private int cruzador;
+	
+	/**
+	 * Mutador
+	 */
 	private int mutador;
+	
+	/**
+	 * Resolutor
+	 */
 	private int resolver;
+	
+	/**
+	 * Identificador de la configuración
+	 */
 	private int id;
 	
 	public int getId() {
@@ -91,7 +128,5 @@ public class Configuracion {
 		this.cruzador = cruzador;
 		this.mutador = mutador;
 		this.resolver = resolver;
-		
 	}
-
 }

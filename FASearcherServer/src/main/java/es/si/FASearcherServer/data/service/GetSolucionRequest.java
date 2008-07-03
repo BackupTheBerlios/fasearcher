@@ -5,6 +5,9 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(namespace="http://FASearcherServer.si.es/")
 public class GetSolucionRequest {
 
+	/**
+	 * Identificador de la solución
+	 */
 	private String id;
 		
 	public void setId(String id) {

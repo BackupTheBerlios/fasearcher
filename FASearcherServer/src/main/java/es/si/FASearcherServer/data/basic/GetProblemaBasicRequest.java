@@ -5,8 +5,14 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(namespace="http://FASearcherServer.si.es/")
 public class GetProblemaBasicRequest {
 
+	/**
+	 * Tipo del autómata
+	 */
 	private String tipoAutomata;
 	
+	/**
+	 * Tamaño del autómata (número de estados)
+	 */
 	private Integer tamano;
 
 	public String getTipoAutomata() {
@@ -24,5 +30,4 @@ public class GetProblemaBasicRequest {
 	public void setTamano(Integer tamano) {
 		this.tamano = tamano;
 	}
-	
 }

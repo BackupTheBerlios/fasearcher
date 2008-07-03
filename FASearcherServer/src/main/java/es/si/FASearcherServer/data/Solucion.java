@@ -1,29 +1,69 @@
 package es.si.FASearcherServer.data;
 
+/**
+ * Clase que guarda la información de la solución
+ *
+ */
 public class Solucion {
 
+	/**
+	 * Identificador de la solución
+	 */
 	private String id;
 	
+	/**
+	 * Número de estados utilizado para encontrar la solución
+	 */
 	private Integer estados;
 	
+	/**
+	 * Valor del reconocimiento del problema para la solución
+	 */
 	private Double reconocimiento;
 	
+	/**
+	 * Valor del parecido a un AF de la solución
+	 */
 	private Double parecidoAF;
 	
+	/**
+	 * Tipo del automata solución
+	 */
 	private String tipoAutomata;
 	
+	/**
+	 * Número de pasos para encontrar la solución
+	 */
 	private Integer pasos;
 	
+	/**
+	 * Mutador utilizado para encontrar la solución
+	 */
 	private String mutador;
 	
+	/**
+	 * Funcion de bondad utilizada para encontrar la solución
+	 */
 	private String funcBondad;
 	
+	/**
+	 * Cruzador utilizado para encontrar la solución
+	 */
 	private String cruzador;
 	
+	/**
+	 * Población máxima utilizada para encontrar la solución
+	 */
 	private Integer pobMax;
 	
+	/**
+	 * Número de muestras utilizada para encontrar la solución
+	 */
 	private String muestras;
 	
+	/**
+	 * Identificador de la configuración utilizada para encontrar la solución
+	 */
 	private Integer id_configuracion;
 
 	public Integer getId_configuracion() {
@@ -121,5 +161,4 @@ public class Solucion {
 	public void setMuestras(String muestras) {
 		this.muestras = muestras;
 	}
-	
 }

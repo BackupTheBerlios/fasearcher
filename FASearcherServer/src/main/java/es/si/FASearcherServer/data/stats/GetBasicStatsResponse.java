@@ -7,12 +7,24 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(namespace="http://FASearcherServer.si.es/")
 public class GetBasicStatsResponse {
 	
+	/**
+	 * Número de problemas en la base de datos
+	 */
 	private Integer numProblemas;
 	
+	/**
+	 * Media de soluciones por problema en la base de datos
+	 */
 	private Float mediaSoluciones;
 	
+	/**
+	 * Datos del histograma de reconocimiento
+	 */
 	private List<Double> histReconocimiento;
 	
+	/**
+	 * Datos del histograma de "Parecido AF"
+	 */
 	private List<Double> histParecido;
 
 	public Integer getNumProblemas() {

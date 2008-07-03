@@ -30,6 +30,7 @@ import es.si.FASearcherServer.data.basic.GetProblemaBasicRequest;
 import es.si.FASearcherServer.data.basic.GetProblemaBasicResponse;
 import es.si.FASearcherServer.data.basic.SetSolucionRequest;
 import es.si.FASearcherServer.data.basic.SetSolucionResponse;
+import es.si.ProgramadorGenetico.ProblemaAFP.AFP;
 
 @Stateless
 @WebService(endpointInterface="es.si.FASearcherServer.ejb.FASearcherBasic")
@@ -43,93 +44,20 @@ public class FASearcherBasicBean implements FASearcherBasic {
     @WebResult(name="getProblemBasicResponse")
 	public GetProblemaBasicResponse getProblemaBasic(@WebParam(name="getProblemaBasicRequest") GetProblemaBasicRequest request) {
 		GetProblemaBasicResponse response = new GetProblemaBasicResponse();
-
+		Connection connection = null;
 		try {
 			String id = "0";
-			Connection connection = ds.getConnection();
+			connection = ds.getConnection();
 			
-			Statement stmt0 = connection.createStatement();
-			ResultSet rs0 = stmt0.executeQuery("SELECT id, Soluciones" +
-											   " FROM Problema" +
-											   " ORDER BY Soluciones");
-			if (rs0.next()) {
-				id = rs0.getString("id");
-			}
+			id = getIdFromDB(connection);
 			
-			Statement stmtAceptadas = connection.createStatement();
-			ResultSet rsAceptadas = stmtAceptadas.executeQuery("SELECT Aceptadas.Cadena as \"Aceptadas\"" +
-											 " FROM Problema, Aceptadas" +
-											 " WHERE Problema.id = \"" + id + "\" AND Problema.id = Aceptadas.id");
-
-			String aceptadas = "";
-			while (rsAceptadas.next()) {
-				if (aceptadas.equals(""))
-					aceptadas = rsAceptadas.getString("Aceptadas");
-				else
-					aceptadas += "," + rsAceptadas.getString("Aceptadas");
-				System.out.println("aceptadas = " + rsAceptadas.getString("Aceptadas"));
-			}
-
-			Statement stmtRechazadas = connection.createStatement();
-			ResultSet rsRechazadas = stmtRechazadas.executeQuery("SELECT Rechazadas.Cadena as \"Rechazadas\"" +
-											 " FROM Problema, Rechazadas" +
-											 " WHERE Problema.id = \"" + id + "\" AND Problema.id = Rechazadas.id");
-
-			String rechazadas = "";
-			while (rsRechazadas.next()) {
-				if (rechazadas.equals(""))
-					rechazadas = rsRechazadas.getString("Rechazadas");
-				else
-					rechazadas += "," + rsRechazadas.getString("Rechazadas");
-				System.out.println("rechazadas = " + rsRechazadas.getString("Rechazadas"));
-			}
-
+			String aceptadas = getCadenasFromDB(connection, "Aceptadas", id);
 			
-			Statement stmtConfig0 = connection.createStatement();
-			ResultSet rsConfig0 = stmtConfig0.executeQuery("SELECT configuraciones.id_configuracion, " +
-														   "IFNULL((SELECT COUNT(*) FROM solucion WHERE solucion.id_configuracion = configuraciones.id_configuracion),0) AS cuenta " +
-														   "FROM  configuraciones WHERE configuraciones.id = \"" + id + "\" " +
-														   "GROUP BY configuraciones.id_configuracion ORDER BY cuenta");
+			String rechazadas = getCadenasFromDB(connection, "Rechazadas", id);
 
-			Integer id_config = -1;
-			List<Integer> ids = new ArrayList<Integer>();
-			int min = -1;
-			int cuenta = -1;
-			while (rsConfig0.next() && (min == -1 || cuenta <= min)) {
-				if (min == -1)
-					min = rsConfig0.getInt("cuenta");
-				cuenta = rsConfig0.getInt("cuenta");
-				ids.add(rsConfig0.getInt("id_configuracion"));
-			}
-			Random rand = new Random();
-			id_config = ids.get(rand.nextInt(ids.size() - 1));
+			Integer id_config = getIdConfigFromDB(connection, id);
 			
-			
-			Statement stmtConfig1 = connection.createStatement();
-			ResultSet rsConfig1 = stmtConfig1.executeQuery("SELECT configuraciones.id_configuracion as \"id\", " +
-																  "configuraciones.Estados as \"Estados\", " +
-																  "configuraciones.PobMax as \"PobMax\", " +
-																  "configuraciones.Muestras as \"Muestras\", " +
-																  "configuraciones.calculadorBondad as \"calculadorBondad\", " +
-																  "configuraciones.cruzador as \"cruzador\", " +
-																  "configuraciones.mutador as \"mutador\", " +
-																  "configuraciones.resolver as \"resolver\" " + 
-														   "FROM configuraciones " +
-														   "WHERE configuraciones.id = \"" + id + "\"" +
-														   		" AND configuraciones.id_configuracion = " + id_config);
-
-			Configuracion config = null;
-			while (rsConfig1.next()) {
-				int muestras = rsConfig1.getInt("Muestras");
-				int estados = rsConfig1.getInt("Estados");
-				int pobMax = rsConfig1.getInt("PobMax");
-				int calculadorBondad = rsConfig1.getInt("calculadorBondad");
-				int cruzador = rsConfig1.getInt("cruzador");
-				int mutador = rsConfig1.getInt("mutador");
-				int resolver = rsConfig1.getInt("resolver");
-				int id_config2 = rsConfig1.getInt("id");
-				config = new Configuracion(id_config2, muestras, pobMax, estados, calculadorBondad, cruzador, mutador, resolver);
-			} 
+			Configuracion config = getConfiguracionFromDB(connection, id_config);
 			
 			response.setMuestras(config.getMuestras());
 			response.setPobMax(config.getPobMax());
@@ -148,75 +76,27 @@ public class FASearcherBasicBean implements FASearcherBasic {
 			connection.close();
 
 		} catch (SQLException e) {
+			close(connection);
 			e.printStackTrace();
 		}
 
-
 		return response;
 	};
-    
-    @WebMethod
+	
+	@WebMethod
     @WebResult(name="setSolucionResponse")
    public SetSolucionResponse setSolucion(@WebParam(name="setSolucionRequest") SetSolucionRequest request) {
     	SetSolucionResponse response = new SetSolucionResponse();
     	response.setResult("error");
-    	
+    	Connection connection = null;
+    	PreparedStatement pstmt = null;
 		try {
 			String id = request.getId();
-			Connection connection = ds.getConnection();
+			connection = ds.getConnection();
 			
-			Statement stmt0 = connection.createStatement();
-			ResultSet rs0 = stmt0.executeQuery("SELECT id, Soluciones" +
-											   " FROM Problema" +
-											   " WHERE id = " + id);
+			updateSolucionesInDB(connection, id);
 			
-			if (rs0.next()) {
-				int sol = rs0.getInt("Soluciones");
-				Statement stmt1 = connection.createStatement();
-				stmt1.executeUpdate("UPDATE Problema" +
-									" SET Soluciones = " + (sol + 1) +
-									" WHERE id = " + id);
-				stmt1.close();
-			}
-			rs0.close();
-			stmt0.close();
-			
-			es.si.ProgramadorGenetico.ProblemaAFP.AFP automata = new es.si.ProgramadorGenetico.ProblemaAFP.AFP(request.getAfp().getEstados().intValue());
-			
-			float[][][] transiciones = automata.getTransiciones();
-			
-			List<String> lista = request.getAfp().getTransiciones();
-			Iterator<String> it = lista.iterator();
-			while (it.hasNext()) {
-				String temp = it.next();
-				String[] partes = temp.split(":");
-				int entrada = Integer.parseInt(partes[1]);
-				int estado = Integer.parseInt(partes[0]);
-				
-				String[] valores = partes[2].split(";");
-				for (int i = 0; i < valores.length; i++) {
-					System.out.println("Entrada: " + entrada + " Estado: " + estado + " Valor: " + valores[i]);
-					transiciones[estado][entrada][i] = Float.parseFloat(valores[i]);
-				}
-			}
-			automata.setTransiciones(transiciones);
-			
-			float[] finales = automata.getProbabilidadesFinal();
-			String[] probs = request.getAfp().getProbFinales().split(";");
-			for (int i = 0; i < probs.length; i++) {
-				finales[i] = Float.parseFloat(probs[i]);
-			}
-			automata.setProbabilidadFinal(finales);
-			
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			try {
-				ObjectOutputStream oos = new ObjectOutputStream(baos);
-				oos.writeObject(automata);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
-
+			ByteArrayOutputStream baos = ponerValoresAutomata(request);
 			
 			String sql = "INSERT INTO Solucion" +
 						 " VALUES(null,'" + id + "'," + request.getAfp().getEstados() + "," +
@@ -226,21 +106,19 @@ public class FASearcherBasicBean implements FASearcherBasic {
 						 "','" + request.getCruzador() + "','" + request.getMetodoRes() + "'," + 
 						 request.getPobmax() + "," + request.getMuestras() + "," + request.getParticiones() + ", "+
 						 request.getId_configuracion() + ",null)";
-			System.out.println(sql);
 			byte[] automataAsBytes = baos.toByteArray();
 			ByteArrayInputStream bais = new ByteArrayInputStream(automataAsBytes);
-			PreparedStatement pstmt = connection.prepareStatement(sql);
+			pstmt = connection.prepareStatement(sql);
 			pstmt.setBinaryStream(1, bais, automataAsBytes.length);
 			pstmt.executeUpdate();
 			//connection.commit();
 			
-			pstmt.close();
-			connection.close();
-		
+			close(pstmt);
+			close(connection);
 			response.setResult("OK");
-			
-
 		} catch (SQLException e) {
+			close(pstmt);
+			close(connection);
 			e.printStackTrace();
 		}
 		
@@ -248,6 +126,175 @@ public class FASearcherBasicBean implements FASearcherBasic {
  	
     	return response;
     };
+	
+	private ByteArrayOutputStream ponerValoresAutomata(SetSolucionRequest request) {
+		es.si.ProgramadorGenetico.ProblemaAFP.AFP automata = new es.si.ProgramadorGenetico.ProblemaAFP.AFP(request.getAfp().getEstados().intValue());
+		
+		float[][][] transiciones = automata.getTransiciones();
+		
+		List<String> lista = request.getAfp().getTransiciones();
+		Iterator<String> it = lista.iterator();
+		while (it.hasNext()) {
+			String temp = it.next();
+			String[] partes = temp.split(":");
+			int entrada = Integer.parseInt(partes[1]);
+			int estado = Integer.parseInt(partes[0]);
+			
+			String[] valores = partes[2].split(";");
+			for (int i = 0; i < valores.length; i++) {
+				transiciones[estado][entrada][i] = Float.parseFloat(valores[i]);
+			}
+		}
+		automata.setTransiciones(transiciones);
+		
+		float[] finales = automata.getProbabilidadesFinal();
+		String[] probs = request.getAfp().getProbFinales().split(";");
+		for (int i = 0; i < probs.length; i++) {
+			finales[i] = Float.parseFloat(probs[i]);
+		}
+		automata.setProbabilidadFinal(finales);
+		
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		try {
+			ObjectOutputStream oos = new ObjectOutputStream(baos);
+			oos.writeObject(automata);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return baos;
+	}
+
+	private void updateSolucionesInDB(Connection connection, String id) {
+		Statement stmt0 = null;
+		ResultSet rs0 = null;
+		try {
+			stmt0 = connection.createStatement();
+			rs0 = stmt0.executeQuery("SELECT id, Soluciones" +
+											   " FROM Problema" +
+											   " WHERE id = " + id);
+			if (rs0.next()) {
+				int sol = rs0.getInt("Soluciones");
+				Statement stmt1 = connection.createStatement();
+				stmt1.executeUpdate("UPDATE Problema" +
+									" SET Soluciones = " + (sol + 1) +
+									" WHERE id = " + id);
+				close(stmt1);
+			}
+			close(rs0);
+			close(stmt0);
+		} catch (SQLException e) {
+			close(rs0);
+			close(stmt0);
+			e.printStackTrace();
+		}
+	}
+
+	private Configuracion getConfiguracionFromDB(Connection connection,
+			Integer id_config) {
+		Configuracion config = null;
+		Statement stmtConfig1 = null;
+		ResultSet rsConfig1 = null;
+		try {
+			stmtConfig1 = connection.createStatement();
+			rsConfig1 = stmtConfig1.executeQuery("SELECT * " + 
+												 "FROM configuraciones " +
+												 "WHERE configuraciones.id_configuracion = " + id_config);
+			while (rsConfig1.next()) {
+				int muestras = rsConfig1.getInt("Muestras");
+				int estados = rsConfig1.getInt("Estados");
+				int pobMax = rsConfig1.getInt("PobMax");
+				int calculadorBondad = rsConfig1.getInt("calculadorBondad");
+				int cruzador = rsConfig1.getInt("cruzador");
+				int mutador = rsConfig1.getInt("mutador");
+				int resolver = rsConfig1.getInt("resolver");
+				int id_config2 = rsConfig1.getInt("id_configuracion");
+				config = new Configuracion(id_config2, muestras, pobMax, estados, calculadorBondad, cruzador, mutador, resolver);
+			}
+			close(rsConfig1);
+			close(stmtConfig1);
+		} catch (SQLException e) {
+			close(rsConfig1);
+			close(stmtConfig1);
+			e.printStackTrace();
+		}
+		return config;
+	}
+
+	private Integer getIdConfigFromDB(Connection connection, String id) {
+		Integer id_config = -1;
+		Statement stmtConfig0 = null;
+		ResultSet rsConfig0 = null;
+		try {
+			stmtConfig0 = connection.createStatement();
+			rsConfig0 = stmtConfig0.executeQuery("SELECT configuraciones.id_configuracion, " +
+													   "IFNULL((SELECT COUNT(*) FROM solucion WHERE solucion.id_configuracion = configuraciones.id_configuracion),0) AS cuenta " +
+													   "FROM  configuraciones WHERE configuraciones.id = \"" + id + "\" " +
+													   "GROUP BY configuraciones.id_configuracion ORDER BY cuenta");
+			List<Integer> ids = new ArrayList<Integer>();
+			int min = -1;
+			int cuenta = -1;
+			while (rsConfig0.next() && (min == -1 || cuenta <= min)) {
+				if (min == -1)
+					min = rsConfig0.getInt("cuenta");
+				cuenta = rsConfig0.getInt("cuenta");
+				ids.add(rsConfig0.getInt("id_configuracion"));
+			}
+			Random rand = new Random();
+			id_config = ids.get(rand.nextInt(ids.size() - 1));
+			close(stmtConfig0);
+			close(rsConfig0);
+		} catch (SQLException e) {
+			close(stmtConfig0);
+			close(rsConfig0);
+			e.printStackTrace();
+		}
+		return id_config;
+	}
+
+	private String getCadenasFromDB(Connection connection, String tipo, String id) {
+		Statement stmtCadenas = null;
+		ResultSet rsCadenas = null;
+		String cadenas = "";
+		try {
+			stmtCadenas = connection.createStatement();
+			rsCadenas = stmtCadenas.executeQuery("SELECT " + tipo + ".Cadena as \"" + tipo + "\"" +
+											 	" FROM Problema, "+tipo +
+											 	" WHERE Problema.id = \"" + id + "\" AND Problema.id = "+tipo+".id");
+			while (rsCadenas.next()) {
+				if (cadenas.equals(""))
+					cadenas = rsCadenas.getString(tipo);
+				else
+					cadenas += "," + rsCadenas.getString(tipo);
+			}
+			close(stmtCadenas);
+			close(rsCadenas);
+		} catch (SQLException e) {
+			close(stmtCadenas);
+			close(rsCadenas);
+			e.printStackTrace();
+		}
+		return cadenas;
+	}
+
+    private String getIdFromDB(Connection connection) {
+		String id = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		try {
+			stmt = connection.createStatement();
+			rs = stmt.executeQuery("SELECT id, Soluciones FROM Problema ORDER BY Soluciones");
+			if (rs.next()) {
+				id = rs.getString("id");
+			}
+			close(rs);
+			close(stmt);
+		} catch (SQLException e) {
+			close(rs);
+			close(stmt);
+			e.printStackTrace();
+		}
+		return id;
+	}
 
     private void retriveFromDataBase() {
     	try {

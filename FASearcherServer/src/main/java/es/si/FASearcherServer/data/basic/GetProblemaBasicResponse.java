@@ -5,31 +5,64 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(namespace="http://FASearcherServer.si.es/")
 public class GetProblemaBasicResponse {
 
+	/**
+	 * Identificador del problema
+	 */
 	private String id;
 	
+	/**
+	 * Población máxima
+	 */
 	private Integer pobMax;
 	
+	/**
+	 * Número de muestras
+	 */
 	private Integer muestras;
 	
+	/**
+	 * Número de estados
+	 */
 	private Integer estados;
 	
+	/**
+	 * Calculador de bondad que se debe utilizar
+	 */
 	private Integer calculadorBondad;
 	
+	/**
+	 * Cruzador que se debe utilizar
+	 */
 	private Integer cruzador;
 	
+	/**
+	 * Mutador que se debe utilizar
+	 */
 	private Integer mutador;
 	
+	/**
+	 * Resolutor que se debe utilizar
+	 */
 	private Integer resolver;
 	
+	/**
+	 * Identificador de la configuración que se esta utilizando
+	 */
 	private Integer id_configuracion;
 	
-	// enum?
+	/**
+	 * Tipo de autómata
+	 */
 	private String tipoAutomata;
 	
-	// separadas por coma
+	/**
+	 * Cadenas acpetadas por el problema, separadas por coma
+	 */
 	private String aceptadas;
 	
-	// también separadas por coma
+	/**
+	 * Cadenas rechazadas por el problema, separadas por coma
+	 */
 	private String rechazadas;
 
 	public String getId() {
@@ -127,7 +160,4 @@ public class GetProblemaBasicResponse {
 	public void setId_configuracion(Integer id_configuracion) {
 		this.id_configuracion = id_configuracion;
 	}
-	
-	
-	
 }

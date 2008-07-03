@@ -7,18 +7,39 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(namespace="http://FASearcherServer.si.es/")
 public class GetValidValuesResponse {
 	
+	/**
+	 * Lista de los mutadores
+	 */
 	private List<String> mutadores;
 	
+	/**
+	 * Lista de los cruzadores
+	 */
 	private List<String> cruzadores;
 	
+	/**
+	 * Lista de los calculadores de bondad
+	 */
 	private List<String> funcBondad;
 
+	/**
+	 * Lista de las poblaciones maximas
+	 */
 	private List<Integer> pobMax;
 	
+	/**
+	 * Lista de los números de muestras
+	 */
 	private List<Integer> muestras;
 	
+	/**
+	 * Lista del número de estados
+	 */
 	private List<Integer> estados;
 	
+	/**
+	 * Lista del número de pasos
+	 */
 	private List<Integer> pasos;
 	
 	public List<Integer> getPasos() {

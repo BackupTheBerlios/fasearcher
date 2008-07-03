@@ -7,30 +7,69 @@ import es.si.FASearcherServer.data.AFP;
 @XmlType(namespace="http://FASearcherServer.si.es/")
 public class SetSolucionRequest {
 
+	/**
+	 * Id del problema
+	 */
 	private String id;
 	
+	/**
+	 * Valor del reconocimiento de la solución
+	 */
 	private String reconocimiento;
 	
+	/**
+	 * Valor del parecido con un AF de la solución
+	 */
 	private String parecidoAF;
 	
+	/**
+	 * AFP encontrado como solución al problema
+	 */
 	private AFP afp;
 	
+	/**
+	 * Número de pasos utilizado para encontrar la solución
+	 */
 	private Integer pasos;
 	
+	/**
+	 * Mutador utilizado
+	 */
 	private String mutador;
 	
+	/**
+	 * Resolutor utilizado
+	 */
 	private String metodoRes;
 	
+	/**
+	 * Función de bondad utilizada
+	 */
 	private String funcbondad;
 	
+	/**
+	 * Cruzador utilizado
+	 */
 	private String cruzador;
 	
+	/**
+	 * Población máxima utilizada
+	 */
 	private Integer pobmax;
 	
+	/**
+	 * Muestras utilizada para encontrar la solución
+	 */
 	private Integer muestras;
 	
+	/**
+	 * Particiones para generar los automatas iniciales
+	 */
 	private Integer particiones;
 	
+	/**
+	 * Identificador de la configuración utilizada para encontrar la solución
+	 */
 	private Integer id_configuracion;
 
 	public Integer getId_configuracion() {
@@ -56,8 +95,6 @@ public class SetSolucionRequest {
 	public void setPasos(Integer pasos) {
 		this.pasos = pasos;
 	}
-
-
 
 	public String getMutador() {
 		return mutador;
@@ -138,7 +175,4 @@ public class SetSolucionRequest {
 	public void setParecidoAF(String parecidoAF) {
 		this.parecidoAF = parecidoAF;
 	}
-
-	
-
 }

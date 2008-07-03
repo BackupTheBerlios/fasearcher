@@ -7,8 +7,14 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(namespace="http://FASearcherServer.si.es/")
 public class GetValidValuesRequest {
 
+	/**
+	 * Lista de los identificadores de los problemas
+	 */
 	private List<String> id_problemas;
 	
+	/**
+	 * Identificador de la configuración
+	 */
 	private Integer id_config;
 
 	public List<String> getId_problemas() {

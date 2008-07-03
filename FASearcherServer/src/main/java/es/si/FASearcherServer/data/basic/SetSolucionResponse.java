@@ -5,6 +5,9 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(namespace="http://FASearcherServer.si.es/")
 public class SetSolucionResponse {
 
+	/**
+	 * Resultado de buscar la solución en la BD
+	 */
 	private String result;
 
 	public String getResult() {

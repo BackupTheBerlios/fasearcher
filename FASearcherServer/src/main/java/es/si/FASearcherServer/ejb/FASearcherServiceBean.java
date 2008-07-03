@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -54,105 +55,18 @@ public class FASearcherServiceBean implements FASearcherService {
 	@WebResult(name="addProblemaResponse")
     public AddProblemaResponse addProblema(@WebParam(name="addProblemaRequest") AddProblemaRequest request) {
 		AddProblemaResponse respuesta = new AddProblemaResponse();
-
-		Random random = new Random();
+		ResultSet rs = null;
+		PreparedStatement pstmt = null;
+		String sql;
 		String id = "-1";
 		try {
-
 			Connection connection = ds.getConnection();
+
+			id = getNewIdFromDB(connection);
 			
+			insertarInfoInDB(connection, id, request);
 			
-			id = "" + random.nextInt(10000000);
-
-			ResultSet rs = null;
-			String sql;
-			PreparedStatement pstmt = null;
-			do {
-				id = "" + random.nextInt(10000000);
-				if (rs != null)
-					rs.close();
-				if (pstmt != null)
-					pstmt.close();
-				sql = "SELECT id FROM Problema WHERE id = " + id;
-				pstmt = connection.prepareStatement(sql);
-				rs = pstmt.executeQuery();
-			} while (rs.next());
-			rs.close();
-			pstmt.close();
-			
-			if (request.getDescripcion() != null)
-				sql = "INSERT INTO Problema VALUES('" + id + "',0,'" + request.getDescripcion()  + "')";
-			else
-				sql = "INSERT INTO Problema VALUES('" + id + "',0)";
-			pstmt = connection.prepareStatement(sql);
-			pstmt.executeUpdate();
-			pstmt.close();
-
-			Iterator<String> it = request.getAceptadas().iterator();
-			while(it.hasNext()) {
-				sql = "INSERT INTO Aceptadas VALUES('" + id + "','" + it.next() +"')";
-				pstmt = connection.prepareStatement(sql);
-				pstmt.executeUpdate();
-				pstmt.close();			
-			}
-
-			it = request.getRechazadas().iterator();
-			while(it.hasNext()) {
-				sql = "INSERT INTO Rechazadas VALUES('" + id + "','" + it.next() +"')";
-				pstmt = connection.prepareStatement(sql);
-				pstmt.executeUpdate();
-				pstmt.close();			
-			}
-
-			sql = "INSERT INTO ExtraInfo VALUES('" + id + "'" +
-			(request.getEstados() != null ? "," + request.getEstados() : ",null") +
-			(request.getPobMax() != null ? "," + request.getPobMax() : ",null") +
-			(request.getTipoAutomata() != null ? ",'" + request.getTipoAutomata() + "'": ",null") +
-			(request.getAfp() != null ? ",?)" : ",null)");
-			pstmt = connection.prepareStatement(sql);
-			System.out.println("SQL: " + sql);
-			if (request.getAfp() != null) {
-				es.si.ProgramadorGenetico.ProblemaAFP.AFP automata = new es.si.ProgramadorGenetico.ProblemaAFP.AFP(request.getAfp().getEstados().intValue());
-
-				float[][][] transiciones = automata.getTransiciones();
-
-				List<String> lista = request.getAfp().getTransiciones();
-				it = lista.iterator();
-				while (it.hasNext()) {
-					String temp = it.next();
-					String[] partes = temp.split(":");
-					int entrada = Integer.parseInt(partes[1]);
-					int estado = Integer.parseInt(partes[0]);
-
-					String[] valores = partes[2].split(";");
-					for (int i = 0; i < valores.length; i++) {
-						System.out.println("Entrada: " + entrada + " Estado: " + estado + " Valor: " + valores[i]);
-						transiciones[estado][entrada][i] = Float.parseFloat(valores[i]);
-					}
-				}
-				automata.setTransiciones(transiciones);
-
-				float[] finales = automata.getProbabilidadesFinal();
-				String[] probs = request.getAfp().getProbFinales().split(";");
-				for (int i = 0; i < probs.length; i++) {
-					finales[i] = Float.parseFloat(probs[i]);
-				}
-				automata.setProbabilidadFinal(finales);
-
-				ByteArrayOutputStream baos = new ByteArrayOutputStream();
-				try {
-					ObjectOutputStream oos = new ObjectOutputStream(baos);
-					oos.writeObject(automata);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-
-				byte[] automataAsBytes = baos.toByteArray();
-				ByteArrayInputStream bais = new ByteArrayInputStream(automataAsBytes);
-				pstmt.setBinaryStream(1, bais, automataAsBytes.length);
-			}
-			pstmt.executeUpdate();
-			pstmt.close();
+			insertarExtraInfoInDB(connection, id, request);
 
 			if (request.getConfiguraciones() != null) {
 				for(Configuracion config : request.getConfiguraciones()) {
@@ -175,7 +89,7 @@ public class FASearcherServiceBean implements FASearcherService {
 		return respuesta;
 	}
 	
-    @WebResult(name="getProblemaResponse")
+	@WebResult(name="getProblemaResponse")
     public GetProblemaResponse getProblema(@WebParam(name="getProblemaRequest") GetProblemaRequest request) {
     	GetProblemaResponse response = new GetProblemaResponse();
     	String id = request.getId();
@@ -262,41 +176,7 @@ public class FASearcherServiceBean implements FASearcherService {
     	
     	return response;
     }
-
-	private AFP AFPfromAutomata(es.si.ProgramadorGenetico.ProblemaAFP.AFP automata) {
-			AFP afp = new AFP();
-   			afp.setEstados(automata.getEstados());
-   			int estados = automata.getEstados();
-   			
-			String probFinales = "";
-			float[] prob = automata.getProbabilidadesFinal();
-			for (int i = 0; i < estados; i ++)
-				probFinales += (probFinales.equals("") ? prob[i] : ";" + prob[i]);
-			afp.setProbFinales(probFinales);
-			
-			String[] trans = new String[estados*2];
-			float[][][] transiciones = automata.getTransiciones();
-			for (int i = 0; i < estados; i ++) {
-				for (int j = 0; j < 2; j ++) {
-					trans[i*2 +j] = "" + i + ":" + j + ":";
-					for (int k = 0; k < estados+1; k++) {
-						float temp = (transiciones[i][j][k] < 0.0001 ? 0 : transiciones[i][j][k]);
-						temp = (temp > 0.9999 ? 1 : temp);
-						NumberFormat format = NumberFormat.getInstance(Locale.ENGLISH);
-						format.setMaximumFractionDigits(4);
-						String temp2 = format.format(temp);
-						trans[i*2+j] += (k == 0 ? temp2 : ";" + temp2);
-					}
-				}
-			}
-			if (afp.getTransiciones() == null)
-				afp.setTransiciones(new ArrayList<String>());
-			for (int i = 0; i < trans.length; i++)
-				afp.getTransiciones().add(trans[i]);
-			
-			return afp;
-	}
-
+	
 	@WebResult(name="getProblemasResponse")
 	public GetProblemasResponse getProblemas(@WebParam(name="getProblemasRequest") GetProblemasRequest request) {
 		GetProblemasResponse response = new GetProblemasResponse();
@@ -336,11 +216,9 @@ public class FASearcherServiceBean implements FASearcherService {
     	GetSolucionesResponse response = new GetSolucionesResponse();
     	
 		try {
-
 			Connection connection = ds.getConnection();
 
 			ResultSet rs = null;
-			
 			PreparedStatement pstmt = null;
 			String sql = "SELECT * FROM Solucion WHERE id = " + request.getId();
 			if (request.getId_config() != null)
@@ -414,10 +292,7 @@ public class FASearcherServiceBean implements FASearcherService {
     @WebResult(name="getSolucionResponse")
     public GetSolucionResponse getSolucion(@WebParam(name="getSolucionRequest") GetSolucionRequest request)  {
     	GetSolucionResponse response = new GetSolucionResponse();
-    	
-    	
     	String id = request.getId();
-    	
 		try {
 			Connection connection = ds.getConnection();
 			ResultSet rs = null;
@@ -444,16 +319,14 @@ public class FASearcherServiceBean implements FASearcherService {
    			} catch (ClassNotFoundException e) {
    				e.printStackTrace();
    			}
-   			
+
 			rs.close();
 			pstmt.close();
-			
 			
 			connection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-    	
     	
     	return response;
     }
@@ -462,41 +335,18 @@ public class FASearcherServiceBean implements FASearcherService {
     @WebResult(name="removeProblemaResponse")
     public RemoveProblemaResponse removeProblema(@WebParam(name="removeProblemaRequest") RemoveProblemaRequest request)  {
 		try {
-
 			Connection connection = ds.getConnection();
 
 			String id = request.getId();
 			
 			PreparedStatement pstmt = null;
-			String sql = "DELETE FROM Aceptadas WHERE id = '" + id + "'";
-			pstmt = connection.prepareStatement(sql);
-			pstmt.executeUpdate();
-			pstmt.close();
 
-			sql = "DELETE FROM Rechazadas WHERE id = '" + id + "'";
-			pstmt = connection.prepareStatement(sql);
-			pstmt.executeUpdate();
-			pstmt.close();
-			
-			sql = "DELETE FROM Configuraciones WHERE id = '" + id + "'";
-			pstmt = connection.prepareStatement(sql);
-			pstmt.executeUpdate();
-			pstmt.close();
-			
-			sql = "DELETE FROM ExtraInfo WHERE id = '" + id + "'";
-			pstmt = connection.prepareStatement(sql);
-			pstmt.executeUpdate();
-			pstmt.close();
-
-			sql = "DELETE FROM Solucion WHERE id = '" + id + "'";
-			pstmt = connection.prepareStatement(sql);
-			pstmt.executeUpdate();
-			pstmt.close();
-
-			sql = "DELETE FROM Problema WHERE id = '" + id + "'";
-			pstmt = connection.prepareStatement(sql);
-			pstmt.executeUpdate();
-			pstmt.close();
+			deleteFromDB(connection, "Aceptadas", id);
+			deleteFromDB(connection, "Rechazadas", id);
+			deleteFromDB(connection, "Configuraciones", id);
+			deleteFromDB(connection, "ExtraInfo", id);
+			deleteFromDB(connection, "Solucion", id);
+			deleteFromDB(connection, "Problema", id);
 			
 			connection.close();
 		} catch (SQLException e) {
@@ -505,5 +355,205 @@ public class FASearcherServiceBean implements FASearcherService {
 		
 		return new RemoveProblemaResponse();
     }
+    
+    private void deleteFromDB(Connection connection, String table, String id) {
+		String sql = "DELETE FROM " + table + " WHERE id = '" + id + "'";
+		PreparedStatement pstmt;
+		try {
+			pstmt = connection.prepareStatement(sql);
+			pstmt.executeUpdate();
+			pstmt.close();
+		} catch (SQLException e) {
+			close(pstmt);
+			e.printStackTrace();
+		}
+    }
+    
+    private void insertarExtraInfoInDB(Connection connection, String id,
+			AddProblemaRequest request) {
+		String sql;
+		ResultSet rs = null;
+		PreparedStatement pstmt = null;
+		try {
+			sql = "INSERT INTO ExtraInfo VALUES('" + id + "'" +
+			(request.getEstados() != null ? "," + request.getEstados() : ",null") +
+			(request.getPobMax() != null ? "," + request.getPobMax() : ",null") +
+			(request.getTipoAutomata() != null ? ",'" + request.getTipoAutomata() + "'": ",null") +
+			(request.getAfp() != null ? ",?)" : ",null)");
+			pstmt = connection.prepareStatement(sql);
+			if (request.getAfp() != null) {
+				es.si.ProgramadorGenetico.ProblemaAFP.AFP automata = new es.si.ProgramadorGenetico.ProblemaAFP.AFP(request.getAfp().getEstados().intValue());
+	
+				float[][][] transiciones = automata.getTransiciones();
+	
+				List<String> lista = request.getAfp().getTransiciones();
+				Iterator<String> it = lista.iterator();
+				while (it.hasNext()) {
+					String temp = it.next();
+					String[] partes = temp.split(":");
+					int entrada = Integer.parseInt(partes[1]);
+					int estado = Integer.parseInt(partes[0]);
+	
+					String[] valores = partes[2].split(";");
+					for (int i = 0; i < valores.length; i++) {
+						transiciones[estado][entrada][i] = Float.parseFloat(valores[i]);
+					}
+				}
+				automata.setTransiciones(transiciones);
+	
+				float[] finales = automata.getProbabilidadesFinal();
+				String[] probs = request.getAfp().getProbFinales().split(";");
+				for (int i = 0; i < probs.length; i++) {
+					finales[i] = Float.parseFloat(probs[i]);
+				}
+				automata.setProbabilidadFinal(finales);
+	
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();
+				try {
+					ObjectOutputStream oos = new ObjectOutputStream(baos);
+					oos.writeObject(automata);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+	
+				byte[] automataAsBytes = baos.toByteArray();
+				ByteArrayInputStream bais = new ByteArrayInputStream(automataAsBytes);
+				pstmt.setBinaryStream(1, bais, automataAsBytes.length);
+			}
+			pstmt.executeUpdate();
+			pstmt.close();
+		} catch (SQLException e) {
+			close(rs);
+			close(pstmt);
+			e.printStackTrace();
+		}
+	}
+
+	private void insertarInfoInDB(Connection connection, String id,
+			AddProblemaRequest request) {
+		String sql;
+		ResultSet rs = null;
+		PreparedStatement pstmt = null;
+		try {
+	    	if (request.getDescripcion() != null)
+				sql = "INSERT INTO Problema VALUES('" + id + "',0,'" + request.getDescripcion()  + "')";
+			else
+				sql = "INSERT INTO Problema VALUES('" + id + "',0)";
+			pstmt = connection.prepareStatement(sql);
+			pstmt.executeUpdate();
+			pstmt.close();
+	
+			Iterator<String> it = request.getAceptadas().iterator();
+			while(it.hasNext()) {
+				sql = "INSERT INTO Aceptadas VALUES('" + id + "','" + it.next() +"')";
+				pstmt = connection.prepareStatement(sql);
+				pstmt.executeUpdate();
+				pstmt.close();			
+			}
+	
+			it = request.getRechazadas().iterator();
+			while(it.hasNext()) {
+				sql = "INSERT INTO Rechazadas VALUES('" + id + "','" + it.next() +"')";
+				pstmt = connection.prepareStatement(sql);
+				pstmt.executeUpdate();
+				pstmt.close();			
+			}
+		} catch (SQLException e) {
+			close(rs);
+			close(pstmt);
+			e.printStackTrace();
+		}
+	}
+
+	private String getNewIdFromDB(Connection connection) {
+		Random random = new Random();
+		String id = "" + random.nextInt(10000000);
+		ResultSet rs = null;
+		PreparedStatement pstmt = null;
+		try {
+			String sql;
+			do {
+				id = "" + random.nextInt(10000000);
+				if (rs != null)
+					rs.close();
+				if (pstmt != null)
+					pstmt.close();
+				sql = "SELECT id FROM Problema WHERE id = " + id;
+				pstmt = connection.prepareStatement(sql);
+				rs = pstmt.executeQuery();
+			} while (rs.next());
+			rs.close();
+			pstmt.close();
+		} catch (SQLException e) {
+			close(rs);
+			close(pstmt);
+			e.printStackTrace();
+		}
+		return id;
+	}
+
+
+
+	private AFP AFPfromAutomata(es.si.ProgramadorGenetico.ProblemaAFP.AFP automata) {
+			AFP afp = new AFP();
+   			afp.setEstados(automata.getEstados());
+   			int estados = automata.getEstados();
+   			
+			String probFinales = "";
+			float[] prob = automata.getProbabilidadesFinal();
+			for (int i = 0; i < estados; i ++)
+				probFinales += (probFinales.equals("") ? prob[i] : ";" + prob[i]);
+			afp.setProbFinales(probFinales);
+			
+			String[] trans = new String[estados*2];
+			float[][][] transiciones = automata.getTransiciones();
+			for (int i = 0; i < estados; i ++) {
+				for (int j = 0; j < 2; j ++) {
+					trans[i*2 +j] = "" + i + ":" + j + ":";
+					for (int k = 0; k < estados+1; k++) {
+						float temp = (transiciones[i][j][k] < 0.0001 ? 0 : transiciones[i][j][k]);
+						temp = (temp > 0.9999 ? 1 : temp);
+						NumberFormat format = NumberFormat.getInstance(Locale.ENGLISH);
+						format.setMaximumFractionDigits(4);
+						String temp2 = format.format(temp);
+						trans[i*2+j] += (k == 0 ? temp2 : ";" + temp2);
+					}
+				}
+			}
+			if (afp.getTransiciones() == null)
+				afp.setTransiciones(new ArrayList<String>());
+			for (int i = 0; i < trans.length; i++)
+				afp.getTransiciones().add(trans[i]);
+			
+			return afp;
+	}
+
+
+    
+
+	private void close(Statement stmt) {
+		try {
+			if (stmt != null)
+				stmt.close();
+		} catch (SQLException e) {
+		}
+	}
+	
+	private void close(ResultSet rs) {
+		try {
+			if (rs != null)
+				rs.close();
+		} catch (SQLException e) {
+		}
+	}
+
+	private void close(Connection con) {
+		try {
+			if (con != null)
+				con.close();
+		} catch (SQLException e) {
+		}
+	}
+
 
 }
